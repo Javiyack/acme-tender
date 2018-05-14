@@ -12,56 +12,60 @@
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 
-<div>
-        <img src="images/logo.png" alt="Sample Co., Inc." />
-</div>
-
-<div>
-	 <ul id="jMenu">
-		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message     code="master.page.administrator" /></a>
-			<ul>
-				<li class="arrow"></li>
-				<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-				<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>                                   
-			</ul>
-			</li>
-		</security:authorize>
-		
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message     code="master.page.customer" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>                                     
-				</ul>
-			</li>
-		</security:authorize>
-		
-		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-		</security:authorize>
-		
-		<security:authorize access="isAuthenticated()">
-			<li>
-				<a class="fNiv"> 
-					<spring:message code="master.page.profile" />
-					(<security:authentication property="principal.username" />)
+<!-- Menu and banner usually + "$") -->
+<div class="topnav" id="myTopnav">
+	
+	<security:authorize access="isAnonymous()">
+		<div class="dropdown" style="float: left">
+			<button class="dropbtn" onclick="relativeRedir('security/login.do')">
+				<spring:message code="master.page.login" />
+			</button>
+			<a href="security/login.do">
+			</a>
+			<div class="dropdown-content">
+				<a href="user/register.do"> 
+					<spring:message code="master.page.userRegister" />
+				</a> 
+				<a href="customer/register.do"> 
+					<spring:message code="master.page.customerRegister" />
+				</a> 
+				<a href="agent/register.do"> 
+					<spring:message code="master.page.agentRegister" />
 				</a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>                                       
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-				</ul>
-			</li>
-		</security:authorize>
-	</ul>
-</div>
-
-<div>
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
+			</div>
+		</div>
+	</security:authorize>
+	<a href="${requestScope['javax.servlet.forward.request_uri']}
+		<my:replaceParam name='language' value='en' />">
+		en
+	</a>
+	<a href="${requestScope['javax.servlet.forward.request_uri']}
+	        <my:replaceParam name='language' value='es' />">
+		es
+	</a>
+	
+	<security:authorize access="isAuthenticated()">
+		<div class="dropdown" style="float: left">
+			<button class="dropbtn">
+				<security:authentication property="principal.username" />
+			</button>
+			<div class="dropdown-content">
+				<a href="j_spring_security_logout"> 
+					<spring:message code="master.page.logout" />
+				</a> 
+				<a href="folder/list.do"> 
+					<spring:message code="master.page.myfolders" />
+				</a> 
+			</div>
+		</div>
+	</security:authorize>
+	
+	<div class="dropdown" title="Usuarios">
+	        <button class="dropbtn" onclick="relativeRedir('user/list.do')">
+	        </button>
+	</div>
+	<a href="#about">About</a>
 </div>
