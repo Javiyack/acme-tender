@@ -20,23 +20,19 @@
 <html>
 <head>
 
-<base
-	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
+<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/acme.js"></script>
 <script type="text/javascript" src="scripts/cookiePopups.js"></script>  
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="styles/acme.css" type="text/css">
 <link rel="stylesheet" href="styles/common.css" type="text/css">
 <link rel="stylesheet" href="styles/cookie.css" type="text/css">
@@ -49,31 +45,27 @@
 </head>
 
 <body>
-
 	<div class="header">
 		<tiles:insertAttribute name="header" />
 	</div>
 	<div class="content">
 		<div class="cuerpo">
-			<img src="images/news.png" alt="Acme-Tender Co., Inc."
-				class="logo" />
+			<img src="images/news.png" alt="Acme-Tender Co., Inc." class="logo" />
 		</div>
 		<div class="panel cuerpo">
-		<jstl:if test="${message != null}">
+			<jstl:if test="${message != null}">
 				<br />
 				<span class="message"><spring:message code="${message}" /></span>
 			</jstl:if>
 			<h1>
 				<tiles:insertAttribute name="title" />
 			</h1>
-
+	
 			<tiles:insertAttribute name="body" />
-			
 		</div>
 	</div>
 	<div class="footer">
 		<tiles:insertAttribute name="footer" />
 	</div>
-
 </body>
 </html>

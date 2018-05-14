@@ -17,8 +17,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
@@ -30,22 +29,12 @@
 <%@ attribute name="sortable" required="false"%>
 <%@ attribute name="format" required="false"%>
 
-<%--  <jstl:if test="${sotable == null}">
-	<jstl:set var="sortable" value="false" />
-</jstl:if>--%>
-
-<%-- <jstl:if test="${format == null}">
-	<jstl:set var="format" value="" />
-</jstl:if>  --%>
-
-
 <%-- Definition --%>
 <jstl:if test="${format != null}">
 	<spring:message code="${format }" var="formatVar" />
 </jstl:if>
 <spring:message code="${title }" var="titleVar" />
-<display:column property="${property }" title="${ titleVar}"
-	sortable="${sortable }" format="${formatVar}" />
+<display:column property="${property }" title="${ titleVar}" sortable="${sortable }" format="${formatVar}"/>
 
 
 

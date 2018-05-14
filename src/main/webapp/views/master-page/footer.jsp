@@ -8,8 +8,7 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -17,18 +16,26 @@
 <jsp:useBean id="date" class="java.util.Date" />
 
 <div class="center">
-	<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" />
-		Acme Newspaper Co., Inc.
-	</b> <a href="term/termsAndConditions.do"><spring:message
-			code="term.terms" /></a> <a href="term/cookies.do"><spring:message
-			code="term.cookie" /></a>
+	<b>
+		Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Newspaper Co., Inc.
+	</b> 
+	<a href="term/termsAndConditions.do">
+		<spring:message code="term.terms" />
+	</a> 
+	<a href="term/cookies.do">
+		<spring:message code="term.cookie" />
+	</a>
 </div>
 <div id="barraaceptacion">
 	<div class="inner">
 		<spring:message code="term.cookie.banner" />
-		<a href="javascript:void(0);" class="ok" onclick="PonerCookie();"><b>OK</b></a>
-		| <a href="term/cookies.do" class="info"><spring:message
-				code="term.cookie" /></a>
+		<a href="javascript:void(0);" class="ok" onclick="PonerCookie();">
+			<b>OK</b>
+		</a>
+		| 
+		<a href="term/cookies.do" class="info">
+			<spring:message code="term.cookie" />
+		</a>
 	</div>
 </div>
 

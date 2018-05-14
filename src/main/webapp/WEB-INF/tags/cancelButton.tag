@@ -17,8 +17,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <%-- Attributes --%>
@@ -28,8 +27,7 @@
 
 <%-- Definition --%>
 
-<button type="button"
-	onclick="javascript: window.location.assign('${url}')">
+<button type="button" onclick="javascript: window.location.assign('${url}')">
 	<spring:message code="${code}" />
 </button>
 

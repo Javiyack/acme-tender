@@ -17,8 +17,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <%-- Attributes --%>
@@ -57,12 +56,16 @@
 
 <div>
 	<tr>
-		<td style="width: 20%"><form:label path="${path}">
+		<td style="width: 20%">
+			<form:label path="${path}">
 				<spring:message code="${code}" />
-			</form:label></td>
-		<td><form:input path="${path}" readonly="${readonly}"
+			</form:label>
+		</td>
+		<td>
+			<form:input path="${path}" readonly="${readonly}"
 				placeholder="${placeholder}" format="${dateFormat}" type="${type}"
-				pattern="${pattern}" cssClass="inputTexbox" /> <form:errors
-				path="${path}" cssClass="error" /></td>
+				pattern="${pattern}" cssClass="inputTexbox" /> 
+			<form:errors path="${path}" cssClass="error" />
+		</td>
 	</tr>
 </div>
