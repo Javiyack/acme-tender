@@ -11,16 +11,13 @@
 <tiles-definitions>
 
 	<definition name="term/cookies" extends="master.page">
-		<put-attribute name="title"
-			value="El uso de cookies por parte de Acme" />
-		<put-attribute name="body"
-			value="/views/term/cookie.jsp" />
+		<put-attribute name="title" value="El uso de cookies por parte de Acme" />
+		<put-attribute name="body" value="/views/term/cookie.jsp" />
 	</definition>
 	<definition name="term/termsAndConditions"
 		extends="master.page">
-		<put-attribute name="title"
-			value="Términos y condiciones" />
-		<put-attribute name="body"
-			value="/views/term/termsAndConditions.jsp" />
+		<put-attribute name="title" value="Términos y condiciones" />
+		<put-attribute name="body" value="/views/term/termsAndConditions.jsp" />
 	</definition>
+	
 </tiles-definitions>
