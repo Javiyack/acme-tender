@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Contest extends DomainEntity {
+public class Tender extends DomainEntity {
 
 	private String	reference;
 	private String	title;

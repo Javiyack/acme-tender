@@ -1,15 +1,19 @@
 
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 
 import security.UserAccount;
@@ -26,8 +30,9 @@ public class Actor extends DomainEntity {
 	private String		email;
 	//Relationships
 	private UserAccount	userAccount;
+	private Collection<Folder> folders;
 
-
+	
 	@NotBlank
 	@SafeHtml
 	public String getName() {
@@ -76,6 +81,15 @@ public class Actor extends DomainEntity {
 
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+	
+	@OneToMany
+	@NotEmpty
+	public Collection<Folder> getFolders() {
+		return folders;
+	}
+	public void setFolders(Collection<Folder> folders) {
+		this.folders = folders;
 	}
 
 }

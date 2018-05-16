@@ -16,21 +16,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class ContestResult extends DomainEntity {
+public class TenderResult extends DomainEntity {
 
-	private Date	contestDate;
+	private Date	tenderDate;
 	private String	description;
 
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	@NotNull
-	public Date getContestDate() {
-		return this.contestDate;
+	public Date getTenderDate() {
+		return this.tenderDate;
 	}
 
-	public void setContestDate(final Date contestDate) {
-		this.contestDate = contestDate;
+	public void setTenderDate(final Date tenderDate) {
+		this.tenderDate = tenderDate;
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
