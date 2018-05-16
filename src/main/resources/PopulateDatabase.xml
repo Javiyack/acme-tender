@@ -57,6 +57,28 @@
 		</property>
 	</bean>
 	
+	<!-- TabooWords -->   
+	
+	<bean id="tabooWord1" class="domain.TabooWord">
+		<property name="text" value="sex" />
+	</bean>
+
+	<bean id="tabooWord2" class="domain.TabooWord">
+		<property name="text" value="sexo" />
+	</bean>
+
+	<bean id="tabooWord3" class="domain.TabooWord">
+		<property name="text" value="viagra" />
+	</bean>
+
+	<bean id="tabooWord4" class="domain.TabooWord">
+		<property name="text" value="cialis" />
+	</bean>
+	
+	<bean id="tabooWord5" class="domain.TabooWord">
+		<property name="text" value="jes extender" />
+	</bean>
+	
 	<!-- Other domain beans come here -->   
         
 </beans>
