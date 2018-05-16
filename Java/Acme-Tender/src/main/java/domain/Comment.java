@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Comment extends DomainEntity {
 
 	private String	text;
-	private Date	writtingDate;
+	private Date	writingDate;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -34,12 +34,12 @@ public class Comment extends DomainEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getWrittingDate() {
-		return this.writtingDate;
+	public Date getWritingDate() {
+		return this.writingDate;
 	}
 
-	public void setWrittingDate(final Date writtingDate) {
-		this.writtingDate = writtingDate;
+	public void setWritingDate(final Date writingDate) {
+		this.writingDate = writingDate;
 	}
 
 }
