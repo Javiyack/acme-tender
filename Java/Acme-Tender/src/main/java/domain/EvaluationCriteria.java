@@ -4,6 +4,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,5 +49,29 @@ public class EvaluationCriteria extends DomainEntity {
 	public void setMaxScore(final Integer maxScore) {
 		this.maxScore = maxScore;
 	}
+	
+	//Relationships
+	private Tender tender;
+	private EvaluationCriteriaType evaluationCriteriaType;
+
+	@ManyToOne(optional = false)
+	public Tender getTender() {
+		return tender;
+	}
+
+	public void setTender(Tender tender) {
+		this.tender = tender;
+	}
+	
+	@ManyToOne(optional = false)
+	public EvaluationCriteriaType getEvaluationCriteriaType() {
+		return evaluationCriteriaType;
+	}
+
+	public void setEvaluationCriteriaType(EvaluationCriteriaType evaluationCriteriaType) {
+		this.evaluationCriteriaType = evaluationCriteriaType;
+	}
+	
+	
 
 }

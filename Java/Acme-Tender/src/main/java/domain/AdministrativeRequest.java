@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ public class AdministrativeRequest extends DomainEntity {
 	private String	subSectionDescription;
 	private Date	maxAcceptanceDate;
 	private Date	maxDeliveryDate;
-	private boolean	accepted;
+	private Boolean	accepted;
 	private String	rejectedReason;
 
 
@@ -69,11 +70,11 @@ public class AdministrativeRequest extends DomainEntity {
 		this.maxDeliveryDate = maxDeliveryDate;
 	}
 
-	public boolean isAccepted() {
+	public Boolean isAccepted() {
 		return this.accepted;
 	}
 
-	public void setAccepted(final boolean accepted) {
+	public void setAccepted(final Boolean accepted) {
 		this.accepted = accepted;
 	}
 
@@ -85,5 +86,30 @@ public class AdministrativeRequest extends DomainEntity {
 	public void setRejectedReason(final String rejectedReason) {
 		this.rejectedReason = rejectedReason;
 	}
+	
+	
+	// Relationships
+	private Administrative administrative;
+	private Offer offer;
+
+	@ManyToOne(optional = false)
+	public Administrative getAdministrative() {
+		return administrative;
+	}
+
+	public void setAdministrative(Administrative administrative) {
+		this.administrative = administrative;
+	}
+
+	@ManyToOne(optional = false)
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+	
+	
 
 }

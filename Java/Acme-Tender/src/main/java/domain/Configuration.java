@@ -4,6 +4,8 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -16,7 +18,8 @@ public class Configuration extends DomainEntity {
 
 	private String	banner;
 	private String	welcomeMessageEs;
-
+	private String	wecolmeMessageEn;
+	private Double benefitsPercentaje;
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
@@ -49,7 +52,17 @@ public class Configuration extends DomainEntity {
 		this.wecolmeMessageEn = wecolmeMessageEn;
 	}
 
+	@Min(0)
+	@Max(100)
+	public Double getBenefitsPercentaje() {
+		return benefitsPercentaje;
+	}
 
-	private String	wecolmeMessageEn;
+	public void setBenefitsPercentaje(Double benefitsPercentaje) {
+		this.benefitsPercentaje = benefitsPercentaje;
+	}
+	
+	
+
 
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -43,5 +44,20 @@ public class Answer extends DomainEntity {
 	public void setWrittingDate(final Date writtingDate) {
 		this.writtingDate = writtingDate;
 	}
+	
+	//Relationships
+	
+	private Comment comment;
+
+	@ManyToOne(optional = false)
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+	
+	
 
 }

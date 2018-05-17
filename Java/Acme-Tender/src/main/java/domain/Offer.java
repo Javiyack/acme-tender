@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
@@ -26,7 +28,7 @@ public class Offer extends DomainEntity {
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "CREATED|IN_DEVELOPMENT|ABANDONED|PRESENTED|WON|LOSED|CHALLENGED|DENIED$")
+	@Pattern(regexp = "^(CREATED|IN_DEVELOPMENT|ABANDONED|PRESENTED|WINNED|LOSED|CHALLENGED|DENIED)$")
 	public String getState() {
 		return this.state;
 	}
@@ -63,5 +65,30 @@ public class Offer extends DomainEntity {
 	public void setAmount(final Double amount) {
 		this.amount = amount;
 	}
+	
+	//Relationships
+	private Commercial commercial;
+	private Tender tender;
+
+	@ManyToOne(optional = false)
+	public Commercial getCommercial() {
+		return commercial;
+	}
+
+	public void setCommercial(Commercial commercial) {
+		this.commercial = commercial;
+	}
+
+	@OneToOne(optional = false)
+	public Tender getTender() {
+		return tender;
+	}
+
+	public void setTender(Tender tender) {
+		this.tender = tender;
+	}
+	
+	
+	
 
 }

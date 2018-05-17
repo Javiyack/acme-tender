@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -41,5 +42,31 @@ public class Comment extends DomainEntity {
 	public void setWritingDate(final Date writingDate) {
 		this.writingDate = writingDate;
 	}
+	
+	//Relationships
+	
+	private Tender tender;
+	private Commercial commercial;
+
+
+	@ManyToOne(optional = false)
+	public Tender getTender() {
+		return tender;
+	}
+
+	public void setTender(Tender tender) {
+		this.tender = tender;
+	}
+	
+	@ManyToOne(optional = false)
+	public Commercial getCommercial() {
+		return commercial;
+	}
+
+	public void setCommercial(Commercial commercial) {
+		this.commercial = commercial;
+	}
+	
+	
 
 }

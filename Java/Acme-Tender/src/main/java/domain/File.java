@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -43,5 +44,50 @@ public class File extends DomainEntity {
 	public void setUploadDate(final Date uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+	
+	//Relationships
+	
+	private Curriculum curriculum;
+	private SubSection subsection;
+	private Tender tender;
+	private TenderResult tenderResult;
+
+	@ManyToOne(optional = true)
+	public Curriculum getCurriculum() {
+		return curriculum;
+	}
+
+	public void setCurriculum(Curriculum curriculum) {
+		this.curriculum = curriculum;
+	}
+
+	@ManyToOne(optional = true)	
+	public SubSection getSubsection() {
+		return subsection;
+	}
+
+	public void setSubsection(SubSection subsection) {
+		this.subsection = subsection;
+	}
+
+	@ManyToOne(optional = true)	
+	public Tender getTender() {
+		return tender;
+	}
+
+	public void setTender(Tender tender) {
+		this.tender = tender;
+	}
+
+	@ManyToOne(optional = true)	
+	public TenderResult getTenderResult() {
+		return tenderResult;
+	}
+
+	public void setTenderResult(TenderResult tenderResult) {
+		this.tenderResult = tenderResult;
+	}
+	
+	
 
 }

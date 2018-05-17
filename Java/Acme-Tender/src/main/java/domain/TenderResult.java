@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -41,5 +42,20 @@ public class TenderResult extends DomainEntity {
 	public void setDescription(final String description) {
 		this.description = description;
 	}
+	
+	
+	//Relationships
+	private Tender tender;
+
+	@OneToOne(optional = false)
+	public Tender getTender() {
+		return tender;
+	}
+
+	public void setTender(Tender tender) {
+		this.tender = tender;
+	}
+	
+	
 
 }
