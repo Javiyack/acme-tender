@@ -117,6 +117,7 @@
 		<property name="address" value="Acme Tender." />
 		<property name="phone" value="658357522" />
 		<property name="email" value="admin@acme.com" />
+		<property name="active" value="true" />
 		<property name="userAccount" ref="userAccountAdmin" />
 
 		<property name="folders">
@@ -140,6 +141,7 @@
 		<property name="address" value="C/ Alcalá 05" />
 		<property name="phone" value="646474848" />
 		<property name="email" value="j-dominguez@gmail.com" />
+		<property name="active" value="true" />
 		<property name="userAccount" ref="userAccountCommercial1" />
 
 		<property name="folders">
@@ -161,6 +163,7 @@
 		<property name="address" value="C/ Feria 75" />
 		<property name="phone" value="666999888" />
 		<property name="email" value="ana@gmail.com" />
+		<property name="active" value="true" />		
 		<property name="userAccount" ref="userAccountCommercial2" />
 
 		<property name="folders">
@@ -184,6 +187,7 @@
 		<property name="address" value="C/ Guadaira 08" />
 		<property name="phone" value="635442441" />
 		<property name="email" value="martinez@gmail.com" />
+		<property name="active" value="true" />
 		<property name="userAccount" ref="userAccountAdministrative1" />
 
 		<property name="folders">
@@ -205,6 +209,7 @@
 		<property name="address" value="C/ Reina Mercedes 07" />
 		<property name="phone" value="646773773" />
 		<property name="email" value="rosita@gmail.com" />
+		<property name="active" value="true" />
 		<property name="userAccount" ref="userAccountAdministrative2" />
 
 		<property name="folders">
@@ -229,7 +234,7 @@
 		<property name="phone" value="644332818" />
 		<property name="email" value="laufer@gmail.com" />
 		<property name="userAccount" ref="userAccountExecutive1" />
-
+		<property name="active" value="true" />
 		<property name="folders">
 			<list>
 				<ref bean="outbox6" />
@@ -249,6 +254,7 @@
 		<property name="address" value="Avda Italia 18" />
 		<property name="phone" value="655555555" />
 		<property name="email" value="marta@gmail.com" />
+		<property name="active" value="true" />
 		<property name="userAccount" ref="userAccountExecutive2" />
 
 		<property name="folders">

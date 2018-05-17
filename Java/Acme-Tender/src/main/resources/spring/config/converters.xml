@@ -18,13 +18,14 @@
         ">
 
 	<util:list id="converters">
-	
+		<bean class="converters.ActorToStringConverter" />	
 		<bean class="converters.MyMessageToStringConverter" />
-		<bean class="converters.StringToMyMessageConverter" />
-		
 		<bean class="converters.FolderToStringConverter" />
+	
+		<bean class="converters.StringToMyMessageConverter" />	
 		<bean class="converters.StringToFolderConverter" />
-		
+		<bean class="converters.StringToActorConverter" />
+			
 	</util:list>
         
 </beans>

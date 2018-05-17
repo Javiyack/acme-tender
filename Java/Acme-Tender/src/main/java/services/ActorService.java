@@ -16,6 +16,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.Administrator;
 
 @Service
 @Transactional
@@ -23,11 +24,14 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository	actorRepository;
+	private ActorRepository			actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private Validator		validator;
+	private Validator				validator;
+
+	@Autowired
+	private AdministratorService	administratorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -78,6 +82,16 @@ public class ActorService {
 
 	// Other business methods -------------------------------------------------
 
+	public void ActivateOrDesactivate(final Integer id) {
+		final Actor res = this.actorRepository.findOne(id);
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+		Assert.notNull(res);
+		if (res.getActive())
+			res.setActive(false);
+		else
+			res.setActive(true);
+	}
 	public UserAccount findUserAccount(final Actor actor) {
 		Assert.notNull(actor);
 

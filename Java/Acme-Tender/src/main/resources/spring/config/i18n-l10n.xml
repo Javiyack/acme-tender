@@ -27,6 +27,7 @@
 		
 		<value>/views/folder/messages</value>
 		<value>/views/myMessage/messages</value>
+		<value>/views/actor/messages</value>
 		
 	</util:list>
 
