@@ -24,7 +24,7 @@ public class Offer extends DomainEntity {
 	private String	state;
 	private String	denialReason;
 	private Date	presentationDate;
-	private Double	amount;
+	private double	amount;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -56,13 +56,12 @@ public class Offer extends DomainEntity {
 		this.presentationDate = presentationDate;
 	}
 
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Min(0)
-	public Double getAmount() {
+	public double getAmount() {
 		return this.amount;
 	}
 
-	public void setAmount(final Double amount) {
+	public void setAmount(final double amount) {
 		this.amount = amount;
 	}
 	

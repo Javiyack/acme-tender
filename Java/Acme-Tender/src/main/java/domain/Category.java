@@ -31,7 +31,7 @@ public class Category extends DomainEntity {
 	
 	private Category fatherCategory;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Category getFatherCategory() {
 		return fatherCategory;
 	}

@@ -19,7 +19,7 @@ public class Configuration extends DomainEntity {
 	private String	banner;
 	private String	welcomeMessageEs;
 	private String	wecolmeMessageEn;
-	private Double benefitsPercentaje;
+	private double benefitsPercentaje;
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
@@ -54,11 +54,11 @@ public class Configuration extends DomainEntity {
 
 	@Min(0)
 	@Max(100)
-	public Double getBenefitsPercentaje() {
+	public double getBenefitsPercentaje() {
 		return benefitsPercentaje;
 	}
 
-	public void setBenefitsPercentaje(Double benefitsPercentaje) {
+	public void setBenefitsPercentaje(double benefitsPercentaje) {
 		this.benefitsPercentaje = benefitsPercentaje;
 	}
 	
