@@ -23,16 +23,17 @@ import security.UserAccount;
 public class Actor extends DomainEntity {
 
 	//Attributes
-	private String		name;
-	private String		surname;
-	private String		address;
-	private String		phone;
-	private String		email;
+	private String				name;
+	private String				surname;
+	private String				address;
+	private String				phone;
+	private String				email;
+	private boolean				active;
 	//Relationships
-	private UserAccount	userAccount;
-	private Collection<Folder> folders;
+	private UserAccount			userAccount;
+	private Collection<Folder>	folders;
 
-	
+
 	@NotBlank
 	@SafeHtml
 	public String getName() {
@@ -63,6 +64,7 @@ public class Actor extends DomainEntity {
 	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
+
 	//TODO comprobar si es necesario poner aquí NotBlank
 	@Email
 	@SafeHtml
@@ -71,6 +73,13 @@ public class Actor extends DomainEntity {
 	}
 	public void setEmail(final String email) {
 		this.email = email;
+	}
+
+	public boolean getActive() {
+		return this.active;
+	}
+	public void setActive(final boolean active) {
+		this.active = active;
 	}
 
 	@Valid
@@ -82,13 +91,13 @@ public class Actor extends DomainEntity {
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
-	
+
 	@OneToMany
 	@NotEmpty
 	public Collection<Folder> getFolders() {
-		return folders;
+		return this.folders;
 	}
-	public void setFolders(Collection<Folder> folders) {
+	public void setFolders(final Collection<Folder> folders) {
 		this.folders = folders;
 	}
 

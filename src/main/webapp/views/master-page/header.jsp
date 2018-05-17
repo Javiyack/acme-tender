@@ -43,7 +43,7 @@
 		en
 	</a>
 	<a href="${requestScope['javax.servlet.forward.request_uri']}
-	        <my:replaceParam name='language' value='es' />">
+	    <my:replaceParam name='language' value='es' />">
 		es
 	</a>
 	
@@ -75,5 +75,7 @@
 	        <button class="dropbtn" onclick="relativeRedir('user/list.do')">
 	        </button>
 	</div>
+	<a href="actor/list.do"><spring:message code="master.page.actor.list" /></a>
 	<a href="#about">About</a>
+
 </div>
