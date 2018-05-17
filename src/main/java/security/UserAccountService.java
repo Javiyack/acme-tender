@@ -33,29 +33,41 @@ public class UserAccountService {
 		return res;
 	}
 
-	public UserAccount createAsUser() {
+	public UserAccount createAsCommercial() {
 		UserAccount res;
 		res = new UserAccount();
 		final Authority authority = new Authority();
 		final List<Authority> authorities = new ArrayList<Authority>();
-		authority.setAuthority(Authority.USER);
+		authority.setAuthority(Authority.COMMERCIAL);
 		authorities.add(authority);
 		res.setAuthorities(authorities);
 
 		return res;
 	}
 
-	public UserAccount createAsCustomer() {
+	public UserAccount createAsAdministrative() {
 		UserAccount res;
 		res = new UserAccount();
 		final Authority authority = new Authority();
 		final List<Authority> authorities = new ArrayList<Authority>();
-		authority.setAuthority(Authority.CUSTOMER);
+		authority.setAuthority(Authority.ADMINISTRATIVE);
 		authorities.add(authority);
 		res.setAuthorities(authorities);
 
 		return res;
 	}
+	
+	public UserAccount createAsExecutive() {
+		UserAccount res;
+		res = new UserAccount();
+		final Authority authority = new Authority();
+		final List<Authority> authorities = new ArrayList<Authority>();
+		authority.setAuthority(Authority.EXECUTIVE);
+		authorities.add(authority);
+		res.setAuthorities(authorities);
+
+		return res;
+	}	
 
 	public Collection<UserAccount> findAll() {
 		return this.userAccountRepository.findAll();

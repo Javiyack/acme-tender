@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class ColaborationRequest extends DomainEntity {
 	
-	private Double benefitsPercentaje;
+	private double benefitsPercentaje;
 	private String section;
 	private String requirements;
 	private Integer numberOfPages;
@@ -38,11 +38,11 @@ public class ColaborationRequest extends DomainEntity {
 	
 	@Min(0)
 	@Max(100)
-	public Double getBenefitsPercentaje() {
+	public double getBenefitsPercentaje() {
 		return benefitsPercentaje;
 	}
 
-	public void setBenefitsPercentaje(Double benefitsPercentaje) {
+	public void setBenefitsPercentaje(double benefitsPercentaje) {
 		this.benefitsPercentaje = benefitsPercentaje;
 	}
 

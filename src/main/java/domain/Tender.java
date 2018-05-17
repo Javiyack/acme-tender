@@ -29,7 +29,7 @@ public class Tender extends DomainEntity {
 	private String	reference;
 	private String	title;
 	private String	expedient;
-	private Double	estimatedAmount;
+	private double	estimatedAmount;
 	private String	organism;
 	private String	bulletin;
 	private Date	bulletinDate;
@@ -44,7 +44,7 @@ public class Tender extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	@Pattern(regexp = "")
+	@Pattern(regexp = "^\\d{8}-[A-Z]{2}$")
 	public String getReference() {
 		return this.reference;
 	}
@@ -74,11 +74,11 @@ public class Tender extends DomainEntity {
 	}
 
 	@Min(0)
-	public Double getEstimatedAmount() {
+	public double getEstimatedAmount() {
 		return this.estimatedAmount;
 	}
 
-	public void setEstimatedAmount(final Double estimatedAmount) {
+	public void setEstimatedAmount(final double estimatedAmount) {
 		this.estimatedAmount = estimatedAmount;
 	}
 
@@ -186,7 +186,7 @@ public class Tender extends DomainEntity {
 	private Offer offer;
 	private Category category;
 
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	public Administrative getAdministrative() {
 		return administrative;
 	}

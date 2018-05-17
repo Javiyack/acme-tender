@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -21,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Answer extends DomainEntity {
 
 	private String	text;
-	private Date	writtingDate;
+	private Date	writingDate;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -36,13 +37,13 @@ public class Answer extends DomainEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	@NotNull
-	public Date getWrittingDate() {
-		return this.writtingDate;
+	@Past
+	public Date getWritingDate() {
+		return this.writingDate;
 	}
 
-	public void setWrittingDate(final Date writtingDate) {
-		this.writtingDate = writtingDate;
+	public void setWritingDate(final Date writingDate) {
+		this.writingDate = writingDate;
 	}
 	
 	//Relationships

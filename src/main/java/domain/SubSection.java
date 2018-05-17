@@ -25,9 +25,9 @@ public class SubSection extends DomainEntity {
 
 	private String	title;
 	private String	section;
-	private Integer	order;
+	private Integer	subsectionOrder;
 	private String	shortDescription;
-	private String	text;
+	private String	body;
 	private Date	lastReviewDate;
 	private String	comments;
 
@@ -52,14 +52,13 @@ public class SubSection extends DomainEntity {
 		this.section = section;
 	}
 
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Min(1)
-	public Integer getOrder() {
-		return this.order;
+	public Integer getSubsectionOrder() {
+		return this.subsectionOrder;
 	}
 
-	public void setOrder(final Integer order) {
-		this.order = order;
+	public void setSubsectionOrder(final Integer subsectionOrder) {
+		this.subsectionOrder = subsectionOrder;
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -73,12 +72,12 @@ public class SubSection extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	public String getText() {
-		return this.text;
+	public String getBody() {
+		return this.body;
 	}
 
-	public void setText(final String text) {
-		this.text = text;
+	public void setBody(final String body) {
+		this.body = body;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

@@ -29,16 +29,16 @@ public class SubsectionEvaluationCriteria extends DomainEntity {
 	
 	//Relationships
 	
-	private SubSection subsection;
+	private SubSection subSection;
 	private EvaluationCriteria evaluationCriteria;
 
 	@ManyToOne(optional = false)
-	public SubSection getSubsection() {
-		return subsection;
+	public SubSection getSubSection() {
+		return subSection;
 	}
 
-	public void setSubsection(SubSection subsection) {
-		this.subsection = subsection;
+	public void setSubSection(SubSection subSection) {
+		this.subSection = subSection;
 	}
 
 	@ManyToOne(optional = false)

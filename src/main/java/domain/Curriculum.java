@@ -7,6 +7,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -15,6 +17,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -27,7 +30,7 @@ public class Curriculum extends DomainEntity {
 	private String	email;
 	private Date	dateOfBirth;
 	private String	text;
-	private Double	minSalaryExpectation;
+	private double	minSalaryExpectation;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -51,7 +54,7 @@ public class Curriculum extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "")
+	//@Pattern(regexp = "^//d{8}[A-Z]$")
 	public String getIdentificationNumber() {
 		return this.identificationNumber;
 	}
@@ -81,8 +84,8 @@ public class Curriculum extends DomainEntity {
 		this.email = email;
 	}
 
-	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@NotBlank
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Past
 	public Date getDateOfBirth() {
 		return this.dateOfBirth;
@@ -102,11 +105,11 @@ public class Curriculum extends DomainEntity {
 	}
 
 	@Min(0)
-	public Double getMinSalaryExpectation() {
+	public double getMinSalaryExpectation() {
 		return this.minSalaryExpectation;
 	}
 
-	public void setMinSalaryExpectation(final Double minSalaryExpectation) {
+	public void setMinSalaryExpectation(final double minSalaryExpectation) {
 		this.minSalaryExpectation = minSalaryExpectation;
 	}
 	
