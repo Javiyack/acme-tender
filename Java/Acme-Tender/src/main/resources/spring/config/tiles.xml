@@ -24,6 +24,11 @@
 		<value>/views/welcome/tiles.xml</value>
 		
 		<value>/views/term/tiles.xml</value>
+		
+		<value>/views/folder/tiles.xml</value>
+		<value>/views/myMessage/tiles.xml</value>
+		
+		
 	</util:list>
 
 </beans>

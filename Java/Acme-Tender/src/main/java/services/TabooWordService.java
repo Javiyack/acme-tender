@@ -89,4 +89,13 @@ public class TabooWordService {
 		this.tabooWordRepository.flush();
 
 	}
+	
+	public Collection<TabooWord> getTabooWordFromMyMessageSubjectAndBody(final String subject, final String body) {
+
+		Assert.notNull(subject);
+		Assert.notNull(body);
+
+		return this.tabooWordRepository.getTabooWordFromMyMessageSubjectAndBody(subject, body);
+
+	}
 }
