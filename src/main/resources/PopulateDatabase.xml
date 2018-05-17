@@ -306,17 +306,17 @@
 		<property name="bulletin" value="BOE 223/2018" />
 		<property name="bulletinDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/03/2018" />
+				<constructor-arg value="01/01/2018" />
 			</bean>
 		</property>
 		<property name="openingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/04/2018" />
+				<constructor-arg value="01/02/2018" />
 			</bean>
 		</property>
 		<property name="maxPresentationDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/07/2018" />
+				<constructor-arg value="01/03/2018" />
 			</bean>
 		</property>
 		<property name="executionTime" value="76" />
@@ -337,21 +337,21 @@
 		<property name="bulletin" value="BOUS 333/22312" />
 		<property name="bulletinDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/04/2018" />
+				<constructor-arg value="01/02/2018" />
 			</bean>
 		</property>
 		<property name="openingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2018" />
+				<constructor-arg value="01/03/2018" />
 			</bean>
 		</property>
 		<property name="maxPresentationDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/07/2018" />
+				<constructor-arg value="20/03/2018" />
 			</bean>
 		</property>
-		<property name="executionTime" value="120" />
-		<property name="observations" value="tender3-observations" />
+		<property name="executionTime" value="365" />
+		<property name="observations" value="" />
 		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
 		<property name="interest" value="HIGH" />
 		<property name="interestComment" value="Se presentaron dos ofertas similares el año pasado para otras escuelas, y las ganamos." />
@@ -393,12 +393,7 @@
 	<!-- Offers -->
 
 	<bean id="offer1" class="domain.Offer">
-		<property name="state" value="LOSED" />
-		<property name="presentationDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="04/03/2018" />
-			</bean>
-		</property>
+		<property name="state" value="IN_DEVELOPMENT" />
 		<property name="amount" value="19000" />
 		<property name="commercial" ref="commercial1" />
 		<property name="tender" ref="tender1" />
@@ -409,7 +404,7 @@
 		<property name="denialReason" value="" />
 		<property name="presentationDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="05/03/2018" />
+				<constructor-arg value="25/02/2018" />
 			</bean>
 		</property>
 		<property name="amount" value="38000" />
@@ -421,11 +416,6 @@
 	<bean id="offer3" class="domain.Offer">
 		<property name="state" value="ABANDONED" />
 		<property name="denialReason" value="" />
-		<property name="presentationDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="04/05/2018" />
-			</bean>
-		</property>
 		<property name="amount" value="30000" />
 		<property name="commercial" ref="commercial2"/>
 		<property name="tender" ref="tender3"		/>
@@ -518,8 +508,122 @@
 		<property name="commercial" ref="commercial1" />
 
 	</bean>	
+	
+	<bean id="subsection6" class="domain.SubSection">
+		<property name="title" value="Certificado de confidencialidad." />
+		<property name="section" value="ADMINISTRATIVE_ACREDITATION" />
+		<property name="subsectionOrder" value="1" />
+		<property name="shortDescription" value="Certificado donde la empresa se compromete a cumplir la LOPD." />
+		<property name="body" value="La empresa se compromete... y firma." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="14/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="administrative" ref="administrative2" />
+	</bean>	
 
-
+	<bean id="subsection7" class="domain.SubSection">
+		<property name="title" value="Introducción" />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="subsectionOrder" value="1" />
+		<property name="shortDescription" value="Introducción al servicio a contratar." />
+		<property name="body" value="El servicio se prestara por ...." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="11/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>	
+	
+	<bean id="subsection8" class="domain.SubSection">
+		<property name="title" value="Definición del servicio de asistencia." />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="subsectionOrder" value="2" />
+		<property name="shortDescription" value="Definición del servicio que constara en el soporte via telefónica." />
+		<property name="body" value="El servicio se prestara por ...." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="16/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>		
+	
+	<bean id="subsection9" class="domain.SubSection">
+		<property name="title" value="Carga máxima de incidencias a atender." />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="subsectionOrder" value="3" />
+		<property name="shortDescription" value="Garantía de la empresa para una carga máxima de 50 incidencias/dia." />
+		<property name="body" value="El servicio se prestara por ...." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="06/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>		
+	
+	<bean id="subsection10" class="domain.SubSection">
+		<property name="title" value="Mejoras" />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="subsectionOrder" value="4" />
+		<property name="shortDescription" value="Descripción de las mejoras" />
+		<property name="body" value="Nuestra empresa creara un sistema de información para controlar las jornada laboral de los técnicos y su rendimiento." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="12/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>		
+	
+	<bean id="subsection11" class="domain.SubSection">
+		<property name="title" value="Perfiles" />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="subsectionOrder" value="5" />
+		<property name="shortDescription" value="Perfiles de los técnicos" />
+		<property name="body" value="Detalle de los perfiles de los técnicos." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="12/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>		
+	
+	<bean id="subsection12" class="domain.SubSection">
+		<property name="title" value="Oferta económica" />
+		<property name="section" value="ECONOMICAL_OFFER" />
+		<property name="subsectionOrder" value="1" />
+		<property name="shortDescription" value="Presupuesto" />
+		<property name="body" value="El precio total del servicio durante un año sera de XXXXX, desglosado en YYYYYY + IVA." />
+		<property name="lastReviewDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="26/02/2018" />
+			</bean>
+		</property>
+		<property name="comments" value="" />
+		<property name="offer" ref="offer2" />
+		<property name="commercial" ref="commercial1" />
+	</bean>		
+	
+		
+	
+			
 	<!-- Curriculums -->
 
 	<bean id="curriculum1" class="domain.Curriculum">
@@ -535,7 +639,7 @@
 		</property>
 		<property name="text" value="La descripción del curriculum." />
 		<property name="minSalaryExpectation" value="21000" />
-		<property name="subSection" ref="subsection3" />
+		<property name="subSection" ref="subsection4" />
 	</bean>
 
 	<bean id="curriculum2" class="domain.Curriculum">
@@ -551,7 +655,7 @@
 		</property>
 		<property name="text" value="curriculum2-text" />
 		<property name="minSalaryExpectation" value="24000" />
-		<property name="subSection" ref="subsection3" />		
+		<property name="subSection" ref="subsection4" />		
 	</bean>
 
 	<bean id="curriculum3" class="domain.Curriculum">
@@ -567,14 +671,46 @@
 		</property>
 		<property name="text" value="curriculum3-text" />
 		<property name="minSalaryExpectation" value="30000" />
-		<property name="subSection" ref="subsection3" />		
+		<property name="subSection" ref="subsection4" />		
 	</bean>
+	
+	<bean id="curriculum4" class="domain.Curriculum">
+		<property name="name" value="Laura" />
+		<property name="surname" value="Arias" />
+		<property name="identificationNumber" value="74839373E" />
+		<property name="phone" value="677588243" />
+		<property name="email" value="juana@gmail.com" />
+		<property name="dateOfBirth">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="04/05/1984" />
+			</bean>
+		</property>
+		<property name="text" value="curriculum2-text" />
+		<property name="minSalaryExpectation" value="20000" />
+		<property name="subSection" ref="subsection11" />		
+	</bean>
+
+	<bean id="curriculum5" class="domain.Curriculum">
+		<property name="name" value="David" />
+		<property name="surname" value="Macías" />
+		<property name="identificationNumber" value="44225536G" />
+		<property name="phone" value="768685855" />
+		<property name="email" value="andres-m@gmail.com" />
+		<property name="dateOfBirth">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="04/08/1969" />
+			</bean>
+		</property>
+		<property name="text" value="curriculum3-text" />
+		<property name="minSalaryExpectation" value="19000" />
+		<property name="subSection" ref="subsection11" />		
+	</bean>	
 
 	<!-- EvaluationCriterias -->
 
 	<bean id="evaluationcriteria1" class="domain.EvaluationCriteria">
 		<property name="title" value="Nº de secciones en la página principal" />
-		<property name="description" value="El sistema deberá de tener 3 secciones principales: Información institucional, Ubicación y Personal asociado." />
+		<property name="description" value="El sistema deberá de tener 3 secciones principales: Información institucional, Ubicación y Personal asociado. Por cada sección adicional se darán 2 puntos." />
 		<property name="maxScore" value="10" />
 		<property name="tender" ref="tender1" />
 		<property name="evaluationCriteriaType" ref="evaluationcriteriatype2" />
@@ -582,15 +718,15 @@
 	
 	<bean id="evaluationcriteria2" class="domain.EvaluationCriteria">
 		<property name="title" value="Tecnología de base de datos" />
-		<property name="description" value="El sistema es recomendable que utilice la tecnología MySql con una complejidad media." />
+		<property name="description" value="El sistema es recomendable que utilice la tecnología MySql con una complejidad media. Se dará un punto por nivel de complejidad." />
 		<property name="maxScore" value="5" />
 		<property name="tender" ref="tender1" />
-		<property name="evaluationCriteriaType" ref="evaluationcriteriatype3" />
+		<property name="evaluationCriteriaType" ref="evaluationcriteriatype1" />
 	</bean>	
 	
 	<bean id="evaluationcriteria3" class="domain.EvaluationCriteria">
 		<property name="title" value="Cualificación del personal" />
-		<property name="description" value="El equipo de trabajo debe de contener al menos un titulado universitario de informática o telecomunicaciones." />
+		<property name="description" value="El equipo de trabajo debe de contener al menos un titulado universitario de informática o telecomunicaciones. Se darán dos puntos por cada titulado adicional." />
 		<property name="maxScore" value="10" />
 		<property name="tender" ref="tender1" />
 		<property name="evaluationCriteriaType" ref="evaluationcriteriatype2" />
@@ -598,8 +734,8 @@
 
 	<bean id="evaluationcriteria4" class="domain.EvaluationCriteria">
 		<property name="title" value="Nº de técnicos con titulación F.P." />
-		<property name="description" value="El nº de técnicos será un mínimo de 5." />
-		<property name="maxScore" value="10" />
+		<property name="description" value="El nº de técnicos será un mínimo de 5. 3 puntos por técnico adicional." />
+		<property name="maxScore" value="20" />
 		<property name="tender" ref="tender2" />
 		<property name="evaluationCriteriaType" ref="evaluationcriteriatype2" />
 	</bean>
@@ -615,10 +751,10 @@
 
 	<bean id="evaluationcriteria6" class="domain.EvaluationCriteria">
 		<property name="title" value="Horario del soporte telefónico" />
-		<property name="description" value="Será valorado positivamente un horario de soporte telefónico amplio." />
+		<property name="description" value="Será valorado positivamente un horario de soporte telefónico amplio. Mínimo de 8 horas con 3 puntos por cada hora adicional." />
 		<property name="maxScore" value="40" />
 		<property name="tender" ref="tender2" />
-		<property name="evaluationCriteriaType" ref="evaluationcriteriatype1" />
+		<property name="evaluationCriteriaType" ref="evaluationcriteriatype2" />
 		
 	</bean>
 
@@ -639,25 +775,25 @@
 	<!-- SubSectionEvaluationCriterias -->
 
 	<bean id="subsectionevaluationcriteria1" class="domain.SubsectionEvaluationCriteria">
-		<property name="comments" value="Creo que cumplimos ampliamente lo solicitado." />
-		<property name="subSection" ref="subsection1" />
+		<property name="comments" value="Creo que cumplimos ampliamente lo solicitado, hemos añadido 3 secciones adicionales." />
+		<property name="subSection" ref="subsection3" />
 		<property name="evaluationCriteria" ref="evaluationcriteria1" />
 	</bean>
 
 	<bean id="subsectionevaluationcriteria2" class="domain.SubsectionEvaluationCriteria">
-		<property name="comments" value="Nos falta un poco para llegar pero creo que es aceptable" />
+		<property name="comments" value="Usaremos MySql con una complejidad aceptable según nuestros expertos." />
 		<property name="subSection" ref="subsection2" />
 		<property name="evaluationCriteria" ref="evaluationcriteria2" />		
 	</bean>
 
 	<bean id="subsectionevaluationcriteria3" class="domain.SubsectionEvaluationCriteria">
-		<property name="comments" value="Habria que conseguir más gente con experiencia." />
-		<property name="subSection" ref="subsection3" />
+		<property name="comments" value="Hemos adjuntado todos los titulados disponibles que tenemos." />
+		<property name="subSection" ref="subsection4" />
 		<property name="evaluationCriteria" ref="evaluationcriteria3" />		
 	</bean>
 
 	<bean id="subsectionevaluationcriteria4" class="domain.SubsectionEvaluationCriteria">
-		<property name="comments" value="Esta parte nos la proporciona la empresa NOSECUAL que tiene experiencia de 10 años." />
+		<property name="comments" value="Los técnicos estan dispuestos a trabajar en turno de tarde-noche." />
 		<property name="subSection" ref="subsection4" />
 		<property name="evaluationCriteria" ref="evaluationcriteria4" />			
 	</bean>
@@ -665,32 +801,102 @@
 	<!-- Files -->
 
 	<bean id="file1" class="domain.File">
-		<property name="name" value="file1-name" />
+		<property name="name" value="Curriculum del técnico" />
 		<property name="uploadDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="01/05/2018" />
 			</bean>
 		</property>
-		
+		<property name="curriculum" ref="curriculum1" />
 	</bean>
 
 	<bean id="file2" class="domain.File">
-		<property name="name" value="file2-name" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="02/05/2018" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="file3" class="domain.File">
-		<property name="name" value="file3-name" />
+		<property name="name" value="Sección en formato Word" />
 		<property name="uploadDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
 				<constructor-arg value="03/05/2018" />
 			</bean>
 		</property>
+		<property name="subsection" ref="subsection3" />		
 	</bean>
+
+	<bean id="file3" class="domain.File">
+		<property name="name" value="Pliego de prescripciones técnicas" />
+		<property name="uploadDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="16/03/2018" />
+			</bean>
+		</property>
+		<property name="tender" ref="tender1" />		
+	</bean>
+	
+	<bean id="file4" class="domain.File">
+		<property name="name" value="Pliego de clausulas administrativas" />
+		<property name="uploadDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="16/03/2018" />
+			</bean>
+		</property>
+		<property name="tender" ref="tender1" />		
+	</bean>	
+	
+	<bean id="file5" class="domain.File">
+		<property name="name" value="Resultado del concurso" />
+		<property name="uploadDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="15/04/2018" />
+			</bean>
+		</property>
+		<property name="tenderResult" ref="tenderresult1" />		
+	</bean>	
+	
+	<!-- ColaborationRequests -->
+
+	<bean id="colaborationrequest1" class="domain.ColaborationRequest">
+		<property name="benefitsPercentaje" value="20" />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="requirements" value="Como mínimo deben de ser 5 diagramas cubriendo todo el sistema." />
+		<property name="numberOfPages" value="10" />
+		
+		<property name="subSectionTitle" value="Diagramas BPMN del sistema" />
+		<property name="subSectionDescription" value="Diagramas de proceso del sistema de información" />
+		<property name="maxAcceptanceDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/05/2018" />
+			</bean>
+		</property>
+		<property name="maxDeliveryDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/06/2018" />
+			</bean>
+		</property>
+		<property name="commercial" ref="commercial2" />
+		<property name="offer" ref="offer1" />
+	</bean>	
+	
+	<bean id="colaborationrequest2" class="domain.ColaborationRequest">
+		<property name="benefitsPercentaje" value="10" />
+		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="requirements" value="La parte del Acerca de... bien comentada." />
+		<property name="numberOfPages" value="4" />
+		
+		<property name="subSectionTitle" value="Contenido de Acerca de..." />
+		<property name="subSectionDescription" value="El contenido de dicha parte de la web" />
+		<property name="maxAcceptanceDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/05/2018" />
+			</bean>
+		</property>
+		<property name="maxDeliveryDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="10/05/2018" />
+			</bean>
+		</property>
+		<property name="accepted" value="false" />
+		<property name="rejectedReason" value="Me parece un porcentaje de beneficios demasiado bajo, aparte de que da poco tiempo para hacerlo." />
+		<property name="commercial" ref="commercial2" />
+		<property name="offer" ref="offer1" />
+	</bean>		
 
 	<!-- AdministrativeRequests -->
 
@@ -699,12 +905,12 @@
 		<property name="subSectionDescription" value="Certificado donde conste la antiguedad de la empresa." />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="03/05/2018" />
+				<constructor-arg value="01/06/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="07/05/2018" />
+				<constructor-arg value="15/06/2018" />
 			</bean>
 		</property>
 		<property name="accepted" value="true" />
@@ -713,20 +919,20 @@
 	</bean>
 
 	<bean id="administrativerequest2" class="domain.AdministrativeRequest">
-		<property name="subSectionTitle" value="administrativerequest2-subSectionTitle" />
-		<property name="subSectionDescription" value="administrativerequest2-subSectionDescription" />
+		<property name="subSectionTitle" value="Certificado de confidencialidad." />
+		<property name="subSectionDescription" value="Certificado donde la empresa se compromete a cumplir la LOPD." />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2018" />
+				<constructor-arg value="01/02/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="05/05/2018" />
+				<constructor-arg value="15/02/2018" />
 			</bean>
 		</property>
-		<property name="accepted" value="false" />
-		<property name="rejectedReason" value="administrativerequest2-rejectedReason" />
+		<property name="accepted" value="true" />
+		<property name="rejectedReason" value="" />
 		<property name="administrative" ref="administrative2" />
 		<property name="offer" ref="offer2" />		
 	</bean>
@@ -740,14 +946,14 @@
 				<constructor-arg value="01/04/2018" />
 			</bean>
 		</property>
-		<property name="description" value="El concurso lo gano la empresa Isotrol por presentar una oferta calificada de casi 10." />
-		<property name="tender" ref="tender1" />
+		<property name="description" value="El concurso lo gano la empresa Comedor S.L. por presentar una oferta calificada de casi 10." />
+		<property name="tender" ref="tender3" />
 	</bean>
 
 	<!-- CompanyResults -->
 
 	<bean id="companyresult1" class="domain.CompanyResult">
-		<property name="name" value="Ayesa" />
+		<property name="name" value="Restauracion S.L." />
 		<property name="economicalOffer" value="29000" />
 		<property name="score" value="15" />
 		<property name="position" value="2" />
@@ -757,7 +963,7 @@
 	</bean>
 
 	<bean id="companyresult2" class="domain.CompanyResult">
-		<property name="name" value="Isotrol" />
+		<property name="name" value="Comedor S.L." />
 		<property name="economicalOffer" value="26000" />
 		<property name="score" value="90" />
 		<property name="position" value="1" />
@@ -771,7 +977,7 @@
 		<property name="economicalOffer" value="8000" />
 		<property name="score" value="50" />
 		<property name="position" value="3" />
-		<property name="comments" value="Precio demasiado bajo." />
+		<property name="comments" value="Precio demasiado bajo. ¿Reparten ahora también comida?" />
 		<property name="state" value="RECKLESS_OFFER" />
 		<property name="tenderResult" ref="tenderresult1" />
 	</bean>	
@@ -793,7 +999,7 @@
 		<property name="text" value="Por favor, llama al organismo para preguntar si la oferta ha de tener..." />
 		<property name="writingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="03/04/2018" />
+				<constructor-arg value="03/02/2018" />
 			</bean>
 		</property>
 		<property name="tender" ref="tender2" />
@@ -817,7 +1023,7 @@
 		<property name="text" value="Lo siento, no existe mas documentación." />
 		<property name="writingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="21/04/2018" />
+				<constructor-arg value="06/05/2018" />
 			</bean>
 		</property>
 		<property name="comment" ref="comment1" />
@@ -827,7 +1033,7 @@
 		<property name="text" value="Disculpa, despues de llamar al organismo me la han pasado, la adjunto al concurso." />
 		<property name="writingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="04/04/2018" />
+				<constructor-arg value="07/05/2018" />
 			</bean>
 		</property>
 		<property name="comment" ref="comment1" />
@@ -837,7 +1043,7 @@
 		<property name="text" value="No existe más información" />
 		<property name="writingDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="04/04/2018" />
+				<constructor-arg value="21/04/2018" />
 			</bean>
 		</property>
 		<property name="comment" ref="comment3" />
