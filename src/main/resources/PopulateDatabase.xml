@@ -295,6 +295,7 @@
 		<property name="interestComment" value="Creo que es un proyecto interesante en el que tenemos opciones." />
 		<property name="administrative" ref="administrative1" />
 		<property name="category" ref="category2" />
+		<property name="offer" ref="offer1" />
 	</bean>
 
 	<bean id="tender2" class="domain.Tender">
@@ -326,6 +327,7 @@
 		<property name="interestComment" value="Creo que nos hemos presentado previamente a concursos similares." />
 		<property name="administrative" ref="administrative2" />
 		<property name="category" ref="category3" />
+		<property name="offer" ref="offer2" />
 	</bean>
 
 	<bean id="tender3" class="domain.Tender">
@@ -353,11 +355,105 @@
 		<property name="executionTime" value="365" />
 		<property name="observations" value="" />
 		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
-		<property name="interest" value="HIGH" />
-		<property name="interestComment" value="Se presentaron dos ofertas similares el año pasado para otras escuelas, y las ganamos." />
+		<property name="interest" value="UNDEFINED" />
+		<property name="interestComment" value="No se asocia a los servicios de la empresa." />
 		<property name="administrative" ref="administrative1" />
 		<property name="category" ref="category5" />
+		<property name="offer" ref="offer3" />
 	</bean>
+	
+	<bean id="tender4" class="domain.Tender">
+		<property name="reference" value="16122017-AA" />
+		<property name="title" value="Contrucción de módulos adicionales en la ETSII" />
+		<property name="expedient" value="112/3223" />
+		<property name="estimatedAmount" value="229000" />
+		<property name="organism" value="Universidad de Sevilla" />
+		<property name="bulletin" value="BOUS 323/22112" />
+		<property name="bulletinDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018" />
+			</bean>
+		</property>
+		<property name="openingDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/06/2018" />
+			</bean>
+		</property>
+		<property name="maxPresentationDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="20/07/2018" />
+			</bean>
+		</property>
+		<property name="executionTime" value="365" />
+		<property name="observations" value="" />
+		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
+		<property name="interest" value="LOW" />
+		<property name="interestComment" value="" />
+		<property name="administrative" ref="administrative1" />
+		<property name="category" ref="category4" />
+	</bean>	
+	
+	<bean id="tender5" class="domain.Tender">
+		<property name="reference" value="33122017-NN" />
+		<property name="title" value="Servicio de alojamiento de profesores extranjeros" />
+		<property name="expedient" value="312/3223" />
+		<property name="estimatedAmount" value="229000" />
+		<property name="organism" value="Universidad de Sevilla" />
+		<property name="bulletin" value="BOUS 123/22112" />
+		<property name="bulletinDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="03/04/2018" />
+			</bean>
+		</property>
+		<property name="openingDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/07/2018" />
+			</bean>
+		</property>
+		<property name="maxPresentationDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="20/08/2018" />
+			</bean>
+		</property>
+		<property name="executionTime" value="200" />
+		<property name="observations" value="" />
+		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
+		<property name="interest" value="LOW" />
+		<property name="interestComment" value="" />
+		<property name="administrative" ref="administrative2" />
+		<property name="category" ref="category4" />
+	</bean>		
+	
+	<bean id="tender6" class="domain.Tender">
+		<property name="reference" value="53122017-BB" />
+		<property name="title" value="50 Ordenadores para las aulas de informática" />
+		<property name="expedient" value="512/53223" />
+		<property name="estimatedAmount" value="229000" />
+		<property name="organism" value="Universidad de Sevilla" />
+		<property name="bulletin" value="BOUS 423/42112" />
+		<property name="bulletinDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="09/04/2018" />
+			</bean>
+		</property>
+		<property name="openingDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/06/2018" />
+			</bean>
+		</property>
+		<property name="maxPresentationDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="10/07/2018" />
+			</bean>
+		</property>
+		<property name="executionTime" value="30" />
+		<property name="observations" value="Lo veo muy interesante" />
+		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
+		<property name="interest" value="HIGH" />
+		<property name="interestComment" value="Hemos presentado ofertas anteriores similares a esta." />
+		<property name="administrative" ref="administrative2" />
+		<property name="category" ref="category6" />
+	</bean>		
 
 	<!-- Categories -->
 
