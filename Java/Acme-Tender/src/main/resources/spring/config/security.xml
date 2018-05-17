@@ -45,6 +45,8 @@
 	<security:intercept-url pattern="/actor/list.do" access="permitAll" />
 	<security:intercept-url pattern="/actor/display.do" access="permitAll" />
 	
+	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
+	
 	<!-- Admin -->
 	
 	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />

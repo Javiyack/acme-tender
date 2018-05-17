@@ -82,6 +82,7 @@
 	
 	
 	<a href="actor/list.do"><spring:message code="master.page.actor.list" /></a>
+	<a href="tender/list.do"><spring:message code="master.page.tender.list" /></a>
 	<a href="#about">About</a>
 
 </div>
