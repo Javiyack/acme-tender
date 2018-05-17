@@ -28,6 +28,7 @@
 		<value>/views/folder/messages</value>
 		<value>/views/myMessage/messages</value>
 		<value>/views/actor/messages</value>
+		<value>/views/tabooWord/messages</value>
 		
 	</util:list>
 
