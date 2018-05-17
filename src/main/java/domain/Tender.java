@@ -7,6 +7,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
@@ -161,7 +163,7 @@ public class Tender extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "UNDEFINED | LOW | MEDIUM | HIGH$")
+	@Pattern(regexp = "^(UNDEFINED|LOW|MEDIUM|HIGH)$")
 	public String getInterest() {
 		return this.interest;
 	}
@@ -178,5 +180,40 @@ public class Tender extends DomainEntity {
 	public void setInterestComment(final String interestComment) {
 		this.interestComment = interestComment;
 	}
+	
+	//Relationships
+	private Administrative administrative;
+	private Offer offer;
+	private Category category;
+
+	@OneToOne(optional = false)
+	public Administrative getAdministrative() {
+		return administrative;
+	}
+
+	public void setAdministrative(Administrative administrative) {
+		this.administrative = administrative;
+	}
+
+	@OneToOne(optional = true)
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	@ManyToOne(optional = false)	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	
+	
 
 }

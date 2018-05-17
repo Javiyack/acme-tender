@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
@@ -99,6 +101,7 @@ public class Curriculum extends DomainEntity {
 		this.text = text;
 	}
 
+	@Min(0)
 	public Double getMinSalaryExpectation() {
 		return this.minSalaryExpectation;
 	}
@@ -106,5 +109,19 @@ public class Curriculum extends DomainEntity {
 	public void setMinSalaryExpectation(final Double minSalaryExpectation) {
 		this.minSalaryExpectation = minSalaryExpectation;
 	}
+	
+	//Relationships
+	
+	private SubSection subsection;
+
+	@ManyToOne(optional = false)
+	public SubSection getSubSection() {
+		return subsection;
+	}
+
+	public void setSubSection(SubSection subsection) {
+		this.subsection = subsection;
+	}
+	
 
 }

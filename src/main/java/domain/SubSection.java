@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
@@ -41,7 +43,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "ADMINISTRATIVE_ACREDITATION|TECHNICAL_OFFER|ECONOMICAL_OFFER")
+	@Pattern(regexp = "^(ADMINISTRATIVE_ACREDITATION|TECHNICAL_OFFER|ECONOMICAL_OFFER)$")
 	public String getSection() {
 		return this.section;
 	}
@@ -98,5 +100,42 @@ public class SubSection extends DomainEntity {
 	public void setComments(final String comments) {
 		this.comments = comments;
 	}
+	
+	//Relationships
+	private Offer offer;
+	private Commercial commercial;
+	private Administrative administrative;
+
+	@ManyToOne(optional = false)
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	@OneToOne(optional = true)
+	public Commercial getCommercial() {
+		return commercial;
+	}
+
+	public void setCommercial(Commercial commercial) {
+		this.commercial = commercial;
+	}
+
+	@OneToOne(optional = true)
+	public Administrative getAdministrative() {
+		return administrative;
+	}
+
+	public void setAdministrative(Administrative administrative) {
+		this.administrative = administrative;
+	}
+	
+	
+	
+	
+	
 
 }
