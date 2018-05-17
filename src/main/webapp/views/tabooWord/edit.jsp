@@ -19,9 +19,9 @@
 	<acme:textbox code="tabooWord.text" path="text" />
 	<br />
 
-	<acme:submit name="save" code="article.save" css="formButton toLeft" />&nbsp;
+	<acme:submit name="save" code="tabooWord.save" css="formButton toLeft" />&nbsp;
     <acme:cancel url="/tabooWord/administrator/list.do"
-		code="article.cancel" css="formButton toLeft" />
+		code="tabooWord.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>

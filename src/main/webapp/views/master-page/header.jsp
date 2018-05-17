@@ -63,6 +63,9 @@
 					<a href="myMessage/administrator/create.do">
 						<spring:message code="master.page.broadcast" />
 					</a>
+					<a href="tabooWord/administrator/list.do">
+						<spring:message code="master.page.tabooWord" />
+					</a>
 				</security:authorize>
 				<a href="folder/list.do"> 
 					<spring:message code="master.page.myfolders" />
@@ -71,10 +74,13 @@
 		</div>
 	</security:authorize>
 	
-	<div class="dropdown" title="Usuarios">
-	        <button class="dropbtn" onclick="relativeRedir('user/list.do')">
-	        </button>
-	</div>
+	<security:authorize access="hasRole('ADMIN')">
+		<a href="tabooWord/administrator/list.do">
+			<spring:message code="master.page.tabooWord" />
+		</a>
+	</security:authorize>
+	
+	
 	<a href="actor/list.do"><spring:message code="master.page.actor.list" /></a>
 	<a href="#about">About</a>
 

@@ -36,3 +36,7 @@
 	</display:column>
 
 </display:table>
+
+<a href="tabooWord/administrator/create.do">
+	<spring:message code="tabooWord.create" />
+</a>
