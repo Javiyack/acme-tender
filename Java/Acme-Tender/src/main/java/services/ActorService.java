@@ -87,10 +87,10 @@ public class ActorService {
 		final Administrator admin = this.administratorService.findByPrincipal();
 		Assert.notNull(admin);
 		Assert.notNull(res);
-		if (res.getActive())
-			res.setActive(false);
+		if (res.getUserAccount().getActive())
+			res.getUserAccount().setActive(false);
 		else
-			res.setActive(true);
+			res.getUserAccount().setActive(true);
 	}
 	public UserAccount findUserAccount(final Actor actor) {
 		Assert.notNull(actor);
