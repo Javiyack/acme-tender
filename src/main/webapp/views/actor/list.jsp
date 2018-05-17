@@ -48,10 +48,10 @@
 		<display:column>
 			<a href="actor/administrator/activeOrDesactive.do?actorId=${row.id}">
 				<button class = "btn">
-					<jstl:if test="${row.active}">
+					<jstl:if test="${row.userAccount.active}">
 						<spring:message code="actor.deactivate" />
 					</jstl:if>
-					<jstl:if test="${!row.active}">
+					<jstl:if test="${!row.userAccount.active}">
 						<spring:message code="actor.activate" />
 					</jstl:if>
 				</button>

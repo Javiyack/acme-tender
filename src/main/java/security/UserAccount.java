@@ -51,6 +51,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	private String					username;
 	private String					password;
 	private Collection<Authority>	authorities;
+	private boolean					active;
 
 
 	@Size(min = 5, max = 32)
@@ -123,6 +124,13 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public boolean getActive() {
+		return this.active;
+	}
+	public void setActive(final boolean active) {
+		this.active = active;
 	}
 
 }

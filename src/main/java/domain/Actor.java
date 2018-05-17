@@ -28,7 +28,6 @@ public class Actor extends DomainEntity {
 	private String				address;
 	private String				phone;
 	private String				email;
-	private boolean				active;
 	//Relationships
 	private UserAccount			userAccount;
 	private Collection<Folder>	folders;
@@ -73,13 +72,6 @@ public class Actor extends DomainEntity {
 	}
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	public boolean getActive() {
-		return this.active;
-	}
-	public void setActive(final boolean active) {
-		this.active = active;
 	}
 
 	@Valid
