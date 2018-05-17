@@ -24,6 +24,10 @@
 		<value>/views/welcome/messages</value>
 		
 		<value>/views/term/messages</value>
+		
+		<value>/views/folder/messages</value>
+		<value>/views/myMessage/messages</value>
+		
 	</util:list>
 
 </beans>

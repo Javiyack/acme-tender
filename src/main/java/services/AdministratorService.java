@@ -12,6 +12,7 @@ import repositories.AdministratorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Administrator;
+import domain.TabooWord;
 
 @Service
 @Transactional
@@ -74,5 +75,33 @@ public class AdministratorService {
 	public void flush() {
 		this.administratorRepository.flush();
 
+	}
+	
+	public boolean checkIsSpam(String subject, String body) {
+
+		Boolean isSpam;
+
+		if (subject.isEmpty() && body.isEmpty()) {
+
+			isSpam = false;
+
+		} else {
+
+			Collection<TabooWord> tabooWords;
+			tabooWords = this.tabooWordService.getTabooWordFromMyMessageSubjectAndBody(subject, body);
+
+			if (tabooWords.isEmpty()) {
+
+				isSpam = false;
+
+			} else {
+
+				isSpam = true;
+
+			}
+
+		}
+
+		return isSpam;
 	}
 }

@@ -56,6 +56,14 @@
 				<a href="j_spring_security_logout"> 
 					<spring:message code="master.page.logout" />
 				</a> 
+				<a href="myMessage/create.do">
+					<spring:message code="master.page.newmessage" /> 
+				</a>
+				<security:authorize access="hasRole('ADMIN')">
+					<a href="myMessage/administrator/create.do">
+						<spring:message code="master.page.broadcast" />
+					</a>
+				</security:authorize>
 				<a href="folder/list.do"> 
 					<spring:message code="master.page.myfolders" />
 				</a> 
