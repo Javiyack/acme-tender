@@ -23,28 +23,14 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<display:table pagesize="5" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
+<display:table pagesize="5" class="displaytag" name="comments" requestURI="comment/list.do" id="row">
 
-	<spring:message code="tender.reference" var="tenderReference" />
-	<acme:column property="reference" title="tender.reference" />
+	<spring:message code="comment.writingDate" var="commentWritingDate" />
+	<acme:column property="writingDate" title="comment.writingDate" />
 
-	<spring:message code="tender.title" var="tenderTitle" />
-	<acme:column property="title" title="tender.title" />
-
-	<display:column>
-		<div>
-			<a href="comment/commercial/create.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.create" />
-			</a>
-		</div>
-	</display:column>
-	
-	<display:column>
-		<div>
-			<a href="comment/list.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.list" />
-			</a>
-		</div>
-	</display:column>
+	<spring:message code="comment.text" var="commentText" />
+	<acme:column property="text" title="comment.text" />
 
 </display:table>
+
+

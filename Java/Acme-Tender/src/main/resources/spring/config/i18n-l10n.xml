@@ -30,6 +30,7 @@
 		<value>/views/actor/messages</value>
 		<value>/views/tabooWord/messages</value>
 		<value>/views/tender/messages</value>
+		<value>/views/comment/messages</value>
 		
 	</util:list>
 

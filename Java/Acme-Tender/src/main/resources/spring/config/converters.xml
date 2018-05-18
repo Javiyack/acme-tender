@@ -21,10 +21,16 @@
 		<bean class="converters.ActorToStringConverter" />	
 		<bean class="converters.MyMessageToStringConverter" />
 		<bean class="converters.FolderToStringConverter" />
+		<bean class="converters.TabooWordToStringConverter" />
+		<bean class="converters.TenderToStringConverter" />
+		<bean class="converters.CommentToStringConverter" />
 	
 		<bean class="converters.StringToMyMessageConverter" />	
 		<bean class="converters.StringToFolderConverter" />
 		<bean class="converters.StringToActorConverter" />
+		<bean class="converters.StringToTabooWordConverter" />	
+		<bean class="converters.StringToTenderConverter" />
+		<bean class="converters.StringToCommentConverter" />
 			
 	</util:list>
         

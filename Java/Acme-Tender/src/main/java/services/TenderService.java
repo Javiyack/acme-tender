@@ -53,4 +53,16 @@ public class TenderService {
 
 		return result;
 	}
+
+	//Other methods ---------------------------------------------------------------
+
+	public Tender findOneToComment(final Integer tenderId) {
+
+		Tender result;
+		result = this.tenderRepository.findOne(tenderId);
+		Assert.notNull(result);
+
+		return result;
+
+	}
 }

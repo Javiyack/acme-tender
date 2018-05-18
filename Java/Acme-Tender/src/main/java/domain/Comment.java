@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -46,32 +45,32 @@ public class Comment extends DomainEntity {
 	public void setWritingDate(final Date writingDate) {
 		this.writingDate = writingDate;
 	}
-	
-	//Relationships
-	
-	private Tender tender;
-	private Commercial commercial;
 
-	@Valid
+
+	//Relationships
+
+	private Tender		tender;
+	private Commercial	commercial;
+
+
 	@ManyToOne(optional = false)
+	@Valid
 	public Tender getTender() {
-		return tender;
+		return this.tender;
 	}
 
-	public void setTender(Tender tender) {
+	public void setTender(final Tender tender) {
 		this.tender = tender;
 	}
-	
-	@Valid
+
 	@ManyToOne(optional = false)
+	@Valid
 	public Commercial getCommercial() {
-		return commercial;
+		return this.commercial;
 	}
 
-	public void setCommercial(Commercial commercial) {
+	public void setCommercial(final Commercial commercial) {
 		this.commercial = commercial;
 	}
-	
-	
 
 }
