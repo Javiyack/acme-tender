@@ -1492,6 +1492,13 @@
 		<property name="text" value="jes extender" />
 	</bean>
 
-	<!-- Other domain beans come here -->
+	<!-- CONFIGURATION -->
+	 <bean id="configuration" class="domain.Configuration">
+		<property name="companyName" value="Company 1" />
+		<property name="banner" value="http://www.municipalidadantuco.cl/wp-content/uploads/2017/10/concurso_publico.png" />
+		<property name="welcomeMessageEs" value="Tu sitio para ganar licitaciones" />
+		<property name="welcomeMessageEn" value="Your place to win tenders!"/>
+		<property name="benefitsPercentaje" value="10.0"/>
+	</bean>
 
 </beans>
