@@ -23,30 +23,14 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<display:table pagesize="5" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
+<display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
-	<spring:message code="tender.reference" var="tenderReference" />
-	<acme:column property="reference" title="tender.reference" />
+	<spring:message code="answer.writingDate" var="answerWritingDate" />
+	<acme:column property="writingDate" title="answer.writingDate" />
 
-	<spring:message code="tender.title" var="tenderTitle" />
-	<acme:column property="title" title="tender.title" />
-
-	<security:authorize access="hasRole('COMMERCIAL')">
-	<display:column>
-		<div>
-			<a href="comment/commercial/create.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.create" />
-			</a>
-		</div>
-	</display:column>
-	</security:authorize>
-	
-	<display:column>
-		<div>
-			<a href="comment/list.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.list" />
-			</a>
-		</div>
-	</display:column>
+	<spring:message code="answer.text" var="answerText" />
+	<acme:column property="text" title="answer.text" />
 
 </display:table>
+
+<acme:cancel url="comment/list.do?tenderId=${tenderId}" code="comment.back" css="formButton toLeft" />

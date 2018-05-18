@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CommentRepository;
-import domain.Actor;
 import domain.Comment;
 import domain.Commercial;
 import domain.Tender;
@@ -26,7 +25,7 @@ public class CommentService {
 
 	//Services
 	@Autowired
-	private ActorService		actorService;
+	private CommercialService	commercialService;
 	@Autowired
 	private TenderService		tenderService;
 
@@ -42,13 +41,13 @@ public class CommentService {
 		final Tender tender = this.tenderService.findOneToComment(tenderId);
 		Assert.notNull(tenderId);
 
-		final Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(actor instanceof Commercial);
+		final Commercial commercial = this.commercialService.findByPrincipal();
+		Assert.notNull(commercial);
 
 		final Comment comment;
 
 		comment = new Comment();
-		comment.setCommercial((Commercial) actor);
+		comment.setCommercial(commercial);
 		comment.setTender(tender);
 
 		return comment;
@@ -77,9 +76,9 @@ public class CommentService {
 		Assert.notNull(comment);
 		Comment saved;
 
-		final Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(actor instanceof Commercial);
-		Assert.isTrue(comment.getCommercial().equals(actor));
+		final Commercial commercial = this.commercialService.findByPrincipal();
+		Assert.notNull(commercial);
+		Assert.isTrue(comment.getCommercial().equals(commercial));
 
 		if (comment.getId() == 0) {
 			final Date moment = new Date(System.currentTimeMillis() - 1);

@@ -30,7 +30,25 @@
 
 	<spring:message code="comment.text" var="commentText" />
 	<acme:column property="text" title="comment.text" />
+	
+	<security:authorize access="isAuthenticated()">
+	<display:column>
+		<div>
+			<a href="answer/actor/create.do?commentId=${row.id}">
+				<spring:message code="comment.answer.create" />
+			</a>
+		</div>
+	</display:column>
+	
+	<display:column>
+		<div>
+			<a href="answer/actor/list.do?commentId=${row.id}">
+				<spring:message code="comment.answer.list" />
+			</a>
+		</div>
+	</display:column>
+	</security:authorize>
 
 </display:table>
 
-
+<acme:cancel url="/tender/list.do" code="comment.back" css="formButton toLeft" />
