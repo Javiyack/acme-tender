@@ -58,6 +58,7 @@
 	
 	<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/answer/actor/**" access="isAuthenticated()" />
 	
 	<!-- Commercial -->
 	

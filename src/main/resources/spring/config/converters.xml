@@ -24,6 +24,8 @@
 		<bean class="converters.TabooWordToStringConverter" />
 		<bean class="converters.TenderToStringConverter" />
 		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.CommercialToStringConverter" />
+		<bean class="converters.AnswerToStringConverter" />
 	
 		<bean class="converters.StringToMyMessageConverter" />	
 		<bean class="converters.StringToFolderConverter" />
@@ -31,6 +33,8 @@
 		<bean class="converters.StringToTabooWordConverter" />	
 		<bean class="converters.StringToTenderConverter" />
 		<bean class="converters.StringToCommentConverter" />
+		<bean class="converters.StringToCommercialConverter" />
+		<bean class="converters.StringToAnswerConverter" />
 			
 	</util:list>
         

@@ -13,7 +13,6 @@ import repositories.CommercialRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
-import domain.Administrative;
 import domain.Administrator;
 import domain.Commercial;
 
@@ -23,13 +22,13 @@ public class CommercialService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private CommercialRepository		commercialRepository;
+	private CommercialRepository	commercialRepository;
 
 	//Services
 	@Autowired
 	private AdministratorService	administratorService;
 	@Autowired
-	private ActorService actorService;
+	private ActorService			actorService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -95,13 +94,13 @@ public class CommercialService {
 		this.commercialRepository.flush();
 
 	}
-	
-	public Collection<Commercial> getSubSectionCreatorsFromOfferId(int offerId) {
+
+	public Collection<Commercial> getSubSectionCreatorsFromOfferId(final int offerId) {
 
 		return this.commercialRepository.getSubSectionCreatorsFromOfferId(offerId);
 
 	}
-	
+
 	public Commercial findByPrincipal() {
 		Commercial result;
 		UserAccount userAccount;
@@ -109,7 +108,7 @@ public class CommercialService {
 		userAccount = LoginService.getPrincipal();
 		Assert.notNull(userAccount);
 		final Actor actor = this.actorService.findByUserAccount(userAccount);
-		Assert.isTrue(actor instanceof Administrative);
+		Assert.isTrue(actor instanceof Commercial);
 		result = (Commercial) actor;
 		Assert.notNull(result);
 
