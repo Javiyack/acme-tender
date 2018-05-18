@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <br />
-Acme Newspaper Co., Inc.
+Acme Tender Co., Inc.
 <br />
 Nº Reg.: 123456
 <br />
@@ -29,7 +29,7 @@ Tlf: 955010101
 <br />
 <spring:message code="welcome.contact" />
 <br />
-<a href="mailto:management@acmenewspaper.com">management@acmenewspaper.com</a>
+<a href="mailto:management@acmetender.com">management@acmetender.com</a>
 
 <p>
 	<spring:message code="welcome.greeting.current.time" />
