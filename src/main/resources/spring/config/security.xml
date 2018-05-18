@@ -46,6 +46,7 @@
 	<security:intercept-url pattern="/actor/display.do" access="permitAll" />
 	
 	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
+	<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 	
 	<!-- Admin -->
 	
@@ -57,6 +58,11 @@
 	
 	<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
+	
+	<!-- Commercial -->
+	
+	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
+	
 			
 	<!-- IS ANONYMOUS -->
 	<security:intercept-url pattern="/actor/create.do"
