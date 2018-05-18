@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
@@ -69,6 +70,7 @@ public class Offer extends DomainEntity {
 	private Commercial commercial;
 	private Tender tender;
 
+	@Valid
 	@ManyToOne(optional = false)
 	public Commercial getCommercial() {
 		return commercial;
@@ -78,6 +80,7 @@ public class Offer extends DomainEntity {
 		this.commercial = commercial;
 	}
 
+	@Valid
 	@OneToOne(optional = false)
 	public Tender getTender() {
 		return tender;

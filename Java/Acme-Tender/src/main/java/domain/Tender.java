@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -186,6 +187,7 @@ public class Tender extends DomainEntity {
 	private Offer offer;
 	private Category category;
 
+	@Valid
 	@ManyToOne(optional = false)
 	public Administrative getAdministrative() {
 		return administrative;
@@ -195,6 +197,7 @@ public class Tender extends DomainEntity {
 		this.administrative = administrative;
 	}
 
+	@Valid
 	@OneToOne(optional = true)
 	public Offer getOffer() {
 		return offer;
@@ -204,6 +207,7 @@ public class Tender extends DomainEntity {
 		this.offer = offer;
 	}
 
+	@Valid
 	@ManyToOne(optional = false)	
 	public Category getCategory() {
 		return category;

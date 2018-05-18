@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -48,6 +49,7 @@ public class TenderResult extends DomainEntity {
 	//Relationships
 	private Tender tender;
 
+	@Valid
 	@OneToOne(optional = false)
 	public Tender getTender() {
 		return tender;
