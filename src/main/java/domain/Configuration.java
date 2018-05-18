@@ -16,10 +16,22 @@ import org.hibernate.validator.constraints.URL;
 @Access(AccessType.PROPERTY)
 public class Configuration extends DomainEntity {
 
+	private String	companyName;
 	private String	banner;
 	private String	welcomeMessageEs;
-	private String	wecolmeMessageEn;
-	private double benefitsPercentaje;
+	private String	welcomeMessageEn;
+	private double	benefitsPercentaje;
+
+
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	public String getCompanyName() {
+		return this.companyName;
+	}
+
+	public void setCompanyName(final String companyName) {
+		this.companyName = companyName;
+	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
@@ -44,25 +56,22 @@ public class Configuration extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
-	public String getWecolmeMessageEn() {
-		return this.wecolmeMessageEn;
+	public String getWelcomeMessageEn() {
+		return this.welcomeMessageEn;
 	}
 
-	public void setWecolmeMessageEn(final String wecolmeMessageEn) {
-		this.wecolmeMessageEn = wecolmeMessageEn;
+	public void setWelcomeMessageEn(final String wecolmeMessageEn) {
+		this.welcomeMessageEn = wecolmeMessageEn;
 	}
 
 	@Min(0)
 	@Max(100)
 	public double getBenefitsPercentaje() {
-		return benefitsPercentaje;
+		return this.benefitsPercentaje;
 	}
 
-	public void setBenefitsPercentaje(double benefitsPercentaje) {
+	public void setBenefitsPercentaje(final double benefitsPercentaje) {
 		this.benefitsPercentaje = benefitsPercentaje;
 	}
-	
-	
-
 
 }
