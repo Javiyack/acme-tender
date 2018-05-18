@@ -18,7 +18,7 @@
 <!-- Menu and banner usually + "$") -->
 <div class="topnav" id="myTopnav">
 	
-	<security:authorize access="isAnonymous()">
+		<security:authorize access="isAnonymous()">
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn" onclick="relativeRedir('security/login.do')">
 				<spring:message code="master.page.login" />
@@ -26,26 +26,14 @@
 			<a href="security/login.do">
 			</a>
 			<div class="dropdown-content">
-				<a href="user/register.do"> 
+				<a href="actor/create.do"> 
 					<spring:message code="master.page.userRegister" />
 				</a> 
-				<a href="customer/register.do"> 
-					<spring:message code="master.page.customerRegister" />
-				</a> 
-				<a href="agent/register.do"> 
-					<spring:message code="master.page.agentRegister" />
-				</a>
 			</div>
 		</div>
 	</security:authorize>
-	<a href="${requestScope['javax.servlet.forward.request_uri']}
-		<my:replaceParam name='language' value='en' />">
-		en
-	</a>
-	<a href="${requestScope['javax.servlet.forward.request_uri']}
-	    <my:replaceParam name='language' value='es' />">
-		es
-	</a>
+		
+	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 	
 	<security:authorize access="isAuthenticated()">
 		<div class="dropdown" style="float: left">
