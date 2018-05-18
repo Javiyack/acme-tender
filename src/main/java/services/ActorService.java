@@ -6,17 +6,24 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import domain.Actor;
+import domain.Administrative;
+import domain.Administrator;
+import domain.Commercial;
+import domain.Executive;
+import forms.RegisterForm;
 import repositories.ActorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Actor;
-import domain.Administrator;
+import security.UserAccountService;
 
 @Service
 @Transactional
@@ -29,13 +36,13 @@ public class ActorService {
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private Validator				validator;
+	@Autowired
+	private UserAccountService		userAccountService;
 
 	@Autowired
 	private AdministratorService	administratorService;
 
-
 	// Constructors -----------------------------------------------------------
-
 	public ActorService() {
 		super();
 	}
@@ -136,5 +143,47 @@ public class ActorService {
 		final List<Authority> authorities = new ArrayList<Authority>(userAccount.getAuthorities());
 
 		return authorities.get(0).getAuthority();
+	}
+	
+	public Actor recontruct(RegisterForm registerForm, BindingResult bind) {
+		Actor result = null;
+		UserAccount useraccount = new UserAccount();
+		switch (registerForm.getAuthority()) {
+		case Authority.ADMINISTRATIVE:
+			result = new Administrative();
+			useraccount = this.userAccountService.createAsAdministrative();
+			result.setUserAccount(useraccount);
+			break;
+
+		case Authority.COMMERCIAL:
+			result = new Commercial();
+			useraccount = this.userAccountService.createAsCommercial();
+			result.setUserAccount(useraccount);
+			break;
+
+		case Authority.EXECUTIVE:
+			result = new Executive();
+			useraccount = this.userAccountService.createAsExecutive();
+			result.setUserAccount(useraccount);
+			break;
+
+		default:
+			break;
+		}
+		result.setName(registerForm.getName());
+		result.setSurname(registerForm.getSurname());
+		result.setEmail(registerForm.getEmail());
+		result.setAddress(registerForm.getAddress());
+		result.setPhone(registerForm.getPhone());
+		validator.validate(result, bind);
+
+		useraccount.setUsername(registerForm.getUserName());
+		Md5PasswordEncoder encoder;
+		encoder = new Md5PasswordEncoder();
+		useraccount.setPassword(encoder.encodePassword(registerForm.getPassword(), null));
+		useraccount.setActive(true);
+
+		validator.validate(useraccount, bind);
+		return result;
 	}
 }

@@ -1,16 +1,17 @@
 
 <%@page import="org.springframework.test.web.ModelAndViewAssert"%>
 <%@page import="org.springframework.web.servlet.ModelAndView"%>
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <script>
 	var check = function() {
@@ -33,9 +34,10 @@
 	}
 </script>
 
-<security:authorize access="isAnonymous()">
+<div class="form">
 
-	<form:form action="${uri}" modelAttribute="registerForm">
+	<form:form action="${requestUri}" modelAttribute="registerForm">
+		<form:hidden path="id" />		
 		
 		<div class="seccion">
 			<acme:textbox code="actor.name" path="name" css="formInput" />
@@ -51,37 +53,49 @@
 		</div>
 		
 		<div class="seccion">
-			<acme:textbox code="actor.username" path="username" css="formInput" />
+			<div>
+				<form:label path="${path}"><spring:message code="actor.authority.selection"/>
+				</form:label>
+				
+				<form:select id="Authority" path="Authority" css="formInput" class="formInput">
+					<form:options items="${permisos}" itemValue="authority" />
+				</form:select>
+				<form:errors path="${path}" cssClass="error" />
+			</div>
+			<br>			
+			<acme:textbox code="actor.username" path="userName" css="formInput" />
 			<br />
 			<spring:message code="actor.password"/>
 			<form:password path="password" name="password" id="password" onkeyup='check();' class="formInput" /> 
 			<form:errors path="password" cssClass="error" />
 			<br />
 			
-			<spring:message code="agent.userAccount.password.repeat"/>
+			<spring:message code="actor.password.repeat"/>
 			<input class="formInput" type="password" id="confirm_password" name="confirm_password" onkeyup='check();'>
 			<div class="error">
 				<span id='matching' style="display:none;">
-					<spring:message code="user.password.matching" />
+					<spring:message code="actor.password.matching" />
 				</span>
 				<span id='notMatching' style="display:none;" >
-					<spring:message code="user.password.not.matching"/>
+					<spring:message code="actor.password.missmatching"/>
 				</span>
 			</div>
 		</div>
-		<br />
-		<br />
-		
-		<jstl:if test="${fn:contains(requestScope['javax.servlet.forward.request_uri'], 'register')}">
-			<p style="color: rgb(120, 120, 120)">
+
+		<security:authorize access="isAnonymous()">
+			<p class="terminos">
 				<spring:message code="term.registration" />
 			</p>
 			<br />
-		</jstl:if>
-		
-		<div id="save" style="display:none;">
-			<acme:submit name="save" code="user.save" css="formButton toLeft" />
-		</div>
-		<acme:cancel url="/" code="user.cancel" css="formButton toLeft" />
-	</form:form>
-</security:authorize>
+	</security:authorize>
+
+		<input type="submit" name="save"
+			value='<spring:message code="actor.save"/>' class="formButton toLeft"/>&nbsp;
+	<input type="button" name="cancel"
+			value='<spring:message code="actor.cancel" />'
+			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>
+		<br />
+
+	</form:form>	
+
+</div>

@@ -54,6 +54,10 @@ body {
 	font-size: 1em;
 }
 
+.terminos{
+	 color: rgb(120, 120, 120)
+}
+
 .panel {
 	max-width: 90%;
 	box-sizing: border-box;

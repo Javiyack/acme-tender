@@ -58,6 +58,10 @@
 	<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
 			
+	<!-- IS ANONYMOUS -->
+	<security:intercept-url pattern="/actor/create.do"
+		access="isAnonymous()" />
+		
 	<!-- 2+ Roles -->		
 			
 		<security:intercept-url pattern="/myMessage/**"
