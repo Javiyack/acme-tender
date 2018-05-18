@@ -5,10 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -23,6 +25,8 @@ public class File extends DomainEntity {
 
 	private String	name;
 	private Date	uploadDate;
+	private String mimeType;
+	private byte[] data;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -46,13 +50,31 @@ public class File extends DomainEntity {
 		this.uploadDate = uploadDate;
 	}
 	
-	//Relationships
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+
+	@Column(length=10000000)
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
 	
+	//Relationships
 	private Curriculum curriculum;
-	private SubSection subsection;
+	private SubSection subSection;
 	private Tender tender;
 	private TenderResult tenderResult;
 
+	@Valid
 	@ManyToOne(optional = true)
 	public Curriculum getCurriculum() {
 		return curriculum;
@@ -62,15 +84,17 @@ public class File extends DomainEntity {
 		this.curriculum = curriculum;
 	}
 
+	@Valid
 	@ManyToOne(optional = true)	
-	public SubSection getSubsection() {
-		return subsection;
+	public SubSection getSubSection() {
+		return subSection;
 	}
 
-	public void setSubsection(SubSection subsection) {
-		this.subsection = subsection;
+	public void setSubSection(SubSection subSection) {
+		this.subSection = subSection;
 	}
 
+	@Valid
 	@ManyToOne(optional = true)	
 	public Tender getTender() {
 		return tender;
@@ -80,6 +104,7 @@ public class File extends DomainEntity {
 		this.tender = tender;
 	}
 
+	@Valid
 	@ManyToOne(optional = true)	
 	public TenderResult getTenderResult() {
 		return tenderResult;

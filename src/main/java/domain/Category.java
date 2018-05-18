@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -31,6 +32,7 @@ public class Category extends DomainEntity {
 	
 	private Category fatherCategory;
 
+	@Valid
 	@ManyToOne(optional = true)
 	public Category getFatherCategory() {
 		return fatherCategory;

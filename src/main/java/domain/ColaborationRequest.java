@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -140,6 +141,7 @@ public class ColaborationRequest extends DomainEntity {
 	private Commercial commercial;
 	private Offer offer;
 
+	@Valid
 	@ManyToOne(optional = false)
 	public Commercial getCommercial() {
 		return commercial;
@@ -149,6 +151,7 @@ public class ColaborationRequest extends DomainEntity {
 		this.commercial = commercial;
 	}
 
+	@Valid
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return offer;

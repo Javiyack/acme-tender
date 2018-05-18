@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -32,6 +33,7 @@ public class SubsectionEvaluationCriteria extends DomainEntity {
 	private SubSection subSection;
 	private EvaluationCriteria evaluationCriteria;
 
+	@Valid
 	@ManyToOne(optional = false)
 	public SubSection getSubSection() {
 		return subSection;
@@ -41,6 +43,7 @@ public class SubsectionEvaluationCriteria extends DomainEntity {
 		this.subSection = subSection;
 	}
 
+	@Valid
 	@ManyToOne(optional = false)
 	public EvaluationCriteria getEvaluationCriteria() {
 		return evaluationCriteria;

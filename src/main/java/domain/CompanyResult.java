@@ -5,6 +5,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
@@ -84,6 +85,7 @@ public class CompanyResult extends DomainEntity {
 	
 	private TenderResult tenderResult;
 
+	@Valid
 	@ManyToOne(optional = false)
 	public TenderResult getTenderResult() {
 		return tenderResult;
