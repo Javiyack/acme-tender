@@ -5,7 +5,7 @@
 <tiles-definitions>
 
 	<definition name="actor/create" extends="master.page">
-		<put-attribute name="title" value="Register to the system" />
+		<put-attribute name="title" value="Sing up" />
 		<put-attribute name="body" value="/views/actor/edit.jsp" />
 	</definition>
 	

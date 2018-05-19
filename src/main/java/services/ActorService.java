@@ -31,16 +31,17 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository			actorRepository;
+	private ActorRepository actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private Validator				validator;
+	private Validator validator;
 	@Autowired
-	private UserAccountService		userAccountService;
-
+	private UserAccountService userAccountService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService administratorService;
+	@Autowired
+	private FolderService folderService;
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -72,9 +73,11 @@ public class ActorService {
 	public Actor save(final Actor actor) {
 		Assert.notNull(actor);
 		Actor result;
-		Assert.isTrue(actor.equals(this.findByPrincipal()));
-
+		if (actor.getId() != 0)
+			Assert.isTrue(actor.equals(this.findByPrincipal()));
+		
 		result = this.actorRepository.save(actor);
+		
 		return result;
 	}
 
@@ -99,6 +102,7 @@ public class ActorService {
 		else
 			res.getUserAccount().setActive(true);
 	}
+
 	public UserAccount findUserAccount(final Actor actor) {
 		Assert.notNull(actor);
 
@@ -144,31 +148,38 @@ public class ActorService {
 
 		return authorities.get(0).getAuthority();
 	}
-	
+
 	public Actor recontruct(RegisterForm registerForm, BindingResult bind) {
 		Actor result = null;
-		UserAccount useraccount = new UserAccount();
-		switch (registerForm.getAuthority()) {
-		case Authority.ADMINISTRATIVE:
-			result = new Administrative();
-			useraccount = this.userAccountService.createAsAdministrative();
-			result.setUserAccount(useraccount);
-			break;
+		UserAccount useraccount = null;
+		if (registerForm.getId() == 0) {
+			useraccount = new UserAccount();
+			switch (registerForm.getAuthority()) {
+			case Authority.ADMINISTRATIVE:
+				result = new Administrative();
+				useraccount = this.userAccountService.createAsAdministrative();
+				result.setUserAccount(useraccount);
+				break;
 
-		case Authority.COMMERCIAL:
-			result = new Commercial();
-			useraccount = this.userAccountService.createAsCommercial();
-			result.setUserAccount(useraccount);
-			break;
+			case Authority.COMMERCIAL:
+				result = new Commercial();
+				useraccount = this.userAccountService.createAsCommercial();
+				result.setUserAccount(useraccount);
+				break;
 
-		case Authority.EXECUTIVE:
-			result = new Executive();
-			useraccount = this.userAccountService.createAsExecutive();
-			result.setUserAccount(useraccount);
-			break;
+			case Authority.EXECUTIVE:
+				result = new Executive();
+				useraccount = this.userAccountService.createAsExecutive();
+				result.setUserAccount(useraccount);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+			this.folderService.createSystemFolders(result);
+		} else {
+			result = findByPrincipal();
+			useraccount = result.getUserAccount();
 		}
 		result.setName(registerForm.getName());
 		result.setSurname(registerForm.getSurname());

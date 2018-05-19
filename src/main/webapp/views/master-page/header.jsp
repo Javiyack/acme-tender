@@ -22,18 +22,17 @@
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn" onclick="relativeRedir('security/login.do')">
 				<spring:message code="master.page.login" />
-			</button>
-			<a href="security/login.do">
-			</a>
+			</button>			
 			<div class="dropdown-content">
 				<a href="actor/create.do"> 
-					<spring:message code="master.page.userRegister" />
+					<spring:message code="master.page.register" />
 				</a> 
 			</div>
 		</div>
 	</security:authorize>
 		
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
+	<a href="?language=en">en</a>
+	<a href="?language=es">es</a>
 	
 	<security:authorize access="isAuthenticated()">
 		<div class="dropdown" style="float: left">

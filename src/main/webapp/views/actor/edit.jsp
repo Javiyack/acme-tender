@@ -15,7 +15,6 @@
 
 <script>
 	var check = function() {
-		document.getElementById('save').style.display = 'none';
 		document.getElementById('matching').style.display = 'none';
 		document.getElementById('notMatching').style.display = 'none';
 		
@@ -23,15 +22,16 @@
 				document.getElementById('password').value == document.getElementById('confirm_password').value) {
 			document.getElementById('matching').style.color = 'green';
 		    document.getElementById('matching').style.display = 'inline';
-			document.getElementById('save').style.display = 'inline';
+		    document.getElementById("save").disabled = false;
+		    document.getElementById("save").className = "formButton toLeft";
 		} else {
-
 		    document.getElementById('notMatching').style.color = 'red';
 		    document.getElementById('notMatching').style.display = 'inline';
-			document.getElementById('save').style.display = 'none';
+			document.getElementById("save").disabled = true;
+			document.getElementById("save").className = "formButton toLeft disabled";
 		}
 		return result;
-	}
+	};
 </script>
 
 <div class="form">
@@ -66,12 +66,12 @@
 			<acme:textbox code="actor.username" path="userName" css="formInput" />
 			<br />
 			<spring:message code="actor.password"/>
-			<form:password path="password" name="password" id="password" onkeyup='check();' class="formInput" /> 
+			<form:password path="password" name="password" id="password" class="formInput" /> 
 			<form:errors path="password" cssClass="error" />
 			<br />
 			
 			<spring:message code="actor.password.repeat"/>
-			<input class="formInput" type="password" id="confirm_password" name="confirm_password" onkeyup='check();'>
+			<input class="formInput" type="password" id="confirm_password" name="confirm_password" onkeyup="check();">
 			<div class="error">
 				<span id='matching' style="display:none;">
 					<spring:message code="actor.password.matching" />
@@ -89,8 +89,8 @@
 			<br />
 	</security:authorize>
 
-		<input type="submit" name="save"
-			value='<spring:message code="actor.save"/>' class="formButton toLeft"/>&nbsp;
+		<input type="submit" name="save" id="save"
+			value='<spring:message code="actor.save"/>' class="formButton toLeft disabled" disabled/>&nbsp;
 	<input type="button" name="cancel"
 			value='<spring:message code="actor.cancel" />'
 			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>

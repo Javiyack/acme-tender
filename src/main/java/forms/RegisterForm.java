@@ -31,8 +31,8 @@ public class RegisterForm {
 		}
 
 
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getAuthority() {
 		return Authority;
 	}
@@ -43,8 +43,8 @@ public class RegisterForm {
 	}
 
 
-	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
 		return name;
 	}
@@ -55,6 +55,7 @@ public class RegisterForm {
 	}
 
 
+	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getSurname() {
 		return surname;

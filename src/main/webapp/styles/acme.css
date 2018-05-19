@@ -295,6 +295,12 @@ h5 {
 	float: right;
 }
 
+
+.disabled {
+	color: #fff !important;
+	background-color: #DCDCDC !important;
+}
+
 /* Carrusel de fotos */
 * {
 	box-sizing: border-box
