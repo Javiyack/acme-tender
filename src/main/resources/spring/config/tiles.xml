@@ -27,6 +27,7 @@
 		
 		<value>/views/folder/tiles.xml</value>
 		<value>/views/myMessage/tiles.xml</value>
+		<value>/views/curriculum/tiles.xml</value>
 		<value>/views/actor/tiles.xml</value>
 		<value>/views/tabooWord/tiles.xml</value>
 		<value>/views/tender/tiles.xml</value>

@@ -20,7 +20,7 @@
 	<br />
 
 	<acme:submit name="save" code="comment.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="/list.do" code="comment.cancel" css="formButton toLeft" />
+    <acme:cancel url="/tender/list.do" code="comment.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>

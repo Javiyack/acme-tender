@@ -11,5 +11,8 @@ import domain.Curriculum;
 
 @Repository
 public interface CurriculumRepository extends JpaRepository<Curriculum, Integer> {
-	
+
+	@Query("select c from Curriculum c where c.subSection.id = ?1")
+	Collection<Curriculum> getCurriculumsFromSubSectionId(int subSectionId);
+
 }
