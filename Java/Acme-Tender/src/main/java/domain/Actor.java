@@ -66,6 +66,7 @@ public abstract class Actor extends DomainEntity {
 
 	//TODO comprobar si es necesario poner aquí NotBlank
 	@Email
+	@NotBlank
 	@SafeHtml
 	public String getEmail() {
 		return this.email;

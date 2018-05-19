@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -74,18 +76,18 @@ public class ActorController extends AbstractController {
 		// Save mediante Post ---------------------------------------------------
 
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(RegisterForm registerForm, BindingResult binding) {
+		public ModelAndView save(@Valid RegisterForm registerForm, BindingResult binding) {
 			ModelAndView result;
 
-			Actor actor = actorService.recontruct(registerForm, binding);
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(registerForm);
 			else
 				try {
+					Actor actor = actorService.recontruct(registerForm, binding);
 					this.actorService.save(actor);
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(registerForm, "manager.commit.error");
+					result = this.createEditModelAndView(registerForm, "actor.commit.error");
 				}
 			return result;
 		}
