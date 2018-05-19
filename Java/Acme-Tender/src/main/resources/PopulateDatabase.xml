@@ -955,7 +955,7 @@
 	<!-- ColaborationRequests -->
 
 	<bean id="colaborationrequest1" class="domain.ColaborationRequest">
-		<property name="benefitsPercentaje" value="20" />
+		<property name="benefitsPercentage" value="20" />
 		<property name="section" value="TECHNICAL_OFFER" />
 		<property name="requirements" value="Como mínimo deben de ser 5 diagramas cubriendo todo el sistema." />
 		<property name="numberOfPages" value="10" />
@@ -977,7 +977,7 @@
 	</bean>	
 	
 	<bean id="colaborationrequest2" class="domain.ColaborationRequest">
-		<property name="benefitsPercentaje" value="10" />
+		<property name="benefitsPercentage" value="10" />
 		<property name="section" value="TECHNICAL_OFFER" />
 		<property name="requirements" value="La parte del Acerca de... bien comentada." />
 		<property name="numberOfPages" value="4" />
@@ -1498,7 +1498,7 @@
 		<property name="banner" value="http://www.municipalidadantuco.cl/wp-content/uploads/2017/10/concurso_publico.png" />
 		<property name="welcomeMessageEs" value="Tu sitio para ganar licitaciones" />
 		<property name="welcomeMessageEn" value="Your place to win tenders!"/>
-		<property name="benefitsPercentaje" value="10.0"/>
+		<property name="benefitsPercentage" value="10.0"/>
 	</bean>
 
 </beans>

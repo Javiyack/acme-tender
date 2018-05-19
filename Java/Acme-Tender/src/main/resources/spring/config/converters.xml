@@ -26,6 +26,7 @@
 		<bean class="converters.CommentToStringConverter" />
 		<bean class="converters.CommercialToStringConverter" />
 		<bean class="converters.AnswerToStringConverter" />
+		<bean class="converters.ConfigurationToStringConverter" />
 	
 		<bean class="converters.StringToMyMessageConverter" />	
 		<bean class="converters.StringToFolderConverter" />
@@ -35,6 +36,7 @@
 		<bean class="converters.StringToCommentConverter" />
 		<bean class="converters.StringToCommercialConverter" />
 		<bean class="converters.StringToAnswerConverter" />
+		<bean class="converters.StringToConfigurationConverter" />
 			
 	</util:list>
         

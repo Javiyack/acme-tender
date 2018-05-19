@@ -20,7 +20,7 @@ public class Configuration extends DomainEntity {
 	private String	banner;
 	private String	welcomeMessageEs;
 	private String	welcomeMessageEn;
-	private double	benefitsPercentaje;
+	private double	benefitsPercentage;
 
 
 	@NotBlank
@@ -66,12 +66,12 @@ public class Configuration extends DomainEntity {
 
 	@Min(0)
 	@Max(100)
-	public double getBenefitsPercentaje() {
-		return this.benefitsPercentaje;
+	public double getBenefitsPercentage() {
+		return this.benefitsPercentage;
 	}
 
-	public void setBenefitsPercentaje(final double benefitsPercentaje) {
-		this.benefitsPercentaje = benefitsPercentaje;
+	public void setBenefitsPercentage(final double benefitsPercentage) {
+		this.benefitsPercentage = benefitsPercentage;
 	}
 
 }

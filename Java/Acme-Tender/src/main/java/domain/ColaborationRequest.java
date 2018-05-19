@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class ColaborationRequest extends DomainEntity {
 	
-	private double benefitsPercentaje;
+	private double benefitsPercentage;
 	private String section;
 	private String requirements;
 	private Integer numberOfPages;
@@ -39,12 +39,12 @@ public class ColaborationRequest extends DomainEntity {
 	
 	@Min(0)
 	@Max(100)
-	public double getBenefitsPercentaje() {
-		return benefitsPercentaje;
+	public double getBenefitsPercentage() {
+		return benefitsPercentage;
 	}
 
-	public void setBenefitsPercentaje(double benefitsPercentaje) {
-		this.benefitsPercentaje = benefitsPercentaje;
+	public void setBenefitsPercentage(double benefitsPercentage) {
+		this.benefitsPercentage = benefitsPercentage;
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
