@@ -17,14 +17,29 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
-	<spring:message code="answer.writingDate" var="answerWritingDate" />
-	<acme:column property="writingDate" title="answer.writingDate" />
+<form:form requestUri="configuration/administrator/edit.do" modelAttribute="configuration">
 
-	<spring:message code="answer.text" var="answerText" />
-	<acme:column property="text" title="answer.text" />
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	
+	<acme:textbox code="configuration.companyName" path="companyName" />
+	<br />
+	
+	<acme:textbox code="configuration.banner" path="banner" />
+	<br />
 
-</display:table>
+	<acme:textbox code="configuration.benefitsPercentage" path="benefitsPercentage" />
+	<br />
+	
+	<acme:textbox code="configuration.welcomeMessageEs" path="welcomeMessageEs" />
+	<acme:textbox code="configuration.welcomeMessageEn" path="welcomeMessageEn" />
+	<br />  
+	
+	<spring:message code="configuration.save" var="saveText"/>
+	<input type="submit" name="save" value="${saveText}" />&nbsp; 
+                
+    <acme:cancel url="/" code="configuration.cancel"/>
+	<br />
 
-<acme:cancel url="comment/list.do?tenderId=${tenderId}" code="comment.back" css="formButton toLeft" />
+</form:form>

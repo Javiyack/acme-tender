@@ -31,8 +31,17 @@
 		</div>
 	</security:authorize>
 		
-	<a href="?language=en">en</a>
-	<a href="?language=es">es</a>
+<!-- 	<a href="?language=en">en</a> -->
+<!-- 	<a href="?language=es">es</a> -->
+	<a href="${requestScope['javax.servlet.forward.request_uri']}
+		<my:replaceParam name='language' value='en' />">
+		en
+	</a>
+
+	<a href="${requestScope['javax.servlet.forward.request_uri']}
+		<my:replaceParam name='language' value='es' />">
+		es
+	</a>
 	
 	<security:authorize access="isAuthenticated()">
 		<div class="dropdown" style="float: left">
@@ -50,9 +59,6 @@
 					<a href="myMessage/administrator/create.do">
 						<spring:message code="master.page.broadcast" />
 					</a>
-					<a href="tabooWord/administrator/list.do">
-						<spring:message code="master.page.tabooWord" />
-					</a>
 				</security:authorize>
 				<a href="folder/list.do"> 
 					<spring:message code="master.page.myfolders" />
@@ -64,6 +70,9 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<a href="tabooWord/administrator/list.do">
 			<spring:message code="master.page.tabooWord" />
+		</a>
+		<a href="configuration/administrator/edit.do">
+			<spring:message code="master.page.configuration" />
 		</a>
 	</security:authorize>
 	

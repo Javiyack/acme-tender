@@ -1,3 +1,4 @@
+
 package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,59 +16,47 @@ import services.MyMessageService;
 
 @Controller
 @RequestMapping("/myMessage/administrator")
-public class MyMessageAdminController extends AbstractController{
-	
+public class MyMessageAdminController extends AbstractController {
+
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private ActorService actorService;
+	private ActorService		actorService;
 	@Autowired
-	private MyMessageService myMessageService;
-	
+	private MyMessageService	myMessageService;
+
+
 	//Create
-		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create() {
-			ModelAndView result;
-			MyMessage m;
-			m = myMessageService.create();
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView result;
+		MyMessage m;
+		m = this.myMessageService.create();
+		result = this.createEditModelAndView(m);
+		return result;
+	}
+
+	//Save
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@ModelAttribute("modelMessage") MyMessage m, final BindingResult binding) {
+
+		ModelAndView result;
+
+		m = this.myMessageService.reconstruct(m, binding);
+
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(m);
-			return result;
-		}
-		
-		//Save
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@ModelAttribute("modelMessage")  MyMessage m, BindingResult binding) {
-			
-			ModelAndView result;
-			
-			
-			m = myMessageService.reconstruct(m,binding); 
-			
-			if (binding.hasErrors()) {
-				result = this.createEditModelAndView(m);
-
-			} else {
-				try {
-
-					myMessageService.broadcastMessage(m);
-					result = new ModelAndView("redirect:/");
-
-				} catch (Throwable oops) {
-
-					result = createEditModelAndView(m, "ms.commit.error");
-
-				}
+		else
+			try {
+				this.myMessageService.broadcastMessage(m);
+				result = new ModelAndView("redirect:/");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(m, "ms.commit.error");
 			}
+		return result;
+	}
 
-			return result;
-		}
-		
-	
-	
-	
-	
-	
 	//Ancillary Methods
-	
+
 	protected ModelAndView createEditModelAndView(final MyMessage m) {
 		ModelAndView result;
 
@@ -76,8 +65,7 @@ public class MyMessageAdminController extends AbstractController{
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final MyMessage m,
-			final String messageCode) {
+	protected ModelAndView createEditModelAndView(final MyMessage m, final String messageCode) {
 		ModelAndView result;
 		result = new ModelAndView("myMessage/create");
 		result.addObject("modelMessage", m);
@@ -86,6 +74,5 @@ public class MyMessageAdminController extends AbstractController{
 
 		return result;
 	}
-	
 
 }
