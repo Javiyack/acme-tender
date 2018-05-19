@@ -36,6 +36,23 @@ public class CurriculumCommercialController extends AbstractController {
 	private ActorService		actorService;
 
 
+	//Display
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam int curriculumId) {
+
+		ModelAndView result;
+
+		Curriculum curriculum;
+		curriculum = curriculumService.findOne(curriculumId);
+		curriculumService.checkListAndDisplay(curriculum.getSubSection().getId());
+
+		result = new ModelAndView("curriculum/display");
+		result.addObject("curriculum", curriculum);
+
+		return result;
+
+	}
+
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int subSectionId) {
