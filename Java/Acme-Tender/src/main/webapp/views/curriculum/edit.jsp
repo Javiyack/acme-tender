@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="curriculum/commercial/create.do"
+<form:form action="curriculum/commercial/edit.do"
 	modelAttribute="curriculum">
 
 	<form:hidden path="id" />

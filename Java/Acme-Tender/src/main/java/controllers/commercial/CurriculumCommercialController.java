@@ -3,9 +3,12 @@ package controllers.commercial;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,11 +68,34 @@ public class CurriculumCommercialController extends AbstractController {
 
 		curriculums = curriculumService.getCurriculumsFromSubSectionId(subSectionId);
 
+		SubSection subSection;
+		subSection = subSectionService.findOne(subSectionId);
+
 		result = new ModelAndView("curriculum/list");
 		result.addObject("curriculums", curriculums);
+		result.addObject("subSection", subSection);
 
 		return result;
 
+	}
+
+	//Save
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final Curriculum curriculum, final BindingResult binding) {
+
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = createEditModelAndView(curriculum);
+		} else
+			try {
+				Curriculum saved = curriculumService.save(curriculum);
+				result = new ModelAndView("redirect:list.do?subSectionId=" + saved.getSubSection().getId());
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(curriculum, "curriculum.commit.error");
+			}
+		return result;
 	}
 
 	//Ancillary Methods
