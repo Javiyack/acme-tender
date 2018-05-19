@@ -15,4 +15,7 @@ public interface CurriculumRepository extends JpaRepository<Curriculum, Integer>
 	@Query("select c from Curriculum c where c.subSection.id = ?1")
 	Collection<Curriculum> getCurriculumsFromSubSectionId(int subSectionId);
 
+	@Query("select c from Curriculum c where c.subSection in (select s from SubSection s where s.commercial.id = ?1)")
+	Collection<Curriculum> getCurriculumsFromCommercialId(int commercialId);
+
 }

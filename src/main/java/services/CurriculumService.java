@@ -60,7 +60,7 @@ public class CurriculumService {
 		return result;
 
 	}
-	
+
 	public Curriculum findOne(final int curriculumId) {
 		Curriculum result;
 
@@ -69,7 +69,7 @@ public class CurriculumService {
 
 		return result;
 	}
-	
+
 	public Collection<Curriculum> findAll() {
 
 		Collection<Curriculum> result;
@@ -79,10 +79,14 @@ public class CurriculumService {
 
 		return result;
 	}
-	
+
 	public Curriculum save(final Curriculum curriculum) {
 
 		Assert.notNull(curriculum);
+
+		if (curriculum.getId() != 0) {
+			checkPrincipal(curriculum);
+		}
 
 		final Curriculum saved = this.curriculumRepository.save(curriculum);
 
@@ -108,6 +112,10 @@ public class CurriculumService {
 
 	}
 
+	public Collection<Curriculum> getCurriculumsFromCommercialId(int commercialId) {
+		return this.curriculumRepository.getCurriculumsFromCommercialId(commercialId);
+	}
+
 	public void checkListAndDisplay(int subSectionId) {
 
 		Actor principal;
@@ -120,6 +128,12 @@ public class CurriculumService {
 		Collection<Commercial> subSectionCreators = this.commercialService.getSubSectionCreatorsFromOfferId(subSection.getOffer().getId());
 		Assert.isTrue(subSection.getOffer().getCommercial().equals(principal) || subSectionCreators.contains(principal));
 
+	}
+
+	public void checkPrincipal(Curriculum curriculum) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Assert.isTrue(principal instanceof Commercial);
+		Assert.isTrue(curriculumRepository.getCurriculumsFromCommercialId(principal.getId()).contains(curriculum));
 	}
 
 }

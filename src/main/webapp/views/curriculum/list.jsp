@@ -21,7 +21,7 @@
 	
 	<display:column>
 	
-		<a href="curriculum/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
+		<a href="curriculum/commercial/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
 				code="curriculum.show" /></a>
 
 	</display:column>
@@ -30,4 +30,4 @@
 
 
 
-<a href="curriculum/create.do"><spring:message code="curriculum.add" /></a>&nbsp;
+<a href="curriculum/commercial/create.do?subSectionId=<jstl:out value="${subSection.id}"/>"><spring:message code="curriculum.add" /></a>&nbsp;

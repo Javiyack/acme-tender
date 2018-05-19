@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -55,7 +56,7 @@ public class Curriculum extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	//@Pattern(regexp = "^//d{8}[A-Z]$")
+	@Pattern(regexp = "^\\d{8}[A-Z]$")
 	public String getIdentificationNumber() {
 		return this.identificationNumber;
 	}
@@ -66,6 +67,7 @@ public class Curriculum extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
+	@Pattern(regexp = "^[6,7]\\d{8}$")
 	public String getPhone() {
 		return this.phone;
 	}
@@ -85,9 +87,10 @@ public class Curriculum extends DomainEntity {
 		this.email = email;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Past
+	@NotNull
 	public Date getDateOfBirth() {
 		return this.dateOfBirth;
 	}
