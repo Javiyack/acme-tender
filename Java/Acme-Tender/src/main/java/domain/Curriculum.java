@@ -11,8 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -31,7 +31,7 @@ public class Curriculum extends DomainEntity {
 	private String	email;
 	private Date	dateOfBirth;
 	private String	text;
-	private double	minSalaryExpectation;
+	private Double	minSalaryExpectation;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -106,17 +106,20 @@ public class Curriculum extends DomainEntity {
 	}
 
 	@Min(0)
-	public double getMinSalaryExpectation() {
+	@NotNull
+	public Double getMinSalaryExpectation() {
 		return this.minSalaryExpectation;
 	}
 
-	public void setMinSalaryExpectation(final double minSalaryExpectation) {
+	public void setMinSalaryExpectation(final Double minSalaryExpectation) {
 		this.minSalaryExpectation = minSalaryExpectation;
 	}
-	
+
+
 	//Relationships
-	
+
 	private SubSection subsection;
+
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -127,6 +130,5 @@ public class Curriculum extends DomainEntity {
 	public void setSubSection(SubSection subsection) {
 		this.subsection = subsection;
 	}
-	
 
 }

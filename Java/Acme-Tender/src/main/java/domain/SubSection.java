@@ -100,11 +100,13 @@ public class SubSection extends DomainEntity {
 	public void setComments(final String comments) {
 		this.comments = comments;
 	}
-	
+
+
 	//Relationships
-	private Offer offer;
-	private Commercial commercial;
-	private Administrative administrative;
+	private Offer			offer;
+	private Commercial		commercial;
+	private Administrative	administrative;
+
 
 	@Valid
 	@ManyToOne(optional = false)
@@ -135,10 +137,5 @@ public class SubSection extends DomainEntity {
 	public void setAdministrative(Administrative administrative) {
 		this.administrative = administrative;
 	}
-	
-	
-	
-	
-	
 
 }
