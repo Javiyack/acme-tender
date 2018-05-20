@@ -1495,7 +1495,7 @@
 	<!-- CONFIGURATION -->
 	 <bean id="configuration" class="domain.Configuration">
 		<property name="companyName" value="Company 1" />
-		<property name="banner" value="http://www.municipalidadantuco.cl/wp-content/uploads/2017/10/concurso_publico.png" />
+		<property name="banner" value="http://www.xinguara.pa.gov.br/wp-content/uploads/2016/05/1-2-768x388.png" />
 		<property name="welcomeMessageEs" value="Tu sitio para ganar licitaciones" />
 		<property name="welcomeMessageEn" value="Your place to win tenders!"/>
 		<property name="benefitsPercentage" value="10.0"/>
