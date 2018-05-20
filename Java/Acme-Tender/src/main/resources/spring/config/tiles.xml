@@ -33,6 +33,8 @@
 		<value>/views/tender/tiles.xml</value>
 		<value>/views/comment/tiles.xml</value>
 		<value>/views/answer/tiles.xml</value>
+		<value>/views/tenderResult/tiles.xml</value>
+		<value>/views/companyResult/tiles.xml</value>
 		<value>/views/configuration/tiles.xml</value>
 		
 	</util:list>

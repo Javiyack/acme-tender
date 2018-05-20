@@ -33,6 +33,8 @@
 		<value>/views/tender/messages</value>
 		<value>/views/comment/messages</value>
 		<value>/views/answer/messages</value>
+		<value>/views/tenderResult/messages</value>
+		<value>/views/companyResult/messages</value>
 		<value>/views/configuration/messages</value>
 		
 	</util:list>

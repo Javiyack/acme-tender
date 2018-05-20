@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.TenderRepository;
-import domain.Administrator;
+import domain.Administrative;
 import domain.Tender;
 
 @Service
@@ -24,6 +24,8 @@ public class TenderService {
 	// Managed services ------------------------------------------------
 	@Autowired
 	private AdministratorService	administratorService;
+	@Autowired
+	private AdministrativeService	administrativeService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -35,8 +37,6 @@ public class TenderService {
 
 	public Tender findOne(final int tenderId) {
 		Tender result;
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
 
 		result = this.tenderRepository.findOne(tenderId);
 		Assert.notNull(result);
@@ -64,5 +64,13 @@ public class TenderService {
 
 		return result;
 
+	}
+
+	public Collection<Tender> findAllByAdministrative() {
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(administrative);
+		final Collection<Tender> tenders = this.tenderRepository.findAllByAdministrative(administrative.getId());
+		Assert.notNull(tenders);
+		return tenders;
 	}
 }

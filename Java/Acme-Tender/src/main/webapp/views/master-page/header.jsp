@@ -67,6 +67,12 @@
 		</div>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('ADMINISTRATIVE')">
+		<a href="tender/administrative/list.do">
+			<spring:message code="master.page.my.tenders" />
+		</a>
+	</security:authorize>
+	
 	<security:authorize access="hasRole('ADMIN')">
 		<a href="tabooWord/administrator/list.do">
 			<spring:message code="master.page.tabooWord" />

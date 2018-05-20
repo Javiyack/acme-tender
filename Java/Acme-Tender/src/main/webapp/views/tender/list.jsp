@@ -40,6 +40,19 @@
 		</div>
 	</display:column>
 	</security:authorize>
+
+	
+	<security:authorize access="hasRole('ADMINISTRATIVE')">
+		<jstl:if test="${myTender}">
+			<display:column>
+				<div>
+					<a href="tenderResult/administrative/display.do?tenderId=${row.id}">
+						<spring:message code="tender.tenderResult.display" />
+					</a>
+				</div>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 	
 	<display:column>
 		<div>
