@@ -805,7 +805,7 @@
 		</property>
 		<property name="text" value="curriculum3-text" />
 		<property name="minSalaryExpectation" value="19000" />
-		<property name="subSection" ref="subsection11" />		
+		<property name="subSection" ref="subsection6" />		
 	</bean>	
 
 	<!-- EvaluationCriterias -->

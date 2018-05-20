@@ -15,19 +15,36 @@
 	requestURI="curriculum/commercial/list.do" id="row">
 
 
-	<acme:column property="name" title="curriculum.name" sortable="true"/>
-	
-	<acme:column property="surname" title="curriculum.surname" sortable="true" />
-	
+	<acme:column property="name" title="curriculum.name" sortable="true" />
+
+	<acme:column property="surname" title="curriculum.surname"
+		sortable="true" />
+
 	<display:column>
-	
-		<a href="curriculum/commercial/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
+
+		<a
+			href="curriculum/commercial/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
 				code="curriculum.show" /></a>
 
 	</display:column>
-	
+
+	<jstl:if
+		test="${principal eq subSection.commercial || principal eq subSection.administrative }">
+		<display:column>
+
+			<a
+				href="curriculum/commercial/edit.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
+					code="curriculum.edit" /></a>
+
+		</display:column>
+	</jstl:if>
+
 </display:table>
 
 
-
-<a href="curriculum/commercial/create.do?subSectionId=<jstl:out value="${subSection.id}"/>"><spring:message code="curriculum.add" /></a>&nbsp;
+<jstl:if
+	test="${principal eq subSection.commercial || principal eq subSection.administrative }">
+	<a
+		href="curriculum/commercial/create.do?subSectionId=<jstl:out value="${subSection.id}"/>"><spring:message
+			code="curriculum.add" /></a>&nbsp;
+</jstl:if>

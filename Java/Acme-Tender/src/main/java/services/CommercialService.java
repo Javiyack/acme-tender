@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.CommercialRepository;
-import security.LoginService;
-import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
 import domain.Commercial;
+import repositories.CommercialRepository;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -95,9 +95,9 @@ public class CommercialService {
 
 	}
 
-	public Collection<Commercial> getSubSectionCreatorsFromOfferId(final int offerId) {
+	public Collection<Commercial> getSubSectionCommercialsFromOfferId(final int offerId) {
 
-		return this.commercialRepository.getSubSectionCreatorsFromOfferId(offerId);
+		return this.commercialRepository.getSubSectionCommercialsFromOfferId(offerId);
 
 	}
 

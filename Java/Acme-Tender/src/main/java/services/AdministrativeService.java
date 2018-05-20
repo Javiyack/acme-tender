@@ -6,16 +6,16 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import domain.Actor;
+import domain.Administrative;
+import domain.Administrator;
+import domain.Commercial;
 import repositories.AdministrativeRepository;
 import security.LoginService;
 import security.UserAccount;
-import domain.Administrator;
-import domain.Actor;
-import domain.Administrative;
 
 @Service
 @Transactional
@@ -23,13 +23,13 @@ public class AdministrativeService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private AdministrativeRepository		administrativeRepository;
+	private AdministrativeRepository	administrativeRepository;
 
 	//Services
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 	@Autowired
-	private ActorService actorService;
+	private ActorService				actorService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -95,7 +95,7 @@ public class AdministrativeService {
 		this.administrativeRepository.flush();
 
 	}
-	
+
 	public Administrative findByPrincipal() {
 		Administrative result;
 		UserAccount userAccount;
@@ -109,6 +109,9 @@ public class AdministrativeService {
 
 		return result;
 	}
-	
+
+	public Collection<Commercial> getSubSectionAdministrativesFromOfferId(int offerId) {
+		return this.administrativeRepository.getSubSectionAdministrativesFromOfferId(offerId);
+	}
 
 }

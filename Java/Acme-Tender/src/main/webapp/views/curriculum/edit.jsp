@@ -43,7 +43,9 @@
 
 	<acme:submit name="save" code="curriculum.save" css="formButton toLeft" />&nbsp;
 	
-    <acme:cancel url="/"
+    <acme:cancel url="curriculum/commercial/list.do?subSectionId=${curriculum.subSection.id }"
 		code="curriculum.cancel" css="formButton toLeft" />
+		
+	
 
 </form:form>
