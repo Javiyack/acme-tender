@@ -13,6 +13,6 @@ import domain.Commercial;
 public interface CommercialRepository extends JpaRepository<Commercial, Integer> {
 
 	@Query("select distinct c from SubSection s join s.commercial c where s.offer.id = ?1")
-	Collection<Commercial> getSubSectionCreatorsFromOfferId(int offerId);
+	Collection<Commercial> getSubSectionCommercialsFromOfferId(int offerId);
 
 }

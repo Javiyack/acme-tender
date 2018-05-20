@@ -75,6 +75,19 @@ public class CurriculumCommercialController extends AbstractController {
 		return result;
 	}
 
+	//Edit
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam int curriculumId) {
+		ModelAndView result;
+
+		final Curriculum curriculum = this.curriculumService.findOneToEdit(curriculumId);
+
+		result = this.createEditModelAndView(curriculum);
+
+		return result;
+	}
+
 	//List curriculums from subSection
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -88,9 +101,13 @@ public class CurriculumCommercialController extends AbstractController {
 		SubSection subSection;
 		subSection = subSectionService.findOne(subSectionId);
 
+		Actor principal;
+		principal = actorService.findByPrincipal();
+
 		result = new ModelAndView("curriculum/list");
 		result.addObject("curriculums", curriculums);
 		result.addObject("subSection", subSection);
+		result.addObject("principal", principal);
 
 		return result;
 

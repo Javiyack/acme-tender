@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import domain.Administrative;
 import domain.Commercial;
 import domain.Curriculum;
 import domain.SubSection;
@@ -20,10 +22,10 @@ public class CurriculumService {
 
 	/*
 	 * TODO
-	 * restricción1 --> LISTAR: puede listar currículums a partir del id de una subsección cualquier comercial que haya creado una subsección en la oferta a la que pertenece
+	 * restricción1 --> LISTAR: puede listar currículums a partir del id de una subsección cualquier comercial o administrativo que haya creado una subsección en la oferta a la que pertenece
 	 * la subsección que me pasan y el comercial que haya creado la oferta a la que pertenece la subsección que me pasan.
 	 * 
-	 * restricción2 --> MOSTRAR: puede mostrar un currículum cualquier comercial que haya creado una subsección en la oferta a la que pertenece
+	 * restricción2 --> MOSTRAR: puede mostrar un currículum cualquier comercial o administrativo que haya creado una subsección en la oferta a la que pertenece
 	 * la subsección a la que pertenece el currículum y el comercial que haya creado la oferta a la que pertenece la subsección a la que pertenece el currículum.
 	 * 
 	 * restricción3 --> CREAR: puede crear un currículum el comercial que haya creado la subsección a la que pertenece el currículum.
@@ -48,6 +50,9 @@ public class CurriculumService {
 	@Autowired
 	private CommercialService		commercialService;
 
+	@Autowired
+	private AdministrativeService	administrativeService;
+
 
 	//CRUD methods
 
@@ -66,6 +71,16 @@ public class CurriculumService {
 
 		result = this.curriculumRepository.findOne(curriculumId);
 		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Curriculum findOneToEdit(int curriculumId) {
+		Curriculum result;
+
+		result = this.curriculumRepository.findOne(curriculumId);
+		Assert.notNull(result);
+		checkPrincipal(result);
 
 		return result;
 	}
@@ -120,12 +135,16 @@ public class CurriculumService {
 
 		Actor principal;
 		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(principal instanceof Commercial);
+		Assert.isTrue(principal instanceof Commercial || principal instanceof Administrative);
 
 		SubSection subSection;
 		subSection = this.subSectionService.findOne(subSectionId);
 
-		Collection<Commercial> subSectionCreators = this.commercialService.getSubSectionCreatorsFromOfferId(subSection.getOffer().getId());
+		Collection<Actor> subSectionCreators = new ArrayList<Actor>();
+		Collection<Commercial> subSectionCommercials = this.commercialService.getSubSectionCommercialsFromOfferId(subSection.getOffer().getId());
+		Collection<Commercial> subSectionAdministratives = this.administrativeService.getSubSectionAdministrativesFromOfferId(subSection.getOffer().getId());
+		subSectionCreators.addAll(subSectionCommercials);
+		subSectionCreators.addAll(subSectionAdministratives);
 		Assert.isTrue(subSection.getOffer().getCommercial().equals(principal) || subSectionCreators.contains(principal));
 
 	}
