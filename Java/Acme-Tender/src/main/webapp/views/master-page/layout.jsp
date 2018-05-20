@@ -50,7 +50,7 @@
 	</div>
 	<div class="content">
 		<div class="cuerpo">
-			<img src="images/news.png" alt="Acme-Tender Co., Inc." class="logo" />
+			<img src="${banner}" alt="Acme-Tender Co., Inc." class="logo" />
 		</div>
 		<div class="panel cuerpo">
 			<jstl:if test="${message != null}">
