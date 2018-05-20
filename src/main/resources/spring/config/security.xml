@@ -17,6 +17,52 @@
 	<!-- Access control -->
 
 	<security:http auto-config="true" use-expressions="true">
+	<security:intercept-url pattern="/" access="permitAll" /> 
+	
+	<security:intercept-url pattern="/favicon.ico" access="permitAll" /> 
+	<security:intercept-url pattern="/images/**" access="permitAll" /> 
+	<security:intercept-url pattern="/scripts/**" access="permitAll" /> 
+	<security:intercept-url pattern="/styles/**" access="permitAll" />
+	<security:intercept-url pattern="/term/**" access="permitAll" />
+	
+	<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" /> 
+	
+	<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
+	<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
+	
+	<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
+	
+	<security:intercept-url pattern="/actor/list.do" access="permitAll" />
+	<security:intercept-url pattern="/actor/display.do" access="permitAll" />
+	
+	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
+	<security:intercept-url pattern="/comment/list.do" access="permitAll" />
+	
+	<!-- Admin -->
+	
+	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
+	<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" />
+	<security:intercept-url pattern="/tabooWord/administrator/**" access="hasRole('ADMIN')" />
+			
+	<!-- Authenticated -->
+	
+	<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/answer/actor/**" access="isAuthenticated()" />
+	
+	<!-- Commercial -->
+	
+	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
+	
+	<!-- Administrative -->
+	
+	<security:intercept-url pattern="/tenderResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/tender/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/companyResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+			
+	<!-- IS ANONYMOUS -->
+	<security:intercept-url pattern="/actor/create.do"
+		access="isAnonymous()" />
 		<security:intercept-url pattern="/" access="permitAll" />
 
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" />
