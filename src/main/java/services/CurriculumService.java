@@ -110,7 +110,7 @@ public class CurriculumService {
 
 	public void delete(final Curriculum curriculum) {
 		Assert.notNull(curriculum);
-
+		checkPrincipal(curriculum);
 		this.curriculumRepository.delete(curriculum);
 	}
 

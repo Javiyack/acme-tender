@@ -132,6 +132,25 @@ public class CurriculumCommercialController extends AbstractController {
 		return result;
 	}
 
+	//Delete 
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(Curriculum curriculum, BindingResult binding) {
+
+		ModelAndView result;
+
+		try {
+			this.curriculumService.delete(curriculum);
+			result = new ModelAndView("redirect:list.do?subSectionId=" + curriculum.getSubSection().getId());
+
+		} catch (Throwable oops) {
+			result = createEditModelAndView(curriculum, "curriculum.commit.error");
+
+		}
+
+		return result;
+
+	}
+
 	//Ancillary Methods
 
 	protected ModelAndView createEditModelAndView(final Curriculum curriculum) {
