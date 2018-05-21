@@ -539,7 +539,7 @@
 		</property>
 		<property name="comments" value="" />
 		<property name="offer" ref="offer1" />
-		<property name="commercial" ref="commercial1" />
+		<property name="administrative" ref="administrative1" />
 
 	</bean>
 
@@ -607,7 +607,7 @@
 		</property>
 		<property name="comments" value="Precio segun tarifas estándares de la empresa - 10% (hablado con directivo)" />
 		<property name="offer" ref="offer1" />
-		<property name="commercial" ref="commercial1" />
+		<property name="commercial" ref="commercial2" />
 
 	</bean>	
 	
@@ -640,7 +640,7 @@
 		</property>
 		<property name="comments" value="" />
 		<property name="offer" ref="offer2" />
-		<property name="commercial" ref="commercial1" />
+		<property name="commercial" ref="commercial2" />
 	</bean>	
 	
 	<bean id="subsection8" class="domain.SubSection">
@@ -805,7 +805,7 @@
 		</property>
 		<property name="text" value="curriculum3-text" />
 		<property name="minSalaryExpectation" value="19000" />
-		<property name="subSection" ref="subsection6" />		
+		<property name="subSection" ref="subsection7" />		
 	</bean>	
 
 	<!-- EvaluationCriterias -->

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,8 +26,8 @@ public abstract class Actor extends DomainEntity {
 	//Attributes
 	private String				name;
 	private String				surname;
-	private String				address;		// Optional
-	private String				phone;			// Optional
+	private String				address;			// Optional
+	private String				phone;					// Optional
 	private String				email;
 	//Relationships
 	private UserAccount			userAccount;
@@ -57,6 +58,7 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 	@SafeHtml
+	@Pattern(regexp = "^[6,7]\\d{8}$")
 	public String getPhone() {
 		return this.phone;
 	}

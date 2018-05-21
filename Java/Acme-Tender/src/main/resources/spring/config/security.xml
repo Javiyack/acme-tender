@@ -43,6 +43,7 @@
 	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
 	<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" />
 	<security:intercept-url pattern="/tabooWord/administrator/**" access="hasRole('ADMIN')" />
+	<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />
 			
 	<!-- Authenticated -->
 	
@@ -53,6 +54,9 @@
 	<!-- Commercial -->
 	
 	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/curriculum/create.do" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
+	
 	
 	<!-- Administrative -->
 	
@@ -84,31 +88,14 @@
 		<security:intercept-url pattern="/tender/list.do" access="permitAll" />
 		<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 		
-		<!-- Admin -->
-
-		<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/actor/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/tabooWord/administrator/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/configuration/administrator/**" access="hasRole('ADMIN')" />
-
-		<!-- Commercial -->
-
-		<security:intercept-url pattern="/curriculum/commercial/**" access="hasRole('COMMERCIAL')" />
-		<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
-
-		<!-- Authenticated -->
-
-		<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
-		<security:intercept-url pattern="/answer/actor/**" access="isAuthenticated()" />
-		
-        <!-- IS ANONYMOUS -->
-		<security:intercept-url pattern="/actor/create.do"
-			access="isAnonymous()" />
         
 		<!-- 2+ Roles -->
 
 		<security:intercept-url pattern="/myMessage/**" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE','ADMIN','EXECUTIVE')" />
+		<security:intercept-url pattern="/curriculum/list.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
+		<security:intercept-url pattern="/curriculum/display.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
+
+
 
 
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" />

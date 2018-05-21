@@ -12,7 +12,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <display:table pagesize="10" class="displaytag" name="curriculums"
-	requestURI="curriculum/commercial/list.do" id="row">
+	requestURI="curriculum/list.do" id="row">
 
 
 	<acme:column property="name" title="curriculum.name" sortable="true" />
@@ -23,17 +23,17 @@
 	<display:column>
 
 		<a
-			href="curriculum/commercial/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
+			href="curriculum/display.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
 				code="curriculum.show" /></a>
 
 	</display:column>
 
 	<jstl:if
-		test="${principal eq subSection.commercial || principal eq subSection.administrative }">
+		test="${principal eq subSection.commercial}">
 		<display:column>
 
 			<a
-				href="curriculum/commercial/edit.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
+				href="curriculum/edit.do?curriculumId=<jstl:out value="${row.id}"/>"><spring:message
 					code="curriculum.edit" /></a>
 
 		</display:column>
@@ -43,8 +43,8 @@
 
 
 <jstl:if
-	test="${principal eq subSection.commercial || principal eq subSection.administrative }">
+	test="${principal eq subSection.commercial }">
 	<a
-		href="curriculum/commercial/create.do?subSectionId=<jstl:out value="${subSection.id}"/>"><spring:message
+		href="curriculum/create.do?subSectionId=<jstl:out value="${subSection.id}"/>"><spring:message
 			code="curriculum.add" /></a>&nbsp;
 </jstl:if>

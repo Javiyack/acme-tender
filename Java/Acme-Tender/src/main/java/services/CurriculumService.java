@@ -98,6 +98,7 @@ public class CurriculumService {
 	public Curriculum save(final Curriculum curriculum) {
 
 		Assert.notNull(curriculum);
+		Assert.isTrue(!curriculum.getSubSection().getSection().equals("ADMINISTRATIVE_ACREDITATION"));
 
 		if (curriculum.getId() != 0) {
 			checkPrincipal(curriculum);
@@ -139,6 +140,7 @@ public class CurriculumService {
 
 		SubSection subSection;
 		subSection = this.subSectionService.findOne(subSectionId);
+		Assert.isTrue(!subSection.getSection().equals("ADMINISTRATIVE_ACREDITATION"));
 
 		Collection<Actor> subSectionCreators = new ArrayList<Actor>();
 		Collection<Commercial> subSectionCommercials = this.commercialService.getSubSectionCommercialsFromOfferId(subSection.getOffer().getId());
