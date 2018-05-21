@@ -1,5 +1,5 @@
 
-package controllers.commercial;
+package controllers;
 
 import java.util.Collection;
 
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
 import domain.Actor;
 import domain.Commercial;
 import domain.Curriculum;
@@ -24,8 +23,8 @@ import services.CurriculumService;
 import services.SubSectionService;
 
 @Controller
-@RequestMapping("/curriculum/commercial")
-public class CurriculumCommercialController extends AbstractController {
+@RequestMapping("/curriculum")
+public class CurriculumController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
@@ -65,6 +64,7 @@ public class CurriculumCommercialController extends AbstractController {
 		SubSection subSection;
 		subSection = subSectionService.findOne(subSectionId);
 		Assert.isTrue(subSection.getCommercial() == principal);
+		Assert.isTrue(!subSection.getSection().equals("ADMINISTRATIVE_ACREDITATION"));
 
 		Curriculum curriculum;
 		curriculum = curriculumService.create();

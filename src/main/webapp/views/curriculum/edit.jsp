@@ -10,7 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="curriculum/commercial/edit.do"
+<form:form action="curriculum/edit.do"
 	modelAttribute="curriculum">
 
 	<form:hidden path="id" />
@@ -43,9 +43,11 @@
 
 	<acme:submit name="save" code="curriculum.save" css="formButton toLeft" />&nbsp;
 	
+	<jstl:if test="${curriculum.id ne 0 }">
 	<acme:submit name="delete" code="curriculum.delete" css="formButton toLeft" />&nbsp;
+	</jstl:if>
 	
-    <acme:cancel url="curriculum/commercial/list.do?subSectionId=${curriculum.subSection.id }"
+    <acme:cancel url="curriculum/list.do?subSectionId=${curriculum.subSection.id }"
 		code="curriculum.cancel" css="formButton toLeft" />
 		
 	
