@@ -45,7 +45,7 @@
 	<spring:message code="tenderResult.companyResult" />
 </h5>
 
-<display:table pagesize="5" class="displaytag" name="companyResults" id="row">
+<display:table pagesize="5" class="displaytag" name="companyResults" requestURI="tenderResult/administrative/display.do" id="row">
 
 	<spring:message code="companyResult.name" var="companyResultsName" />
 	<acme:column property="name" title="companyResult.name" />
