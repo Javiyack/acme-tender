@@ -13,46 +13,45 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<div>
 
-	<div>
-		
-		<br/> <br/>
-		<div class="toRight">
-			<spring:message code="tenderResult.tenderDate" />
-			:
-			<fmt:formatDate value="${tenderResult.tenderDate}"
-				pattern="yyyy-MM-dd" var="tenderDate" />
-			<jstl:out value="${tenderDate}"/>
-		</div>
-		<h5>
-			<jstl:out value="${tenderResult.description}" />
-		</h5>
-	</div>
+<b>
+	<spring:message code="tender.reference" />: ${tenderResult.tender.reference} <br/>
+	<spring:message code="tender.title" />:${tenderResult.tender.title} <br/>
+	<spring:message code="tenderResult.tenderDate" />:
+		<fmt:formatDate value="${tenderResult.tenderDate}" pattern="yyyy-MM-dd" var="tenderDate" />
+		<jstl:out value="${tenderDate}"/>  <br/>
+	<spring:message code="tenderResult.description" />: ${tenderResult.description} <br/>
+</b>
 
-	<h4>
-		<spring:message code="tenderResult.companyResult" />
-	</h4>
+<br/>
+<security:authorize access="hasRole('ADMINISTRATIVE')">
+	<jstl:if test="${tenderResult.id == null}">
+		<acme:button text="tenderResult.create"
+		url="tenderResult/administrative/create.do?tenderId=${tenderId}"
+		css="formButton toLeft" />
+	</jstl:if>
 	
-	<display:table pagesize="5" class="displaytag" name="companyResults" id="row">
+	<jstl:if test="${tenderResult.id != null}">
+		<acme:button text="tenderResult.delete" url="tenderResult/administrative/delete.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
+	</jstl:if>
+</security:authorize>
 
-		<spring:message code="companyResult.name" var="companyResultsName" />
-		<acme:column property="name" title="companyResult.name" />
+<acme:cancel url="tender/administrative/list.do" code="tenderResult.back" css="formButton toLeft" />
 
-		<spring:message code="companyResult.position" var="companyResultsPosition" />
-		<acme:column property="position" title="companyResult.position" />
-		
-		<spring:message code="companyResult.economicalOffer" var="companyResultsEconomicalOffer" />
-		<acme:column property="economicalOffer" title="companyResult.economicalOffer" />
-		
-		<spring:message code="companyResult.score" var="companyResultsScore" />
-		<acme:column property="score" title="companyResult.score" />
-		
-		<spring:message code="companyResult.comments" var="companyResultsComments" />
-		<acme:column property="comments" title="companyResult.comments" />
-		
-		<spring:message code="companyResult.state" var="companyResultsState" />
-		<acme:column property="state" title="companyResult.state" />
+<br/><br/><br/>
+
+
+<h5>
+	<spring:message code="tenderResult.companyResult" />
+</h5>
+
+<display:table pagesize="5" class="displaytag" name="companyResults" id="row">
+
+	<spring:message code="companyResult.name" var="companyResultsName" />
+	<acme:column property="name" title="companyResult.name" />
+
+	<spring:message code="companyResult.position" var="companyResultsPosition" />
+	<acme:column property="position" title="companyResult.position" />
 		
 		<jstl:if test="${companyResultCreate}">
 			<display:column>
@@ -64,32 +63,31 @@
 			</display:column>
 		</jstl:if>
 	
-	</display:table>
-	<br />
+	<spring:message code="companyResult.economicalOffer" var="companyResultsEconomicalOffer" />
+	<acme:column property="economicalOffer" title="companyResult.economicalOffer" />
 	
-	<security:authorize access="hasRole('ADMINISTRATIVE')">
-		<jstl:if test="${companyResultCreate}">
-			<acme:button text="tenderResult.companyResult.create" url="companyResult/administrative/create.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
-		</jstl:if>
-	</security:authorize>
-	<br /> <br />
+	<spring:message code="companyResult.score" var="companyResultsScore" />
+	<acme:column property="score" title="companyResult.score" />
 	
+	<spring:message code="companyResult.comments" var="companyResultsComments" />
+	<acme:column property="comments" title="companyResult.comments" />
 	
-	<security:authorize access="hasRole('ADMINISTRATIVE')">
-		<jstl:if test="${tenderResult.id == null}">
-			<acme:button text="tenderResult.create"
-			url="tenderResult/administrative/create.do?tenderId=${tenderId}"
-			css="formButton toLeft" />
-		</jstl:if>
-		
-		<jstl:if test="${tenderResult.id != null}">
-			<acme:button text="tenderResult.delete"
-				url="tenderResult/administrative/delete.do?tenderResultId=${tenderResult.id}"
-				css="formButton toLeft" />
-		</jstl:if>
-	</security:authorize>
-	<acme:cancel url="tender/administrative/list.do" code="tenderResult.cancel" css="formButton toLeft" />
+	<spring:message code="companyResult.state" var="companyResultsState" />
+	<acme:column property="state" title="companyResult.state" />
 	
-</div>
+	<display:column>
+		<div>
+			<a href="tenderResult/administrative/edit.do?tenderResultId=${row.id}"> 
+				<spring:message code="tenderResult.edit" />
+			</a>
+		</div>
+	</display:column>
+
+</display:table>
 <br />
-<br />
+
+<security:authorize access="hasRole('ADMINISTRATIVE')">
+	<jstl:if test="${companyResultCreate}">
+		<acme:button text="tenderResult.companyResult.create" url="companyResult/administrative/create.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
+	</jstl:if>
+</security:authorize>
