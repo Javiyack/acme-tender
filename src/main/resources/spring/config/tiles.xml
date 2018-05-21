@@ -42,6 +42,8 @@
 		<value>/views/subSectionEvaluationCriteria/tiles.xml</value>
 		<value>/views/evaluationCriteria/tiles.xml</value>
 		<value>/views/evaluationCriteriaType/tiles.xml</value>
+		<value>/views/offer/tiles.xml</value>
+		<value>/views/subSection/tiles.xml</value>
 		
 	</util:list>
 

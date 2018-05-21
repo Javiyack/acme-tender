@@ -42,6 +42,8 @@
 		<value>/views/subSectionEvaluationCriteria/messages</value>
 		<value>/views/evaluationCriteria/messages</value>
 		<value>/views/evaluationCriteriaType/messages</value>
+		<value>/views/offer/messages</value>
+		<value>/views/subSection/messages</value>
 		
 	</util:list>
 

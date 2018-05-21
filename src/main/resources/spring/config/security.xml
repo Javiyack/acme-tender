@@ -40,7 +40,8 @@
 	
 	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
 	<security:intercept-url pattern="/comment/list.do" access="permitAll" />
-	
+	<security:intercept-url pattern="/offer/**" access="permitAll" />
+	<security:intercept-url pattern="/subSection/**" access="permitAll" />
 	<!-- Admin -->
 	
 	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
