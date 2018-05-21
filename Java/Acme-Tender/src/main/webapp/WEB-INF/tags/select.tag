@@ -32,6 +32,11 @@
 <%@ attribute name="onchange" required="false"%>
 <%@ attribute name="readonly" required="false"%>
 <%@ attribute name="value" required="false"%>
+<%@ attribute name="blankValue" required="false"%>
+
+<jstl:if test="${blankValue == null}">
+	<jstl:set var="blankValue" value="true" />
+</jstl:if>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -51,9 +56,13 @@
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>
-	<form:select id="${id}" path="${path}" onchange="${onchange}"
-		disabled="${readonly}" class="${css}">
-		<form:option value="0" label="----" />
+	
+	<form:select id="${id}" path="${path}" onchange="${onchange}" disabled="${readonly}" class="${css}">
+		
+		<jstl:if test="${blankValue}">
+			<form:option value="0" label="" />
+		</jstl:if>
+		
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />

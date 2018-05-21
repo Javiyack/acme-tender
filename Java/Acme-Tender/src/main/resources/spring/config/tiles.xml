@@ -37,6 +37,10 @@
 		<value>/views/companyResult/tiles.xml</value>
 		<value>/views/configuration/tiles.xml</value>
 		
+		<value>/views/subSectionEvaluationCriteria/tiles.xml</value>
+		<value>/views/evaluationCriteria/tiles.xml</value>
+		<value>/views/evaluationCriteriaType/tiles.xml</value>
+		
 	</util:list>
 
 </beans>

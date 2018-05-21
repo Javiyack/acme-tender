@@ -56,6 +56,8 @@
 	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/curriculum/create.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/subSectionEvaluationCriteria/commercial/**" access="hasRole('COMMERCIAL')" />
+	
 	
 	
 	<!-- Administrative -->
@@ -63,6 +65,9 @@
 	<security:intercept-url pattern="/tenderResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/tender/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/companyResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/evaluationCriteria/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/evaluationCriteriaType/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	
 			
 	<!-- IS ANONYMOUS -->
 	<security:intercept-url pattern="/actor/create.do"
