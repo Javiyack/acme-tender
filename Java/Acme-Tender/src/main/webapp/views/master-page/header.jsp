@@ -71,6 +71,7 @@
 		<a href="tender/administrative/list.do">
 			<spring:message code="master.page.my.tenders" />
 		</a>
+		
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
@@ -79,6 +80,9 @@
 		</a>
 		<a href="configuration/administrator/edit.do">
 			<spring:message code="master.page.configuration" />
+		</a>
+		<a href="category/administrator/list.do">
+			<spring:message code="master.page.administrator.categories" />
 		</a>
 	</security:authorize>
 	
