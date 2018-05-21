@@ -86,19 +86,6 @@ public class FileCommercialController extends AbstractController{
 		return result;
 	}
 
-	// Display 
-	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int fileId) {
-		final ModelAndView result;
-
-		File file = this.fileService.findOne(fileId);
-
-		result = new ModelAndView("file/display");
-		result.addObject("file", file);
-
-		return result;
-	}	
-	
 	//Save
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid File file, BindingResult binding) {

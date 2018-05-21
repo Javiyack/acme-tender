@@ -24,6 +24,6 @@
 
 </display:table>
 
-<a href="file/create.do"> 
+<a href="file/create.do?id=${parentId}&type=${parentType}"> 
 	<spring:message code="file.create" />
 </a>

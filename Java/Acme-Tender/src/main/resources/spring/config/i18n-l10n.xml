@@ -37,6 +37,7 @@
 		<value>/views/companyResult/messages</value>
 		<value>/views/configuration/messages</value>
 		
+		<value>/views/file/messages</value>
 		<value>/views/subSectionEvaluationCriteria/messages</value>
 		<value>/views/evaluationCriteria/messages</value>
 		<value>/views/evaluationCriteriaType/messages</value>
