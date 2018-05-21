@@ -22,8 +22,16 @@
 		</div>
 	</display:column>
 
-</display:table>
 
-<a href="file/create.do?id=${parentId}&type=${parentType}"> 
-	<spring:message code="file.create" />
-</a>
+	<display:column>
+		<div>
+			<a href="file/download.do?fileId=${row.id}"> 
+				<spring:message code="file.download" />
+			</a>
+		</div>
+	</display:column>
+
+
+</display:table>
+<br/><br/>
+<acme:button url="/file/create.do?id=${parentId}&type=${parentType}" text="file.create" css="formButton toLeft" />

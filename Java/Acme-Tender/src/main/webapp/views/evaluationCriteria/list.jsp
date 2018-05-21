@@ -17,6 +17,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
+<h5><spring:message code="evaluationCriteria.tenderData" /></h5>
+<b>
+	<spring:message code="tender.reference" />: ${tender.reference} <br/>
+	<spring:message code="tender.title" />: ${tender.title} <br/>
+</b>
+
+<br/>
+
+<h5><spring:message code="evaluationCriteria.evaluationCriteria" /></h5>
+
 <display:table pagesize="5" class="displaytag" name="evaluationCriterias" requestURI="evaluationCriteria/administrative/list.do" id="row">
 
 	<acme:column property="title" title="evaluationCriteria.title" />
@@ -37,6 +48,6 @@
 </display:table>
 <br/>
 <br/>
-<acme:button url="/evaluationCriteria/administrative/create.do?tenderId=${tenderId}" text="evaluationCriteria.create" css="formButton toLeft" />
+<acme:button url="/evaluationCriteria/administrative/create.do?tenderId=${tender.id}" text="evaluationCriteria.create" css="formButton toLeft" />
 <acme:cancel url="/tender/administrative/list.do" code="evaluationCriteria.back" css="formButton toLeft" />
 

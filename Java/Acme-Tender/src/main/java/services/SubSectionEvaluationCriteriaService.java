@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Commercial;
+import domain.File;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
 import repositories.SubSectionEvaluationCriteriaRepository;
@@ -102,6 +103,12 @@ public class SubSectionEvaluationCriteriaService {
 		Assert.isTrue(this.subSectionEvaluationCriteriaRepository.exists(subSectionEvaluationCriteria.getId()));
 
 		this.subSectionEvaluationCriteriaRepository.delete(subSectionEvaluationCriteria);
+	}
+	
+	public void deleteInBatch(final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriteria) {
+		Assert.notNull(subSectionEvaluationCriteria);
+		this.subSectionEvaluationCriteriaRepository.deleteInBatch(subSectionEvaluationCriteria);
+
 	}
 
 	// Other business methods -------------------------------------------------

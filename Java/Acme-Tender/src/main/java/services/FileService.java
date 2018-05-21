@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.FileRepository;
 import domain.Administrative;
 import domain.Commercial;
+import domain.CompanyResult;
 import domain.Curriculum;
 import domain.File;
 import domain.SubSection;
@@ -254,6 +255,13 @@ public class FileService {
 		if (this.canEditFile(file)) {
 			this.fileRepository.delete(file);
 		}
+	}
+	
+
+	public void deleteInBatch(final Collection<File> files) {
+		Assert.notNull(files);
+		this.fileRepository.deleteInBatch(files);
+
 	}
 
 	public void flush() {

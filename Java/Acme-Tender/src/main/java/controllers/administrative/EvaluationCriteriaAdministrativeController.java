@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.EvaluationCriteriaService;
 import services.EvaluationCriteriaTypeService;
+import services.TenderService;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
+import domain.Tender;
 
 @Controller
 @RequestMapping("/evaluationCriteria/administrative")
@@ -28,6 +30,8 @@ public class EvaluationCriteriaAdministrativeController {
 	private EvaluationCriteriaService	evaluationCriteriaService;
 	@Autowired
 	private EvaluationCriteriaTypeService	evaluationCriteriaTypeService;
+	@Autowired
+	private TenderService tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -105,11 +109,13 @@ public class EvaluationCriteriaAdministrativeController {
 
 		ModelAndView result;
 
-		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tenderId);
-
 		result = new ModelAndView("evaluationCriteria/administrative/list");
+		
+		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tenderId);
 		result.addObject("evaluationCriterias", evaluationCriterias);
-		result.addObject("tenderId", tenderId);
+		
+		Tender tender = this.tenderService.findOne(tenderId);
+		result.addObject("tender", tender);
 
 		return result;
 	}		

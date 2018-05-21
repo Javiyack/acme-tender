@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
+import domain.CompanyResult;
 import domain.Curriculum;
 import domain.SubSection;
 import repositories.CurriculumRepository;
@@ -113,6 +114,12 @@ public class CurriculumService {
 		Assert.notNull(curriculum);
 		checkPrincipal(curriculum);
 		this.curriculumRepository.delete(curriculum);
+	}
+	
+	public void deleteInBatch(final Collection<Curriculum> curriculums) {
+		Assert.notNull(curriculums);
+		this.curriculumRepository.deleteInBatch(curriculums);
+
 	}
 
 	public void flush() {
