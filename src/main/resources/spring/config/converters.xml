@@ -32,6 +32,7 @@
 		<bean class="converters.CurriculumToStringConverter" />
 		<bean class="converters.SubSectionToStringConverter" />
 
+		<bean class="converters.FileToStringConverter" />
 		<bean class="converters.SubSectionEvaluationCriteriaToStringConverter" />
 		<bean class="converters.EvaluationCriteriaToStringConverter" />
 		<bean class="converters.EvaluationCriteriaTypeToStringConverter" />
@@ -51,6 +52,7 @@
 		<bean class="converters.StringToCurriculumConverter" />
 		<bean class="converters.StringToSubSectionConverter" />
 		
+		<bean class="converters.StringToFileConverter" />
 		<bean class="converters.StringToSubSectionEvaluationCriteriaConverter" />
 		<bean class="converters.StringToEvaluationCriteriaConverter" />
 		<bean class="converters.StringToEvaluationCriteriaTypeConverter" />
