@@ -50,7 +50,7 @@
 
 <input type="button" name="back"
 	value="<spring:message code="curriculum.back" />"
-	onclick="javascript: relativeRedir('curriculum/list.do?subSectionId=${curriculum.subSection.id}')" />
+	onclick="javascript: relativeRedir('curriculum/list.do?subSectionId=${curriculum.subSection.id}')" class ="formButton toLeft" >
 
 
 

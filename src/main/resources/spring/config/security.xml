@@ -17,6 +17,9 @@
 	<!-- Access control -->
 
 	<security:http auto-config="true" use-expressions="true">
+	
+	<!-- permitAll  -->
+	
 	<security:intercept-url pattern="/" access="permitAll" /> 
 	
 	<security:intercept-url pattern="/favicon.ico" access="permitAll" /> 
@@ -73,26 +76,6 @@
 			
 	<!-- IS ANONYMOUS -->
 	<security:intercept-url pattern="/actor/create.do" access="isAnonymous()" />
-	<security:intercept-url pattern="/" access="permitAll" />
-
-	<security:intercept-url pattern="/favicon.ico" access="permitAll" />
-	<security:intercept-url pattern="/images/**" access="permitAll" />
-	<security:intercept-url pattern="/scripts/**" access="permitAll" />
-	<security:intercept-url pattern="/styles/**" access="permitAll" />
-	<security:intercept-url pattern="/term/**" access="permitAll" />
-
-	<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" />
-
-	<security:intercept-url pattern="/security/login.do" access="permitAll" />
-	<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" />
-
-	<security:intercept-url pattern="/welcome/index.do" access="permitAll" />
-
-	<security:intercept-url pattern="/actor/list.do" access="permitAll" />
-	<security:intercept-url pattern="/actor/display.do" access="permitAll" />
-	
-	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
-	<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 	
        
 	<!-- 2+ Roles -->
