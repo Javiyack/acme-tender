@@ -88,7 +88,7 @@ public class CategoryAdministratorController extends AbstractController {
 			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(category, "category.commit.error");
+			result = this.createEditModelAndView(category, "category.delete.error");
 		}
 
 		return result;
