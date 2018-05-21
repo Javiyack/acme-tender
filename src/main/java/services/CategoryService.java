@@ -49,7 +49,7 @@ public class CategoryService {
 	public void delete(final Category category) {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
-
+		Assert.isNull(this.categoryRepository.haveTender(category.getId()), "category.delete.error");
 		Assert.notNull(category);
 		Collection<Category> childCategories;
 		childCategories = this.categoryRepository.getChildCategories(category.getId());

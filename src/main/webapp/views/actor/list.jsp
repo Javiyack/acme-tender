@@ -44,7 +44,7 @@
 	
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a href="actor/administrator/activeOrDesactive.do?actorId=${row.id}">
+			<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">
 				<button class = "btn">
 					<jstl:if test="${row.userAccount.active}">
 						<spring:message code="actor.deactivate" />

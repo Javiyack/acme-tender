@@ -28,7 +28,7 @@ public class ActorAdminController extends AbstractController {
 	}
 
 	// ActivateOrDesactivate ------------------------------------------------------------------
-	@RequestMapping(value = "/activeOrDesactive", method = RequestMethod.GET)
+	@RequestMapping(value = "/activeOrDeactivate", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int actorId) {
 		ModelAndView result;
 

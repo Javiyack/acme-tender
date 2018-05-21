@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.Category;
+import domain.Tender;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
@@ -21,4 +22,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c from Category c where c.fatherCategory = null")
 	Collection<Category> getFirstLevelCategories();
 
+	@Query("select distinct t from Tender t where t.category.id = ?1")
+	Tender haveTender(int categoryId);
 }
