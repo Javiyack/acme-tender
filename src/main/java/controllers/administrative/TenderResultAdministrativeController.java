@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,7 +73,33 @@ public class TenderResultAdministrativeController {
 		return result;
 	}
 
-	// Create ---------------------------------------------------------------
+	// Delete ---------------------------------------------------------------
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam(required = false) final Integer tenderResultId) {
+		ModelAndView result;
+
+		Assert.notNull(tenderResultId);
+		final TenderResult tenderResult = this.tenderResultService.findOneToDisplay(tenderResultId);
+		final Integer tenderId = tenderResult.getTender().getId();
+
+		try {
+			this.tenderResultService.delete(tenderResult);
+			result = new ModelAndView("redirect:/tender/administrative/list.do");
+			result.addObject("myTender", true);
+			result.addObject("requestUri", "tender/administrative/list.do");
+		} catch (final Throwable ooops) {
+			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
+			result = new ModelAndView("tenderResult/administrative/display");
+			result.addObject("tenderResult", tenderResult);
+			result.addObject("companyResultCreate", true);
+			result.addObject("companyResults", companyResults);
+			result.addObject("tenderId", tenderId);
+			result.addObject("message", "tenderResult.commit.error");
+		}
+		return result;
+	}
+
+	// Display ---------------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int tenderId) {
 		ModelAndView result;

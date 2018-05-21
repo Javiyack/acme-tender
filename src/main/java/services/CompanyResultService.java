@@ -85,9 +85,25 @@ public class CompanyResultService {
 		return saved;
 	}
 
+	public void delete(final CompanyResult companyResult) {
+		Assert.notNull(companyResult);
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(administrative);
+		Assert.isTrue(companyResult.getTenderResult().getTender().getAdministrative().equals(administrative));
+
+		this.companyResultRepository.delete(companyResult);
+
+	}
+
 	public Collection<CompanyResult> findAllByTenderResult(final int tenderResultId) {
 		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(tenderResultId);
 
 		return companyResults;
+	}
+
+	public void deleteInBatch(final Collection<CompanyResult> companyResults) {
+		Assert.notNull(companyResults);
+		this.companyResultRepository.deleteInBatch(companyResults);
+
 	}
 }

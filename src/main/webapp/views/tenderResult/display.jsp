@@ -53,6 +53,16 @@
 		
 		<spring:message code="companyResult.state" var="companyResultsState" />
 		<acme:column property="state" title="companyResult.state" />
+		
+		<jstl:if test="${companyResultCreate}">
+			<display:column>
+				<div>
+					<a href="companyResult/administrative/delete.do?companyResultId=${row.id}">
+						<spring:message code="tenderResult.delete" />
+					</a>
+				</div>
+			</display:column>
+		</jstl:if>
 	
 	</display:table>
 	<br />
