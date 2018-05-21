@@ -876,25 +876,25 @@
 
 	<!-- SubSectionEvaluationCriterias -->
 
-	<bean id="subsectionevaluationcriteria1" class="domain.SubsectionEvaluationCriteria">
+	<bean id="subsectionevaluationcriteria1" class="domain.SubSectionEvaluationCriteria">
 		<property name="comments" value="Creo que cumplimos ampliamente lo solicitado, hemos añadido 3 secciones adicionales." />
 		<property name="subSection" ref="subsection3" />
 		<property name="evaluationCriteria" ref="evaluationcriteria1" />
 	</bean>
 
-	<bean id="subsectionevaluationcriteria2" class="domain.SubsectionEvaluationCriteria">
+	<bean id="subsectionevaluationcriteria2" class="domain.SubSectionEvaluationCriteria">
 		<property name="comments" value="Usaremos MySql con una complejidad aceptable según nuestros expertos." />
 		<property name="subSection" ref="subsection2" />
 		<property name="evaluationCriteria" ref="evaluationcriteria2" />		
 	</bean>
 
-	<bean id="subsectionevaluationcriteria3" class="domain.SubsectionEvaluationCriteria">
+	<bean id="subsectionevaluationcriteria3" class="domain.SubSectionEvaluationCriteria">
 		<property name="comments" value="Hemos adjuntado todos los titulados disponibles que tenemos." />
 		<property name="subSection" ref="subsection4" />
 		<property name="evaluationCriteria" ref="evaluationcriteria3" />		
 	</bean>
 
-	<bean id="subsectionevaluationcriteria4" class="domain.SubsectionEvaluationCriteria">
+	<bean id="subsectionevaluationcriteria4" class="domain.SubSectionEvaluationCriteria">
 		<property name="comments" value="Los técnicos estan dispuestos a trabajar en turno de tarde-noche." />
 		<property name="subSection" ref="subsection4" />
 		<property name="evaluationCriteria" ref="evaluationcriteria4" />			
