@@ -26,6 +26,11 @@
 	<br />
 	<acme:textbox code="companyResult.comments" path="comments" />
 	<br />
+	
+<%-- 	<form:select id="state" path="state" css="formInput" class="formInput"> --%>
+<%-- 		<form:options items="${states}" itemValue="state" /> --%>
+<%-- 	</form:select> --%>
+	
 	<acme:textbox code="companyResult.state" path="state" placeholder="WINNER|LOSER|RECKLESS_OFFER"/>
 	<br />
 

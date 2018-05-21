@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.TenderResultRepository;
 import domain.Administrative;
 import domain.Administrator;
+import domain.CompanyResult;
 import domain.Tender;
 import domain.TenderResult;
 
@@ -31,6 +32,8 @@ public class TenderResultService {
 	private TenderService			tenderService;
 	@Autowired
 	private AdministrativeService	administrativeService;
+	@Autowired
+	private CompanyResultService	companyResultService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -55,21 +58,21 @@ public class TenderResultService {
 		return tenderResult;
 	}
 
-	public TenderResult findOneToDisplay(final int tenderId) {
+	public TenderResult findOneToDisplay(final int tenderResultId) {
 		TenderResult result;
 
-		result = this.tenderResultRepository.findOne(tenderId);
+		result = this.tenderResultRepository.findOne(tenderResultId);
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public TenderResult findOne(final int tenderId) {
+	public TenderResult findOne(final int tenderResultId) {
 		TenderResult result;
 		final Administrator admin = this.administratorService.findByPrincipal();
 		Assert.notNull(admin);
 
-		result = this.tenderResultRepository.findOne(tenderId);
+		result = this.tenderResultRepository.findOne(tenderResultId);
 		Assert.notNull(result);
 
 		return result;
@@ -100,6 +103,19 @@ public class TenderResultService {
 		saved = this.tenderResultRepository.save(tenderResult);
 
 		return saved;
+	}
+
+	public void delete(final TenderResult tenderResult) {
+		Assert.notNull(tenderResult);
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(administrative);
+		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
+
+		final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
+		this.companyResultService.deleteInBatch(companyResults);
+
+		this.tenderResultRepository.delete(tenderResult);
+
 	}
 
 	public Boolean hasTenderResult(final Tender tender) {

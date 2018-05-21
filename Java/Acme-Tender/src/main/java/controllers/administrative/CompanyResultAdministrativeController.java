@@ -2,6 +2,7 @@
 package controllers.administrative;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import services.CompanyResultService;
 import services.TenderResultService;
 import services.TenderService;
 import domain.CompanyResult;
+import domain.TenderResult;
 
 @Controller
 @RequestMapping("/companyResult/administrative")
@@ -71,6 +73,33 @@ public class CompanyResultAdministrativeController {
 		return result;
 	}
 
+	// Delete ---------------------------------------------------------------
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam(required = false) final Integer companyResultId) {
+		ModelAndView result;
+		final CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
+		final TenderResult tenderResult = companyResult.getTenderResult();
+		final Integer tenderResultId = companyResult.getTenderResult().getId();
+		final Integer tenderId = companyResult.getTenderResult().getTender().getId();
+
+		try {
+			this.companyResultService.delete(companyResult);
+			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResultId);
+			result = new ModelAndView("redirect:/tenderResult/administrative/display.do?tenderId=" + tenderId);
+			result.addObject("tenderResult", tenderResult);
+			result.addObject("companyResultCreate", true);
+			result.addObject("companyResults", companyResults);
+			result.addObject("tenderId", tenderId);
+		} catch (final Throwable ooops) {
+			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResultId);
+			result = new ModelAndView("redirect:/tenderResult/administrative/display.do?tenderId=" + tenderId);
+			result.addObject("tenderResult", tenderResult);
+			result.addObject("companyResultCreate", true);
+			result.addObject("companyResults", companyResults);
+			result.addObject("tenderId", tenderId);
+		}
+		return result;
+	}
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final CompanyResult companyResult) {
 		final ModelAndView result;
@@ -80,8 +109,14 @@ public class CompanyResultAdministrativeController {
 
 	protected ModelAndView createEditModelAndView(final CompanyResult companyResult, final String message) {
 
+		final Collection<String> states = new LinkedList<String>();
+		states.add("WINNER");
+		states.add("LOSER");
+		states.add("RECKLESS_OFFER");
+
 		final ModelAndView result = new ModelAndView("companyResult/administrative/create");
 		result.addObject("companyResult", companyResult);
+		result.addObject("states", states);
 		result.addObject("message", message);
 		return result;
 	}
