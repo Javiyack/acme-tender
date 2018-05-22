@@ -50,6 +50,7 @@ public class TenderResult extends DomainEntity {
 	private Tender tender;
 
 	@Valid
+	@NotNull	
 	@OneToOne(optional = false)
 	public Tender getTender() {
 		return tender;

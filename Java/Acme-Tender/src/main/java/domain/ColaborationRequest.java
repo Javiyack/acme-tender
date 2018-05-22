@@ -153,6 +153,7 @@ public class ColaborationRequest extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return this.offer;

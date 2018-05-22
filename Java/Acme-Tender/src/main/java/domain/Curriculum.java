@@ -125,6 +125,7 @@ public class Curriculum extends DomainEntity {
 
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public SubSection getSubSection() {
 		return subsection;
