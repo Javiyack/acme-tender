@@ -13,22 +13,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CommercialService;
-import services.SubSectionService;
+import controllers.AbstractController;
 import domain.Commercial;
 import domain.SubSection;
+import services.CommercialService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/subSection/commercial")
-public class SubSectionCommercialController {
+public class SubSectionCommercialController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private SubSectionService	subSectionService;	
+	private SubSectionService	subSectionService;
 	@Autowired
-	private CommercialService	commercialService;		
+	private CommercialService	commercialService;
 
-	
+
 	// Constructor -----------------------------------------------------------
 	public SubSectionCommercialController() {
 		super();
@@ -37,13 +38,13 @@ public class SubSectionCommercialController {
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int offerId) {
-		
+
 		final ModelAndView result = new ModelAndView("subSection/commercial/create");
-		
+
 		final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
 		result.addObject("subSection", subSection);
 		result.addObject("requestUri", "subSection/commercial/edit.do");
-		
+
 		return result;
 	}
 
@@ -53,7 +54,7 @@ public class SubSectionCommercialController {
 		ModelAndView result;
 		SubSection subSection = this.subSectionService.findOne(subSectionId);
 		Commercial commercial = this.commercialService.findByPrincipal();
-		
+
 		if (subSection.getCommercial() != null)
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
@@ -61,7 +62,6 @@ public class SubSectionCommercialController {
 		return result;
 	}
 
-	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
@@ -78,14 +78,14 @@ public class SubSectionCommercialController {
 			}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
 		Commercial commercial = this.commercialService.findByPrincipal();
-		
+
 		if (subSection.getCommercial() != null)
-			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());		
+			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
 		try {
 			this.subSectionService.delete(subSection);
@@ -95,9 +95,8 @@ public class SubSectionCommercialController {
 			result = this.createEditModelAndView(subSection, "subSection.commit.error");
 		}
 		return result;
-	}	
-	
-	
+	}
+
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final SubSection subSection) {
 		final ModelAndView result;
@@ -109,11 +108,9 @@ public class SubSectionCommercialController {
 
 		final ModelAndView result = new ModelAndView("subSection/commercial/edit");
 		result.addObject("subSection", subSection);
-		result.addObject("requestUri", "subSection/commercial/edit.do");		
+		result.addObject("requestUri", "subSection/commercial/edit.do");
 		result.addObject("message", message);
 		return result;
 	}
-	
-
 
 }

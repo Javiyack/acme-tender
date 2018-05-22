@@ -14,17 +14,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.OfferService;
+import controllers.AbstractController;
 import domain.Offer;
+import services.OfferService;
 
 @Controller
 @RequestMapping("/offer/commercial")
-public class OfferCommercialController {
+public class OfferCommercialController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private OfferService	offerService;
-	
+	private OfferService offerService;
+
+
 	// Constructor -----------------------------------------------------------
 	public OfferCommercialController() {
 		super();
@@ -33,12 +35,12 @@ public class OfferCommercialController {
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int tenderId) {
-		
+
 		final ModelAndView result = new ModelAndView("offer/commercial/create");
-		
+
 		final Offer offer = this.offerService.create(tenderId);
 		result.addObject("offer", offer);
-		
+
 		return result;
 	}
 
@@ -52,7 +54,6 @@ public class OfferCommercialController {
 		return result;
 	}
 
-	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("offer") @Valid final Offer offer, final BindingResult binding) {
 		ModelAndView result;
@@ -69,8 +70,7 @@ public class OfferCommercialController {
 			}
 		return result;
 	}
-	
-	
+
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/listOffersByPropietary", method = RequestMethod.GET)
 	public ModelAndView listOffersByPropietary() {
@@ -84,8 +84,8 @@ public class OfferCommercialController {
 		result.addObject("requestUri", "offer/commercial/listOffersByPropietary.do");
 
 		return result;
-	}	
-	
+	}
+
 	@RequestMapping(value = "/listOffersByCollaboration", method = RequestMethod.GET)
 	public ModelAndView listOffersByCollaboration() {
 
@@ -98,7 +98,7 @@ public class OfferCommercialController {
 		result.addObject("requestUri", "offer/commercial/listOffersByCollaboration.do");
 
 		return result;
-	}	
+	}
 
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final Offer offer) {
@@ -111,7 +111,7 @@ public class OfferCommercialController {
 
 		final ModelAndView result = new ModelAndView("offer/commercial/edit");
 		result.addObject("offer", offer);
-		
+
 		result.addObject("message", message);
 		return result;
 	}

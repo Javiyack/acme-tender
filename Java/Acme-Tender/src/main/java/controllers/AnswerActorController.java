@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AnswerService;
-import services.CommentService;
 import domain.Answer;
 import domain.Comment;
+import services.AnswerService;
+import services.CommentService;
 
 @Controller
 @RequestMapping("/answer/actor")
-public class AnswerActorController {
+public class AnswerActorController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired

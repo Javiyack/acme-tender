@@ -13,35 +13,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.AdministrativeService;
-import services.SubSectionService;
+import controllers.AbstractController;
 import domain.Administrative;
 import domain.SubSection;
+import services.AdministrativeService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/subSection/administrative")
-public class SubSectionAdministrativeController {
+public class SubSectionAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private SubSectionService	subSectionService;	
+	private SubSectionService		subSectionService;
 	@Autowired
-	private AdministrativeService	administrativeService;	
-	
+	private AdministrativeService	administrativeService;
+
+
 	// Constructor -----------------------------------------------------------
 	public SubSectionAdministrativeController() {
 		super();
 	}
-
 
 	// Edit ---------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int subSectionId) {
 		ModelAndView result;
 		SubSection subSection = this.subSectionService.findOne(subSectionId);
-		
+
 		Administrative administrative = this.administrativeService.findByPrincipal();
-		
+
 		if (subSection.getAdministrative() != null)
 			Assert.isTrue(administrative.getId() == subSection.getAdministrative().getId());
 
@@ -49,7 +50,6 @@ public class SubSectionAdministrativeController {
 		return result;
 	}
 
-	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
@@ -66,13 +66,13 @@ public class SubSectionAdministrativeController {
 			}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
-		
+
 		Administrative administrative = this.administrativeService.findByPrincipal();
-		
+
 		if (subSection.getAdministrative() != null)
 			Assert.isTrue(administrative.getId() == subSection.getAdministrative().getId());
 
@@ -84,9 +84,8 @@ public class SubSectionAdministrativeController {
 			result = this.createEditModelAndView(subSection, "subSection.commit.error");
 		}
 		return result;
-	}	
-	
-	
+	}
+
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final SubSection subSection) {
 		final ModelAndView result;
@@ -102,7 +101,5 @@ public class SubSectionAdministrativeController {
 		result.addObject("message", message);
 		return result;
 	}
-	
-
 
 }
