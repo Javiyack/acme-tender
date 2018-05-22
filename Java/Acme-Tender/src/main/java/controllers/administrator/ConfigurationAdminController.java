@@ -61,10 +61,10 @@ public class ConfigurationAdminController extends AbstractController {
 		} else
 			try {
 				newConfiguration = this.configurationService.save(configuration);
-				result = this.createEditModelAndView(newConfiguration, "configuration.commit.ok");
+				result = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(configuration, "configuration.commit.ko");
-			}
+			}>
 		return result;
 	}
 
