@@ -25,9 +25,10 @@
 <%@ attribute name="code" required="true"%>
 <%@ attribute name="url" required="true"%>
 
+<%@ attribute name="css" required="false"%>
 <%-- Definition --%>
 
-<button type="button" onclick="javascript: window.location.assign('${url}')">
+<button type="button" onclick="javascript: window.location.assign('${url}')" class="${css}">
 	<spring:message code="${code}" />
 </button>
 

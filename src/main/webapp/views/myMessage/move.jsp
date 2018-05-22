@@ -31,4 +31,4 @@
 	</display:column>
 </display:table>
 
-<acme:cancelButton url="myMessage/display.do?messageId=${m.id}" code="ms.back"/>
+<acme:cancelButton url="myMessage/display.do?messageId=${m.id}" code="ms.back" css ="formButton toLeft"/>

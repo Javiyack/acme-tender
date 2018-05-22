@@ -49,14 +49,14 @@
 <br>
 <input type="button" name="back"
 	value="<spring:message code="ms.back" />"
-	onclick="javascript: relativeRedir('folder/display.do?folderId=${folder.id}')" />
+	onclick="javascript: relativeRedir('folder/display.do?folderId=${folder.id}')" class ="formButton toLeft" />
 
 <input type="button" name="move"
 	value="<spring:message code="ms.move" />"
-	onclick="javascript: relativeRedir('myMessage/move.do?messageId=<jstl:out value="${m.getId()}"/>');" />
+	onclick="javascript: relativeRedir('myMessage/move.do?messageId=<jstl:out value="${m.getId()}"/>');" class ="formButton toLeft"/>
 
 
 <input type="button" name="delete"
 	value="<spring:message code="ms.delete" />"
-	onclick="javascript: relativeRedir('myMessage/delete.do?messageId=<jstl:out value="${m.getId()}"/>');" />
+	onclick="javascript: relativeRedir('myMessage/delete.do?messageId=<jstl:out value="${m.getId()}"/>');" class ="formButton toLeft"/>
 

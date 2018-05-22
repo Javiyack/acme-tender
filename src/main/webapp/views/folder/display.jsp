@@ -67,28 +67,29 @@
 		<jstl:otherwise>
 		<jstl:out value="javascript:relativeRedir('folder/display.do?folderId=${folder.parentFolder.id}')"/>
 		</jstl:otherwise>
-		</jstl:choose> />
+		</jstl:choose> class ="formButton toLeft"/>
+		
 <jstl:if test="${folder.getSystemFolder() eq false }">
 
 	<%-- <input type="submit" name="move"
 		value="<spring:message code="folder.move" />" /> --%>
 	<input type="button" name="move"
 		value="<spring:message code="folder.move" />"
-		onclick="javascript: relativeRedir('folder/move.do?folderId=<jstl:out value="${folder.getId()}"/>');" />
+		onclick="javascript: relativeRedir('folder/move.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
 	<input type="button" name="delete"
 		value="<spring:message code="folder.delete" />"
-		onclick="javascript: relativeRedir('folder/delete.do?folderId=<jstl:out value="${folder.getId()}"/>');" />
+		onclick="javascript: relativeRedir('folder/delete.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
 
 	<jstl:choose>
 		<jstl:when test="${empty folder.getParentFolder()}">
 			<input type="button"
 				value="<spring:message code="folder.changeName" />"
-				onclick="javascript: relativeRedir('folder/editFirst.do?folderId=<jstl:out value="${folder.getId()}"/>');" />
+				onclick="javascript: relativeRedir('folder/editFirst.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
 		</jstl:when>
 		<jstl:otherwise>
 			<input type="button"
 				value="<spring:message code="folder.changeName" />"
-				onclick="javascript: relativeRedir('folder/edit.do?folderId=<jstl:out value="${folder.getId()}"/>');" />
+				onclick="javascript: relativeRedir('folder/edit.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
 		</jstl:otherwise>
 	</jstl:choose>
 

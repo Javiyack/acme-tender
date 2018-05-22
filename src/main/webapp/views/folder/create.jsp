@@ -22,18 +22,18 @@
 	<acme:textbox code="folder.name" path="name" />
 	<br />
 
-	<acme:submit name="save" code="folder.save" />&nbsp;
+	<acme:submit name="save" code="folder.save" css ="formButton toLeft"/>&nbsp;
 	
 	<jstl:choose>
 		<jstl:when test="${ editing eq false}">
 			<input type="button" name="back"
 				value="<spring:message code="folder.back"/>"
-				onclick="javascript:relativeRedir('folder/display.do?folderId=${parentFolder.id}')" />
+				onclick="javascript:relativeRedir('folder/display.do?folderId=${parentFolder.id}')" class ="formButton toLeft" />
 		</jstl:when>
 		<jstl:otherwise>
 			<input type="button" name="back"
 				value="<spring:message code="folder.back"/>"
-				onclick="javascript:relativeRedir('folder/display.do?folderId=<jstl:out value="${folder.getId()}"/>')" />
+				onclick="javascript:relativeRedir('folder/display.do?folderId=<jstl:out value="${folder.getId()}"/>')" class ="formButton toLeft" />
 		</jstl:otherwise>
 
 	</jstl:choose>
