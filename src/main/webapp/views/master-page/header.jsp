@@ -38,7 +38,7 @@
 			<div class="dropdown-content">
 			
 				<!-- Concursos -->
-				<a><spring:message code="master.page.tenders" /></a> 
+				<b><a><spring:message code="master.page.tenders" /></a></b>
 				<a href="tender/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.list" /></i>
 				</a>
@@ -51,7 +51,7 @@
 				<hr />
 				
 				<!-- Ofertas -->
-				<a><spring:message code="master.page.offers" /></a> 
+				<b><a><spring:message code="master.page.offers" /></a> </b>
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
@@ -64,18 +64,18 @@
 				<hr />
 				
 				<!-- Solicitudes administrativas -->
-				<a><spring:message code="master.page.administrative.requests" /></a> 
+				<b><a><spring:message code="master.page.administrative.requests" /></a> </b>
 				<a href="administrativeRequest/administrative/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.administrative.requests.received" /></i>
 				</a>	
 				<hr />				
 				
 				<!-- Tipos de criterios de valoración -->
-				<a href="evaluationCriteriaType/administrative/list.do"><spring:message code="master.page.evaluation.criteria.types" /></a> 
+				<b><a href="evaluationCriteriaType/administrative/list.do"><spring:message code="master.page.evaluation.criteria.types" /></a></b> 
 				<hr />				
 				
 				<!-- Mensajeria -->
-				<a><spring:message code="master.page.messages" /></a> 
+				<b><a><spring:message code="master.page.messages" /></a> </b>
 				<a href="myMessage/create.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.newmessage" /></i>
 				</a>
@@ -85,7 +85,7 @@
 				<hr />
 
 				<!-- Users y profile -->
-				<a><spring:message code="master.page.users" /></a> 
+				<b><a><spring:message code="master.page.users" /></a> </b>
 				<a href="actor/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.actor.list" /></i>
 				</a>
@@ -95,9 +95,9 @@
 				<hr />					
 				
 				<!-- Logout -->
-				<a href="j_spring_security_logout"> 
+				<b><a href="j_spring_security_logout"> 
 					<spring:message code="master.page.logout" />
-				</a> 				 
+				</a></b> 				 
 			</div>
 		</div>
 	</security:authorize>
@@ -111,7 +111,7 @@
 			<div class="dropdown-content">
 			
 				<!-- Concursos -->
-				<a><spring:message code="master.page.tenders" /></a> 
+				<b><a><spring:message code="master.page.tenders" /></a> </b>
 				<a href="tender/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.list" /></i>
 				</a>
@@ -121,7 +121,7 @@
 				<hr />
 				
 				<!-- Ofertas -->
-				<a><spring:message code="master.page.offers" /></a> 
+				<b><a><spring:message code="master.page.offers" /></a> </b>
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
@@ -137,7 +137,7 @@
 				<hr />
 				
 				<!-- Solicitudes de colaboración -->
-				<a><spring:message code="master.page.collaboration.requests" /></a> 
+				<b><a><spring:message code="master.page.collaboration.requests" /></a> </b>
 				<a href="collaborationRequest/commercial/listReceived.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.collaboration.requests.received" /></i>
 				</a>
@@ -147,14 +147,14 @@
 				<hr />					
 				
 				<!-- Solicitudes administrativas -->
-				<a><spring:message code="master.page.administrative.requests" /></a> 
+				<b><a><spring:message code="master.page.administrative.requests" /></a> </b>
 				<a href="administrativeRequest/commercial/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.administrative.requests.sended" /></i>
 				</a>	
 				<hr />					
 				
 				<!-- Mensajeria -->
-				<a><spring:message code="master.page.messages" /></a> 
+				<b><a><spring:message code="master.page.messages" /></a> </b>
 				<a href="myMessage/create.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.newmessage" /></i>
 				</a>
@@ -164,7 +164,7 @@
 				<hr />
 				
 				<!-- Users y profile -->
-				<a><spring:message code="master.page.users" /></a> 
+				<b><a><spring:message code="master.page.users" /></a> </b>
 				<a href="actor/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.actor.list" /></i>
 				</a>
@@ -174,9 +174,9 @@
 				<hr />					
 				
 				<!-- Logout -->
-				<a href="j_spring_security_logout"> 
+				<b><a href="j_spring_security_logout"> 
 					<spring:message code="master.page.logout" />
-				</a> 				 
+				</a> </b>				 
 			</div>
 		</div>
 	</security:authorize>
@@ -189,7 +189,7 @@
 			<div class="dropdown-content">
 			
 				<!-- Concursos -->
-				<a><spring:message code="master.page.tenders" /></a> 
+				<b><a><spring:message code="master.page.tenders" /></a> </b>
 				<a href="tender/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.list" /></i>
 				</a>
@@ -199,7 +199,7 @@
 				<hr />
 				
 				<!-- Ofertas -->
-				<a><spring:message code="master.page.offers" /></a> 
+				<b><a><spring:message code="master.page.offers" /></a></b> 
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
@@ -209,11 +209,11 @@
 				<hr />
 				
 				<!-- Categorías de concurso -->
-				<a href="category/administrator/list.do"><spring:message code="master.page.tender.categories" /></a> 		
+				<b><a href="category/administrator/list.do"><spring:message code="master.page.tender.categories" /></a></b> 		
 				<hr />
 				
 				<!-- Palabras tabu -->
-				<a><spring:message code="master.page.tabooWords" /></a> 
+				<b><a><spring:message code="master.page.tabooWords" /></a></b> 
 				<a href="tabooWord/administrator/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.list" /></i>
 				</a>
@@ -226,11 +226,11 @@
 				<hr />	
 				
 				<!-- Configuración -->
-				<a href="configuration/administrator/edit.do"><spring:message code="master.page.configuration" /></a> 		
+				<b><a href="configuration/administrator/edit.do"><spring:message code="master.page.configuration" /></a></b> 		
 				<hr />							
 				
 				<!-- Mensajeria -->
-				<a><spring:message code="master.page.messages" /></a> 
+				<b><a><spring:message code="master.page.messages" /></a> </b>
 				<a href="myMessage/create.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.newmessage" /></i>
 				</a>
@@ -243,7 +243,7 @@
 				<hr />
 				
 				<!-- Users y profile -->
-				<a><spring:message code="master.page.users" /></a> 
+				<b><a><spring:message code="master.page.users" /></a> </b>
 				<a href="actor/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.actor.list" /></i>
 				</a>
@@ -253,9 +253,9 @@
 				<hr />				
 				
 				<!-- Logout -->
-				<a href="j_spring_security_logout"> 
+				<b><a href="j_spring_security_logout"> 
 					<spring:message code="master.page.logout" />
-				</a> 				 
+				</a> 	</b>			 
 			</div>
 		</div>
 	</security:authorize>	
@@ -269,7 +269,7 @@
 			<div class="dropdown-content">
 			
 				<!-- Concursos -->
-				<a><spring:message code="master.page.tenders" /></a> 
+				<b><a><spring:message code="master.page.tenders" /></a></b> 
 				<a href="tender/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.list" /></i>
 				</a>
@@ -279,7 +279,7 @@
 				<hr />
 				
 				<!-- Ofertas -->
-				<a><spring:message code="master.page.offers" /></a> 
+				<b><a><spring:message code="master.page.offers" /></a></b> 
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
@@ -292,7 +292,7 @@
 				<hr />
 				
 				<!-- Mensajeria -->
-				<a><spring:message code="master.page.messages" /></a> 
+				<b><a><spring:message code="master.page.messages" /></a></b> 
 				<a href="myMessage/create.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.newmessage" /></i>
 				</a>	
@@ -302,7 +302,7 @@
 				<hr />
 				
 				<!-- Users y profile -->
-				<a><spring:message code="master.page.users" /></a> 
+				<b><a><spring:message code="master.page.users" /></a></b> 
 				<a href="actor/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.actor.list" /></i>
 				</a>
@@ -312,9 +312,9 @@
 				<hr />				
 				
 				<!-- Logout -->
-				<a href="j_spring_security_logout"> 
+				<b><a href="j_spring_security_logout"> 
 					<spring:message code="master.page.logout" />
-				</a> 				 
+				</a></b> 				 
 			</div>
 		</div>
 	</security:authorize>	
@@ -331,7 +331,7 @@
 		es
 	</a>	
 	
-	<a href="/">
+	<a href="#about">
 		<spring:message code="master.page.about" />
 	</a>	
 
