@@ -337,8 +337,9 @@
 	</a>	
 	
 	<!-- Nombre de usuario -->
-	<a>
-		<security:authentication property="principal.username" />
-	</a>	
-
+	<security:authorize access="isAuthenticated()">
+		<a>
+			<security:authentication property="principal.username" />
+		</a>	
+	</security:authorize>
 </div>
