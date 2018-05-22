@@ -136,6 +136,11 @@ public class CurriculumService {
 		return this.curriculumRepository.getCurriculumsFromSubSectionId(subSectionId);
 
 	}
+	
+	public Collection<Curriculum> findAllBySubsection(int subSectionId) {
+		return this.curriculumRepository.getCurriculumsFromSubSectionId(subSectionId);
+
+	}	
 
 	public Collection<Curriculum> getCurriculumsFromCommercialId(int commercialId) {
 		return this.curriculumRepository.getCurriculumsFromCommercialId(commercialId);

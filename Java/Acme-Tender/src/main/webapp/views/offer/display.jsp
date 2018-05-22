@@ -20,20 +20,26 @@
 		<spring:message code="offer.presentationDate" />: ${offer.presentationDate} <br/>
 	</jstl:if>
 	<spring:message code="offer.amount" />: ${offer.amount} <br/>
+	<spring:message code="offer.comision" />: ${offer.amount * (benefitsPercentage/100)} <br/>
 	<jstl:if test="${offer.denialReason != null}" >
 		<spring:message code="offer.denialReason" />: ${offer.denialReason} <br/>
 	</jstl:if>
 </b>
+<br/>
+<jstl:if test="${offer.commercial.id == actorId}" >
+	<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
+</jstl:if>
+
+<acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
 <br/><br/>
 
 <h5>
-	<spring:message code="offer.subSections" />
+	<spring:message code="offer.administrative_acreditation" />
 </h5>
 
-<display:table pagesize="5" class="displaytag" name="subSections" requestURI="offer/display.do?offerId=${offer.id}" id="row">
-
+<display:table class="displaytag" name="subSectionsAcreditation" id="row">
+	
 	<acme:column property="title" title="subSection.title" />
-	<acme:column property="section" title="subSection.section" />
 	<acme:column property="subsectionOrder" title="subSection.order" />
 	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
 
@@ -44,39 +50,48 @@
 			</a>
 		</div>
 	</display:column>
-	
-	<display:column>
-		<div>
-			<a href="subSection/edit.do?subSectionId=${row.id}"> 
-				<spring:message code="subSection.edit" />
-			</a>
-		</div>
-	</display:column>
-	
-	<display:column>
-		<div>
-			<a href="curriculum/list.do?subSectionId=${row.id}"> 
-				<spring:message code="offer.subSection.curriculums" />
-			</a>
-		</div>
-	</display:column>
-	
-	<display:column>
-		<div>
-			<a href="file/list.do?id=${row.id}&type=subSection"> 
-				<spring:message code="offer.subSection.files" />
-			</a>
-		</div>
-	</display:column>
-	
-	<display:column>
-		<div>
-			<a href="subSectionEvaluationCriteria/commercial/list.do?subSectionId=${row.id}"> 
-				<spring:message code="offer.subSection.subSectionEvaluationCriterias" />
-			</a>
-		</div>
-	</display:column>
 		
+</display:table>
+<br />
+
+<h5>
+	<spring:message code="offer.technical_offer" />
+</h5>
+
+<display:table class="displaytag" name="subSectionsTechnical"  id="row">
+
+	<acme:column property="title" title="subSection.title" />
+	<acme:column property="subsectionOrder" title="subSection.order" />
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
+
+	<display:column>
+		<div>
+			<a href="subSection/display.do?subSectionId=${row.id}"> 
+				<spring:message code="subSection.display" />
+			</a>
+		</div>
+	</display:column>
+
+</display:table>
+<br />
+
+<h5>
+	<spring:message code="offer.economical_offer" />
+</h5>
+
+<display:table class="displaytag" name="subSectionsEconomical" id="row">
+
+	<acme:column property="title" title="subSection.title"  />
+	<acme:column property="subsectionOrder" title="subSection.order" />
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
+
+	<display:column>
+		<div>
+			<a href="subSection/display.do?subSectionId=${row.id}"> 
+				<spring:message code="subSection.display" />
+			</a>
+		</div>
+	</display:column>
 </display:table>
 <br />
 

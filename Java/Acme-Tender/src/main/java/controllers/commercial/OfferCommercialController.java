@@ -61,8 +61,8 @@ public class OfferCommercialController {
 			result = this.createEditModelAndView(offer);
 		else
 			try {
-				this.offerService.save(offer);
-				result = new ModelAndView("redirect:/offer/commercial/list.do");
+				Offer saved = this.offerService.save(offer);
+				result = new ModelAndView("redirect:/offer/display.do?offerId=" + saved.getId());
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(offer, "offer.commit.error");

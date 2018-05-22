@@ -23,11 +23,17 @@
 
 <display:table pagesize="5" class="displaytag" name="offers" requestURI="${requestUri}" id="row">
 
-	<acme:column property="offer.tender.reference" title="tender.reference" />
-	<acme:column property="offer.tender.title" title="tender.title" />
-	<acme:column property="state" title="offer.state" />
+	<acme:column property="tender.reference" title="offer.tender.reference" />
+	<acme:column property="tender.title" title="offer.tender.title" />
+	<acme:column property="state" title="subSection.offer.state" />
 	<acme:column property="amount" title="offer.amount" />
-	<acme:column property="amount" title="offer.amount" />
+
+	<spring:message code="offer.comision" var="varOfferComision"/>
+	<display:column title="${varOfferComision}">
+		<div>
+			${row.amount * (benefitsPercentaje/100)}
+		</div>
+	</display:column>
 
 	<display:column>
 		<div>
@@ -38,28 +44,23 @@
 	</display:column>
 	
 	<display:column>
+		<jstl:if test="${row.commercial.id == actorId}" >
 		<div>
 			<a href="collaborationRequest/commercial/list.do?offerId=${row.id}">
 				<spring:message code="offer.collaborationRequest" />
 			</a>
 		</div>
+		</jstl:if>
 	</display:column>
 
 	<display:column>
+		<jstl:if test="${row.commercial.id == actorId}" >
 		<div>
 			<a href="administrativeRequest/commercial/list.do?offerId=${row.id}">
 				<spring:message code="offer.administrativeRequest" />
 			</a>
 		</div>
-	</display:column>
-
-	
-	<display:column>
-		<div>
-			<a href="offer/commercial/edit.do?offerId=${row.id}">
-				<spring:message code="tender.edit" />
-			</a>
-		</div>
+		</jstl:if>
 	</display:column>
 
 </display:table>

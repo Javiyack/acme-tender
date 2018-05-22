@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
+import domain.Executive;
 import domain.Offer;
 import domain.Tender;
 import repositories.OfferRepository;
@@ -24,6 +26,8 @@ public class OfferService {
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	AdministrativeService administrativeService;
+	@Autowired
+	ActorService actorService;	
 	@Autowired
 	CommercialService commercialService;
 	@Autowired
@@ -116,6 +120,9 @@ public class OfferService {
 
 	public Offer save(final Offer offer) {
 		Assert.notNull(offer);
+		
+		if (offer.getId() != 0)
+			Assert.isTrue(this.canEditOffer(offer.getId()));
 
 		Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
@@ -124,6 +131,53 @@ public class OfferService {
 		result = this.offerRepository.save(offer);
 		
 		return result;
+	}
+	
+	//Visibilidad de una oferta:
+	//Si esta presentada, es visible por todos los autenticados
+	//Si no esta presentada, es visible solo por comercial de la oferta, colaboradores o directivos
+	public boolean canViewOffer(int offerId) {
+		Actor actor = actorService.findByPrincipal();
+		Offer offer = this.offerRepository.findOne(offerId);
+		
+		if  (offer.isPublished()) 
+			return actor != null;
+
+		if (!offer.isPublished()) { 
+			if (actor instanceof Commercial) {
+				Commercial commercial = this.commercialService.findByPrincipal();
+				
+				if (offer.getCommercial().getId() == commercial.getId())
+					return true;
+				
+				return this.offerRepository.findCommercialCollaboratorsByOffer(offerId).contains(commercial);
+			}
+			
+			if (actor instanceof Executive)
+				return true;
+			
+			if (actor instanceof Administrative) {
+				Administrative administrative = this.administrativeService.findByPrincipal();
+				return this.offerRepository.findAdministrativeCollaboratorsByOffer(offerId).contains(administrative);
+			}
+		}
+		
+		return false;
+	}
+	
+	//Una oferta solo puede ser editada por el comercial que la creó
+	public boolean canEditOffer(int offerId) {
+		Actor principal = actorService.findByPrincipal();
+		Offer offer = this.offerRepository.findOne(offerId);
+		
+		if (principal instanceof Commercial) {
+			Commercial commercial = this.commercialService.findByPrincipal();
+			
+			if (commercial.getId() == offer.getCommercial().getId())
+				return true;
+		}
+		
+		return false;
 	}
 
 

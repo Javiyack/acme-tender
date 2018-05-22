@@ -13,7 +13,7 @@ import domain.SubSection;
 public interface SubSectionRepository extends JpaRepository<SubSection, Integer> {
 
 
-	@Query("select sb from SubSection sb where sb.offer.id = ?1")
+	@Query("select sb from SubSection sb where sb.offer.id = ?1 order by sb.subsectionOrder asc")
 	Collection<SubSection> findAllByOffer(int offerId);
 	
 	
