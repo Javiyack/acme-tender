@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.TenderResultRepository;
 import domain.Administrative;
 import domain.Administrator;
 import domain.CompanyResult;
 import domain.Tender;
 import domain.TenderResult;
+import repositories.TenderResultRepository;
 
 @Service
 @Transactional
@@ -45,12 +45,7 @@ public class TenderResultService {
 
 	public TenderResult create(final int tenderId) {
 
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
-
-		final Tender tender = this.tenderService.findOne(tenderId);
-		Assert.notNull(tender);
-		Assert.isTrue(tender.getAdministrative().equals(administrative));
+		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 
 		final TenderResult tenderResult = new TenderResult();
 		tenderResult.setTender(tender);

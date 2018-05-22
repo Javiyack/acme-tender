@@ -31,17 +31,18 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository actorRepository;
+	private ActorRepository			actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
 	@Autowired
-	private UserAccountService userAccountService;
+	private UserAccountService		userAccountService;
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
 	@Autowired
-	private FolderService folderService;
+	private FolderService			folderService;
+
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -75,9 +76,9 @@ public class ActorService {
 		Actor result;
 		if (actor.getId() != 0)
 			Assert.isTrue(actor.equals(this.findByPrincipal()));
-		
+
 		result = this.actorRepository.save(actor);
-		
+
 		return result;
 	}
 
@@ -149,7 +150,7 @@ public class ActorService {
 		return authorities.get(0).getAuthority();
 	}
 
-	public Actor recontruct(RegisterForm registerForm, BindingResult bind) {
+	public Actor recontruct(final RegisterForm registerForm, final BindingResult bind) {
 		Actor result = null;
 		UserAccount useraccount = null;
 		if (registerForm.getId() == 0) {
@@ -178,7 +179,7 @@ public class ActorService {
 			}
 			this.folderService.createSystemFolders(result);
 		} else {
-			result = findByPrincipal();
+			result = this.findByPrincipal();
 			useraccount = result.getUserAccount();
 		}
 		result.setName(registerForm.getName());
@@ -186,7 +187,7 @@ public class ActorService {
 		result.setEmail(registerForm.getEmail());
 		result.setAddress(registerForm.getAddress());
 		result.setPhone(registerForm.getPhone());
-		validator.validate(result, bind);
+		this.validator.validate(result, bind);
 
 		useraccount.setUsername(registerForm.getUserName());
 		Md5PasswordEncoder encoder;
@@ -194,7 +195,7 @@ public class ActorService {
 		useraccount.setPassword(encoder.encodePassword(registerForm.getPassword(), null));
 		useraccount.setActive(true);
 
-		validator.validate(useraccount, bind);
+		this.validator.validate(useraccount, bind);
 		return result;
 	}
 }

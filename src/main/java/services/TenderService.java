@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.TenderRepository;
+import domain.Actor;
 import domain.Administrative;
 import domain.Tender;
+import repositories.TenderRepository;
 
 @Service
 @Transactional
@@ -23,7 +24,7 @@ public class TenderService {
 
 	// Managed services ------------------------------------------------
 	@Autowired
-	private AdministratorService	administratorService;
+	private ActorService			actorService;
 	@Autowired
 	private AdministrativeService	administrativeService;
 
@@ -34,6 +35,27 @@ public class TenderService {
 	}
 
 	// Methods CRUD ---------------------------------------------------------
+
+	public Tender create(final int tenderId) {
+
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(administrative);
+
+		final Tender tender = new Tender();
+		tender.setAdministrative(administrative);
+
+		return tender;
+	}
+	public Tender findOneToEdit(final int tenderId) {
+		Tender result;
+
+		result = this.tenderRepository.findOne(tenderId);
+
+		Assert.notNull(result);
+		this.checkPrincipal(result);
+
+		return result;
+	}
 
 	public Tender findOne(final int tenderId) {
 		Tender result;
@@ -55,6 +77,16 @@ public class TenderService {
 	}
 
 	//Other methods ---------------------------------------------------------------
+
+	public void checkPrincipal(final Tender tender) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Administrative administrativePrincipal = null;
+		if (principal instanceof Administrative) {
+			administrativePrincipal = (Administrative) principal;
+			Assert.isTrue(tender.getAdministrative().equals(administrativePrincipal));
+		} else
+			Assert.isTrue(Boolean.TRUE, "Usuario no válido.");
+	}
 
 	public Tender findOneToComment(final Integer tenderId) {
 

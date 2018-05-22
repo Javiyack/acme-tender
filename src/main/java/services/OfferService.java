@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +22,18 @@ public class OfferService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private OfferRepository offerRepository;
+	private OfferRepository	offerRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService administrativeService;
+	AdministrativeService	administrativeService;
 	@Autowired
-	ActorService actorService;	
+	ActorService			actorService;
 	@Autowired
-	CommercialService commercialService;
+	CommercialService		commercialService;
 	@Autowired
-	TenderService tenderService;
+	TenderService			tenderService;
+
 
 	// Constructors -----------------------------------------------------------
 	public OfferService() {
@@ -39,21 +41,21 @@ public class OfferService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-	public Offer create(int tenderId) {
-		
-		Commercial commercial = this.commercialService.findByPrincipal();
+	public Offer create(final int tenderId) {
+
+		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.notNull(commercial);
 
 		final Offer offer = new Offer();
 		offer.setCommercial(commercial);
-		
-		Tender tender = this.tenderService.findOne(tenderId);
+
+		final Tender tender = this.tenderService.findOne(tenderId);
 		Assert.isNull(tender.getOffer(), "offer.cannot.create.already.exists");
 		offer.setTender(tender);
-		
+
 		return offer;
 	}
-	
+
 	public Collection<Offer> findAll() {
 		Collection<Offer> result;
 
@@ -62,7 +64,7 @@ public class OfferService {
 
 		return result;
 	}
-	
+
 	public Collection<Offer> findAllPublished() {
 		Collection<Offer> result;
 
@@ -71,12 +73,11 @@ public class OfferService {
 
 		return result;
 	}
-	
 
 	public Collection<Offer> findAllByCommercialPropietary() {
 		Collection<Offer> result;
-		
-		Commercial commercial = this.commercialService.findByPrincipal();
+
+		final Commercial commercial = this.commercialService.findByPrincipal();
 
 		result = this.offerRepository.findAllByCommercialPropietary(commercial.getId());
 		Assert.notNull(result);
@@ -86,8 +87,8 @@ public class OfferService {
 
 	public Collection<Offer> findAllByCommercialColaboration() {
 		Collection<Offer> result;
-		
-		Commercial commercial = this.commercialService.findByPrincipal();
+
+		final Commercial commercial = this.commercialService.findByPrincipal();
 
 		result = this.offerRepository.findAllByCommercialCollaboration(commercial.getId());
 		Assert.notNull(result);
@@ -97,16 +98,15 @@ public class OfferService {
 
 	public Collection<Offer> findAllByAdministrativeColaboration() {
 		Collection<Offer> result;
-		
-		Administrative administrative = this.administrativeService.findByPrincipal();
+
+		final Administrative administrative = this.administrativeService.findByPrincipal();
 
 		result = this.offerRepository.findAllByAdministrativeCollaboration(administrative.getId());
 		Assert.notNull(result);
 
 		return result;
 	}
-	
-	
+
 	public Offer findOne(final int offerId) {
 		Assert.isTrue(offerId != 0);
 
@@ -120,66 +120,65 @@ public class OfferService {
 
 	public Offer save(final Offer offer) {
 		Assert.notNull(offer);
-		
+
 		if (offer.getId() != 0)
 			Assert.isTrue(this.canEditOffer(offer.getId()));
 
-		Commercial commercial = this.commercialService.findByPrincipal();
+		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
-		
+
 		Offer result;
 		result = this.offerRepository.save(offer);
-		
+
 		return result;
 	}
-	
+
 	//Visibilidad de una oferta:
 	//Si esta presentada, es visible por todos los autenticados
 	//Si no esta presentada, es visible solo por comercial de la oferta, colaboradores o directivos
-	public boolean canViewOffer(int offerId) {
-		Actor actor = actorService.findByPrincipal();
-		Offer offer = this.offerRepository.findOne(offerId);
-		
-		if  (offer.isPublished()) 
+	public boolean canViewOffer(final int offerId) {
+		final Actor actor = this.actorService.findByPrincipal();
+		final Offer offer = this.offerRepository.findOne(offerId);
+
+		if (offer.isPublished())
 			return actor != null;
 
-		if (!offer.isPublished()) { 
+		if (!offer.isPublished()) {
 			if (actor instanceof Commercial) {
-				Commercial commercial = this.commercialService.findByPrincipal();
-				
+				final Commercial commercial = this.commercialService.findByPrincipal();
+
 				if (offer.getCommercial().getId() == commercial.getId())
 					return true;
-				
+
 				return this.offerRepository.findCommercialCollaboratorsByOffer(offerId).contains(commercial);
 			}
-			
+
 			if (actor instanceof Executive)
 				return true;
-			
+
 			if (actor instanceof Administrative) {
-				Administrative administrative = this.administrativeService.findByPrincipal();
+				final Administrative administrative = this.administrativeService.findByPrincipal();
 				return this.offerRepository.findAdministrativeCollaboratorsByOffer(offerId).contains(administrative);
 			}
 		}
-		
-		return false;
-	}
-	
-	//Una oferta solo puede ser editada por el comercial que la creó
-	public boolean canEditOffer(int offerId) {
-		Actor principal = actorService.findByPrincipal();
-		Offer offer = this.offerRepository.findOne(offerId);
-		
-		if (principal instanceof Commercial) {
-			Commercial commercial = this.commercialService.findByPrincipal();
-			
-			if (commercial.getId() == offer.getCommercial().getId())
-				return true;
-		}
-		
+
 		return false;
 	}
 
+	//Una oferta solo puede ser editada por el comercial que la creó
+	public boolean canEditOffer(final int offerId) {
+		final Actor principal = this.actorService.findByPrincipal();
+		final Offer offer = this.offerRepository.findOne(offerId);
+
+		if (principal instanceof Commercial) {
+			final Commercial commercial = this.commercialService.findByPrincipal();
+
+			if (commercial.getId() == offer.getCommercial().getId())
+				return true;
+		}
+
+		return false;
+	}
 
 	// Other business methods -------------------------------------------------
 

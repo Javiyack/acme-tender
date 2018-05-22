@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.TenderService;
 import controllers.AbstractController;
 import domain.Tender;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/tender/administrative")
@@ -19,7 +19,7 @@ public class TenderAdministrativeController extends AbstractController {
 	// Supporting services -----------------------------------------------------
 
 	@Autowired
-	TenderService	tenderService;
+	TenderService tenderService;
 
 
 	// Constructors -----------------------------------------------------------

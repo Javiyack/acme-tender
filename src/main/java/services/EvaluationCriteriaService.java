@@ -2,17 +2,16 @@
 package services;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Administrative;
 import domain.EvaluationCriteria;
 import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
 import repositories.EvaluationCriteriaRepository;
-import repositories.SubSectionEvaluationCriteriaRepository;
 
 @Service
 @Transactional
@@ -20,15 +19,16 @@ public class EvaluationCriteriaService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private EvaluationCriteriaRepository evaluationCriteriaRepository;
+	private EvaluationCriteriaRepository	evaluationCriteriaRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService administrativeService;
+	AdministrativeService					administrativeService;
 	@Autowired
-	TenderService tenderService;
+	TenderService							tenderService;
 	@Autowired
-	SubSectionEvaluationCriteriaService subSectionEvaluationCriteriaService;
+	SubSectionEvaluationCriteriaService		subSectionEvaluationCriteriaService;
+
 
 	// Constructors -----------------------------------------------------------
 	public EvaluationCriteriaService() {
@@ -37,21 +37,14 @@ public class EvaluationCriteriaService {
 
 	// Simple CRUD methods ----------------------------------------------------
 	public EvaluationCriteria create(final int tenderId) {
-
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
-
-		final Tender tender = this.tenderService.findOne(tenderId);
-		Assert.notNull(tender);
-		Assert.isTrue(tender.getAdministrative().equals(administrative));
+		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 
 		final EvaluationCriteria evaluationCriteria = new EvaluationCriteria();
 		evaluationCriteria.setTender(tender);
 
 		return evaluationCriteria;
 	}
-	
-	
+
 	public Collection<EvaluationCriteria> findAll() {
 		Collection<EvaluationCriteria> result;
 
@@ -60,8 +53,8 @@ public class EvaluationCriteriaService {
 
 		return result;
 	}
-	
-	public Collection<EvaluationCriteria> findAllWithType(int evaluationCriteriaTypeId) {
+
+	public Collection<EvaluationCriteria> findAllWithType(final int evaluationCriteriaTypeId) {
 		Collection<EvaluationCriteria> result;
 
 		result = this.evaluationCriteriaRepository.findAllWithType(evaluationCriteriaTypeId);
@@ -69,8 +62,8 @@ public class EvaluationCriteriaService {
 
 		return result;
 	}
-	
-	public Collection<EvaluationCriteria> findAllByTender(int tenderId) {
+
+	public Collection<EvaluationCriteria> findAllByTender(final int tenderId) {
 		Collection<EvaluationCriteria> result;
 
 		result = this.evaluationCriteriaRepository.findAllByTender(tenderId);
@@ -94,9 +87,9 @@ public class EvaluationCriteriaService {
 		Assert.notNull(evaluationCriteria);
 
 		EvaluationCriteria result;
-		
+
 		result = this.evaluationCriteriaRepository.save(evaluationCriteria);
-		
+
 		return result;
 	}
 
@@ -104,10 +97,9 @@ public class EvaluationCriteriaService {
 		Assert.notNull(evaluationCriteria);
 		Assert.isTrue(evaluationCriteria.getId() != 0);
 		Assert.isTrue(this.evaluationCriteriaRepository.exists(evaluationCriteria.getId()));
-		
-		Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = 
-				this.subSectionEvaluationCriteriaService.findAllWithEvaluationCriteria(evaluationCriteria.getId());
-		
+
+		final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllWithEvaluationCriteria(evaluationCriteria.getId());
+
 		Assert.isTrue(subSectionEvaluationCriterias.size() == 0, "evaluationCriteria.cannot.delete.in.use");
 
 		this.evaluationCriteriaRepository.delete(evaluationCriteria);
