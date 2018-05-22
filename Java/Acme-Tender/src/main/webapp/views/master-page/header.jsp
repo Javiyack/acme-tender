@@ -27,8 +27,6 @@
 			<spring:message code="master.page.register" />
 		</a> 
 	</security:authorize>
-		
-
 	
 	<security:authorize access="hasRole('ADMINISTRATIVE')">
 		<div class="dropdown" style="float: left">
@@ -93,11 +91,6 @@
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
 				</a>				
 				<hr />					
-				
-				<!-- Logout -->
-				<b><a href="j_spring_security_logout"> 
-					<spring:message code="master.page.logout" />
-				</a></b> 				 
 			</div>
 		</div>
 	</security:authorize>
@@ -172,11 +165,6 @@
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
 				</a>				
 				<hr />					
-				
-				<!-- Logout -->
-				<b><a href="j_spring_security_logout"> 
-					<spring:message code="master.page.logout" />
-				</a> </b>				 
 			</div>
 		</div>
 	</security:authorize>
@@ -251,11 +239,6 @@
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
 				</a>				
 				<hr />				
-				
-				<!-- Logout -->
-				<b><a href="j_spring_security_logout"> 
-					<spring:message code="master.page.logout" />
-				</a> 	</b>			 
 			</div>
 		</div>
 	</security:authorize>	
@@ -310,11 +293,6 @@
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
 				</a>				
 				<hr />				
-				
-				<!-- Logout -->
-				<b><a href="j_spring_security_logout"> 
-					<spring:message code="master.page.logout" />
-				</a></b> 				 
 			</div>
 		</div>
 	</security:authorize>	
@@ -338,8 +316,19 @@
 	
 	<!-- Nombre de usuario -->
 	<security:authorize access="isAuthenticated()">
-		<a>
-			<security:authentication property="principal.username" />
-		</a>	
+		<div class="topnav" id="myTopnav">
+			<div class="dropdown">
+				<button class="dropbtn">
+					<security:authentication property="principal.username" />
+				</button>
+				<div class="dropdown-content">
+					<b>
+						<a href="j_spring_security_logout"> 
+							<spring:message code="master.page.logout" />
+						</a>
+					</b>
+				</div>
+			</div>		
+		</div>
 	</security:authorize>
 </div>

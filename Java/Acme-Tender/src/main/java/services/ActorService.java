@@ -93,7 +93,7 @@ public class ActorService {
 
 	// Other business methods -------------------------------------------------
 
-	public void ActivateOrDesactivate(final Integer id) {
+	public void ActivateOrDeactivate(final Integer id) {
 		final Actor res = this.actorRepository.findOne(id);
 		final Administrator admin = this.administratorService.findByPrincipal();
 		Assert.notNull(admin);
