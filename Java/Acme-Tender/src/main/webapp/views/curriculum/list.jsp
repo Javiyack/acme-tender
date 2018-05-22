@@ -11,9 +11,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<spring:message code="curriculum.header" var="headerVar"/>
+<h1><jstl:out value="${headerVar } ${subSection.title }"/></h1>
+
 <display:table pagesize="10" class="displaytag" name="curriculums"
 	requestURI="curriculum/list.do" id="row">
-
+	
+	
 
 	<acme:column property="name" title="curriculum.name" sortable="true" />
 
