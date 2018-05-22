@@ -67,7 +67,7 @@ public class MyMessageAdminController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final MyMessage m, final String messageCode) {
 		ModelAndView result;
-		result = new ModelAndView("myMessage/create");
+		result = new ModelAndView("broadcast/create");
 		result.addObject("modelMessage", m);
 		result.addObject("message", messageCode);
 		result.addObject("requestUri", "myMessage/administrator/edit.do");
