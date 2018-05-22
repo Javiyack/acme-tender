@@ -23,6 +23,6 @@
 	<jstl:if test="${subSectionEvaluationCriteria.id != 0}">
 		<acme:submit name="delete" code="subSectionEvaluationCriteria.delete" css="formButton toLeft" />&nbsp;
 	</jstl:if>
-    <acme:cancel url="/subSectionEvaluationCriteria/commercial/list.do?subSectionId=${subSectionId}" code="subSectionEvaluationCriteria.cancel" css="formButton toLeft" />
+    <acme:cancel url="/subSection/display.do?subSectionId=${subSectionId}" code="subSectionEvaluationCriteria.cancel" css="formButton toLeft" />
 
 </form:form>

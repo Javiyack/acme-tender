@@ -148,6 +148,9 @@ public class CurriculumService {
 
 	public void checkListAndDisplay(int subSectionId) {
 
+		Assert.isTrue(this.subSectionService.canViewSubSection(subSectionId));
+
+		/*
 		Actor principal;
 		principal = this.actorService.findByPrincipal();
 		Assert.isTrue(principal instanceof Commercial || principal instanceof Administrative);
@@ -162,13 +165,18 @@ public class CurriculumService {
 		subSectionCreators.addAll(subSectionCommercials);
 		subSectionCreators.addAll(subSectionAdministratives);
 		Assert.isTrue(subSection.getOffer().getCommercial().equals(principal) || subSectionCreators.contains(principal));
-
+		*/
 	}
 
 	public void checkPrincipal(Curriculum curriculum) {
+		
+		Assert.isTrue(this.subSectionService.canEditSubSection(curriculum.getSubSection().getId()));
+		
+		/*
 		final Actor principal = this.actorService.findByPrincipal();
 		Assert.isTrue(principal instanceof Commercial);
 		Assert.isTrue(curriculumRepository.getCurriculumsFromCommercialId(principal.getId()).contains(curriculum));
+		*/
 	}
 
 	public boolean checkLegalAge(Date dateOfBirth) {
