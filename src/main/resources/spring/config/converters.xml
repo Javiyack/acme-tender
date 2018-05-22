@@ -31,7 +31,6 @@
 		<bean class="converters.ConfigurationToStringConverter" />
 		<bean class="converters.CurriculumToStringConverter" />
 		<bean class="converters.SubSectionToStringConverter" />
-
 		<bean class="converters.FileToStringConverter" />
 		<bean class="converters.SubSectionEvaluationCriteriaToStringConverter" />
 		<bean class="converters.EvaluationCriteriaToStringConverter" />
@@ -39,6 +38,7 @@
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.OfferToStringConverter" />
 		<bean class="converters.AdministrativeToStringConverter" />
+		<bean class="converters.ColaborationRequestToStringConverter" />
 		
 	
 		<bean class="converters.StringToMyMessageConverter" />	
@@ -55,13 +55,13 @@
 		<bean class="converters.StringToCurriculumConverter" />
 		<bean class="converters.StringToSubSectionConverter" />
 		<bean class="converters.StringToCategoryConverter" />
-		
 		<bean class="converters.StringToFileConverter" />
 		<bean class="converters.StringToSubSectionEvaluationCriteriaConverter" />
 		<bean class="converters.StringToEvaluationCriteriaConverter" />
 		<bean class="converters.StringToEvaluationCriteriaTypeConverter" />
 		<bean class="converters.StringToOfferConverter" />
 		<bean class="converters.StringToAdministrativeConverter" />
+		<bean class="converters.StringToColaborationRequestConverter" />
 		
 			
 	</util:list>

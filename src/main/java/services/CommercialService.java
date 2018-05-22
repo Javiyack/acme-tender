@@ -62,8 +62,8 @@ public class CommercialService {
 
 		Collection<Commercial> result;
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+		final Actor principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
 
 		result = this.commercialRepository.findAll();
 		Assert.notNull(result);

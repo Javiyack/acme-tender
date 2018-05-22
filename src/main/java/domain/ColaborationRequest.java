@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,11 +24,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 public class ColaborationRequest extends DomainEntity {
-	
-	private double benefitsPercentage;
-	private String section;
-	private String requirements;
-	private Integer numberOfPages;
+
+	private Double	benefitsPercentage;
+	private String	section;
+	private String	requirements;
+	private Integer	numberOfPages;
 
 	private String	subSectionTitle;
 	private String	subSectionDescription;
@@ -35,15 +36,15 @@ public class ColaborationRequest extends DomainEntity {
 	private Date	maxDeliveryDate;
 	private Boolean	accepted;
 	private String	rejectedReason;
-	
-	
+
+
 	@Min(0)
 	@Max(100)
-	public double getBenefitsPercentage() {
+	public Double getBenefitsPercentage() {
 		return benefitsPercentage;
 	}
 
-	public void setBenefitsPercentage(double benefitsPercentage) {
+	public void setBenefitsPercentage(Double benefitsPercentage) {
 		this.benefitsPercentage = benefitsPercentage;
 	}
 
@@ -74,8 +75,7 @@ public class ColaborationRequest extends DomainEntity {
 
 	public void setNumberOfPages(Integer numberOfPages) {
 		this.numberOfPages = numberOfPages;
-	}	
-
+	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
@@ -97,9 +97,10 @@ public class ColaborationRequest extends DomainEntity {
 		this.subSectionDescription = subSectionDescription;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxAcceptanceDate() {
 		return this.maxAcceptanceDate;
 	}
@@ -108,9 +109,10 @@ public class ColaborationRequest extends DomainEntity {
 		this.maxAcceptanceDate = maxAcceptanceDate;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxDeliveryDate() {
 		return this.maxDeliveryDate;
 	}
@@ -119,7 +121,7 @@ public class ColaborationRequest extends DomainEntity {
 		this.maxDeliveryDate = maxDeliveryDate;
 	}
 
-	public Boolean isAccepted() {
+	public Boolean getAccepted() {
 		return this.accepted;
 	}
 
@@ -135,14 +137,16 @@ public class ColaborationRequest extends DomainEntity {
 	public void setRejectedReason(final String rejectedReason) {
 		this.rejectedReason = rejectedReason;
 	}
-	
-	
+
+
 	// Relationships
-	private Commercial commercial;
-	private Offer offer;
+	private Commercial	commercial;
+	private Offer		offer;
+
 
 	@Valid
 	@ManyToOne(optional = false)
+	@NotNull
 	public Commercial getCommercial() {
 		return commercial;
 	}
@@ -160,6 +164,5 @@ public class ColaborationRequest extends DomainEntity {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
 
 }
