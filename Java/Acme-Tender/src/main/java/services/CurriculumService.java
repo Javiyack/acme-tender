@@ -2,7 +2,10 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,6 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
-import domain.CompanyResult;
 import domain.Curriculum;
 import domain.SubSection;
 import repositories.CurriculumRepository;
@@ -115,7 +117,7 @@ public class CurriculumService {
 		checkPrincipal(curriculum);
 		this.curriculumRepository.delete(curriculum);
 	}
-	
+
 	public void deleteInBatch(final Collection<Curriculum> curriculums) {
 		Assert.notNull(curriculums);
 		this.curriculumRepository.deleteInBatch(curriculums);
@@ -162,6 +164,45 @@ public class CurriculumService {
 		final Actor principal = this.actorService.findByPrincipal();
 		Assert.isTrue(principal instanceof Commercial);
 		Assert.isTrue(curriculumRepository.getCurriculumsFromCommercialId(principal.getId()).contains(curriculum));
+	}
+
+	public boolean checkLegalAge(Date dateOfBirth) {
+
+		boolean result = false;
+
+		Date d = new Date();
+		Calendar currentDate = new GregorianCalendar();
+		currentDate.setTime(d);
+
+		Calendar birthDate = new GregorianCalendar();
+		birthDate.setTime(dateOfBirth);
+
+		int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
+		int currentMonth = currentDate.get(Calendar.MONTH) + 1;
+		int currentYear = currentDate.get(Calendar.YEAR);
+
+		int birthDay = birthDate.get(Calendar.DAY_OF_MONTH);
+		int birthMonth = birthDate.get(Calendar.MONTH) + 1;
+		int birthYear = birthDate.get(Calendar.YEAR);
+
+		if (currentYear - birthYear >= 18) {
+
+			if (currentMonth > birthMonth) {
+
+				result = true;
+
+			} else if (currentMonth == birthMonth) {
+
+				if (currentDay >= birthDay) {
+
+					result = true;
+				}
+
+			}
+
+		}
+
+		return result;
 	}
 
 }

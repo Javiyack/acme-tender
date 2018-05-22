@@ -56,7 +56,7 @@ public class Curriculum extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "^\\d{8}[A-Z]$")
+	@Pattern(regexp = "^\\d{8}[a-zA-Z]$")
 	public String getIdentificationNumber() {
 		return this.identificationNumber;
 	}
