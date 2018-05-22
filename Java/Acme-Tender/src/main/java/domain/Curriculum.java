@@ -67,7 +67,7 @@ public class Curriculum extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
-	@Pattern(regexp = "^[6,7]\\d{8}$")
+	@Pattern(regexp = "\\s*(\\+\\s*\\d*)?\\s*(\\d*)")
 	public String getPhone() {
 		return this.phone;
 	}
