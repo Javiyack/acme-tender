@@ -62,8 +62,11 @@
 	</display:column>
 		
 </display:table>
-<br />
-
+<br /><br/>
+<jstl:if test="${subSection.commercial.id == actorId}" >
+	<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+</jstl:if>
+<br/><br/>
 <h5>
 	<spring:message code="subSection.data.files" />
 </h5>
@@ -81,8 +84,14 @@
 		</div>
 	</display:column>
 </display:table>
-<br />
-
+<br /><br/>
+<jstl:if test="${subSection.commercial.id == actorId}" >
+	<acme:button text="file.create" url="/file/commercial/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${subSection.administrative.id == actorId}" >
+	<acme:button text="file.create" url="/file/administrative/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
+</jstl:if>
+<br/><br/>
 <h5>
 	<spring:message code="subSection.data.evaluationCriterias" />
 </h5>
@@ -94,7 +103,10 @@
 	<acme:column property="comments" title="subSectionEvaluationCriteria.comments" />
 	
 </display:table>
-
+<br /><br/>
+<jstl:if test="${subSection.commercial.id == actorId}" >
+	<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+</jstl:if>
 
 
 

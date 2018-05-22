@@ -41,13 +41,13 @@ public class CurriculumController extends AbstractController {
 
 		ModelAndView result;
 
-		Curriculum curriculum;
-		curriculum = curriculumService.findOne(curriculumId);
+		Actor actor = this.actorService.findByPrincipal();
+		Curriculum curriculum = curriculumService.findOne(curriculumId);
 		curriculumService.checkListAndDisplay(curriculum.getSubSection().getId());
 
 		result = new ModelAndView("curriculum/display");
 		result.addObject("curriculum", curriculum);
-
+		result.addObject("actorId", actor.getId());
 		return result;
 
 	}
@@ -132,7 +132,7 @@ public class CurriculumController extends AbstractController {
 
 			try {
 				Curriculum saved = curriculumService.save(curriculum);
-				result = new ModelAndView("redirect:list.do?subSectionId=" + saved.getSubSection().getId());
+				result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + saved.getSubSection().getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(curriculum, "curriculum.commit.error");
 			}
@@ -148,7 +148,7 @@ public class CurriculumController extends AbstractController {
 
 		try {
 			this.curriculumService.delete(curriculum);
-			result = new ModelAndView("redirect:list.do?subSectionId=" + curriculum.getSubSection().getId());
+			result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + curriculum.getSubSection().getId());
 
 		} catch (Throwable oops) {
 			result = createEditModelAndView(curriculum, "curriculum.commit.error");

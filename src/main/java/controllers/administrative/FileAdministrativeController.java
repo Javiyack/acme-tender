@@ -1,4 +1,4 @@
-package controllers.commercial;
+package controllers.administrative;
 
 import javax.validation.Valid;
 
@@ -16,8 +16,8 @@ import domain.File;
 import services.FileService;
 
 @Controller
-@RequestMapping("/file/commercial")
-public class FileCommercialController extends AbstractController{
+@RequestMapping("/file/administrative")
+public class FileAdministrativeController extends AbstractController{
 	
 	// Services ---------------------------------------------------------------
 	@Autowired
@@ -30,10 +30,14 @@ public class FileCommercialController extends AbstractController{
 		ModelAndView result;
 		File file = null;
 		switch (type) {
-		case "curriculum":
-			file = this.fileService.createForCurriculum(id);
+		case "tender":
+			file = this.fileService.createForTender(id);
 			break;
-			
+
+		case "tenderResult":
+			file = this.fileService.createForTenderResult(id);
+			break;
+		
 		case "subSection":
 			file = this.fileService.createForSubSection(id);
 			break;

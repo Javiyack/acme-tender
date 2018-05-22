@@ -1,56 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <spring:message code="date.pattern" var="momentFormat" />
-<fmt:formatDate value="${curriculum.dateOfBirth}" pattern="${momentFormat}"
-	var="momentVar" />
+<fmt:formatDate value="${curriculum.dateOfBirth}" pattern="${momentFormat}" var="momentVar" />
 
-<ul style="list-style-type: disc">
+	<spring:message code="curriculum.name" />: ${curriculum.name}  <br/>
+	<spring:message code="curriculum.surname" />: ${curriculum.surname}  <br/>
+	<spring:message code="curriculum.identificationNumber" />: ${curriculum.identificationNumber}  <br/>
+	<spring:message code="curriculum.phone" />: ${curriculum.phone}  <br/>
+	<spring:message code="curriculum.email" />: ${curriculum.email}  <br/>
+	<spring:message code="curriculum.dateOfBirth" />: ${curriculum.dateOfBirth}  <br/>
+	<spring:message code="curriculum.minSalaryExpectation" />: ${curriculum.minSalaryExpectation}  <br/>
 
-	<li><b><spring:message code="curriculum.name"></spring:message>:</b>
-		<jstl:out value="${curriculum.name}" /></li>
-
-	<li><b><spring:message code="curriculum.surname"></spring:message>:</b>
-		<jstl:out value="${curriculum.surname}" /></li>
-
-	<li><b><spring:message code="curriculum.identificationNumber"></spring:message>:</b>
-		<jstl:out value="${curriculum.identificationNumber}" /></li>
-
-
-	<li><b><spring:message code="curriculum.phone"></spring:message>:</b>
-		<jstl:out value="${curriculum.phone}" /></li>
-
-	<li><b><spring:message code="curriculum.email"></spring:message>:</b>
-		<jstl:out value="${curriculum.email}" /></li>
-
-	<li><b><spring:message code="curriculum.dateOfBirth"></spring:message>:</b>
-		<jstl:out value="${momentVar}" /></li>
-
-	<li><b><spring:message code="curriculum.minSalaryExpectation"></spring:message>:</b>
-		<jstl:out value="${curriculum.minSalaryExpectation}" /></li>
-</ul>
-
-
-<spring:message code="curriculum.text" var="textVar"/>
-<jstl:out value="${ textVar}"/>
-<div class="dashboard">
-	<jstl:out value="${curriculum.text}" />
-</div>
+	<spring:message code="curriculum.text" />: <br/>
+		<div class="dashboard">
+			${curriculum.text}
+		</div>
 <br>
 
-
-<input type="button" name="back"
-	value="<spring:message code="curriculum.back" />"
-	onclick="javascript: relativeRedir('curriculum/list.do?subSectionId=${curriculum.subSection.id}')" class ="formButton toLeft" >
-
+<jstl:if test="${curriculum.subSection.commercial.id == actorId}" >
+	<acme:button url="curriculum/edit.do?curriculumId=${curriculum.id}" text="curriculum.edit" css="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${curriculum.subSection.commercial.id == actorId}" >
+	<acme:button url="curriculum/delete.do?curriculumId=${curriculum.id}" text="curriculum.delete" css="formButton toLeft" />
+</jstl:if>
+<acme:button url="subSection/display.do?subSectionId=${curriculum.subSection.id}" text="curriculum.back" css="formButton toLeft" />
 
 

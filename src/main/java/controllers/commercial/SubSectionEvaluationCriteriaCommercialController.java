@@ -77,7 +77,7 @@ public class SubSectionEvaluationCriteriaCommercialController {
 		else
 			try {
 				this.subSectionEvaluationCriteriaService.save(subSectionEvaluationCriteria);
-				result = new ModelAndView("redirect:/subSectionEvaluationCriteria/commercial/list.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
+				result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(subSectionEvaluationCriteria, "subSectionEvaluationCriteria.commit.error");
@@ -92,7 +92,7 @@ public class SubSectionEvaluationCriteriaCommercialController {
 
 		try {
 			this.subSectionEvaluationCriteriaService.delete(subSectionEvaluationCriteria);
-			result = new ModelAndView("redirect:/subSectionEvaluationCriteria/commercial/list.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
+			result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
 			
 		} catch (final Throwable ooops) {
 			result = this.createEditModelAndView(subSectionEvaluationCriteria, "subSectionEvaluationCriteria.commit.error");
