@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -41,39 +40,39 @@ public class ColaborationRequest extends DomainEntity {
 	@Min(0)
 	@Max(100)
 	public Double getBenefitsPercentage() {
-		return benefitsPercentage;
+		return this.benefitsPercentage;
 	}
 
-	public void setBenefitsPercentage(Double benefitsPercentage) {
+	public void setBenefitsPercentage(final Double benefitsPercentage) {
 		this.benefitsPercentage = benefitsPercentage;
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^(TECHNICAL_OFFER|ECONOMICAL_OFFER)$")
 	public String getSection() {
-		return section;
+		return this.section;
 	}
 
-	public void setSection(String section) {
+	public void setSection(final String section) {
 		this.section = section;
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
 	public String getRequirements() {
-		return requirements;
+		return this.requirements;
 	}
 
-	public void setRequirements(String requirements) {
+	public void setRequirements(final String requirements) {
 		this.requirements = requirements;
 	}
 
 	@Min(1)
 	public Integer getNumberOfPages() {
-		return numberOfPages;
+		return this.numberOfPages;
 	}
 
-	public void setNumberOfPages(Integer numberOfPages) {
+	public void setNumberOfPages(final Integer numberOfPages) {
 		this.numberOfPages = numberOfPages;
 	}
 
@@ -100,7 +99,6 @@ public class ColaborationRequest extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
-	@Future
 	public Date getMaxAcceptanceDate() {
 		return this.maxAcceptanceDate;
 	}
@@ -112,7 +110,6 @@ public class ColaborationRequest extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
-	@Future
 	public Date getMaxDeliveryDate() {
 		return this.maxDeliveryDate;
 	}
@@ -148,20 +145,20 @@ public class ColaborationRequest extends DomainEntity {
 	@ManyToOne(optional = false)
 	@NotNull
 	public Commercial getCommercial() {
-		return commercial;
+		return this.commercial;
 	}
 
-	public void setCommercial(Commercial commercial) {
+	public void setCommercial(final Commercial commercial) {
 		this.commercial = commercial;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
-		return offer;
+		return this.offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(final Offer offer) {
 		this.offer = offer;
 	}
 
