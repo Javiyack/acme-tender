@@ -123,12 +123,20 @@ public class CurriculumController extends AbstractController {
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(curriculum);
 		} else
+
+		if (!this.curriculumService.checkLegalAge(curriculum.getDateOfBirth())) {
+
+			result = this.createEditModelAndView(curriculum, "curriculum.age.error");
+
+		} else {
+
 			try {
 				Curriculum saved = curriculumService.save(curriculum);
 				result = new ModelAndView("redirect:list.do?subSectionId=" + saved.getSubSection().getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(curriculum, "curriculum.commit.error");
 			}
+		}
 		return result;
 	}
 
