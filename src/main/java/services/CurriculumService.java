@@ -185,7 +185,11 @@ public class CurriculumService {
 		int birthMonth = birthDate.get(Calendar.MONTH) + 1;
 		int birthYear = birthDate.get(Calendar.YEAR);
 
-		if (currentYear - birthYear >= 18) {
+		if (currentYear - birthYear > 18) {
+
+			result = true;
+
+		} else if (currentYear - birthYear == 18) {
 
 			if (currentMonth > birthMonth) {
 

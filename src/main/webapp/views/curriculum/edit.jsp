@@ -23,13 +23,13 @@
 	<acme:textbox code="curriculum.surname" path="surname" />
 	<br />
 	
-	<acme:textbox code="curriculum.identificationNumber" path="identificationNumber" />
+	<acme:textbox code="curriculum.identificationNumber" path="identificationNumber" placeholder="12345678X" />
 	<br />
 	
-	<acme:textbox code="curriculum.phone" path="phone" />
+	<acme:textbox code="curriculum.phone" path="phone" placeholder="+XX XXXXXXXXX"/>
 	<br />
 	
-	<acme:textbox code="curriculum.email" path="email" />
+	<acme:textbox code="curriculum.email" path="email" placeholder="tender@example.com"/>
 	<br />
 	
 	<acme:textbox code="curriculum.dateOfBirth" path="dateOfBirth" placeholder="dd/MM/yyyy"/>
