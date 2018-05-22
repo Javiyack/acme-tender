@@ -8,7 +8,7 @@
 <tiles-definitions>
 
 	<definition name="curriculum/list" extends="master.page">
-		<put-attribute name="title" value="Curriculums" />
+		<put-attribute name="title" value="" />
 		<put-attribute name="body" value="/views/curriculum/list.jsp" />
 	</definition>
 
