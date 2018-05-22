@@ -47,8 +47,8 @@
 	<br />
 
 
-	<acme:submit name="save" code="ms.send"/>&nbsp;
-	<acme:cancel url="/" code="ms.cancel"/>
+	<acme:submit name="save" code="ms.send" css ="formButton toLeft"/>&nbsp;
+	<acme:cancel url="/" code="ms.cancel" css ="formButton toLeft"/>
 
 
 </form:form>

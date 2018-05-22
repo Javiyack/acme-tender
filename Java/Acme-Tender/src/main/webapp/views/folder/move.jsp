@@ -36,6 +36,6 @@
 </display:table>
 
 
-<acme:cancelButton url="folder/display.do?folderId=${folder.id}" code="folder.back"/>
+<acme:cancelButton url="folder/display.do?folderId=${folder.id}" code="folder.back" css ="formButton toLeft"/>
 
 
