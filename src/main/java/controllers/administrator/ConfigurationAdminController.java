@@ -64,7 +64,7 @@ public class ConfigurationAdminController extends AbstractController {
 				result = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(configuration, "configuration.commit.ko");
-			}>
+			}
 		return result;
 	}
 

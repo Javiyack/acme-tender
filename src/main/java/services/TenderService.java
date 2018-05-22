@@ -37,7 +37,6 @@ public class TenderService {
 	// Methods CRUD ---------------------------------------------------------
 
 	public Tender create(final int tenderId) {
-
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
 
@@ -46,10 +45,9 @@ public class TenderService {
 
 		return tender;
 	}
-	public Tender findOneToEdit(final int tenderId) {
-		Tender result;
 
-		result = this.tenderRepository.findOne(tenderId);
+	public Tender findOneToEdit(final int tenderId) {
+		final Tender result = this.tenderRepository.findOne(tenderId);
 
 		Assert.notNull(result);
 		this.checkPrincipal(result);
@@ -95,7 +93,6 @@ public class TenderService {
 		Assert.notNull(result);
 
 		return result;
-
 	}
 
 	public Collection<Tender> findAllByAdministrative() {
