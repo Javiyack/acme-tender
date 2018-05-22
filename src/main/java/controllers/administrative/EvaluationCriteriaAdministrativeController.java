@@ -14,24 +14,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.EvaluationCriteriaService;
-import services.EvaluationCriteriaTypeService;
-import services.TenderService;
+import controllers.AbstractController;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
 import domain.Tender;
+import services.EvaluationCriteriaService;
+import services.EvaluationCriteriaTypeService;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/evaluationCriteria/administrative")
-public class EvaluationCriteriaAdministrativeController {
+public class EvaluationCriteriaAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private EvaluationCriteriaService	evaluationCriteriaService;
+	private EvaluationCriteriaService		evaluationCriteriaService;
 	@Autowired
 	private EvaluationCriteriaTypeService	evaluationCriteriaTypeService;
 	@Autowired
-	private TenderService tenderService;
+	private TenderService					tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -42,17 +43,17 @@ public class EvaluationCriteriaAdministrativeController {
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int tenderId) {
-		
+
 		final ModelAndView result = new ModelAndView("evaluationCriteria/administrative/create");
-		
+
 		final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.create(tenderId);
 		result.addObject("evaluationCriteria", evaluationCriteria);
-		
+
 		Collection<EvaluationCriteriaType> evaluationCriteriaTypes = this.evaluationCriteriaTypeService.findAll();
 		result.addObject("evaluationCriteriaTypes", evaluationCriteriaTypes);
-		
+
 		result.addObject("tenderId", tenderId);
-		
+
 		return result;
 	}
 
@@ -60,14 +61,12 @@ public class EvaluationCriteriaAdministrativeController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int evaluationCriteriaId) {
 		ModelAndView result;
-		final EvaluationCriteria evaluationCriteria = 
-				this.evaluationCriteriaService.findOne(evaluationCriteriaId);
+		final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationCriteriaId);
 
 		result = this.createEditModelAndView(evaluationCriteria);
 		return result;
 	}
 
-	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("evaluationCriteria") @Valid final EvaluationCriteria evaluationCriteria, final BindingResult binding) {
 		ModelAndView result;
@@ -84,7 +83,7 @@ public class EvaluationCriteriaAdministrativeController {
 			}
 		return result;
 	}
-	
+
 	// Delete ---------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final EvaluationCriteria evaluationCriteria, final BindingResult binding) {
@@ -93,16 +92,16 @@ public class EvaluationCriteriaAdministrativeController {
 		try {
 			this.evaluationCriteriaService.delete(evaluationCriteria);
 			result = new ModelAndView("redirect:/evaluationCriteria/administrative/list.do?tenderId=" + evaluationCriteria.getTender().getId());
-			
+
 		} catch (final Throwable ooops) {
-			if (ooops.getMessage().equals("evaluationCriteria.cannot.delete.in.use")) 
+			if (ooops.getMessage().equals("evaluationCriteria.cannot.delete.in.use"))
 				result = this.createEditModelAndView(evaluationCriteria, "evaluationCriteria.cannot.delete.in.use");
 			else
 				result = this.createEditModelAndView(evaluationCriteria, "evaluationCriteria.commit.error");
 		}
 		return result;
-	}		
-	
+	}
+
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int tenderId) {
@@ -110,15 +109,15 @@ public class EvaluationCriteriaAdministrativeController {
 		ModelAndView result;
 
 		result = new ModelAndView("evaluationCriteria/administrative/list");
-		
+
 		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tenderId);
 		result.addObject("evaluationCriterias", evaluationCriterias);
-		
+
 		Tender tender = this.tenderService.findOne(tenderId);
 		result.addObject("tender", tender);
 
 		return result;
-	}		
+	}
 
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final EvaluationCriteria evaluationCriteria) {
@@ -131,12 +130,12 @@ public class EvaluationCriteriaAdministrativeController {
 
 		final ModelAndView result = new ModelAndView("evaluationCriteria/administrative/edit");
 		result.addObject("evaluationCriteria", evaluationCriteria);
-		
+
 		Collection<EvaluationCriteriaType> evaluationCriteriaTypes = this.evaluationCriteriaTypeService.findAll();
 		result.addObject("evaluationCriteriaTypes", evaluationCriteriaTypes);
-		
+
 		result.addObject("tenderId", evaluationCriteria.getTender().getId());
-		
+
 		result.addObject("message", message);
 		return result;
 	}

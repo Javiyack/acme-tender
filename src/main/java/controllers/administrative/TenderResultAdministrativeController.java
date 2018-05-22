@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CompanyResultService;
-import services.TenderResultService;
-import services.TenderService;
+import controllers.AbstractController;
 import domain.CompanyResult;
 import domain.Tender;
 import domain.TenderResult;
+import services.CompanyResultService;
+import services.TenderResultService;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/tenderResult/administrative")
-public class TenderResultAdministrativeController {
+public class TenderResultAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired

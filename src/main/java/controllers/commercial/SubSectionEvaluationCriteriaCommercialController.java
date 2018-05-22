@@ -14,24 +14,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.SubSectionEvaluationCriteriaService;
-import services.SubSectionService;
-import services.EvaluationCriteriaService;
+import controllers.AbstractController;
 import domain.EvaluationCriteria;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
+import services.EvaluationCriteriaService;
+import services.SubSectionEvaluationCriteriaService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/subSectionEvaluationCriteria/commercial")
-public class SubSectionEvaluationCriteriaCommercialController {
+public class SubSectionEvaluationCriteriaCommercialController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
 	@Autowired
-	private EvaluationCriteriaService	evaluationCriteriaService;
+	private EvaluationCriteriaService			evaluationCriteriaService;
 	@Autowired
-	private SubSectionService subSectionService;
+	private SubSectionService					subSectionService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -42,17 +43,17 @@ public class SubSectionEvaluationCriteriaCommercialController {
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int subSectionId) {
-		
+
 		final ModelAndView result = new ModelAndView("subSectionEvaluationCriteria/commercial/create");
-		
+
 		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.create(subSectionId);
 		result.addObject("subSectionEvaluationCriteria", subSectionEvaluationCriteria);
-		
+
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(subSectionEvaluationCriteria.getSubSection().getOffer().getTender().getId());
 		result.addObject("evaluationCriterias", evaluationCriterias);
-		
+
 		result.addObject("subSectionId", subSectionId);
-		
+
 		return result;
 	}
 
@@ -60,14 +61,12 @@ public class SubSectionEvaluationCriteriaCommercialController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int subSectionEvaluationCriteriaId) {
 		ModelAndView result;
-		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = 
-				this.subSectionEvaluationCriteriaService.findOne(subSectionEvaluationCriteriaId);
+		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.findOne(subSectionEvaluationCriteriaId);
 
 		result = this.createEditModelAndView(subSectionEvaluationCriteria);
 		return result;
 	}
 
-	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("subSectionEvaluationCriteria") @Valid final SubSectionEvaluationCriteria subSectionEvaluationCriteria, final BindingResult binding) {
 		ModelAndView result;
@@ -84,7 +83,7 @@ public class SubSectionEvaluationCriteriaCommercialController {
 			}
 		return result;
 	}
-	
+
 	// Delete ---------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final SubSectionEvaluationCriteria subSectionEvaluationCriteria, final BindingResult binding) {
@@ -93,13 +92,13 @@ public class SubSectionEvaluationCriteriaCommercialController {
 		try {
 			this.subSectionEvaluationCriteriaService.delete(subSectionEvaluationCriteria);
 			result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
-			
+
 		} catch (final Throwable ooops) {
 			result = this.createEditModelAndView(subSectionEvaluationCriteria, "subSectionEvaluationCriteria.commit.error");
 		}
 		return result;
-	}		
-	
+	}
+
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int subSectionId) {
@@ -111,12 +110,12 @@ public class SubSectionEvaluationCriteriaCommercialController {
 		result = new ModelAndView("subSectionEvaluationCriteria/commercial/list");
 		result.addObject("subSectionEvaluationCriterias", subSectionEvaluationCriterias);
 		result.addObject("subSectionId", subSectionId);
-		
+
 		SubSection subSection = this.subSectionService.findOne(subSectionId);
-		result.addObject("offerId", subSection.getOffer().getId());		
+		result.addObject("offerId", subSection.getOffer().getId());
 
 		return result;
-	}	
+	}
 
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
@@ -129,12 +128,12 @@ public class SubSectionEvaluationCriteriaCommercialController {
 
 		final ModelAndView result = new ModelAndView("subSectionEvaluationCriteria/commercial/edit");
 		result.addObject("subSectionEvaluationCriteria", subSectionEvaluationCriteria);
-		
+
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(subSectionEvaluationCriteria.getSubSection().getOffer().getTender().getId());
 		result.addObject("evaluationCriterias", evaluationCriterias);
-		
-		result.addObject("subSectionId", subSectionEvaluationCriteria.getSubSection().getId());	
-		
+
+		result.addObject("subSectionId", subSectionEvaluationCriteria.getSubSection().getId());
+
 		result.addObject("message", message);
 		return result;
 	}

@@ -9,23 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.OfferService;
+import controllers.AbstractController;
 import domain.Offer;
+import services.OfferService;
 
 @Controller
 @RequestMapping("/offer/administrative")
-public class OfferAdministrativeController {
+public class OfferAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private OfferService	offerService;
-	
+	private OfferService offerService;
+
+
 	// Constructor -----------------------------------------------------------
 	public OfferAdministrativeController() {
 		super();
 	}
 
-	
 	@RequestMapping(value = "/listOffersByCollaboration", method = RequestMethod.GET)
 	public ModelAndView listOffersByCollaboration() {
 
@@ -38,6 +39,6 @@ public class OfferAdministrativeController {
 		result.addObject("requestUri", "offer/administrative/listOffersByCollaboration.do");
 
 		return result;
-	}	
+	}
 
 }

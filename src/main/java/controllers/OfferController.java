@@ -11,28 +11,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Actor;
+import domain.Offer;
+import domain.SubSection;
 import services.ActorService;
 import services.ConfigurationService;
 import services.OfferService;
 import services.SubSectionService;
-import domain.Actor;
-import domain.Offer;
-import domain.SubSection;
 
 @Controller
 @RequestMapping("/offer")
-public class OfferController {
+public class OfferController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private OfferService	offerService;
+	private OfferService			offerService;
 	@Autowired
-	private ActorService	actorService;	
+	private ActorService			actorService;
 	@Autowired
-	private SubSectionService	subSectionService;	
+	private SubSectionService		subSectionService;
 	@Autowired
-	private ConfigurationService	configurationService;		
-	
+	private ConfigurationService	configurationService;
+
+
 	// Constructor -----------------------------------------------------------
 	public OfferController() {
 		super();
@@ -47,13 +48,13 @@ public class OfferController {
 		Offer offer = offerService.findOne(offerId);
 		Double benefitsPercentage = this.configurationService.findBenefitsPercentage();
 		Actor actor = this.actorService.findByPrincipal();
-		
+
 		Collection<SubSection> subSections = this.subSectionService.findAllByOffer(offerId);
 
 		Collection<SubSection> subSectionsAcreditation = new ArrayList<SubSection>();
 		Collection<SubSection> subSectionsTechnical = new ArrayList<SubSection>();
 		Collection<SubSection> subSectionsEconomical = new ArrayList<SubSection>();
-		
+
 		for (SubSection ss : subSections) {
 			if (ss.getSection().equals("ADMINISTRATIVE_ACREDITATION"))
 				subSectionsAcreditation.add(ss);
@@ -62,7 +63,7 @@ public class OfferController {
 			if (ss.getSection().equals("ECONOMICAL_OFFER"))
 				subSectionsEconomical.add(ss);
 		}
-		
+
 		result = new ModelAndView("offer/display");
 		result.addObject("offer", offer);
 		result.addObject("subSectionsAcreditation", subSectionsAcreditation);
@@ -70,12 +71,11 @@ public class OfferController {
 		result.addObject("subSectionsEconomical", subSectionsEconomical);
 		result.addObject("benefitsPercentage", benefitsPercentage);
 		result.addObject("actorId", actor.getId());
-		
 
 		return result;
 
 	}
-	
+
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -93,6 +93,6 @@ public class OfferController {
 		result.addObject("requestUri", "offer/list.do");
 
 		return result;
-	}	
+	}
 
 }

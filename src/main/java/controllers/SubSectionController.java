@@ -10,33 +10,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.CurriculumService;
-import services.FileService;
-import services.SubSectionEvaluationCriteriaService;
-import services.SubSectionService;
 import domain.Actor;
 import domain.Curriculum;
 import domain.File;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
+import services.ActorService;
+import services.CurriculumService;
+import services.FileService;
+import services.SubSectionEvaluationCriteriaService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/subSection")
-public class SubSectionController {
+public class SubSectionController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private SubSectionService	subSectionService;	
+	private SubSectionService					subSectionService;
 	@Autowired
-	private ActorService	actorService;		
+	private ActorService						actorService;
 	@Autowired
-	private CurriculumService	curriculumService;
+	private CurriculumService					curriculumService;
 	@Autowired
 	private SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
 	@Autowired
-	private FileService	fileService;
-	
+	private FileService							fileService;
+
+
 	// Constructor -----------------------------------------------------------
 	public SubSectionController() {
 		super();
@@ -49,14 +50,14 @@ public class SubSectionController {
 		ModelAndView result;
 
 		SubSection subSection = subSectionService.findOne(subSectionId);
-		
+
 		Actor actor = this.actorService.findByPrincipal();
 		Collection<Curriculum> curriculums = this.curriculumService.findAllBySubsection(subSectionId);
 		Collection<File> files = this.fileService.findAllBySubSection(subSectionId);
 		Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSectionId);
-		
+
 		result = new ModelAndView("subSection/display");
-		
+
 		result.addObject("subSection", subSection);
 		result.addObject("curriculums", curriculums);
 		result.addObject("files", files);
@@ -66,7 +67,5 @@ public class SubSectionController {
 		return result;
 
 	}
-	
-
 
 }

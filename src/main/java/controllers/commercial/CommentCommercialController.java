@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CommentService;
+import controllers.AbstractController;
 import domain.Comment;
+import services.CommentService;
 
 @Controller
 @RequestMapping("/comment/commercial")
-public class CommentCommercialController {
+public class CommentCommercialController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private CommentService	commentService;
+	private CommentService commentService;
 
 
 	// Constructor -----------------------------------------------------------
