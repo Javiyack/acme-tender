@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
 import domain.Curriculum;
@@ -29,6 +30,8 @@ public class SubSectionService {
 	AdministrativeService administrativeService;
 	@Autowired
 	CommercialService commercialService;
+	@Autowired
+	ActorService actorService;	
 	@Autowired
 	OfferService offerService;
 	@Autowired
@@ -125,6 +128,9 @@ public class SubSectionService {
 	public SubSection save(final SubSection subSection) {
 		Assert.notNull(subSection);
 		
+		if (subSection.getId() != 0)
+			Assert.isTrue(this.canEditSubSection(subSection.getId()));
+		
 		if (subSection.getAdministrative() != null) {
 			Administrative administrative = this.administrativeService.findByPrincipal();
 			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
@@ -146,6 +152,7 @@ public class SubSectionService {
 		Assert.notNull(subSection);
 		Assert.isTrue(subSection.getId() != 0);
 		Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
+		Assert.isTrue(this.canEditSubSection(subSection.getId()));
 		
 		if (subSection.getAdministrative() != null) {
 			Administrative administrative = this.administrativeService.findByPrincipal();
@@ -171,5 +178,36 @@ public class SubSectionService {
 	}
 
 	// Other business methods -------------------------------------------------
+
+	//Visibilidad de una subseccion = Visibilidad de la oferta asociada
+	public boolean canViewSubSection(int subSectionId) {
+		
+		SubSection subSection = this.subSectionRepository.findOne(subSectionId);
+		return this.offerService.canViewOffer(subSection.getOffer().getId());
+		
+	}
+	
+	//Una subseccion solo puede ser editada por el administrativo o comercial que tiene asignado.
+	public boolean canEditSubSection(int subSectionId) {
+		
+		Actor principal = actorService.findByPrincipal();
+		SubSection subSection = this.subSectionRepository.findOne(subSectionId);
+		
+		if (principal instanceof Commercial) {
+			Commercial commercial = this.commercialService.findByPrincipal();
+			
+			if (commercial.getId() == subSection.getCommercial().getId())
+				return true;
+		}
+		
+		if (principal instanceof Administrative) {
+			Administrative administrative = this.administrativeService.findByPrincipal();
+			
+			if (administrative.getId() == subSection.getAdministrative().getId())
+				return true;
+		}		
+		
+		return false;
+	}
 
 }

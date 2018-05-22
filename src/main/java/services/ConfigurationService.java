@@ -81,6 +81,11 @@ public class ConfigurationService {
 		return this.configurationRepository.findCompanyName();
 	}
 
+	public Double findBenefitsPercentage() {
+		return this.configurationRepository.findBenefitsPercentage();
+	}
+	
+
 	public void flush() {
 		this.configurationRepository.flush();
 

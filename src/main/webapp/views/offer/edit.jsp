@@ -10,18 +10,26 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="tenderResult" method="post">
+<form:form action="offer/commercial/edit.do" modelAttribute="offer" method="post">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="tender" />
-	<form:hidden path="tenderDate" />
+	<form:hidden path="commercial" />
 
-	<acme:textbox code="tenderResult.description" path="description" />
+	<acme:textbox code="offer.state" path="state" />
+	<acme:textbox code="offer.amount" path="amount" />
 	<br />
 
-	<acme:submit name="save" code="tenderResult.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="tender/administrative/list.do" code="tenderResult.cancel" css="formButton toLeft" />
+	<acme:submit name="save" code="offer.save" css="formButton toLeft" />&nbsp;
+	
+	<jstl:if test="${offer.id == 0}" >
+    	<acme:cancel url="offer/list.do" code="offer.cancel" css="formButton toLeft" />
+    </jstl:if>
+	<jstl:if test="${offer.id != 0}" >
+    	<acme:cancel url="offer/display.do?offerId=${offer.id}" code="offer.cancel" css="formButton toLeft" />
+    </jstl:if>
+    
 	<br />
 
 </form:form>

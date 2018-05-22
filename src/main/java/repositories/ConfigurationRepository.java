@@ -23,5 +23,5 @@ public interface ConfigurationRepository extends JpaRepository<Configuration, In
 	String findCompanyName();
 
 	@Query("select c.benefitsPercentage from Configuration c")
-	String findBenefitsPercentage();
+	Double findBenefitsPercentage();
 }

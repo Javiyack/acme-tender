@@ -38,6 +38,7 @@
 		<bean class="converters.EvaluationCriteriaTypeToStringConverter" />
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.OfferToStringConverter" />
+		<bean class="converters.AdministrativeToStringConverter" />
 		
 	
 		<bean class="converters.StringToMyMessageConverter" />	
@@ -60,6 +61,7 @@
 		<bean class="converters.StringToEvaluationCriteriaConverter" />
 		<bean class="converters.StringToEvaluationCriteriaTypeConverter" />
 		<bean class="converters.StringToOfferConverter" />
+		<bean class="converters.StringToAdministrativeConverter" />
 		
 			
 	</util:list>

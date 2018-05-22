@@ -14,14 +14,30 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="tender" />
-	<form:hidden path="tenderDate" />
+	<form:hidden path="offer" />
+	<form:hidden path="commercial" />
+	<form:hidden path="administrative" />
 
-	<acme:textbox code="tenderResult.description" path="description" />
+	
+	<acme:textbox code="subSection.title" path="title" />
+	<acme:textbox code="subSection.section" path="title" />
+	<acme:textbox code="subSection.order" path="subsectionOrder" />
+	<acme:textarea code="subSection.shortDescription" path="shortDescription" />
+	<acme:textarea code="subSection.text" path="body" />
+	<acme:textarea code="subSection.comments" path="comments" />
+	
 	<br />
 
-	<acme:submit name="save" code="tenderResult.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="tender/administrative/list.do" code="tenderResult.cancel" css="formButton toLeft" />
+	<acme:submit name="save" code="subSection.save" css="formButton toLeft" />
+	
+	<jstl:if test="${subSection.commercial.id == actorId && subSection.id != 0}" >
+		<acme:submit name="delete" code="subSection.delete" css="formButton toLeft" />
+	</jstl:if>
+	<jstl:if test="${subSection.administrative.id == actorId && subSection.id != 0}" >
+		<acme:submit name="delete" code="subSection.delete" css="formButton toLeft" />
+	</jstl:if>
+	
+    <acme:cancel url="offer/display.do?offerId=${subSection.offer.id}" code="subSection.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>

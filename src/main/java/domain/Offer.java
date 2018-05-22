@@ -16,6 +16,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -91,6 +92,21 @@ public class Offer extends DomainEntity {
 	}
 	
 	
+	@Transient
+	public boolean isPublished() {
+		switch  (this.getState()) {		
+			case "PRESENTED": case "WINNED": case "LOSED": case "CHALLENGED":
+				return true;
+			case "ABANDONED": case "DENIED": case "CREATED": case "IN_DEVELOPMENT":
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public void setPublished(boolean published) {
+		
+	}
 	
 
 }
