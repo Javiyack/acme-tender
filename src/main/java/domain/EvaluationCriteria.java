@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -54,6 +56,7 @@ public class EvaluationCriteria extends DomainEntity {
 	private EvaluationCriteriaType evaluationCriteriaType;
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Tender getTender() {
 		return tender;
@@ -64,6 +67,7 @@ public class EvaluationCriteria extends DomainEntity {
 	}
 	
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public EvaluationCriteriaType getEvaluationCriteriaType() {
 		return evaluationCriteriaType;

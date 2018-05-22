@@ -94,6 +94,7 @@ public class AdministrativeRequest extends DomainEntity {
 	private Offer offer;
 
 	@Valid
+	@NotNull
 	@ManyToOne(optional = false)
 	public Administrative getAdministrative() {
 		return administrative;
@@ -104,6 +105,7 @@ public class AdministrativeRequest extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return offer;

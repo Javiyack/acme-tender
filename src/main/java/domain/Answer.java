@@ -52,6 +52,7 @@ public class Answer extends DomainEntity {
 	private Comment comment;
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Comment getComment() {
 		return comment;

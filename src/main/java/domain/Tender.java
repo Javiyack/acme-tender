@@ -188,6 +188,7 @@ public class Tender extends DomainEntity {
 	private Category category;
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Administrative getAdministrative() {
 		return administrative;
@@ -208,6 +209,7 @@ public class Tender extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)	
 	public Category getCategory() {
 		return category;

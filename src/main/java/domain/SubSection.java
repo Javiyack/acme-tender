@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
@@ -109,6 +110,7 @@ public class SubSection extends DomainEntity {
 
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return offer;
@@ -119,7 +121,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne(optional = true)
+	@ManyToOne(optional = true)
 	public Commercial getCommercial() {
 		return commercial;
 	}
@@ -129,7 +131,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne(optional = true)
+	@ManyToOne(optional = true)
 	public Administrative getAdministrative() {
 		return administrative;
 	}

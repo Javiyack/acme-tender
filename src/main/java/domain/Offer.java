@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.SafeHtml;
@@ -72,6 +73,7 @@ public class Offer extends DomainEntity {
 	private Tender tender;
 
 	@Valid
+	@NotNull	
 	@ManyToOne(optional = false)
 	public Commercial getCommercial() {
 		return commercial;
@@ -82,6 +84,7 @@ public class Offer extends DomainEntity {
 	}
 
 	@Valid
+	@NotNull	
 	@OneToOne(optional = false)
 	public Tender getTender() {
 		return tender;

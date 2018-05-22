@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -53,6 +54,7 @@ public class Comment extends DomainEntity {
 	private Commercial	commercial;
 
 
+	@NotNull
 	@ManyToOne(optional = false)
 	@Valid
 	public Tender getTender() {
@@ -63,6 +65,7 @@ public class Comment extends DomainEntity {
 		this.tender = tender;
 	}
 
+	@NotNull
 	@ManyToOne(optional = false)
 	@Valid
 	public Commercial getCommercial() {
