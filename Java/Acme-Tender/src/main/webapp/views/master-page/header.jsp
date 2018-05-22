@@ -33,7 +33,7 @@
 	<security:authorize access="hasRole('ADMINISTRATIVE')">
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn">
-				<security:authentication property="principal.username" />
+				<spring:message code="master.page.menu" />
 			</button>
 			<div class="dropdown-content">
 			
@@ -106,7 +106,7 @@
 	<security:authorize access="hasRole('COMMERCIAL')">
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn">
-				<security:authentication property="principal.username" />
+				<spring:message code="master.page.menu" />
 			</button>
 			<div class="dropdown-content">
 			
@@ -184,7 +184,7 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn">
-				<security:authentication property="principal.username" />
+				<spring:message code="master.page.menu" />
 			</button>
 			<div class="dropdown-content">
 			
@@ -264,7 +264,7 @@
 	<security:authorize access="hasRole('EXECUTIVE')">
 		<div class="dropdown" style="float: left">
 			<button class="dropbtn">
-				<security:authentication property="principal.username" />
+				<spring:message code="master.page.menu" />
 			</button>
 			<div class="dropdown-content">
 			
@@ -319,6 +319,7 @@
 		</div>
 	</security:authorize>	
 	
+
 	
 	<!-- Lenguaje -->
 	<!-- 	<a href="?language=en">en</a> -->
@@ -333,6 +334,11 @@
 	
 	<a href="#about">
 		<spring:message code="master.page.about" />
+	</a>	
+	
+	<!-- Nombre de usuario -->
+	<a>
+		<security:authentication property="principal.username" />
 	</a>	
 
 </div>
