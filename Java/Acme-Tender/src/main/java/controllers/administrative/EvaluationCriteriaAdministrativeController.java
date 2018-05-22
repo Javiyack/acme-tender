@@ -113,7 +113,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tenderId);
 		result.addObject("evaluationCriterias", evaluationCriterias);
 
-		Tender tender = this.tenderService.findOne(tenderId);
+		Tender tender = this.tenderService.findOneToEdit(tenderId);
 		result.addObject("tender", tender);
 
 		return result;

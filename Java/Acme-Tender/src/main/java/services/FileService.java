@@ -9,15 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.FileRepository;
 import domain.Administrative;
 import domain.Commercial;
-import domain.CompanyResult;
 import domain.Curriculum;
 import domain.File;
 import domain.SubSection;
 import domain.Tender;
 import domain.TenderResult;
+import repositories.FileRepository;
 
 @Service
 @Transactional
@@ -25,21 +24,22 @@ public class FileService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private FileRepository		fileRepository;
+	private FileRepository			fileRepository;
 
 	//Services
 	@Autowired
-	private CommercialService	commercialService;
+	private CommercialService		commercialService;
 	@Autowired
 	private AdministrativeService	administrativeService;
 	@Autowired
-	private TenderService tenderService;
+	private TenderService			tenderService;
 	@Autowired
-	private CurriculumService curriculumService;
+	private CurriculumService		curriculumService;
 	@Autowired
-	private TenderResultService tenderResultService;
+	private TenderResultService		tenderResultService;
 	@Autowired
-	private SubSectionService subSectionService;
+	private SubSectionService		subSectionService;
+
 
 	// Constructor ----------------------------------------------------------
 	public FileService() {
@@ -48,82 +48,78 @@ public class FileService {
 
 	// Methods CRUD ---------------------------------------------------------
 
-	public File createForSubSection(int subSectionId) {
+	public File createForSubSection(final int subSectionId) {
 		Administrative administrative = null;
 		Commercial commercial = null;
-		
-		SubSection subSection = this.subSectionService.findOne(subSectionId);
-		Assert.notNull(subSection);			
-		
+
+		final SubSection subSection = this.subSectionService.findOne(subSectionId);
+		Assert.notNull(subSection);
+
 		if (subSection.getAdministrative() != null) {
 			administrative = this.administrativeService.findByPrincipal();
 			Assert.notNull(administrative);
 			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
 		}
-		
+
 		if (subSection.getCommercial() != null) {
-			commercial = this.commercialService.findByPrincipal(); ;
+			commercial = this.commercialService.findByPrincipal();
+			;
 			Assert.notNull(commercial);
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
-		}		
+		}
 
 		final File file = new File();
 		file.setSubSection(subSection);
 
 		return file;
 	}
-	
-	public File createForCurriculum(int curriculumId) {
+
+	public File createForCurriculum(final int curriculumId) {
 		Administrative administrative = null;
 		Commercial commercial = null;
-		
-		Curriculum curriculum = this.curriculumService.findOne(curriculumId);
-		Assert.notNull(curriculum);			
-		
+
+		final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
+		Assert.notNull(curriculum);
+
 		if (curriculum.getSubSection().getAdministrative() != null) {
 			administrative = this.administrativeService.findByPrincipal();
 			Assert.notNull(administrative);
 			Assert.isTrue(curriculum.getSubSection().getAdministrative().getId() == administrative.getId());
 		}
-		
+
 		if (curriculum.getSubSection().getCommercial() != null) {
-			commercial = this.commercialService.findByPrincipal(); ;
+			commercial = this.commercialService.findByPrincipal();
+			;
 			Assert.notNull(commercial);
 			Assert.isTrue(curriculum.getSubSection().getCommercial().getId() == commercial.getId());
-		}	
+		}
 
 		final File file = new File();
 		file.setCurriculum(curriculum);
 
 		return file;
 	}
-	
-	public File createForTender(int tenderId) {
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
-		
-		Tender tender = this.tenderService.findOne(tenderId);
-		Assert.notNull(tender);
-		Assert.isTrue(tender.getAdministrative().getId() == administrative.getId());
 
-		File file = new File();
+	public File createForTender(final int tenderId) {
+		final Tender tender = this.tenderService.findOneToEdit(tenderId);
+
+		final File file = new File();
 		file.setTender(tender);
 		return file;
-	}	
-	
-	public File createForTenderResult(int tenderResultId) {
+	}
+
+	public File createForTenderResult(final int tenderResultId) {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
-		
-		TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
-		Assert.notNull(tenderResult);		
+
+		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
+		Assert.notNull(tenderResult);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == administrative.getId());
 
-		File file = new File();
+		final File file = new File();
 		file.setTenderResult(tenderResult);
 		return file;
-	}	
-	
+	}
 
 	public File findOne(final int fileId) {
 		File result;
@@ -136,7 +132,7 @@ public class FileService {
 		return result;
 	}
 
-	public Collection<File> findAllByTender(int tenderId) {
+	public Collection<File> findAllByTender(final int tenderId) {
 
 		Collection<File> result;
 
@@ -148,8 +144,8 @@ public class FileService {
 
 		return result;
 	}
-	
-	public Collection<File> findAllByCurriculum(int curriculumId) {
+
+	public Collection<File> findAllByCurriculum(final int curriculumId) {
 
 		Collection<File> result;
 
@@ -161,8 +157,8 @@ public class FileService {
 
 		return result;
 	}
-	
-	public Collection<File> findAllByTenderResult(int tenderResultId) {
+
+	public Collection<File> findAllByTenderResult(final int tenderResultId) {
 
 		Collection<File> result;
 
@@ -174,8 +170,8 @@ public class FileService {
 
 		return result;
 	}
-	
-	public Collection<File> findAllBySubSection(int subSectionId) {
+
+	public Collection<File> findAllBySubSection(final int subSectionId) {
 
 		Collection<File> result;
 
@@ -186,10 +182,10 @@ public class FileService {
 		Assert.notNull(result);
 
 		return result;
-	}	
+	}
 
 	public boolean canEditFile(final File file) {
-		
+
 		Commercial commercial = null;
 		Administrative administrative = null;
 		Assert.notNull(file);
@@ -200,63 +196,63 @@ public class FileService {
 			Assert.isTrue(file.getTender().getAdministrative().getId() == administrative.getId());
 			return true;
 		}
-		
+
 		if (file.getTenderResult() != null) {
 			administrative = this.administrativeService.findByPrincipal();
 			Assert.notNull(administrative);
 			Assert.isTrue(file.getTenderResult().getTender().getAdministrative().getId() == administrative.getId());
 			return true;
 		}
-		
+
 		if (file.getCurriculum() != null) {
 			if (file.getCurriculum().getSubSection().getCommercial() != null) {
-				commercial = this.commercialService.findByPrincipal(); ;
+				commercial = this.commercialService.findByPrincipal();
+				;
 				Assert.isTrue(commercial.getId() == file.getCurriculum().getSubSection().getCommercial().getId());
 				return true;
-			} 
-			
+			}
+
 			if (file.getCurriculum().getSubSection().getAdministrative() != null) {
 				administrative = this.administrativeService.findByPrincipal();
 				Assert.isTrue(administrative.getId() == file.getCurriculum().getSubSection().getAdministrative().getId());
 				return true;
-			} 
+			}
 		}
-		
+
 		if (file.getSubSection() != null) {
 			if (file.getSubSection().getCommercial() != null) {
-				commercial = this.commercialService.findByPrincipal(); ;
+				commercial = this.commercialService.findByPrincipal();
+				;
 				Assert.isTrue(commercial.getId() == file.getSubSection().getCommercial().getId());
 				return true;
-			} 
-			
+			}
+
 			if (file.getSubSection().getAdministrative() != null) {
 				administrative = this.administrativeService.findByPrincipal();
 				Assert.isTrue(administrative.getId() == file.getSubSection().getAdministrative().getId());
 				return true;
-			} 
+			}
 		}
-		
+
 		return false;
 	}
-	
-	public File save(File file) {
-		
+
+	public File save(final File file) {
+
 		if (this.canEditFile(file)) {
-			File saved = this.fileRepository.save(file);
+			final File saved = this.fileRepository.save(file);
 
 			return saved;
 		}
-		
+
 		return null;
 
 	}
 
 	public void delete(final File file) {
-		if (this.canEditFile(file)) {
+		if (this.canEditFile(file))
 			this.fileRepository.delete(file);
-		}
 	}
-	
 
 	public void deleteInBatch(final Collection<File> files) {
 		Assert.notNull(files);
@@ -268,5 +264,5 @@ public class FileService {
 		this.fileRepository.flush();
 
 	}
-	
+
 }
