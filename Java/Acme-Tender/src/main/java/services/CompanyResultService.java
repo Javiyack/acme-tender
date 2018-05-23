@@ -96,6 +96,12 @@ public class CompanyResultService {
 	}
 
 	public Collection<CompanyResult> findAllByTenderResult(final int tenderResultId) {
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		final TenderResult tenderResult = this.tenderResultService.findOneToDisplay(tenderResultId);
+		Assert.notNull(administrative);
+		Assert.notNull(tenderResult);
+		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
+
 		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(tenderResultId);
 
 		return companyResults;

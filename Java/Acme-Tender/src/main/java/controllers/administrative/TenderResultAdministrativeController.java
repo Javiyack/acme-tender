@@ -21,6 +21,7 @@ import domain.TenderResult;
 import services.CompanyResultService;
 import services.TenderResultService;
 import services.TenderService;
+import exceptions.HackingException;
 
 @Controller
 @RequestMapping("/tenderResult/administrative")
@@ -85,7 +86,7 @@ public class TenderResultAdministrativeController extends AbstractController {
 
 		try {
 			this.tenderResultService.delete(tenderResult);
-			result = new ModelAndView("redirect:/tender/administrative/list.do");
+			result = new ModelAndView("tender/administrative/list");
 			result.addObject("myTender", true);
 			result.addObject("requestUri", "tender/administrative/list.do");
 		} catch (final Throwable ooops) {
@@ -102,24 +103,27 @@ public class TenderResultAdministrativeController extends AbstractController {
 
 	// Display ---------------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int tenderId) {
+	public ModelAndView display(@RequestParam final int tenderId) throws HackingException {
 		ModelAndView result;
 		final TenderResult tenderResult;
 
-		tenderResult = this.tenderResultService.findOneByTender(tenderId);
-		if (tenderResult != null) {
-			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
-			result = new ModelAndView("tenderResult/administrative/display");
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("companyResults", companyResults);
-			result.addObject("tenderId", tenderId);
-		} else {
-			result = new ModelAndView("tenderResult/administrative/display");
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("tenderId", tenderId);
+		try {
+			tenderResult = this.tenderResultService.findOneByTender(tenderId);
+			if (tenderResult != null) {
+				final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
+				result = new ModelAndView("tenderResult/administrative/display");
+				result.addObject("tenderResult", tenderResult);
+				result.addObject("companyResultCreate", true);
+				result.addObject("companyResults", companyResults);
+				result.addObject("tenderId", tenderId);
+			} else {
+				result = new ModelAndView("tenderResult/administrative/display");
+				result.addObject("tenderResult", tenderResult);
+				result.addObject("tenderId", tenderId);
+			}
+		} catch (final Throwable ooops) {
+			throw new HackingException(ooops);
 		}
-
 		return result;
 	}
 	// Auxiliary methods ----------------------------------------------------
