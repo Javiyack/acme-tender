@@ -123,6 +123,11 @@ public class TenderResultService {
 	}
 
 	public TenderResult findOneByTender(final int tenderId) {
+		final Tender tender = this.tenderService.findOne(tenderId);
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(tender);
+		Assert.isTrue(administrative.equals(tender.getAdministrative()));
+
 		final TenderResult tenderResult = this.tenderResultRepository.findOneByTender(tenderId);
 
 		return tenderResult;
