@@ -4,8 +4,11 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Offer;
 import domain.SubSection;
+import forms.SearchForm;
 import services.ActorService;
 import services.ConfigurationService;
 import services.OfferService;
@@ -94,5 +98,52 @@ public class OfferController extends AbstractController {
 
 		return result;
 	}
+	
+	// Search ---------------------------------------------------------------
+	@RequestMapping(value = "/search")
+	public ModelAndView create() {
+		ModelAndView result;
+		final SearchForm searchForm = new SearchForm();
+
+		result = new ModelAndView("offer/search");
+		result.addObject("searchForm", searchForm);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "searchButton")
+	public ModelAndView search(@Valid final SearchForm searchForm, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = new ModelAndView("offer/search");
+			result.addObject("searchForm", searchForm);
+		} else {
+			result = this.searchResult(searchForm.getWord());
+		}
+		return result;
+	}
+	
+
+	// searchResult ---------------------------------------------------------------
+	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
+	public ModelAndView searchResult(@RequestParam final String word) {
+		ModelAndView result;
+
+		Collection<Offer> offers = this.offerService.findOfferByKeyWord(word);
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();		
+
+		result = new ModelAndView("offer/listSearch");
+		result.addObject("offers", offers);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("actorId", actor.getId());
+		result.addObject("requestUri", "offer/list.do");
+
+		return result;
+	}
+	
+
+	
 
 }

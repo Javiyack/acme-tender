@@ -45,5 +45,16 @@
 		<put-attribute name="title" value="Mis ofertas" />
 		<put-attribute name="body" value="/views/offer/list.jsp" />
 	</definition>
+	
+	<definition name="offer/search" extends="master.page">
+		<put-attribute name="title" value="Búsqueda de ofertas publicadas" />
+		<put-attribute name="body" value="/views/offer/search.jsp" />
+	</definition>		
+	
+	<definition name="offer/listSearch" extends="master.page">
+		<put-attribute name="title" value="Resultado de la búsqueda" />
+		<put-attribute name="body" value="/views/offer/list.jsp" />
+	</definition>	
+	
 
 </tiles-definitions>
