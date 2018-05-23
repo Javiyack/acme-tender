@@ -19,9 +19,18 @@
 	
 	<acme:textbox code="category.name" path="name"/>
 	<br/>
-
+	
+	<jstl:if test="${haveChilds}">
 	<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" />
 	<br/>
+	</jstl:if>
+	<jstl:if test="${!haveChilds}">
+		<a>
+		<spring:message code="category.childs" />
+		</a>
+	</jstl:if>
+	<br/>
+	
 	
 	<acme:submit name="save" code="category.save"/>&nbsp;
 	
