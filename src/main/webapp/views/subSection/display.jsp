@@ -102,6 +102,14 @@
 	<acme:column property="evaluationCriteria.maxScore" title="evaluationCriteria.maxScore" />
 	<acme:column property="comments" title="subSectionEvaluationCriteria.comments" />
 	
+	<display:column>
+		<div>
+			<a href="subSectionEvaluationCriteria/display.do?subSectionEvaluationCriteriaId=${row.id}"> 
+				<spring:message code="subSectionEvaluationCriteria.display" />
+			</a>
+		</div>
+	</display:column>	
+	
 </display:table>
 <br /><br/>
 <jstl:if test="${subSection.commercial.id == actorId}" >
