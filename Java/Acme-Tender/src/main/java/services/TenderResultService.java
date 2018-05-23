@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import repositories.TenderResultRepository;
 import domain.Administrative;
 import domain.Administrator;
 import domain.CompanyResult;
 import domain.Tender;
 import domain.TenderResult;
-import repositories.TenderResultRepository;
 
 @Service
 @Transactional
@@ -127,6 +127,13 @@ public class TenderResultService {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(tender);
 		Assert.isTrue(administrative.equals(tender.getAdministrative()));
+
+		final TenderResult tenderResult = this.tenderResultRepository.findOneByTender(tenderId);
+
+		return tenderResult;
+	}
+
+	public TenderResult findOneByTenderAnonymous(final int tenderId) {
 
 		final TenderResult tenderResult = this.tenderResultRepository.findOneByTender(tenderId);
 

@@ -28,12 +28,16 @@
 <%@ attribute name="css" required="false"%>
 <%@ attribute name="id" required="false"%>
 <%@ attribute name="visible" required="false"%>
+<%@ attribute name="placeholder" required="false"%>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
 </jstl:if>
 <jstl:if test="${visible == null}">
 	<jstl:set var="visible" value="block" />
+</jstl:if>
+<jstl:if test="${placeholder == null}">
+	<jstl:set var="placeholder" value="" />
 </jstl:if>
 
 <%-- Definition --%>
@@ -43,6 +47,6 @@
 		<spring:message code="${code}" />
 	</form:label>
 	<form:textarea path="${path}" readonly="${readonly}" id="${id}"
-		class="${css}" style="display:${visible}" />
+		class="${css}" style="display:${visible}" placeholder="${placeholder}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>

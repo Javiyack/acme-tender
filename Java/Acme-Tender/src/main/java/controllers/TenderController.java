@@ -27,11 +27,11 @@ public class TenderController extends AbstractController {
 	// Supporting services -----------------------------------------------------
 
 	@Autowired
-	TenderService	tenderService;
+	TenderService					tenderService;
 	@Autowired
 	private ActorService			actorService;
 	@Autowired
-	private ConfigurationService	configurationService;	
+	private ConfigurationService	configurationService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -50,10 +50,11 @@ public class TenderController extends AbstractController {
 		result = new ModelAndView("tender/list");
 		result.addObject("tenders", tenders);
 		result.addObject("requestUri", "tender/list.do");
+		result.addObject("anonymous", true);
 
 		return result;
 	}
-	
+
 	// Search ---------------------------------------------------------------
 	@RequestMapping(value = "/search")
 	public ModelAndView create() {
@@ -65,7 +66,7 @@ public class TenderController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "searchButton")
 	public ModelAndView search(@Valid final SearchForm searchForm, final BindingResult binding) {
 		ModelAndView result;
@@ -73,21 +74,19 @@ public class TenderController extends AbstractController {
 		if (binding.hasErrors()) {
 			result = new ModelAndView("tender/search");
 			result.addObject("searchForm", searchForm);
-		} else {
+		} else
 			result = this.searchResult(searchForm.getWord());
-		}
 		return result;
 	}
-	
 
 	// searchResult ---------------------------------------------------------------
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
 	public ModelAndView searchResult(@RequestParam final String word) {
 		ModelAndView result;
 
-		Collection<Tender> tenders = this.tenderService.findTenderByKeyWord(word);
-		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
-		Actor actor = this.actorService.findByPrincipal();		
+		final Collection<Tender> tenders = this.tenderService.findTenderByKeyWord(word);
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		final Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("tender/listSearch");
 		result.addObject("tenders", tenders);
@@ -97,6 +96,5 @@ public class TenderController extends AbstractController {
 
 		return result;
 	}
-	
 
 }

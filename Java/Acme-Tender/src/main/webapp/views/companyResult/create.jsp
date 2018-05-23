@@ -31,7 +31,7 @@
 <%-- 		<form:options items="${states}" itemValue="state" /> --%>
 <%-- 	</form:select> --%>
 	
-	<acme:textbox code="companyResult.state" path="state" placeholder="WINNER|LOSER|RECKLESS_OFFER"/>
+	<acme:textarea code="companyResult.state" path="state" placeholder="WINNER | LOSER | RECKLESS_OFFER"/>
 	<br />
 
 	<acme:submit name="save" code="companyResult.save" css="formButton toLeft" />&nbsp;

@@ -42,6 +42,18 @@
 	</security:authorize>
 
 	
+	<security:authorize access="isAuthenticated()">
+		<jstl:if test="${anonymous}">
+			<display:column>
+				<div>
+					<a href="tenderResult/display.do?tenderId=${row.id}">
+						<spring:message code="tender.tenderResult.display" />
+					</a>
+				</div>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
+	
 	<security:authorize access="hasRole('ADMINISTRATIVE')">
 		<jstl:if test="${myTender}">
 			<display:column>

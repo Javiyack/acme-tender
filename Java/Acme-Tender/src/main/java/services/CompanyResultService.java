@@ -80,9 +80,30 @@ public class CompanyResultService {
 		Assert.notNull(administrative);
 		Assert.isTrue(companyResult.getTenderResult().getTender().getAdministrative().equals(administrative));
 
+		this.checkPosition(companyResult);
+		this.checkState(companyResult);
+
 		saved = this.companyResultRepository.save(companyResult);
 
 		return saved;
+	}
+
+	private void checkState(final CompanyResult companyResult) {
+
+		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(companyResult.getTenderResult().getId());
+
+		if (companyResult.getState().equals("WINNER"))
+			for (final CompanyResult c : companyResults)
+				Assert.isTrue(!c.getState().equals(companyResult.getState()), "Only one Winner");
+	}
+
+	private void checkPosition(final CompanyResult companyResult) {
+
+		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(companyResult.getTenderResult().getId());
+
+		for (final CompanyResult c : companyResults)
+			Assert.isTrue(!c.getPosition().equals(companyResult.getPosition()), "Can not repeat position");
+
 	}
 
 	public void delete(final CompanyResult companyResult) {
@@ -101,6 +122,13 @@ public class CompanyResultService {
 		Assert.notNull(administrative);
 		Assert.notNull(tenderResult);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
+
+		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(tenderResultId);
+
+		return companyResults;
+	}
+
+	public Collection<CompanyResult> findAllByTenderResultAnonymous(final int tenderResultId) {
 
 		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(tenderResultId);
 
