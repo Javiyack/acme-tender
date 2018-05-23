@@ -13,6 +13,9 @@ import domain.CollaborationRequest;
 public interface CollaborationRequestRepository extends JpaRepository<CollaborationRequest, Integer> {
 
 	@Query("select c from CollaborationRequest c where c.offer in (select o from Offer o where o.commercial.id = ?1)")
-	Collection<CollaborationRequest> getCollaborationRequestsFromCommercialId(int commercialId);
+	Collection<CollaborationRequest> getSentCollaborationRequestsFromCommercialId(int commercialId);
+
+	@Query("select c from CollaborationRequest c where c.commercial.id = ?1")
+	Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(int commercialId);
 
 }
