@@ -130,8 +130,9 @@ public class CategoryAdministratorController extends AbstractController {
 
 		result = new ModelAndView("category/administrator/edit");
 		categories = this.categoryService.findAll();
+		final Boolean b = this.categoryService.getChildCategories(category.getId()).isEmpty();
 		categories.remove(category);
-
+		result.addObject("haveChilds", b);
 		result.addObject("category", category);
 		result.addObject("message", message);
 		result.addObject("categories", categories);

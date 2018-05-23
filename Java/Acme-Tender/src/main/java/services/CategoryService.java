@@ -51,6 +51,7 @@ public class CategoryService {
 		Assert.notNull(administrator);
 		Assert.isNull(this.categoryRepository.haveTender(category.getId()), "category.delete.error");
 		Assert.notNull(category);
+		Assert.isTrue(this.getChildCategories(category.getId()).isEmpty());
 		Collection<Category> childCategories;
 		childCategories = this.categoryRepository.getChildCategories(category.getId());
 		if (!childCategories.isEmpty())
