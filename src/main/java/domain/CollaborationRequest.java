@@ -50,6 +50,7 @@ public class CollaborationRequest extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^(TECHNICAL_OFFER|ECONOMICAL_OFFER)$")
+	@NotBlank
 	public String getSection() {
 		return this.section;
 	}
