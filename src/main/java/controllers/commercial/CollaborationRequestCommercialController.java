@@ -35,6 +35,24 @@ public class CollaborationRequestCommercialController extends AbstractController
 	private ActorService				actorService;
 
 
+	//Display
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam int collaborationRequestId) {
+
+		ModelAndView result;
+
+		CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
+		Actor principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+
+		result = new ModelAndView("collaborationRequest/display");
+		result.addObject("collaborationRequest", collaborationRequest);
+		result.addObject("principal", principal);
+		return result;
+
+	}
+
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam int offerId) {

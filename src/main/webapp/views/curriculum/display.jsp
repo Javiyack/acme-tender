@@ -11,17 +11,17 @@
 <spring:message code="date.pattern" var="momentFormat" />
 <fmt:formatDate value="${curriculum.dateOfBirth}" pattern="${momentFormat}" var="momentVar" />
 
-	<spring:message code="curriculum.name" />: ${curriculum.name}  <br/>
-	<spring:message code="curriculum.surname" />: ${curriculum.surname}  <br/>
-	<spring:message code="curriculum.identificationNumber" />: ${curriculum.identificationNumber}  <br/>
-	<spring:message code="curriculum.phone" />: ${curriculum.phone}  <br/>
-	<spring:message code="curriculum.email" />: ${curriculum.email}  <br/>
-	<spring:message code="curriculum.dateOfBirth" />: ${momentVar}  <br/>
-	<spring:message code="curriculum.minSalaryExpectation" />: ${curriculum.minSalaryExpectation}  <br/>
+	<spring:message code="curriculum.name" />: <jstl:out value="${curriculum.name}"/>  <br/>
+	<spring:message code="curriculum.surname" />: <jstl:out value="${curriculum.surname}"/>  <br/>
+	<spring:message code="curriculum.identificationNumber" />: <jstl:out value="${curriculum.identificationNumber}" /> <br/>
+	<spring:message code="curriculum.phone" />: <jstl:out value="${curriculum.phone} "/> <br/>
+	<spring:message code="curriculum.email" />: <jstl:out value="${curriculum.email}" /> <br/>
+	<spring:message code="curriculum.dateOfBirth" />: <jstl:out value="${momentVar} "/> <br/>
+	<spring:message code="curriculum.minSalaryExpectation" />: <jstl:out value="${curriculum.minSalaryExpectation} "/> <br/>
 
 	<spring:message code="curriculum.text" />: <br/>
 		<div class="dashboard">
-			${curriculum.text}
+			<jstl:out value="${curriculum.text}"/>
 		</div>
 <br>
 

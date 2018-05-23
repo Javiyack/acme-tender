@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
 import domain.CollaborationRequest;
+import domain.Commercial;
 import domain.Offer;
 import repositories.CollaborationRequestRepository;
 
@@ -23,6 +25,8 @@ public class CollaborationRequestService {
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private OfferService					offerService;
+	@Autowired
+	private ActorService					actorService;
 
 
 	//CRUD methods
@@ -55,6 +59,14 @@ public class CollaborationRequestService {
 
 	}
 
+	public CollaborationRequest findOne(int collaborationRequestId) {
+		CollaborationRequest result;
+		result = this.collaborationRequestRepository.findOne(collaborationRequestId);
+		Assert.notNull(result);
+		checkPrincipal(result);
+		return result;
+	}
+
 	//Other methods
 
 	public Collection<CollaborationRequest> getSentCollaborationRequestsFromCommercialId(int commercialId) {
@@ -63,6 +75,17 @@ public class CollaborationRequestService {
 
 	public Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(int commercialId) {
 		return this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(commercialId);
+	}
+
+	private void checkPrincipal(CollaborationRequest collaborationRequest) {
+
+		Actor principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+		Collection<CollaborationRequest> sent = this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(principal.getId());
+		Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
+		Assert.isTrue(sent.contains(collaborationRequest) || received.contains(collaborationRequest));
+
 	}
 
 }
