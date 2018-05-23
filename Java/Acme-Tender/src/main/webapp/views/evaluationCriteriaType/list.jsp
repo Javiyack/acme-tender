@@ -20,6 +20,7 @@
 <display:table pagesize="5" class="displaytag" name="evaluationCriteriaTypes" requestURI="evaluationCriteriaType/administrative/list.do" id="row">
 
 	<acme:column property="name" title="evaluationCriteriaType.name" />
+	<acme:column property="description" title="evaluationCriteriaType.description" />
 
 	<display:column>
 		<div>
