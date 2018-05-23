@@ -20,5 +20,15 @@
 		<put-attribute name="title" value="My Tenders" />
 		<put-attribute name="body" value="/views/tender/list.jsp" />
 	</definition>
+	
+	<definition name="tender/search" extends="master.page">
+		<put-attribute name="title" value="Search tenders" />
+		<put-attribute name="body" value="/views/tender/search.jsp" />
+	</definition>	
+	
+	<definition name="tender/listSearch" extends="master.page">
+		<put-attribute name="title" value="Search results" />
+		<put-attribute name="body" value="/views/tender/list.jsp" />
+	</definition>			
 
 </tiles-definitions>

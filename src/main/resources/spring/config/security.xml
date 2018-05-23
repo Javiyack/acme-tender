@@ -34,14 +34,7 @@
 	<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
 	
 	<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
-	
-	<security:intercept-url pattern="/actor/list.do" access="permitAll" />
-	<security:intercept-url pattern="/actor/display.do" access="permitAll" />
-	
-	<security:intercept-url pattern="/tender/list.do" access="permitAll" />
-	<security:intercept-url pattern="/comment/list.do" access="permitAll" />
-	<security:intercept-url pattern="/offer/**" access="permitAll" />
-	<security:intercept-url pattern="/subSection/**" access="permitAll" />
+
 	<!-- Admin -->
 	
 	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
@@ -57,6 +50,15 @@
 	<security:intercept-url pattern="/answer/actor/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/file/**" access="isAuthenticated()" />
 	
+	<security:intercept-url pattern="/actor/list.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" />
+	
+	<security:intercept-url pattern="/tender/list.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/tender/search.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/comment/list.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/offer/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/subSection/**" access="isAuthenticated()" />	
+	
 	<!-- Commercial -->
 	
 	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
@@ -64,9 +66,6 @@
 	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/subSectionEvaluationCriteria/commercial/**" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/colaborationRequest/commercial/**" access="hasRole('COMMERCIAL')" />
-	
-	
-	
 	
 	<!-- Administrative -->
 	

@@ -32,6 +32,13 @@ public interface OfferRepository extends JpaRepository<Offer, Integer> {
 	@Query("select o from Offer o where o.published = true ")
 	Collection<Offer> findAllPublished();
 	
+	@Query("select o from Offer o "
+			+ " where o.published = true "
+			+ " and ("
+			+ "        (o.id in (select ss.offer.id from SubSection ss where (ss.title like %?1% or ss.shortDescription like %?1% or ss.body like %?1% or ss.comments like %?1%))) "
+			+ "     or (o.tender.title like %?1% or o.tender.expedient like %?1% or o.tender.organism like %?1% or o.tender.bulletin like %?1% or o.tender.observations like %?1% or o.tender.informationPage like %?1% or o.tender.interestComment like %?1%) "			
+			+ "     )" )
+	Collection<Offer> findOfferByKeyword(String word);	
 	
 	
 }

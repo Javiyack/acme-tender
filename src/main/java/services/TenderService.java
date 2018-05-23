@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import domain.Actor;
 import domain.Administrative;
+import domain.Offer;
 import domain.Tender;
 import repositories.TenderRepository;
 
@@ -73,6 +74,16 @@ public class TenderService {
 
 		return result;
 	}
+	
+	public Collection<Tender> findTenderByKeyWord(final String word) {
+		final Collection<Tender> tenders;
+		if (word.isEmpty())
+			tenders = this.findAll();
+		else
+			tenders = this.tenderRepository.findTenderByKeyword(word);
+
+		return tenders;
+	}	
 
 	//Other methods ---------------------------------------------------------------
 

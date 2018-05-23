@@ -117,6 +117,16 @@ public class OfferService {
 
 		return result;
 	}
+	
+	public Collection<Offer> findOfferByKeyWord(final String word) {
+		final Collection<Offer> offers;
+		if (word.isEmpty())
+			offers = this.findAllPublished();
+		else
+			offers = this.offerRepository.findOfferByKeyword(word);
+
+		return offers;
+	}
 
 	public Offer save(final Offer offer) {
 		Assert.notNull(offer);

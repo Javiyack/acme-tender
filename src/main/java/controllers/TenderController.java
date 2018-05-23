@@ -3,13 +3,22 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.ConfigurationService;
 import services.TenderService;
+import domain.Actor;
 import domain.Tender;
+import forms.SearchForm;
 
 @Controller
 @RequestMapping("/tender")
@@ -19,6 +28,10 @@ public class TenderController extends AbstractController {
 
 	@Autowired
 	TenderService	tenderService;
+	@Autowired
+	private ActorService			actorService;
+	@Autowired
+	private ConfigurationService	configurationService;	
 
 
 	// Constructors -----------------------------------------------------------
@@ -40,4 +53,50 @@ public class TenderController extends AbstractController {
 
 		return result;
 	}
+	
+	// Search ---------------------------------------------------------------
+	@RequestMapping(value = "/search")
+	public ModelAndView create() {
+		ModelAndView result;
+		final SearchForm searchForm = new SearchForm();
+
+		result = new ModelAndView("tender/search");
+		result.addObject("searchForm", searchForm);
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "searchButton")
+	public ModelAndView search(@Valid final SearchForm searchForm, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = new ModelAndView("tender/search");
+			result.addObject("searchForm", searchForm);
+		} else {
+			result = this.searchResult(searchForm.getWord());
+		}
+		return result;
+	}
+	
+
+	// searchResult ---------------------------------------------------------------
+	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
+	public ModelAndView searchResult(@RequestParam final String word) {
+		ModelAndView result;
+
+		Collection<Tender> tenders = this.tenderService.findTenderByKeyWord(word);
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();		
+
+		result = new ModelAndView("tender/listSearch");
+		result.addObject("tenders", tenders);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("actorId", actor.getId());
+		result.addObject("requestUri", "offer/list.do");
+
+		return result;
+	}
+	
+
 }
