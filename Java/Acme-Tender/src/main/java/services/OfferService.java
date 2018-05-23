@@ -73,6 +73,17 @@ public class OfferService {
 
 		return result;
 	}
+	
+	public Collection<Offer> findAllNotPublished() {
+		Collection<Offer> result;
+
+		result = this.offerRepository.findAllNotPublished();
+		Assert.notNull(result);
+
+		return result;
+	}
+	
+	
 
 	public Collection<Offer> findAllByCommercialPropietary() {
 		Collection<Offer> result;

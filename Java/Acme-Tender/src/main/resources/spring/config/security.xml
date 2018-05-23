@@ -59,6 +59,10 @@
 	<security:intercept-url pattern="/offer/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/subSection/**" access="isAuthenticated()" />	
 	
+	<!-- Executive -->
+	
+	<security:intercept-url pattern="/offer/executive/**" access="hasRole('EXECUTIVE')" />	
+	
 	<!-- Commercial -->
 	
 	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
