@@ -13,7 +13,7 @@
 
 
 
-<display:table pagesize="5" class="displaytag" name="collaborationRequests"
+<display:table pagesize="2" class="displaytag" name="collaborationRequests"
 	requestURI="${requestURI }" id="row">
 	
 	<acme:column property="offer.tender.reference" title="collaborationRequest.tender.reference" sortable="true" />
@@ -21,10 +21,24 @@
 	<acme:column property="section" title="collaborationRequest.section" sortable="true" />
 	
 	<acme:column property="subSectionTitle" title="collaborationRequest.subSectionTitle" sortable="true" />
-	
-	<spring:message code="collaborationRequest.receiver" var="receiverVar"/>
-	<display:column value="${row.commercial.name } ${row.commercial.surname }" title="${receiverVar }" sortable="true"/>
 
+	<jstl:choose>
+		<jstl:when
+			test="${requestURI == 'collaborationRequest/commercial/listSent.do' }">
+			<spring:message code="collaborationRequest.receiver"
+				var="receiverVar" />
+			<display:column
+				value="${row.commercial.name } ${row.commercial.surname }"
+				title="${receiverVar }" sortable="true" />
+		</jstl:when>
+		<jstl:otherwise>
+			<spring:message code="collaborationRequest.sender"
+				var="senderVar" />
+			<display:column
+				value="${row.offer.commercial.name } ${row.offer.commercial.surname }"
+				title="${senderVar }" sortable="true" />
+		</jstl:otherwise>
+	</jstl:choose>
 
 	<spring:message code="date.pattern" var="dateFormat" />
 	<spring:message code="collaborationRequest.maxAcceptanceDate"

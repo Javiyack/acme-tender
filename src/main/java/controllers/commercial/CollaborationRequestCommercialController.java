@@ -48,10 +48,10 @@ public class CollaborationRequestCommercialController extends AbstractController
 		return result;
 	}
 
-	//List sent colaboration requests
+	//List sent 
 
 	@RequestMapping(value = "/listSent", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView listSent() {
 
 		ModelAndView result;
 		Collection<CollaborationRequest> collaborationRequests;
@@ -61,11 +61,34 @@ public class CollaborationRequestCommercialController extends AbstractController
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
 
-		collaborationRequests = collaborationRequestService.getCollaborationRequestsFromCommercialId(principal.getId());
+		collaborationRequests = collaborationRequestService.getSentCollaborationRequestsFromCommercialId(principal.getId());
 
 		result = new ModelAndView("collaborationRequest/listSent");
 		result.addObject("collaborationRequests", collaborationRequests);
 		result.addObject("requestURI", "collaborationRequest/commercial/listSent.do");
+
+		return result;
+
+	}
+
+	//List received 
+
+	@RequestMapping(value = "/listReceived", method = RequestMethod.GET)
+	public ModelAndView listReceived() {
+
+		ModelAndView result;
+		Collection<CollaborationRequest> collaborationRequests;
+
+		Actor principal;
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+
+		collaborationRequests = collaborationRequestService.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
+
+		result = new ModelAndView("collaborationRequest/listReceived");
+		result.addObject("collaborationRequests", collaborationRequests);
+		result.addObject("requestURI", "collaborationRequest/commercial/listReceived.do");
 
 		return result;
 

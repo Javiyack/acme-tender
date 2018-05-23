@@ -57,8 +57,12 @@ public class CollaborationRequestService {
 
 	//Other methods
 
-	public Collection<CollaborationRequest> getCollaborationRequestsFromCommercialId(int commercialId) {
-		return this.collaborationRequestRepository.getCollaborationRequestsFromCommercialId(commercialId);
+	public Collection<CollaborationRequest> getSentCollaborationRequestsFromCommercialId(int commercialId) {
+		return this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(commercialId);
+	}
+
+	public Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(int commercialId) {
+		return this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(commercialId);
 	}
 
 }
