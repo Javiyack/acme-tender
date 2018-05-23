@@ -8,7 +8,7 @@
 <tiles-definitions>
 
 	<definition name="folder/list" extends="master.page">
-		<put-attribute name="title" value="My folders" />
+		<put-attribute name="title" value="Message's folders" />
 		<put-attribute name="body" value="/views/folder/list.jsp" />
 	</definition>
 
@@ -18,7 +18,7 @@
 	</definition>
 
 	<definition name="folder/display" extends="master.page">
-		<put-attribute name="title" value="Displaying folder"></put-attribute>
+		<put-attribute name="title" value="Folder display"></put-attribute>
 		<put-attribute name="body" value="/views/folder/display.jsp" />
 	</definition>
 
