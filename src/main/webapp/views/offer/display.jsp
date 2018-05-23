@@ -40,7 +40,7 @@
 
 <display:table class="displaytag" name="subSectionsAcreditation" id="row">
 	
-	<acme:column property="title" title="subSection.title"  />
+	<acme:column property="title" title="subSection.title" style="width:50%"/>
 	<acme:column property="subsectionOrder" title="subSection.order" />
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
@@ -84,7 +84,7 @@
 
 <display:table class="displaytag" name="subSectionsTechnical"  id="row">
 
-	<acme:column property="title" title="subSection.title" />
+	<acme:column property="title" title="subSection.title" style="width:50%"/>
 	<acme:column property="subsectionOrder" title="subSection.order" />
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
@@ -128,7 +128,7 @@
 
 <display:table class="displaytag" name="subSectionsEconomical" id="row">
 
-	<acme:column property="title" title="subSection.title"  />
+	<acme:column property="title" title="subSection.title" style="width:50%"/>
 	<acme:column property="subsectionOrder" title="subSection.order" />
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
