@@ -28,8 +28,9 @@
 	<acme:textbox code="actor.address" path="actor.address" css="formInput" />
 	<br />
 </div>
+
 <br />
-	<acme:cancel url="/actor/list.do" code="actor.cancel" css="formButton toLeft" />
+<acme:cancel url="/actor/list.do" code="actor.back" css="formButton toLeft" />
 
 
 

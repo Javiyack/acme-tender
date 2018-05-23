@@ -22,7 +22,7 @@
 	</definition>
 	
 	<definition name="tender/search" extends="master.page">
-		<put-attribute name="title" value="Search tenders" />
+		<put-attribute name="title" value="Tenders search" />
 		<put-attribute name="body" value="/views/tender/search.jsp" />
 	</definition>	
 	
