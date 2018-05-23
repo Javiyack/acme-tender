@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class ColaborationRequest extends DomainEntity {
+public class CollaborationRequest extends DomainEntity {
 
 	private Double	benefitsPercentage;
 	private String	section;
@@ -99,6 +100,7 @@ public class ColaborationRequest extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxAcceptanceDate() {
 		return this.maxAcceptanceDate;
 	}
@@ -110,6 +112,7 @@ public class ColaborationRequest extends DomainEntity {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxDeliveryDate() {
 		return this.maxDeliveryDate;
 	}
@@ -153,7 +156,7 @@ public class ColaborationRequest extends DomainEntity {
 	}
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return this.offer;

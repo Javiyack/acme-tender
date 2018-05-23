@@ -70,7 +70,7 @@
 	<security:intercept-url pattern="/curriculum/create.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/subSectionEvaluationCriteria/commercial/**" access="hasRole('COMMERCIAL')" />
-	<security:intercept-url pattern="/colaborationRequest/commercial/**" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/collaborationRequest/commercial/**" access="hasRole('COMMERCIAL')" />
 	
 	<!-- Administrative -->
 	

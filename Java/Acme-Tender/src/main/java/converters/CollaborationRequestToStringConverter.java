@@ -14,14 +14,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.ColaborationRequest;
+import domain.CollaborationRequest;
 
 @Component
 @Transactional
-public class ColaborationRequestToStringConverter implements Converter<ColaborationRequest, String> {
+public class CollaborationRequestToStringConverter implements Converter<CollaborationRequest, String> {
 
 	@Override
-	public String convert(final ColaborationRequest data) {
+	public String convert(final CollaborationRequest data) {
 		String result;
 
 		if (data == null)

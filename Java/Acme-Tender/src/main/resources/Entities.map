@@ -1,5 +1,5 @@
 #./src/main/resources/Entities.map
-#Tue May 22 17:11:56 CEST 2018
+#Wed May 23 12:09:48 CEST 2018
 subsectionevaluationcriteria4=1362
 subsectionevaluationcriteria3=1361
 subsectionevaluationcriteria2=1360
@@ -10,8 +10,6 @@ evaluationcriteria4=1356
 evaluationcriteria3=1355
 evaluationcriteria2=1354
 evaluationcriteria1=1353
-colaborationrequest2=1364
-colaborationrequest1=1363
 tenderresult1=1367
 notificationbox7=1306
 notificationbox6=1305
@@ -82,6 +80,8 @@ category4=1275
 category3=1274
 category2=1273
 category1=1272
+collaborationrequest2=1364
+collaborationrequest1=1363
 offer3=1335
 offer2=1334
 offer1=1333
