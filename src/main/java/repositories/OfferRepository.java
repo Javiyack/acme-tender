@@ -32,6 +32,9 @@ public interface OfferRepository extends JpaRepository<Offer, Integer> {
 	@Query("select o from Offer o where o.published = true ")
 	Collection<Offer> findAllPublished();
 	
+	@Query("select o from Offer o where o.published = false ")
+	Collection<Offer> findAllNotPublished();	
+	
 	@Query("select o from Offer o "
 			+ " where o.published = true "
 			+ " and ("

@@ -31,6 +31,11 @@
 		<put-attribute name="body" value="/views/offer/list.jsp" />
 	</definition>
 	
+	<definition name="offer/executive/listNotPublished" extends="master.page">
+		<put-attribute name="title" value="Listado de ofertas no publicadas" />
+		<put-attribute name="body" value="/views/offer/list.jsp" />
+	</definition>		
+	
 	<definition name="offer/administrative/listOffersByCollaboration" extends="master.page">
 		<put-attribute name="title" value="Ofertas en las que colaboro" />
 		<put-attribute name="body" value="/views/offer/list.jsp" />

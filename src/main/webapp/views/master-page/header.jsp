@@ -263,7 +263,7 @@
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
-				<a href="offer/listNotPublished.do">
+				<a href="offer/executive/listNotPublished.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list.notpublished" /></i>
 				</a>				
 				<a href="offer/search.do"> 
