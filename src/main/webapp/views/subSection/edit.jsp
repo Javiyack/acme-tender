@@ -20,7 +20,14 @@
 
 	
 	<acme:textbox code="subSection.title" path="title" />
-	<acme:textbox code="subSection.section" path="section" />
+	
+	<jstl:if test="${subSection.section == null || subSection.section == ''}" >
+		<acme:selectcombo code="subSection.section" items="${subSectionSectionsCombo}" path="section"/>
+	</jstl:if>
+	<jstl:if test="${subSection.section != null && subSection.section != ''}" >
+		<spring:message code="subSection.section" />: ${subSection.section} <br/>
+	</jstl:if>
+		
 	<acme:textbox code="subSection.order" path="subsectionOrder" />
 	<acme:textarea code="subSection.shortDescription" path="shortDescription" />
 	<acme:textarea code="subSection.text" path="body" />

@@ -17,7 +17,7 @@
 	<form:hidden path="tender" />
 	<form:hidden path="commercial" />
 
-	<acme:textbox code="offer.state" path="state" />
+	<acme:selectcombo code="offer.state" items="${statesCombo}" path="state"/>
 	<acme:textbox code="offer.amount" path="amount" />
 	<br />
 

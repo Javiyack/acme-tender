@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Offer;
+import services.ComboService;
 import services.OfferService;
 
 @Controller
@@ -25,6 +26,8 @@ public class OfferCommercialController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private OfferService offerService;
+	@Autowired
+	private ComboService comboService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -40,7 +43,11 @@ public class OfferCommercialController extends AbstractController {
 
 		final Offer offer = this.offerService.create(tenderId);
 		result.addObject("offer", offer);
-
+		
+		Collection<String> statesCombo = this.comboService.offerStates(offer.getId());
+		result.addObject("statesCombo", statesCombo);
+		
+		
 		return result;
 	}
 
@@ -111,6 +118,9 @@ public class OfferCommercialController extends AbstractController {
 
 		final ModelAndView result = new ModelAndView("offer/commercial/edit");
 		result.addObject("offer", offer);
+		
+		Collection<String> statesCombo = this.comboService.offerStates(offer.getId());
+		result.addObject("statesCombo", statesCombo);		
 
 		result.addObject("message", message);
 		return result;

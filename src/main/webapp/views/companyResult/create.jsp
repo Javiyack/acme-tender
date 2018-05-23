@@ -26,12 +26,7 @@
 	<br />
 	<acme:textbox code="companyResult.comments" path="comments" />
 	<br />
-	
-<%-- 	<form:select id="state" path="state" css="formInput" class="formInput"> --%>
-<%-- 		<form:options items="${states}" itemValue="state" /> --%>
-<%-- 	</form:select> --%>
-	
-	<acme:textarea code="companyResult.state" path="state" placeholder="WINNER | LOSER | RECKLESS_OFFER"/>
+	<acme:selectcombo code="companyResult.state" items="${companyResultStatesCombo}" path="state"/>	
 	<br />
 
 	<acme:submit name="save" code="companyResult.save" css="formButton toLeft" />&nbsp;
