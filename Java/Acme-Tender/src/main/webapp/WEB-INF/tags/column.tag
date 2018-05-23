@@ -28,13 +28,14 @@
 
 <%@ attribute name="sortable" required="false"%>
 <%@ attribute name="format" required="false"%>
+<%@ attribute name="style" required="false"%>
 
 <%-- Definition --%>
 <jstl:if test="${format != null}">
 	<spring:message code="${format }" var="formatVar" />
 </jstl:if>
 <spring:message code="${title }" var="titleVar" />
-<display:column property="${property }" title="${ titleVar}" sortable="${sortable }" format="${formatVar}"/>
+<display:column property="${property }" title="${ titleVar}" sortable="${sortable }" format="${formatVar}" style="${style}"  />
 
 
 
