@@ -2,6 +2,8 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,6 +145,7 @@ public class SubSectionService {
 		
 		SubSection result;
 		
+		subSection.setLastReviewDate(new Date());
 		result = this.subSectionRepository.save(subSection);
 		
 		return result;

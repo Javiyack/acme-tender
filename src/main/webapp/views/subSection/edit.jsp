@@ -20,7 +20,7 @@
 
 	
 	<acme:textbox code="subSection.title" path="title" />
-	<acme:textbox code="subSection.section" path="title" />
+	<acme:textbox code="subSection.section" path="section" />
 	<acme:textbox code="subSection.order" path="subsectionOrder" />
 	<acme:textarea code="subSection.shortDescription" path="shortDescription" />
 	<acme:textarea code="subSection.text" path="body" />

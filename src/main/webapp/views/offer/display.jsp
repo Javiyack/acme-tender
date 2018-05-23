@@ -20,6 +20,7 @@
 		<spring:message code="offer.presentationDate" />: ${offer.presentationDate} <br/>
 	</jstl:if>
 	<spring:message code="offer.amount" />: ${offer.amount} <br/>
+	<spring:message code="offer.commercial" />: ${offer.commercial.name} ${offer.commercial.surname} <br/>
 	<spring:message code="offer.comision" />: ${offer.amount * (benefitsPercentage/100)} <br/>
 	<jstl:if test="${offer.denialReason != null}" >
 		<spring:message code="offer.denialReason" />: ${offer.denialReason} <br/>
