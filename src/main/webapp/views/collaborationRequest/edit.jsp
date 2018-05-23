@@ -53,6 +53,6 @@
 
 	<acme:submit name="save" code="collaborationRequest.save" css="formButton toLeft" />&nbsp;
 	
-    <acme:cancel url="/" code="collaborationRequest.cancel" css="formButton toLeft" />
+    <acme:cancel url="offer/display.do?offerId=${collaborationRequest.offer.id }" code="collaborationRequest.cancel" css="formButton toLeft" />
 		
 </form:form>

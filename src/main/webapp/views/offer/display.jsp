@@ -27,7 +27,7 @@
 	</jstl:if>
 </b>
 <br/>
-<jstl:if test="${offer.commercial.id == actorId}" >
+<jstl:if test="${offer.commercial.id == actor.id}" >
 	<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
 </jstl:if>
 
@@ -46,18 +46,18 @@
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
 	<display:column title="${offerSubSectionProperty}">
 		<div>
-			<jstl:if test="${row.commercial.id != null && row.commercial.id == actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id == actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>			
-			<jstl:if test="${row.commercial.id != null && row.commercial.id != actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.commercial.id}">
 					${row.commercial.name} ${row.commercial.surname}
 				</a>
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id != actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.administrative.id}">
 					${row.administrative.name} ${row.administrative.surname}
 				</a>
@@ -90,18 +90,18 @@
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
 	<display:column title="${offerSubSectionProperty}">
 		<div>
-			<jstl:if test="${row.commercial.id != null && row.commercial.id == actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id == actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>			
-			<jstl:if test="${row.commercial.id != null && row.commercial.id != actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.commercial.id}">
 					${row.commercial.name} ${row.commercial.surname}
 				</a>
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id != actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.administrative.id}">
 					${row.administrative.name} ${row.administrative.surname}
 				</a>
@@ -134,18 +134,18 @@
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
 	<display:column title="${offerSubSectionProperty}">
 		<div>
-			<jstl:if test="${row.commercial.id != null && row.commercial.id == actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id == actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
 			</jstl:if>			
-			<jstl:if test="${row.commercial.id != null && row.commercial.id != actorId}" >
+			<jstl:if test="${row.commercial.id != null && row.commercial.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.commercial.id}">
 					${row.commercial.name} ${row.commercial.surname}
 				</a>
 			</jstl:if>
-			<jstl:if test="${row.administrative.id != null && row.administrative.id != actorId}" >
+			<jstl:if test="${row.administrative.id != null && row.administrative.id != actor.id}" >
 				<a href="actor/display.do?actorId=${row.administrative.id}">
 					${row.administrative.name} ${row.administrative.surname}
 				</a>
@@ -167,6 +167,11 @@
 
 <security:authorize access="hasRole('COMMERCIAL')">
 	<acme:button text="subSection.create" url="subSection/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+	<jstl:if test="${offer.state == 'CREATED' || offer.state == 'IN_DEVELOPMENT' }">
+		<jstl:if test="${offer.commercial eq actor }">
+			<acme:button text="collaborationRequest.newCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+		</jstl:if>
+	</jstl:if>
 </security:authorize>
 
 

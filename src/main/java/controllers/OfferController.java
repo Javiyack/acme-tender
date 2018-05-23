@@ -74,7 +74,7 @@ public class OfferController extends AbstractController {
 		result.addObject("subSectionsTechnical", subSectionsTechnical);
 		result.addObject("subSectionsEconomical", subSectionsEconomical);
 		result.addObject("benefitsPercentage", benefitsPercentage);
-		result.addObject("actorId", actor.getId());
+		result.addObject("actor", actor);
 
 		return result;
 
@@ -98,7 +98,7 @@ public class OfferController extends AbstractController {
 
 		return result;
 	}
-	
+
 	// Search ---------------------------------------------------------------
 	@RequestMapping(value = "/search")
 	public ModelAndView create() {
@@ -110,7 +110,7 @@ public class OfferController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "searchButton")
 	public ModelAndView search(@Valid final SearchForm searchForm, final BindingResult binding) {
 		ModelAndView result;
@@ -123,7 +123,6 @@ public class OfferController extends AbstractController {
 		}
 		return result;
 	}
-	
 
 	// searchResult ---------------------------------------------------------------
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
@@ -132,7 +131,7 @@ public class OfferController extends AbstractController {
 
 		Collection<Offer> offers = this.offerService.findOfferByKeyWord(word);
 		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
-		Actor actor = this.actorService.findByPrincipal();		
+		Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("offer/listSearch");
 		result.addObject("offers", offers);
@@ -142,8 +141,5 @@ public class OfferController extends AbstractController {
 
 		return result;
 	}
-	
-
-	
 
 }
