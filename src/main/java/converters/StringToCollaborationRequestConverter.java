@@ -7,27 +7,27 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.ColaborationRequest;
-import repositories.ColaborationRequestRepository;
+import domain.CollaborationRequest;
+import repositories.CollaborationRequestRepository;
 
 @Component
 @Transactional
-public class StringToColaborationRequestConverter implements Converter<String, ColaborationRequest> {
+public class StringToCollaborationRequestConverter implements Converter<String, CollaborationRequest> {
 
 	@Autowired
-	private ColaborationRequestRepository colaborationRequestRepository;
+	private CollaborationRequestRepository collaborationRequestRepository;
 
 
 	@Override
-	public ColaborationRequest convert(final String str) {
-		ColaborationRequest result;
+	public CollaborationRequest convert(final String str) {
+		CollaborationRequest result;
 		Integer id;
 		try {
 			if (StringUtils.isEmpty(str))
 				result = null;
 			else {
 				id = Integer.valueOf(str);
-				result = this.colaborationRequestRepository.findOne(id);
+				result = this.collaborationRequestRepository.findOne(id);
 			}
 
 		} catch (final Throwable oops) {

@@ -957,7 +957,7 @@
 	
 	<!-- ColaborationRequests -->
 
-	<bean id="colaborationrequest1" class="domain.ColaborationRequest">
+	<bean id="collaborationrequest1" class="domain.CollaborationRequest">
 		<property name="benefitsPercentage" value="20" />
 		<property name="section" value="TECHNICAL_OFFER" />
 		<property name="requirements" value="Como mínimo deben de ser 5 diagramas cubriendo todo el sistema." />
@@ -967,19 +967,19 @@
 		<property name="subSectionDescription" value="Diagramas de proceso del sistema de información" />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2018" />
+				<constructor-arg value="01/05/2019" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/06/2018" />
+				<constructor-arg value="01/06/2019" />
 			</bean>
 		</property>
 		<property name="commercial" ref="commercial2" />
 		<property name="offer" ref="offer1" />
 	</bean>	
 	
-	<bean id="colaborationrequest2" class="domain.ColaborationRequest">
+	<bean id="collaborationrequest2" class="domain.CollaborationRequest">
 		<property name="benefitsPercentage" value="10" />
 		<property name="section" value="TECHNICAL_OFFER" />
 		<property name="requirements" value="La parte del Acerca de... bien comentada." />
@@ -989,12 +989,12 @@
 		<property name="subSectionDescription" value="El contenido de dicha parte de la web" />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2018" />
+				<constructor-arg value="05/05/2019" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="10/05/2018" />
+				<constructor-arg value="10/05/2019" />
 			</bean>
 		</property>
 		<property name="accepted" value="false" />

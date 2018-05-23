@@ -133,7 +133,7 @@
 				<a href="collaborationRequest/commercial/listReceived.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.collaboration.requests.received" /></i>
 				</a>
-				<a href="collaborationRequest/commercial/listSended.do">
+				<a href="collaborationRequest/commercial/listSent.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.collaboration.requests.sended" /></i>
 				</a>	
 				<hr />					

@@ -16,7 +16,7 @@
 	<spring:message code="curriculum.identificationNumber" />: ${curriculum.identificationNumber}  <br/>
 	<spring:message code="curriculum.phone" />: ${curriculum.phone}  <br/>
 	<spring:message code="curriculum.email" />: ${curriculum.email}  <br/>
-	<spring:message code="curriculum.dateOfBirth" />: ${curriculum.dateOfBirth}  <br/>
+	<spring:message code="curriculum.dateOfBirth" />: ${momentVar}  <br/>
 	<spring:message code="curriculum.minSalaryExpectation" />: ${curriculum.minSalaryExpectation}  <br/>
 
 	<spring:message code="curriculum.text" />: <br/>

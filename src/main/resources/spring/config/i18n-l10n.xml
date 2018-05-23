@@ -44,7 +44,7 @@
 		<value>/views/evaluationCriteriaType/messages</value>
 		<value>/views/offer/messages</value>
 		<value>/views/subSection/messages</value>
-		<value>/views/colaborationRequest/messages</value>
+		<value>/views/collaborationRequest/messages</value>
 		
 	</util:list>
 
