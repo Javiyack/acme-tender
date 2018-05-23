@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CompanyResultService;
+import services.TenderResultService;
+import services.TenderService;
 import controllers.AbstractController;
 import domain.CompanyResult;
 import domain.Tender;
 import domain.TenderResult;
-import services.CompanyResultService;
-import services.TenderResultService;
-import services.TenderService;
 import exceptions.HackingException;
 
 @Controller
@@ -107,23 +107,20 @@ public class TenderResultAdministrativeController extends AbstractController {
 		ModelAndView result;
 		final TenderResult tenderResult;
 
-		try {
-			tenderResult = this.tenderResultService.findOneByTender(tenderId);
-			if (tenderResult != null) {
-				final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
-				result = new ModelAndView("tenderResult/administrative/display");
-				result.addObject("tenderResult", tenderResult);
-				result.addObject("companyResultCreate", true);
-				result.addObject("companyResults", companyResults);
-				result.addObject("tenderId", tenderId);
-			} else {
-				result = new ModelAndView("tenderResult/administrative/display");
-				result.addObject("tenderResult", tenderResult);
-				result.addObject("tenderId", tenderId);
-			}
-		} catch (final Throwable ooops) {
-			throw new HackingException(ooops);
+		tenderResult = this.tenderResultService.findOneByTender(tenderId);
+		if (tenderResult != null) {
+			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
+			result = new ModelAndView("tenderResult/administrative/display");
+			result.addObject("tenderResult", tenderResult);
+			result.addObject("companyResultCreate", true);
+			result.addObject("companyResults", companyResults);
+			result.addObject("tenderId", tenderId);
+		} else {
+			result = new ModelAndView("tenderResult/administrative/display");
+			result.addObject("tenderResult", tenderResult);
+			result.addObject("tenderId", tenderId);
 		}
+
 		return result;
 	}
 	// Auxiliary methods ----------------------------------------------------

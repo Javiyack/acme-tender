@@ -43,7 +43,7 @@
 				<a href="tender/search.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.search" /></i>
 				</a>
-				<a href="tender/listMyTenders.do"> 
+				<a href="tender/administrative/list.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.my.tenders" /></i>
 				</a>				
 				<hr />

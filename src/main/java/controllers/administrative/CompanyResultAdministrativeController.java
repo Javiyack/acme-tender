@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
-import domain.CompanyResult;
-import domain.TenderResult;
 import services.CompanyResultService;
 import services.TenderResultService;
 import services.TenderService;
+import controllers.AbstractController;
+import domain.CompanyResult;
+import domain.TenderResult;
 
 @Controller
 @RequestMapping("/companyResult/administrative")
@@ -68,8 +68,12 @@ public class CompanyResultAdministrativeController extends AbstractController {
 				result.addObject("companyResults", companyResults);
 				result.addObject("tenderId", companyResult.getTenderResult().getTender().getId());
 			} catch (final Throwable oops) {
-
-				result = this.createEditModelAndView(companyResult, "companyResult.commit.error");
+				if (oops.getMessage() == "Only one Winner")
+					result = this.createEditModelAndView(companyResult, "companyResult.only.winner");
+				else if (oops.getMessage() == "Can not repeat position")
+					result = this.createEditModelAndView(companyResult, "companyResult.not.repeat.position");
+				else
+					result = this.createEditModelAndView(companyResult, "companyResult.commit.error");
 			}
 		return result;
 	}
