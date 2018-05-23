@@ -7,7 +7,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -15,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -46,6 +46,7 @@ public class SubSection extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^(ADMINISTRATIVE_ACREDITATION|TECHNICAL_OFFER|ECONOMICAL_OFFER)$")
+	@NotBlank
 	public String getSection() {
 		return this.section;
 	}

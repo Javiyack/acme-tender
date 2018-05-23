@@ -74,6 +74,7 @@ public class CompanyResult extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "(WINNER|LOSER|RECKLESS_OFFER)")
+	@NotBlank
 	public String getState() {
 		return this.state;
 	}

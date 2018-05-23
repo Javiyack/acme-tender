@@ -165,6 +165,7 @@ public class Tender extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^(UNDEFINED|LOW|MEDIUM|HIGH)$")
+	@NotBlank
 	public String getInterest() {
 		return this.interest;
 	}
