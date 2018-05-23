@@ -1,6 +1,8 @@
 
 package controllers.commercial;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 import domain.Commercial;
 import domain.SubSection;
+import services.ComboService;
 import services.CommercialService;
 import services.SubSectionService;
 
@@ -28,6 +31,8 @@ public class SubSectionCommercialController extends AbstractController {
 	private SubSectionService	subSectionService;
 	@Autowired
 	private CommercialService	commercialService;
+	@Autowired
+	private ComboService comboService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -44,6 +49,9 @@ public class SubSectionCommercialController extends AbstractController {
 		final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
 		result.addObject("subSection", subSection);
 		result.addObject("requestUri", "subSection/commercial/edit.do");
+		
+		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+		result.addObject("subSectionSectionsCombo",subSectionSectionsCombo);
 
 		return result;
 	}

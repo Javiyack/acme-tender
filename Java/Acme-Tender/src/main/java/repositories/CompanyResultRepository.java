@@ -15,4 +15,6 @@ public interface CompanyResultRepository extends JpaRepository<CompanyResult, In
 	@Query("select cr from CompanyResult cr where cr.tenderResult.id = ?1")
 	Collection<CompanyResult> findAllByTenderResult(int tenderResultId);
 
+	@Query("select cr from CompanyResult cr where cr.tenderResult.id = ?1 and cr.state = 'WINNER' ")
+	Collection<CompanyResult> findAllWinnerByTenderResult(int tenderResultId);
 }

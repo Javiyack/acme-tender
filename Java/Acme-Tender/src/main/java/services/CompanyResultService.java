@@ -127,6 +127,10 @@ public class CompanyResultService {
 
 		return companyResults;
 	}
+	
+	public Collection<CompanyResult> findAllWinnerByTenderResult(int tenderResultId) {
+		return this.companyResultRepository.findAllWinnerByTenderResult(tenderResultId);
+	}
 
 	public Collection<CompanyResult> findAllByTenderResultAnonymous(final int tenderResultId) {
 

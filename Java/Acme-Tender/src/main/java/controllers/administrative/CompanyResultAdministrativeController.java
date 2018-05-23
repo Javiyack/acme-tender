@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ComboService;
 import services.CompanyResultService;
 import services.TenderResultService;
 import services.TenderService;
@@ -29,7 +30,7 @@ public class CompanyResultAdministrativeController extends AbstractController {
 	@Autowired
 	private TenderResultService		tenderResultService;
 	@Autowired
-	private TenderService			tenderService;
+	private ComboService			comboService;
 	@Autowired
 	private CompanyResultService	companyResultService;
 
@@ -114,14 +115,12 @@ public class CompanyResultAdministrativeController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final CompanyResult companyResult, final String message) {
 
-		final Collection<String> states = new LinkedList<String>();
-		states.add("WINNER");
-		states.add("LOSER");
-		states.add("RECKLESS_OFFER");
-
 		final ModelAndView result = new ModelAndView("companyResult/administrative/create");
+		
+		Collection<String> companyResultStatesCombo = this.comboService.companyResultStates(companyResult);
+		result.addObject("companyResultStatesCombo", companyResultStatesCombo);
+		
 		result.addObject("companyResult", companyResult);
-		result.addObject("states", states);
 		result.addObject("message", message);
 		return result;
 	}
