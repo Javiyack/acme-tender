@@ -12,12 +12,12 @@
 <tiles-definitions>
 
 	<definition name="category/administrator/list" extends="master.page">
-		<put-attribute name="title" value="Lista de categorías" />
+		<put-attribute name="title" value="Categorías de concurso" />
 		<put-attribute name="body" value="/views/category/list.jsp" />
 	</definition>
 
 	<definition name="category/administrator/edit" extends="master.page">
-		<put-attribute name="title" value="Edición de categoría" />
+		<put-attribute name="title" value="Editar categoría" />
 		<put-attribute name="body" value="/views/category/edit.jsp" />
 	</definition>
 

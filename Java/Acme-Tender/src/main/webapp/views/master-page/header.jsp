@@ -89,8 +89,7 @@
 				</a>
 				<a href="actor/edit.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
-				</a>				
-				<hr />					
+				</a>					
 			</div>
 		</div>
 	</security:authorize>
@@ -163,8 +162,7 @@
 				</a>
 				<a href="actor/edit.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
-				</a>				
-				<hr />					
+				</a>							
 			</div>
 		</div>
 	</security:authorize>
@@ -237,8 +235,7 @@
 				</a>
 				<a href="actor/edit.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
-				</a>				
-				<hr />				
+				</a>							
 			</div>
 		</div>
 	</security:authorize>	
@@ -291,8 +288,7 @@
 				</a>
 				<a href="actor/edit.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
-				</a>				
-				<hr />				
+				</a>							
 			</div>
 		</div>
 	</security:authorize>	
@@ -300,15 +296,19 @@
 
 	
 	<!-- Lenguaje -->
-	<!-- 	<a href="?language=en">en</a> -->
-	<!-- 	<a href="?language=es">es</a> -->
-	<a href="${requestScope['javax.servlet.forward.request_uri']} <my:replaceParam name='language' value='en' />">
-		en
-	</a>
-
-	<a href="${requestScope['javax.servlet.forward.request_uri']} <my:replaceParam name='language' value='es' />">
-		es
-	</a>	
+	<!-- 	<a href="${requestScope['javax.servlet.forward.request_uri']} <my:replaceParam name='language' value='en' />">en</a> -->
+	<!-- 	<a href="${requestScope['javax.servlet.forward.request_uri']} <my:replaceParam name='language' value='es' />">es</a> -->
+	
+	<div class="dropdown">
+		<button class="dropbtn">
+			i18n &nbsp;&nbsp;
+		</button>
+		<div class="dropdown-content">
+		
+			<a href="?language=es"><img src="images/es.png" /></a>
+			<a href="?language=en"><img src="images/en.png" /></a> 	
+		</div>
+	</div>
 	
 	<a href="#about">
 		<spring:message code="master.page.about" />

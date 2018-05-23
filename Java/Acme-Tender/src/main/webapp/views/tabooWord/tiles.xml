@@ -11,25 +11,19 @@
 
 <tiles-definitions>
 
-	<definition name="tabooWord/administrator/list"
-		extends="master.page">
-		<put-attribute name="title" value="List taboo words" />
-		<put-attribute name="body"
-			value="/views/tabooWord/list.jsp" />
+	<definition name="tabooWord/administrator/list" extends="master.page">
+		<put-attribute name="title" value="Taboo words list" />
+		<put-attribute name="body" value="/views/tabooWord/list.jsp" />
 	</definition>
 
-	<definition name="tabooWord/administrator/create"
-		extends="master.page">
+	<definition name="tabooWord/administrator/create" extends="master.page">
 		<put-attribute name="title" value="Create taboo word" />
-		<put-attribute name="body"
-			value="/views/tabooWord/edit.jsp" />
+		<put-attribute name="body" value="/views/tabooWord/edit.jsp" />
 	</definition>
 
-	<definition name="tabooWord/administrator/edit"
-		extends="master.page">
+	<definition name="tabooWord/administrator/edit" extends="master.page">
 		<put-attribute name="title" value="Edit taboo word" />
-		<put-attribute name="body"
-			value="/views/tabooWord/edit.jsp" />
+		<put-attribute name="body" value="/views/tabooWord/edit.jsp" />
 	</definition>
 
 </tiles-definitions>
