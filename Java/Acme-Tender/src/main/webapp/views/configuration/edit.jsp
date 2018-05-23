@@ -32,14 +32,10 @@
 	<acme:textbox code="configuration.benefitsPercentage" path="benefitsPercentage" />
 	<br />
 	
-	<acme:textbox code="configuration.welcomeMessageEs" path="welcomeMessageEs" />
-	<acme:textbox code="configuration.welcomeMessageEn" path="welcomeMessageEn" />
+	<acme:textarea code="configuration.welcomeMessageEs" path="welcomeMessageEs" />
+	<acme:textarea code="configuration.welcomeMessageEn" path="welcomeMessageEn" />
 	<br />  
 	
-	<spring:message code="configuration.save" var="saveText"/>
-	<input type="submit" name="save" value="${saveText}" />&nbsp; 
+	<acme:submit code="configuration.save" name="save" css="formButton toLeft" />
                 
-    <acme:cancel url="/" code="configuration.cancel"/>
-	<br />
-
 </form:form>
