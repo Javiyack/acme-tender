@@ -14,6 +14,7 @@
 	<form:hidden path="version" />
 
 	<acme:textbox code="evaluationCriteriaType.name" path="name" />
+	<acme:textbox code="evaluationCriteriaType.description" path="description" />
 	<br />
 
 	<acme:submit name="save" code="evaluationCriteriaType.save" css="formButton toLeft" />&nbsp;

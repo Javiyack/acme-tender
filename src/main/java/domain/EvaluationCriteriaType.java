@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 public class EvaluationCriteriaType extends DomainEntity {
 
 	private String	name;
+	private String description;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -25,5 +26,17 @@ public class EvaluationCriteriaType extends DomainEntity {
 	public void setName(final String name) {
 		this.name = name;
 	}
+
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@NotBlank	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 }

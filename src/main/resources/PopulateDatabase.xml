@@ -864,14 +864,17 @@
 
 	<bean id="evaluationcriteriatype1" class="domain.EvaluationCriteriaType">
 		<property name="name" value="Juicio de valor" />
+		<property name="description" value="Criterio en el que la nota resultante proviene de una evaluación subjetiva" />
 	</bean>
 
 	<bean id="evaluationcriteriatype2" class="domain.EvaluationCriteriaType">
 		<property name="name" value="Aplicación de fórmulas" />
+		<property name="description" value="Criterio en el que la nota resultante proviene de la aplicación de una fórmula" />		
 	</bean>
 
 	<bean id="evaluationcriteriatype3" class="domain.EvaluationCriteriaType">
 		<property name="name" value="Otros criterios" />
+		<property name="description" value="Otros criterios" />		
 	</bean>
 
 	<!-- SubSectionEvaluationCriterias -->
