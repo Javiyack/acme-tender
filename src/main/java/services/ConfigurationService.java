@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,10 +59,10 @@ public class ConfigurationService {
 
 	//Other methods -----------------------------------------------------
 
-	public String findWelcomeMessage(final String locale) {
+	public String findWelcomeMessage(final Locale locale) {
 		String result = null;
 
-		switch (locale) {
+		switch (locale.getLanguage()) {
 		case "es":
 			result = this.configurationRepository.findWelcomeMessageEs();
 			break;
@@ -69,7 +70,6 @@ public class ConfigurationService {
 			result = this.configurationRepository.findWelcomeMessageEn();
 			break;
 		}
-
 		return result;
 	}
 
@@ -84,10 +84,8 @@ public class ConfigurationService {
 	public Double findBenefitsPercentage() {
 		return this.configurationRepository.findBenefitsPercentage();
 	}
-	
 
 	public void flush() {
 		this.configurationRepository.flush();
-
 	}
 }
