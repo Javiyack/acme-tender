@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CommentRepository;
+import domain.Administrator;
+import domain.Answer;
 import domain.Comment;
 import domain.Commercial;
 import domain.Tender;
@@ -21,13 +23,17 @@ public class CommentService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private CommentRepository	commentRepository;
+	private CommentRepository		commentRepository;
 
 	//Services
 	@Autowired
-	private CommercialService	commercialService;
+	private CommercialService		commercialService;
 	@Autowired
-	private TenderService		tenderService;
+	private TenderService			tenderService;
+	@Autowired
+	private AdministratorService	administratorService;
+	@Autowired
+	private AnswerService			answerService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -109,6 +115,19 @@ public class CommentService {
 		Assert.notNull(comments);
 
 		return comments;
+	}
+
+	public void deleteByAdmin(final Collection<Comment> comments) {
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		for (final Comment c : comments) {
+			final Collection<Answer> answers = this.answerService.findAllByComment(c.getId());
+			this.answerService.deleteInBatch(answers);
+
+			this.commentRepository.delete(c);
+		}
+
 	}
 
 }

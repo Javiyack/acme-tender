@@ -38,7 +38,7 @@ public class TenderAdminController extends AbstractController {
 
 		final ModelAndView result;
 
-		final Collection<Tender> tenders = this.tenderService.findAllTenderWithTabooWords();
+		final Collection<Tender> tenders = this.tenderService.findAll();
 
 		result = new ModelAndView("tender/administrator/list");
 		result.addObject("tenders", tenders);

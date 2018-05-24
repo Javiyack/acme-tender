@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -12,13 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Actor;
-import domain.Administrative;
-import domain.Commercial;
+import repositories.CurriculumRepository;
 import domain.Constant;
 import domain.Curriculum;
-import domain.SubSection;
-import repositories.CurriculumRepository;
+import domain.File;
 
 @Service
 @Transactional
@@ -37,7 +33,6 @@ public class CurriculumService {
 	 * restricción4 --> EDITAR: puede editar un currículum el comercial que lo haya creado.
 	 * 
 	 * restricción5 --> BORRAR: puede borrar un currículum el comercial que haya creado la subsección a la que pertenece el currículum.
-	 * 
 	 */
 
 	// Managed repository ------------------------------------------------
@@ -47,6 +42,9 @@ public class CurriculumService {
 	//Supporting services
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private FileService				fileService;
 
 	@Autowired
 	private SubSectionService		subSectionService;
@@ -79,12 +77,12 @@ public class CurriculumService {
 		return result;
 	}
 
-	public Curriculum findOneToEdit(int curriculumId) {
+	public Curriculum findOneToEdit(final int curriculumId) {
 		Curriculum result;
 
 		result = this.curriculumRepository.findOne(curriculumId);
 		Assert.notNull(result);
-		checkPrincipal(result);
+		this.checkPrincipal(result);
 
 		return result;
 	}
@@ -104,9 +102,8 @@ public class CurriculumService {
 		Assert.notNull(curriculum);
 		Assert.isTrue(!curriculum.getSubSection().getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 
-		if (curriculum.getId() != 0) {
-			checkPrincipal(curriculum);
-		}
+		if (curriculum.getId() != 0)
+			this.checkPrincipal(curriculum);
 
 		final Curriculum saved = this.curriculumRepository.save(curriculum);
 
@@ -115,13 +112,19 @@ public class CurriculumService {
 
 	public void delete(final Curriculum curriculum) {
 		Assert.notNull(curriculum);
-		checkPrincipal(curriculum);
+		this.checkPrincipal(curriculum);
 		this.curriculumRepository.delete(curriculum);
 	}
 
 	public void deleteInBatch(final Collection<Curriculum> curriculums) {
 		Assert.notNull(curriculums);
-		this.curriculumRepository.deleteInBatch(curriculums);
+
+		for (final Curriculum c : curriculums) {
+			final Collection<File> files = this.fileService.findAllByCurriculum(c.getId());
+			this.fileService.deleteInBatch(files);
+
+			this.curriculumRepository.delete(c);
+		}
 
 	}
 
@@ -132,93 +135,86 @@ public class CurriculumService {
 
 	//Other methods
 
-	public Collection<Curriculum> getCurriculumsFromSubSectionId(int subSectionId) {
-		checkListAndDisplay(subSectionId);
+	public Collection<Curriculum> findAllBySubSection(final int subSectionId) {
 		return this.curriculumRepository.getCurriculumsFromSubSectionId(subSectionId);
 
 	}
-	
-	public Collection<Curriculum> findAllBySubsection(int subSectionId) {
+
+	public Collection<Curriculum> getCurriculumsFromSubSectionId(final int subSectionId) {
+		this.checkListAndDisplay(subSectionId);
 		return this.curriculumRepository.getCurriculumsFromSubSectionId(subSectionId);
 
-	}	
+	}
 
-	public Collection<Curriculum> getCurriculumsFromCommercialId(int commercialId) {
+	public Collection<Curriculum> findAllBySubsection(final int subSectionId) {
+		return this.curriculumRepository.getCurriculumsFromSubSectionId(subSectionId);
+
+	}
+
+	public Collection<Curriculum> getCurriculumsFromCommercialId(final int commercialId) {
 		return this.curriculumRepository.getCurriculumsFromCommercialId(commercialId);
 	}
 
-	public void checkListAndDisplay(int subSectionId) {
+	public void checkListAndDisplay(final int subSectionId) {
 
 		Assert.isTrue(this.subSectionService.canViewSubSection(subSectionId));
 
 		/*
-		Actor principal;
-		principal = this.actorService.findByPrincipal();
-		Assert.isTrue(principal instanceof Commercial || principal instanceof Administrative);
-
-		SubSection subSection;
-		subSection = this.subSectionService.findOne(subSectionId);
-		Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
-
-		Collection<Actor> subSectionCreators = new ArrayList<Actor>();
-		Collection<Commercial> subSectionCommercials = this.commercialService.getSubSectionCommercialsFromOfferId(subSection.getOffer().getId());
-		Collection<Commercial> subSectionAdministratives = this.administrativeService.getSubSectionAdministrativesFromOfferId(subSection.getOffer().getId());
-		subSectionCreators.addAll(subSectionCommercials);
-		subSectionCreators.addAll(subSectionAdministratives);
-		Assert.isTrue(subSection.getOffer().getCommercial().equals(principal) || subSectionCreators.contains(principal));
-		*/
+		 * Actor principal;
+		 * principal = this.actorService.findByPrincipal();
+		 * Assert.isTrue(principal instanceof Commercial || principal instanceof Administrative);
+		 * 
+		 * SubSection subSection;
+		 * subSection = this.subSectionService.findOne(subSectionId);
+		 * Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
+		 * 
+		 * Collection<Actor> subSectionCreators = new ArrayList<Actor>();
+		 * Collection<Commercial> subSectionCommercials = this.commercialService.getSubSectionCommercialsFromOfferId(subSection.getOffer().getId());
+		 * Collection<Commercial> subSectionAdministratives = this.administrativeService.getSubSectionAdministrativesFromOfferId(subSection.getOffer().getId());
+		 * subSectionCreators.addAll(subSectionCommercials);
+		 * subSectionCreators.addAll(subSectionAdministratives);
+		 * Assert.isTrue(subSection.getOffer().getCommercial().equals(principal) || subSectionCreators.contains(principal));
+		 */
 	}
 
-	public void checkPrincipal(Curriculum curriculum) {
-		
+	public void checkPrincipal(final Curriculum curriculum) {
+
 		Assert.isTrue(this.subSectionService.canEditSubSection(curriculum.getSubSection().getId()));
-		
+
 		/*
-		final Actor principal = this.actorService.findByPrincipal();
-		Assert.isTrue(principal instanceof Commercial);
-		Assert.isTrue(curriculumRepository.getCurriculumsFromCommercialId(principal.getId()).contains(curriculum));
-		*/
+		 * final Actor principal = this.actorService.findByPrincipal();
+		 * Assert.isTrue(principal instanceof Commercial);
+		 * Assert.isTrue(curriculumRepository.getCurriculumsFromCommercialId(principal.getId()).contains(curriculum));
+		 */
 	}
 
-	public boolean checkLegalAge(Date dateOfBirth) {
+	public boolean checkLegalAge(final Date dateOfBirth) {
 
 		boolean result = false;
 
-		Date d = new Date();
-		Calendar currentDate = new GregorianCalendar();
+		final Date d = new Date();
+		final Calendar currentDate = new GregorianCalendar();
 		currentDate.setTime(d);
 
-		Calendar birthDate = new GregorianCalendar();
+		final Calendar birthDate = new GregorianCalendar();
 		birthDate.setTime(dateOfBirth);
 
-		int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
-		int currentMonth = currentDate.get(Calendar.MONTH) + 1;
-		int currentYear = currentDate.get(Calendar.YEAR);
+		final int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
+		final int currentMonth = currentDate.get(Calendar.MONTH) + 1;
+		final int currentYear = currentDate.get(Calendar.YEAR);
 
-		int birthDay = birthDate.get(Calendar.DAY_OF_MONTH);
-		int birthMonth = birthDate.get(Calendar.MONTH) + 1;
-		int birthYear = birthDate.get(Calendar.YEAR);
+		final int birthDay = birthDate.get(Calendar.DAY_OF_MONTH);
+		final int birthMonth = birthDate.get(Calendar.MONTH) + 1;
+		final int birthYear = birthDate.get(Calendar.YEAR);
 
-		if (currentYear - birthYear > 18) {
-
+		if (currentYear - birthYear > 18)
 			result = true;
-
-		} else if (currentYear - birthYear == 18) {
-
-			if (currentMonth > birthMonth) {
-
+		else if (currentYear - birthYear == 18)
+			if (currentMonth > birthMonth)
 				result = true;
-
-			} else if (currentMonth == birthMonth) {
-
-				if (currentDay >= birthDay) {
-
+			else if (currentMonth == birthMonth)
+				if (currentDay >= birthDay)
 					result = true;
-				}
-
-			}
-
-		}
 
 		return result;
 	}

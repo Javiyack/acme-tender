@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.EvaluationCriteriaRepository;
 import domain.EvaluationCriteria;
 import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
-import repositories.EvaluationCriteriaRepository;
 
 @Service
 @Transactional
@@ -105,6 +105,16 @@ public class EvaluationCriteriaService {
 		this.evaluationCriteriaRepository.delete(evaluationCriteria);
 	}
 
+	public void deleteByAdmin(final Collection<EvaluationCriteria> evaluationCriterias) {
+
+		for (final EvaluationCriteria ev : evaluationCriterias) {
+			final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllWithEvaluationCriteria(ev.getId());
+			this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
+
+			this.evaluationCriteriaRepository.delete(ev);
+		}
+
+	}
 	// Other business methods -------------------------------------------------
 
 }

@@ -23,7 +23,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<display:table pagesize="5" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
+<display:table pagesize="5" class="displaytag" name="tenders" requestURI="tender/administrator/list.do" id="row">
 
 	<spring:message code="tender.reference" var="tenderReference" />
 	<acme:column property="reference" title="tender.reference" />
