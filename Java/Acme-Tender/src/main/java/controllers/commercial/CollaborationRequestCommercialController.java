@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import domain.Commercial;
 import services.ActorService;
 import services.CollaborationRequestService;
 import services.CommercialService;
+import services.MyMessageService;
 
 @Controller
 @RequestMapping("/collaborationRequest/commercial")
@@ -33,6 +35,8 @@ public class CollaborationRequestCommercialController extends AbstractController
 	private CommercialService			commercialService;
 	@Autowired
 	private ActorService				actorService;
+	@Autowired
+	private MyMessageService			myMessageService;
 
 
 	//Display
@@ -111,11 +115,25 @@ public class CollaborationRequestCommercialController extends AbstractController
 		return result;
 
 	}
+	@RequestMapping(value = "/reject", method = RequestMethod.GET)
+	public ModelAndView reject(@RequestParam int collaborationRequestId) {
+
+		ModelAndView result;
+
+		CollaborationRequest collaborationRequest;
+		collaborationRequest = this.collaborationRequestService.findOneToEdit(collaborationRequestId);
+
+		result = this.createEditModelAndView(collaborationRequest);
+		result.addObject("reject", true);
+
+		return result;
+
+	}
 
 	//Save
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final CollaborationRequest collaborationRequest, final BindingResult binding) {
+	public ModelAndView save(@Valid final CollaborationRequest collaborationRequest, final BindingResult binding, @ModelAttribute("reject") Boolean reject) {
 
 		ModelAndView result;
 
@@ -129,11 +147,24 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 		} else {
 
-			try {
-				collaborationRequestService.save(collaborationRequest);
-				result = new ModelAndView("redirect:/");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
+			if (collaborationRequest.getId() != 0 && collaborationRequest.getRejectedReason().isEmpty()) {
+
+				result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.rejection.error");
+
+			} else {
+
+				try {
+					if (reject == true) {
+						collaborationRequest.setAccepted(false);
+					}
+					CollaborationRequest saved = collaborationRequestService.save(collaborationRequest);
+					this.myMessageService.collaborationRequestRejectionNotification(saved);
+
+					result = new ModelAndView("redirect:/");
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
+
+				}
 
 			}
 		}
