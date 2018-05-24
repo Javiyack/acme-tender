@@ -31,6 +31,11 @@
 	<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
 </jstl:if>
 
+<jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
+	<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+	<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+</jstl:if>
+
 <acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
 <br/><br/>
 
@@ -166,10 +171,8 @@
 <br />
 
 <security:authorize access="hasRole('COMMERCIAL')">
-	<jstl:if test="${offer.state == 'IN_DEVELOPMENT' && offer.commercial.id == actor.id}" >
+	<jstl:if test="${offer.inDevelopment && offer.commercial.id == actor.id}" >
 		<acme:button text="subSection.create" url="subSection/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-
-		<acme:button text="collaborationRequest.newCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
 	</jstl:if>
 </security:authorize>
 
