@@ -40,6 +40,9 @@ public interface OfferRepository extends JpaRepository<Offer, Integer> {
 		+ "     )")
 	Collection<Offer> findOfferByKeyword(String word);
 
+	@Query("select o from Offer o where o.tender.id = ?1")
+	Offer findByTender(Integer tenderId);
+
 	//	@Query(value = "" + " select * " + " from Offer o " + " where (o.id in (select ss.offer.id from SubSection ss where (ss.title regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1"
 	//		+ " OR ss.shortDescription regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1" + " OR ss.body regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1"
 	//		+ " OR ss.comments regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1))) ", nativeQuery = true)

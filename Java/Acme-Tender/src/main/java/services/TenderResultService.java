@@ -14,6 +14,7 @@ import repositories.TenderResultRepository;
 import domain.Administrative;
 import domain.Administrator;
 import domain.CompanyResult;
+import domain.File;
 import domain.Tender;
 import domain.TenderResult;
 
@@ -34,6 +35,8 @@ public class TenderResultService {
 	private AdministrativeService	administrativeService;
 	@Autowired
 	private CompanyResultService	companyResultService;
+	@Autowired
+	private FileService				fileService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -109,6 +112,9 @@ public class TenderResultService {
 		final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
 		this.companyResultService.deleteInBatch(companyResults);
 
+		final Collection<File> files = this.fileService.findAllByTenderResult(tenderResult.getId());
+		this.fileService.deleteInBatch(files);
+
 		this.tenderResultRepository.delete(tenderResult);
 
 	}
@@ -138,5 +144,16 @@ public class TenderResultService {
 		final TenderResult tenderResult = this.tenderResultRepository.findOneByTender(tenderId);
 
 		return tenderResult;
+	}
+
+	public void deleteByAdmin(final TenderResult tenderResult) {
+		final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResultAnonymous(tenderResult.getId());
+		this.companyResultService.deleteInBatch(companyResults);
+
+		final Collection<File> files = this.fileService.findAllByTenderResult(tenderResult.getId());
+		this.fileService.deleteInBatch(files);
+
+		this.tenderResultRepository.delete(tenderResult);
+
 	}
 }

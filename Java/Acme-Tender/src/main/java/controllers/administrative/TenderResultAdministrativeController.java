@@ -86,8 +86,10 @@ public class TenderResultAdministrativeController extends AbstractController {
 
 		try {
 			this.tenderResultService.delete(tenderResult);
+			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
 			result = new ModelAndView("tender/administrative/list");
 			result.addObject("myTender", true);
+			result.addObject("tenders", tenders);
 			result.addObject("requestUri", "tender/administrative/list.do");
 		} catch (final Throwable ooops) {
 			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
@@ -118,6 +120,7 @@ public class TenderResultAdministrativeController extends AbstractController {
 		} else {
 			result = new ModelAndView("tenderResult/administrative/display");
 			result.addObject("tenderResult", tenderResult);
+			result.addObject("companyResultCreate", true);
 			result.addObject("tenderId", tenderId);
 		}
 

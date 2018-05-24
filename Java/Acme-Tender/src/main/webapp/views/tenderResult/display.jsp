@@ -77,7 +77,7 @@
 </display:table>
 
 <security:authorize access="hasRole('ADMINISTRATIVE')">
-	<jstl:if test="${companyResultCreate}">
+	<jstl:if test="${tenderResult.id != null && companyResultCreate}">
 		<acme:button text="tenderResult.companyResult.create" url="companyResult/administrative/create.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
 	</jstl:if>
 	<br/><br/>

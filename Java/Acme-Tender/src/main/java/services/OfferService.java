@@ -12,7 +12,9 @@ import org.springframework.util.Assert;
 import repositories.OfferRepository;
 import domain.Actor;
 import domain.Administrative;
+import domain.AdministrativeRequest;
 import domain.Administrator;
+import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Executive;
 import domain.Offer;
@@ -25,21 +27,25 @@ public class OfferService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private OfferRepository	offerRepository;
+	private OfferRepository			offerRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService	administrativeService;
+	AdministrativeService			administrativeService;
 	@Autowired
-	AdministratorService	administratorService;
+	AdministrativeRequestService	administrativeRequestService;
 	@Autowired
-	ActorService			actorService;
+	CollaborationRequestService		collaborationRequestService;
 	@Autowired
-	CommercialService		commercialService;
+	AdministratorService			administratorService;
 	@Autowired
-	TenderService			tenderService;
+	ActorService					actorService;
 	@Autowired
-	SubSectionService		subSectionService;
+	CommercialService				commercialService;
+	@Autowired
+	TenderService					tenderService;
+	@Autowired
+	SubSectionService				subSectionService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -219,6 +225,29 @@ public class OfferService {
 			if (!ret.contains(ss.getOffer()))
 				ret.add(ss.getOffer());
 		return ret;
+	}
+
+	public void deleteByAdmin(final Offer offer) {
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		final Collection<AdministrativeRequest> administrativeRequests = this.administrativeRequestService.findAllByOffer(offer.getId());
+		this.administrativeRequestService.deleteByAdmin(administrativeRequests);
+
+		final Collection<CollaborationRequest> collaborationRequests = this.collaborationRequestService.findAllByOffer(offer.getId());
+		this.collaborationRequestService.deleteByAdmin(collaborationRequests);
+
+		final Collection<SubSection> subSections = this.subSectionService.findAllByOffer(offer.getId());
+		this.subSectionService.deleteInBatchByAdmin(subSections);
+
+		this.offerRepository.delete(offer);
+
+	}
+
+	public Offer findByTender(final Integer tenderId) {
+		final Offer offer = this.offerRepository.findByTender(tenderId);
+
+		return offer;
 	}
 
 	// Other business methods -------------------------------------------------

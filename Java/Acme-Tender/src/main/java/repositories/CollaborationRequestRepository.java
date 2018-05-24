@@ -18,4 +18,7 @@ public interface CollaborationRequestRepository extends JpaRepository<Collaborat
 	@Query("select c from CollaborationRequest c where c.commercial.id = ?1")
 	Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(int commercialId);
 
+	@Query("select c from CollaborationRequest c where c.offer.id = ?1")
+	Collection<CollaborationRequest> findAllByOffer(int offer);
+
 }

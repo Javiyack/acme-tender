@@ -247,4 +247,32 @@ public class SubSectionService {
 		return ret;
 	}
 
+	public void deleteInBatchByAdmin(final Collection<SubSection> subSections) {
+
+		for (final SubSection ss : subSections)
+			this.deleteByAdmin(ss);
+
+	}
+
+	public void deleteByAdmin(final SubSection subSection) {
+		Assert.notNull(subSection);
+		Assert.isTrue(subSection.getId() != 0);
+		Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
+
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		//Eliminar curriculums, files y SubSectionEvaluationCriteria asociadas.
+		final Collection<Curriculum> curriculums = this.curriculumService.getCurriculumsFromSubSectionId(subSection.getId());
+		this.curriculumService.deleteInBatch(curriculums);
+
+		final Collection<File> files = this.fileService.findAllBySubSection(subSection.getId());
+		this.fileService.deleteInBatch(files);
+
+		final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSection.getId());
+		this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
+
+		this.subSectionRepository.delete(subSection);
+	}
+
 }
