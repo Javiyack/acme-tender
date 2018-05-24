@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.TabooWordService;
-import services.TenderService;
 import controllers.AbstractController;
 import domain.Tender;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/tender/administrator")
@@ -22,9 +21,7 @@ public class TenderAdminController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private TabooWordService	tabooWordService;
-	@Autowired
-	private TenderService		tenderService;
+	private TenderService tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -38,10 +35,11 @@ public class TenderAdminController extends AbstractController {
 
 		final ModelAndView result;
 
-		final Collection<Tender> tenders = this.tenderService.findAll();
+		final Collection<Tender> tenders = this.tenderService.findAllTenderWithTabooWords();
 
 		result = new ModelAndView("tender/administrator/list");
 		result.addObject("tenders", tenders);
+		result.addObject("requestUri", "tender/list.do");
 
 		return result;
 	}
@@ -64,5 +62,6 @@ public class TenderAdminController extends AbstractController {
 		}
 		return result;
 	}
+
 
 }

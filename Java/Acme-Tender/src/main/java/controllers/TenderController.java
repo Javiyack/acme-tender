@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.ConfigurationService;
-import services.TenderService;
 import domain.Actor;
 import domain.Tender;
 import forms.SearchForm;
+import services.ActorService;
+import services.ConfigurationService;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/tender")
@@ -92,7 +92,7 @@ public class TenderController extends AbstractController {
 		result.addObject("tenders", tenders);
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("actorId", actor.getId());
-		result.addObject("requestUri", "offer/list.do");
+		result.addObject("requestUri", "tender/list.do");
 
 		return result;
 	}

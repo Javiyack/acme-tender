@@ -45,7 +45,10 @@
 				</a>
 				<a href="tender/administrative/list.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.my.tenders" /></i>
-				</a>				
+				</a>
+				<a href="tender/administrative/create.do"> 
+					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tenders.create" /></i>
+				</a>		
 				<hr />
 				
 				<!-- Ofertas -->
