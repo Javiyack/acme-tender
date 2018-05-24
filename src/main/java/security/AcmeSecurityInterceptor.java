@@ -1,3 +1,4 @@
+
 package security;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import domain.Actor;
-import domain.Offer;
 import services.ActorService;
 import services.AnswerService;
 import services.CategoryService;
@@ -31,79 +31,78 @@ import services.TenderService;
 public class AcmeSecurityInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired
-	ActorService actorService;
+	ActorService						actorService;
 	@Autowired
-	OfferService offerService;
+	OfferService						offerService;
 	@Autowired
-	TenderService tenderService;
+	TenderService						tenderService;
 	@Autowired
-	SubSectionService subSectionService;
+	SubSectionService					subSectionService;
 	@Autowired
-	CurriculumService curriculumService;
+	CurriculumService					curriculumService;
 	@Autowired
-	EvaluationCriteriaService evaluationCriteriaService;
+	EvaluationCriteriaService			evaluationCriteriaService;
 	@Autowired
-	EvaluationCriteriaTypeService evaluationCriteriaTypeService;
+	EvaluationCriteriaTypeService		evaluationCriteriaTypeService;
 	@Autowired
-	SubSectionEvaluationCriteriaService subSectionEvaluationCriteriaService;	
+	SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
 	@Autowired
-	TabooWordService tabooWordService;
+	TabooWordService					tabooWordService;
 	@Autowired
-	ConfigurationService configurationService;
+	ConfigurationService				configurationService;
 	@Autowired
-	TenderResultService tenderResultService;
+	TenderResultService					tenderResultService;
 	@Autowired
-	CompanyResultService companyResultService;
+	CompanyResultService				companyResultService;
 	@Autowired
-	CommentService commentService;
+	CommentService						commentService;
 	@Autowired
-	AnswerService answerService;
+	AnswerService						answerService;
 	@Autowired
-	CategoryService categoryService;
+	CategoryService						categoryService;
 	@Autowired
-	FileService fileService;
+	FileService							fileService;
 	@Autowired
-	CollaborationRequestService collaborationRequestService;
+	CollaborationRequestService			collaborationRequestService;
 	@Autowired
-	FolderService folderService;
+	FolderService						folderService;
 	@Autowired
-	MyMessageService myMessageService;
-	
-	
+	MyMessageService					myMessageService;
+
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		//Url para mostrar "Sin permiso"
 		String accessDeniedUrl = "/info/accessDenied.do";
-		
+
 		//Obtenemos actor logado
 		Actor actor = null;
 		try {
 			actor = this.actorService.findByPrincipal();
 		} catch (Exception e) {
-			
+
 		}
 		//Si no está logado, dejamos pasar (meter registro, login, idiomas y welcome nada mas)
 		if (actor == null)
 			return true;
-		
-		//Obtenemos url e id solicitadas
-		String url = request.getRequestURL().toString();
-		Integer urlId = 0;
-		if (request.getQueryString() != null && request.getQueryString().matches(".*\\d+.*"))
-			urlId = Integer.parseInt(request.getQueryString().replaceAll("[\\D]", ""));
-			
-		//Comprobamos que tiene permiso de acceso... si no tiene devolvemos false
-		//Oferta
-		if (url.contains("/offer/commercial/edit.do")) {
-			Offer offer = this.offerService.findOne(urlId);
-			if (offer.getCommercial().getId() != actor.getId()) {
-				response.sendRedirect(request.getContextPath() + accessDeniedUrl);
-            	return false;
-			}
-		}
-		
+
+		//		//Obtenemos url e id solicitadas
+		//		String url = request.getRequestURL().toString();
+		//		Integer urlId = 0;
+		//		if (request.getQueryString() != null && request.getQueryString().matches(".*\\d+.*"))
+		//			urlId = Integer.parseInt(request.getQueryString().replaceAll("[\\D]", ""));
+		//
+		//		//Comprobamos que tiene permiso de acceso... si no tiene devolvemos false
+		//		//Oferta
+		//		if (url.contains("/offer/commercial/edit.do")) {
+		//			Offer offer = this.offerService.findOne(urlId);
+		//			if (offer.getCommercial().getId() != actor.getId()) {
+		//				response.sendRedirect(request.getContextPath() + accessDeniedUrl);
+		//				return false;
+		//			}
+		//		}
+
 		//Dejamos pasar
 		return true;
 	}
