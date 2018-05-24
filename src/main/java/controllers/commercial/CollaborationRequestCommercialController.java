@@ -66,6 +66,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 		collaborationRequest = this.collaborationRequestService.create(offerId);
 
 		result = this.createEditModelAndView(collaborationRequest);
+		result.addObject("reject", false);
 
 		return result;
 	}
@@ -154,12 +155,15 @@ public class CollaborationRequestCommercialController extends AbstractController
 			} else {
 
 				try {
+					boolean sendNotification = false;
 					if (reject == true) {
+						sendNotification = true;
 						collaborationRequest.setAccepted(false);
 					}
 					CollaborationRequest saved = collaborationRequestService.save(collaborationRequest);
-					this.myMessageService.collaborationRequestRejectionNotification(saved);
-
+					if (sendNotification == true) {
+						this.myMessageService.collaborationRequestRejectionNotification(saved);
+					}
 					result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
@@ -191,4 +195,5 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 		return result;
 	}
+
 }
