@@ -17,7 +17,7 @@
 
 <div class="center">
 	<b>
-		Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Newspaper Co., Inc.
+		Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Tender Co., Inc.
 	</b> 
 	<a href="term/termsAndConditions.do">
 		<spring:message code="term.terms" />

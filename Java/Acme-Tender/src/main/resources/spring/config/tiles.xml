@@ -45,6 +45,7 @@
 		<value>/views/offer/tiles.xml</value>
 		<value>/views/subSection/tiles.xml</value>
 		<value>/views/collaborationRequest/tiles.xml</value>
+		<value>/views/info/tiles.xml</value>
 		
 	</util:list>
 

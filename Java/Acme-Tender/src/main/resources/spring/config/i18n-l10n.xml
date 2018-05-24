@@ -45,6 +45,7 @@
 		<value>/views/offer/messages</value>
 		<value>/views/subSection/messages</value>
 		<value>/views/collaborationRequest/messages</value>
+		<value>/views/info/messages</value>
 		
 	</util:list>
 

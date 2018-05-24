@@ -10,8 +10,12 @@
 
 package controllers;
 
+import java.util.Locale;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,10 +30,11 @@ public class AbstractController {
 
 	@Autowired
 	private ConfigurationService configurationService;
+	@Autowired
+	private MessageSource messageSource;	
 
-
+	
 	// Panic handler ----------------------------------------------------------
-
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
 		ModelAndView result;
@@ -59,6 +64,24 @@ public class AbstractController {
 		String result;
 
 		result = this.configurationService.findBanner();
+
+		return result;
+	}
+	
+	
+	public ModelAndView createMessageModelAndView(final String messageText, final String goBackUrl) {
+		ModelAndView result;
+
+		result = new ModelAndView("misc/message");
+
+		final Locale locale = LocaleContextHolder.getLocale();
+
+		// Buscamos el mensaje en los messages.properties...
+		final String newMessage = this.messageSource.getMessage(messageText, null, messageText, locale);
+
+		result.addObject("messageText", newMessage);
+		result.addObject("goBackUrl", goBackUrl);
+		result.addObject("message", null);
 
 		return result;
 	}
