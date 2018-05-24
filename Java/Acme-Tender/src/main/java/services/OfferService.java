@@ -240,6 +240,9 @@ public class OfferService {
 		final Collection<SubSection> subSections = this.subSectionService.findAllByOffer(offer.getId());
 		this.subSectionService.deleteInBatchByAdmin(subSections);
 
+		final Tender tender = this.tenderService.findOne(offer.getTender().getId());
+		tender.setOffer(null);
+
 		this.offerRepository.delete(offer);
 
 	}
