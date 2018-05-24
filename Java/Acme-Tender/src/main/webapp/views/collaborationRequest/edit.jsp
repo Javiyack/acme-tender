@@ -8,6 +8,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
+
 <form:form action="collaborationRequest/commercial/edit.do" modelAttribute="collaborationRequest">
 
 	<form:hidden path="id" />
@@ -31,9 +33,9 @@
 			<form:hidden path="commercial" />
 		</jstl:otherwise>
 	</jstl:choose>
-	<jstl:if test="${reject !=null }">
-	<input type="hidden" name="reject" value="${reject }"/>
-	</jstl:if>
+	
+	<input type="hidden" name="reject" value="${reject }" />
+	
 
 
 	<jstl:if test="${collaborationRequest.id == 0 }">
