@@ -16,20 +16,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<br />
-Acme Tender Co., Inc.
-<br />
-Nº Reg.: 123456
-<br />
-CIF: 12345678X
-<br />
-Avda Reina Mercedes s/n.
-<br />
-Tlf: 955010101
-<br />
-<spring:message code="welcome.contact" />
-<br />
-<a href="mailto:management@acmetender.com">management@acmetender.com</a>
+<jstl:out value="${welcomeMessage}"/>
 
 <p>
 	<spring:message code="welcome.greeting.current.time" />

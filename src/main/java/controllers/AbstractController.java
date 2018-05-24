@@ -29,11 +29,11 @@ import services.ConfigurationService;
 public class AbstractController {
 
 	@Autowired
-	private ConfigurationService configurationService;
+	private ConfigurationService	configurationService;
 	@Autowired
-	private MessageSource messageSource;	
+	private MessageSource			messageSource;
 
-	
+
 	// Panic handler ----------------------------------------------------------
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
@@ -52,23 +52,6 @@ public class AbstractController {
 		return result;
 	}
 
-	/**
-	 *
-	 * @return banner URL of the system as a model attribute to be used in any other view
-	 * @author Fernando
-	 */
-
-	@ModelAttribute(value = "banner")
-	//@RequestMapping(method = RequestMethod.POST)
-	public String banner() {
-		String result;
-
-		result = this.configurationService.findBanner();
-
-		return result;
-	}
-	
-	
 	public ModelAndView createMessageModelAndView(final String messageText, final String goBackUrl) {
 		ModelAndView result;
 
@@ -84,5 +67,42 @@ public class AbstractController {
 		result.addObject("message", null);
 
 		return result;
+	}
+
+	/**
+	 *
+	 * @return banner URL of the system as a model attribute to be used in any other view
+	 */
+	@ModelAttribute(value = "banner")
+	public String banner() {
+		return this.configurationService.findBanner();
+	}
+
+	/**
+	 *
+	 * @return companyName of the system as a model attribute to be used in any other view
+	 */
+	@ModelAttribute(value = "companyName")
+	public String companyName() {
+		return this.configurationService.findCompanyName();
+	}
+
+	/**
+	 *
+	 * @return welcomeMessage of the system as a model attribute to be used in any other view
+	 */
+	@ModelAttribute(value = "welcomeMessage")
+	public String welcomeMessage() {
+		final Locale locale = LocaleContextHolder.getLocale();
+		return this.configurationService.findWelcomeMessage(locale);
+	}
+
+	/**
+	 *
+	 * @return welcomeMessage of the system as a model attribute to be used in any other view
+	 */
+	@ModelAttribute(value = "benefitPercentage")
+	public Double benefitPercentage() {
+		return this.configurationService.findBenefitsPercentage();
 	}
 }
