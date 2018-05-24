@@ -1,8 +1,11 @@
 
 package services;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -10,16 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.TenderRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
-import domain.Comment;
-import domain.EvaluationCriteria;
 import domain.File;
 import domain.Offer;
 import domain.Tender;
 import domain.TenderResult;
+import repositories.TenderRepository;
 
 @Service
 @Transactional
@@ -27,25 +28,21 @@ public class TenderService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private TenderRepository			tenderRepository;
+	private TenderRepository		tenderRepository;
 
 	// Managed services ------------------------------------------------
 	@Autowired
-	private ActorService				actorService;
+	private ActorService			actorService;
 	@Autowired
-	private AdministrativeService		administrativeService;
+	private AdministrativeService	administrativeService;
 	@Autowired
-	private AdministratorService		administratorService;
+	private AdministratorService	administratorService;
 	@Autowired
-	private TenderResultService			tenderResultService;
+	private TenderResultService		tenderResultService;
 	@Autowired
-	private FileService					fileService;
+	private FileService				fileService;
 	@Autowired
-	private OfferService				offerService;
-	@Autowired
-	private CommentService				commentService;
-	@Autowired
-	private EvaluationCriteriaService	evaluationCriteriaService;
+	private OfferService			offerService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -55,14 +52,24 @@ public class TenderService {
 
 	// Methods CRUD ---------------------------------------------------------
 
-	public Tender create(final int tenderId) {
+	public Tender create() {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
 
 		final Tender tender = new Tender();
+
+		tender.setReference(this.generateReference());
 		tender.setAdministrative(administrative);
 
 		return tender;
+	}
+
+	public Tender save(final Tender tender) {
+		Tender saveTender;
+
+		saveTender = this.tenderRepository.save(tender);
+
+		return saveTender;
 	}
 
 	public Tender findOneToEdit(final int tenderId) {
@@ -118,12 +125,6 @@ public class TenderService {
 		if (offer != null)
 			this.offerService.deleteByAdmin(offer);
 
-		final Collection<Comment> comment = this.commentService.findAllByTender(tender.getId());
-		this.commentService.deleteByAdmin(comment);
-
-		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tender.getId());
-		this.evaluationCriteriaService.deleteByAdmin(evaluationCriterias);
-
 		this.tenderRepository.delete(tender);
 
 	}
@@ -138,6 +139,41 @@ public class TenderService {
 			Assert.isTrue(tender.getAdministrative().equals(administrativePrincipal));
 		} else
 			Assert.isTrue(Boolean.TRUE, "Usuario no válido.");
+	}
+
+	/**
+	 * Generate an unique reference
+	 *
+	 * @return the reference
+	 */
+	private String generateReference() {
+		final SimpleDateFormat dt = new SimpleDateFormat("ddMMyyyy");
+		final Random r = new Random();
+		String randomLetter = "";
+		String reference = "";
+
+		while (this.checkReference(reference) || reference == "") {
+			for (int i = 0; i < 2; i++)
+				randomLetter += String.valueOf((char) (r.nextInt(26) + 'A'));
+
+			reference = dt.format(new Date()).toString() + "-" + randomLetter;
+		}
+		return reference;
+	}
+
+	/**
+	 * Check if exist a coincidence
+	 *
+	 * @param reference
+	 * @return
+	 */
+	private boolean checkReference(final String reference) {
+		Boolean result = false;
+
+		if (this.tenderRepository.checkReference(reference) != 0)
+			result = true;
+
+		return result;
 	}
 
 	public Tender findOneToComment(final Integer tenderId) {

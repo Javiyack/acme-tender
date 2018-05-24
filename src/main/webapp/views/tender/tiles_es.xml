@@ -11,6 +11,16 @@
 
 <tiles-definitions>
 
+	<definition name="tender/create" extends="master.page">
+		<put-attribute name="title" value="Crear concurso" />
+		<put-attribute name="body" value="/views/tender/edit.jsp" />
+	</definition>	
+
+	<definition name="tender/edit" extends="master.page">
+		<put-attribute name="title" value="Editar concurso" />
+		<put-attribute name="body" value="/views/tender/edit.jsp" />
+	</definition>
+
 	<definition name="tender/list" extends="master.page">
 		<put-attribute name="title" value="Listado de concursos" />
 		<put-attribute name="body" value="/views/tender/list.jsp" />
