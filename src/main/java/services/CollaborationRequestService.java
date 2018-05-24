@@ -53,7 +53,6 @@ public class CollaborationRequestService {
 		Assert.notNull(collaborationRequest);
 		offerService.canEditOffer(collaborationRequest.getOffer().getId());
 		Assert.isTrue(collaborationRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || collaborationRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
-
 		result = this.collaborationRequestRepository.save(collaborationRequest);
 
 		return result;
@@ -65,6 +64,14 @@ public class CollaborationRequestService {
 		result = this.collaborationRequestRepository.findOne(collaborationRequestId);
 		Assert.notNull(result);
 		checkPrincipal(result);
+		return result;
+	}
+
+	public CollaborationRequest findOneToEdit(int collaborationRequestId) {
+		CollaborationRequest result;
+		result = this.collaborationRequestRepository.findOne(collaborationRequestId);
+		Assert.notNull(result);
+		checkReceiverAndState(result);
 		return result;
 	}
 
@@ -86,6 +93,15 @@ public class CollaborationRequestService {
 		Collection<CollaborationRequest> sent = this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(principal.getId());
 		Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
 		Assert.isTrue(sent.contains(collaborationRequest) || received.contains(collaborationRequest));
+
+	}
+
+	private void checkReceiverAndState(CollaborationRequest collaborationRequest) {
+		Actor principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+		Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
+		Assert.isTrue(received.contains(collaborationRequest) && collaborationRequest.getAccepted() == null);
 
 	}
 

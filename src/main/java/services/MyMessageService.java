@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -12,6 +13,8 @@ import org.springframework.validation.Validator;
 
 import domain.Actor;
 import domain.Administrator;
+import domain.CollaborationRequest;
+import domain.Commercial;
 import domain.Folder;
 import domain.MyMessage;
 import repositories.MyMessageRepository;
@@ -22,24 +25,22 @@ public class MyMessageService {
 
 	// Validator
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private MyMessageRepository myMessageRepository;
+	private MyMessageRepository		myMessageRepository;
 
 	// Supporting services
 	@Autowired
-	private ActorService actorService;
+	private ActorService			actorService;
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
 	@Autowired
-	private FolderService folderService;
-	
-
-
+	private FolderService			folderService;
 
 	// CRUD Methods
+
 
 	// Create
 
@@ -173,7 +174,7 @@ public class MyMessageService {
 			Collection<MyMessage> trashboxMessages = trashbox.getMymessages();
 			// borro el mensaje que me pasan de la collection de mensajes del
 			// trashbox
-			 trashboxMessages.remove(message);
+			trashboxMessages.remove(message);
 			// actualizo la collection de mensajes del trashbox
 			trashbox.setMymessages(trashboxMessages);
 			// borro el mensaje del sistema
@@ -204,16 +205,14 @@ public class MyMessageService {
 
 	// FindOne
 	public MyMessage findOne(int messageId) {
-		 MyMessage message = myMessageRepository.findOne(messageId);
-		 Assert.notNull(message);
-		 Actor principal;
-		 principal = actorService.findByPrincipal();
-		checkPrincipal(message,principal);
+		MyMessage message = myMessageRepository.findOne(messageId);
+		Assert.notNull(message);
+		Actor principal;
+		principal = actorService.findByPrincipal();
+		checkPrincipal(message, principal);
 		return message;
 
 	}
-	
-	 
 
 	// Other methods
 
@@ -226,7 +225,6 @@ public class MyMessageService {
 		Assert.notNull(message);
 		Actor principal = actorService.findByPrincipal();
 		Assert.isTrue(principal instanceof Administrator);
-	
 
 		for (Actor recipient : actorService.findAll()) {
 			if (!recipient.equals(principal)) {
@@ -259,6 +257,35 @@ public class MyMessageService {
 		validator.validate(m, binding);
 
 		return m;
+	}
+
+	public void collaborationRequestRejectionNotification(CollaborationRequest collaborationRequest) {
+
+		Actor principal;
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+
+		Actor recipient;
+		recipient = collaborationRequest.getOffer().getCommercial();
+		Assert.notNull(recipient);
+
+		MyMessage notification = this.create();
+		notification.setRecipient(recipient);
+		notification.setPriority("NEUTRAL");
+		notification.setSubject("Solicitud de colaboración rechazada");
+		notification.setBody(principal.getName() + " " + principal.getSurname() + " ha rechazado su " + "solicitud de colaboración en la subsección con título " + "'" + collaborationRequest.getSubSectionTitle() + "'" + " perteneciente a la sección "
+			+ collaborationRequest.getSection());
+		Date moment = new Date(System.currentTimeMillis() - 1);
+		notification.setMoment(moment);
+
+		MyMessage saved = this.myMessageRepository.save(notification);
+
+		Folder notificationbox = this.folderService.getNotificationBoxFolderFromActorId(recipient.getId());
+		Collection<MyMessage> notifications = notificationbox.getMymessages();
+		notifications.add(saved);
+		notificationbox.setMymessages(notifications);
+
 	}
 
 }

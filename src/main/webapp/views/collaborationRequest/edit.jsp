@@ -13,10 +13,30 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="Accepted" />
-	<form:hidden path="rejectedReason" />
 	<form:hidden path="offer" />
 
-	
+	<jstl:choose>
+		<jstl:when test="${collaborationRequest.id == 0 }">
+			<form:hidden path="rejectedReason" />
+		</jstl:when>
+		<jstl:otherwise>
+			<form:hidden path="section" />
+			<form:hidden path="subSectionTitle" />
+			<form:hidden path="subSectionDescription" />
+			<form:hidden path="benefitsPercentage" />
+			<form:hidden path="requirements" />
+			<form:hidden path="numberOfPages" />
+			<form:hidden path="maxAcceptanceDate" />
+			<form:hidden path="maxDeliveryDate" />
+			<form:hidden path="commercial" />
+		</jstl:otherwise>
+	</jstl:choose>
+	<jstl:if test="${reject !=null }">
+	<input type="hidden" name="reject" value="${reject }"/>
+	</jstl:if>
+
+
+	<jstl:if test="${collaborationRequest.id == 0 }">
 	<form:label path="section"><spring:message code="collaborationRequest.section"/></form:label>
 	<form:select path="section">
 	<form:option label="TECHNICAL_OFFER" value="TECHNICAL_OFFER"/>
@@ -49,9 +69,15 @@
 	
 	<acme:select code="collaborationRequest.commercial" itemLabel="email" items="${commercials }" path="commercial"/>
 	<br />
+	</jstl:if>
 	
-
+	<jstl:if test="${collaborationRequest.id !=0 }">
+	<acme:textarea code="collaborationRequest.rejectedReason" path="rejectedReason" />
+	<br />
+	</jstl:if>
+	
 	<acme:submit name="save" code="collaborationRequest.save" css="formButton toLeft" />&nbsp;
+
 	
     <acme:cancel url="offer/display.do?offerId=${collaborationRequest.offer.id }" code="collaborationRequest.cancel" css="formButton toLeft" />
 		
