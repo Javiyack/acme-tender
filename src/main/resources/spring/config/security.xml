@@ -34,6 +34,8 @@
 	<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
 	
 	<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
+	
+	<security:intercept-url pattern="/info/accessDenied.do" access="permitAll" />
 
 	<!-- Admin -->
 	
