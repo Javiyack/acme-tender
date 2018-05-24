@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Offer;
+import services.ActorService;
 import services.ComboService;
 import services.OfferService;
 
@@ -28,6 +30,8 @@ public class OfferCommercialController extends AbstractController {
 	private OfferService offerService;
 	@Autowired
 	private ComboService comboService;
+	@Autowired
+	private ActorService			actorService;	
 
 
 	// Constructor -----------------------------------------------------------
@@ -89,6 +93,9 @@ public class OfferCommercialController extends AbstractController {
 		result = new ModelAndView("offer/commercial/listOffersByPropietary");
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/commercial/listOffersByPropietary.do");
+		
+		Actor actor = this.actorService.findByPrincipal();
+		result.addObject("actorId", actor.getId());
 
 		return result;
 	}
@@ -103,6 +110,9 @@ public class OfferCommercialController extends AbstractController {
 		result = new ModelAndView("offer/commercial/listOffersByCollaboration");
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/commercial/listOffersByCollaboration.do");
+		
+		Actor actor = this.actorService.findByPrincipal();
+		result.addObject("actorId", actor.getId());		
 
 		return result;
 	}

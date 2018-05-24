@@ -2,8 +2,6 @@
 package controllers.administrative;
 
 import java.util.Collection;
-import java.util.LinkedList;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ComboService;
 import services.CompanyResultService;
-import services.TenderResultService;
-import services.TenderService;
 import controllers.AbstractController;
 import domain.CompanyResult;
 import domain.TenderResult;
@@ -27,8 +23,6 @@ import domain.TenderResult;
 public class CompanyResultAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
-	@Autowired
-	private TenderResultService		tenderResultService;
 	@Autowired
 	private ComboService			comboService;
 	@Autowired
