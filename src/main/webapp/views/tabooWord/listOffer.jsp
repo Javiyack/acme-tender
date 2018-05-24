@@ -56,6 +56,16 @@
 			</a>
 		</div>
 	</display:column>
+	
+	<security:authorize access="hasRole('ADMIN')">
+	<display:column>
+		<div>
+			<a href="offer/administrator/delete.do?offerId=${row.id}">
+				<spring:message code="offer.delete" />
+			</a>
+		</div>
+	</display:column>
+	</security:authorize>
 
 
 </display:table>

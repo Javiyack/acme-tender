@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.TenderService;
 import controllers.AbstractController;
 import domain.Tender;
-import services.TenderService;
 
 @Controller
 @RequestMapping("/tender/administrator")
@@ -21,7 +21,7 @@ public class TenderAdminController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private TenderService tenderService;
+	private TenderService	tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -58,10 +58,9 @@ public class TenderAdminController extends AbstractController {
 
 		} catch (final Throwable ooops) {
 			result = new ModelAndView("redirect: /list.do");
-			result.addObject("message", "tenderResult.commit.error");
+			result.addObject("message", "tabooWord.commit.error");
 		}
 		return result;
 	}
-
 
 }
