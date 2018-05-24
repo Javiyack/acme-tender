@@ -74,22 +74,6 @@
 	
 	<jstl:if test="${principal eq collaborationRequest.commercial && collaborationRequest.accepted == null }">
 		<acme:button url="collaborationRequest/commercial/reject.do?collaborationRequestId=${collaborationRequest.id }" text="collaborationRequest.reject" css="formButton toLeft"/>
+		<acme:button url="collaborationRequest/commercial/accept.do?collaborationRequestId=${collaborationRequest.id }" text="collaborationRequest.accept" css="formButton toLeft"/>
 	</jstl:if>
-	
-	
-	
-	
-	
-	
-
-	
-
-<%-- <jstl:if test="${curriculum.subSection.commercial.id == actorId}" >
-	<acme:button url="curriculum/edit.do?curriculumId=${curriculum.id}" text="curriculum.edit" css="formButton toLeft" />
-</jstl:if>
-<jstl:if test="${curriculum.subSection.commercial.id == actorId}" >
-	<acme:button url="curriculum/delete.do?curriculumId=${curriculum.id}" text="curriculum.delete" css="formButton toLeft" />
-</jstl:if>
-<acme:button url="subSection/display.do?subSectionId=${curriculum.subSection.id}" text="curriculum.back" css="formButton toLeft" />
- --%>
 

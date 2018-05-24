@@ -19,10 +19,13 @@ import controllers.AbstractController;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
+import domain.SubSection;
 import services.ActorService;
 import services.CollaborationRequestService;
+import services.ComboService;
 import services.CommercialService;
 import services.MyMessageService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/collaborationRequest/commercial")
@@ -37,6 +40,10 @@ public class CollaborationRequestCommercialController extends AbstractController
 	private ActorService				actorService;
 	@Autowired
 	private MyMessageService			myMessageService;
+	@Autowired
+	private SubSectionService			subSectionService;
+	@Autowired
+	private ComboService				comboService;
 
 
 	//Display
@@ -116,6 +123,8 @@ public class CollaborationRequestCommercialController extends AbstractController
 		return result;
 
 	}
+
+	//Reject
 	@RequestMapping(value = "/reject", method = RequestMethod.GET)
 	public ModelAndView reject(@RequestParam int collaborationRequestId) {
 
@@ -130,6 +139,48 @@ public class CollaborationRequestCommercialController extends AbstractController
 		return result;
 
 	}
+
+	//Accept
+	@RequestMapping(value = "/accept", method = RequestMethod.GET)
+	public ModelAndView accept(@RequestParam int collaborationRequestId) {
+
+		ModelAndView result;
+
+		CollaborationRequest collaborationRequest;
+		collaborationRequest = this.collaborationRequestService.findOneToEdit(collaborationRequestId);
+
+		SubSection subSection;
+		subSection = this.subSectionService.createByCommercialCollaborationAcceptation(collaborationRequest);
+
+		result = new ModelAndView("subSection/commercial/create");
+		result.addObject("subSection", subSection);
+		result.addObject("requestURI", "subSection/commercial/edit.do");
+		result.addObject("collaboration", true);
+		result.addObject("collaborationRequestId", collaborationRequestId);
+
+		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
+
+		return result;
+
+	}
+
+	/*
+	 * @RequestMapping(value = "/create", method = RequestMethod.GET)
+	 * public ModelAndView create(@RequestParam final int offerId) {
+	 * 
+	 * final ModelAndView result = new ModelAndView("subSection/commercial/create");
+	 * 
+	 * final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
+	 * result.addObject("subSection", subSection);
+	 * result.addObject("requestUri", "subSection/commercial/edit.do");
+	 * 
+	 * Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+	 * result.addObject("subSectionSectionsCombo",subSectionSectionsCombo);
+	 * 
+	 * return result;
+	 * }
+	 */
 
 	//Save
 
