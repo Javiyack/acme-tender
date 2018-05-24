@@ -17,9 +17,21 @@
 	<form:hidden path="offer" />
 	<form:hidden path="commercial" />
 	<form:hidden path="administrative" />
-
 	
-	<acme:textbox code="subSection.title" path="title" />
+	<input type="hidden" name=collaboration value="${collaboration }" />
+	<input type="hidden" name=collaborationRequestId value="${collaborationRequestId }" />
+	
+	
+	<jstl:choose>
+		<jstl:when test="${collaboration == true }">
+			<acme:textbox code="subSection.title" path="title" readonly="true" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:textbox code="subSection.title" path="title" />
+		</jstl:otherwise>
+	</jstl:choose>
+
+
 	
 	<jstl:if test="${subSection.section == null || subSection.section == ''}" >
 		<acme:selectcombo code="subSection.section" items="${subSectionSectionsCombo}" path="section"/>

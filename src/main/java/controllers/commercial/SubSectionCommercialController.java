@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.SubSection;
+import services.CollaborationRequestService;
 import services.ComboService;
 import services.CommercialService;
 import services.SubSectionService;
@@ -28,11 +30,13 @@ public class SubSectionCommercialController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private SubSectionService	subSectionService;
+	private SubSectionService			subSectionService;
 	@Autowired
-	private CommercialService	commercialService;
+	private CommercialService			commercialService;
 	@Autowired
-	private ComboService comboService;
+	private ComboService				comboService;
+	@Autowired
+	private CollaborationRequestService	collaborationRequestService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -48,10 +52,12 @@ public class SubSectionCommercialController extends AbstractController {
 
 		final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
 		result.addObject("subSection", subSection);
-		result.addObject("requestUri", "subSection/commercial/edit.do");
-		
+		result.addObject("requestURI", "subSection/commercial/edit.do");
+
 		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-		result.addObject("subSectionSectionsCombo",subSectionSectionsCombo);
+		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
+		result.addObject("collaboration", false);
+		result.addObject("collaborationRequestId", 0);
 
 		return result;
 	}
@@ -67,11 +73,12 @@ public class SubSectionCommercialController extends AbstractController {
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
 		result = this.createEditModelAndView(subSection);
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("collaboration") Boolean collaboration, @ModelAttribute("collaborationRequestId") int collaborationRequestId) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
@@ -79,6 +86,10 @@ public class SubSectionCommercialController extends AbstractController {
 		else
 			try {
 				this.subSectionService.save(subSection);
+				if (collaboration == true) {
+					CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
+					collaborationRequest.setAccepted(true);
+				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
 			} catch (final Throwable oops) {
@@ -116,8 +127,12 @@ public class SubSectionCommercialController extends AbstractController {
 
 		final ModelAndView result = new ModelAndView("subSection/commercial/edit");
 		result.addObject("subSection", subSection);
-		result.addObject("requestUri", "subSection/commercial/edit.do");
+		result.addObject("requestURI", "subSection/commercial/edit.do");
 		result.addObject("message", message);
+		result.addObject("collaboration", false);
+		result.addObject("collaborationRequestId", 0);
+		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
 		return result;
 	}
 
