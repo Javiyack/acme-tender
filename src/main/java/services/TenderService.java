@@ -14,7 +14,10 @@ import repositories.TenderRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
+import domain.File;
+import domain.Offer;
 import domain.Tender;
+import domain.TenderResult;
 
 @Service
 @Transactional
@@ -31,6 +34,12 @@ public class TenderService {
 	private AdministrativeService	administrativeService;
 	@Autowired
 	private AdministratorService	administratorService;
+	@Autowired
+	private TenderResultService		tenderResultService;
+	@Autowired
+	private FileService				fileService;
+	@Autowired
+	private OfferService			offerService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -86,6 +95,25 @@ public class TenderService {
 			tenders = this.tenderRepository.findTenderByKeyword(word);
 
 		return tenders;
+	}
+
+	public void deleteByAdmin(final Tender tender) {
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		final TenderResult tenderResult = this.tenderResultService.findOneByTenderAnonymous(tender.getId());
+		if (tenderResult != null)
+			this.tenderResultService.deleteByAdmin(tenderResult);
+
+		final Collection<File> files = this.fileService.findAllByTender(tender.getId());
+		this.fileService.deleteInBatch(files);
+
+		final Offer offer = this.offerService.findByTender(tender.getId());
+		if (offer != null)
+			this.offerService.deleteByAdmin(offer);
+
+		this.tenderRepository.delete(tender);
+
 	}
 
 	//Other methods ---------------------------------------------------------------

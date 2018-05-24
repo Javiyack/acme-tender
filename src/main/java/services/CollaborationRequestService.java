@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.CollaborationRequestRepository;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Constant;
 import domain.Offer;
-import repositories.CollaborationRequestRepository;
 
 @Service
 @Transactional
@@ -32,26 +32,26 @@ public class CollaborationRequestService {
 
 	//CRUD methods
 
-	public CollaborationRequest create(int offerId) {
+	public CollaborationRequest create(final int offerId) {
 		CollaborationRequest result;
 		result = new CollaborationRequest();
 
 		Offer offer;
 		offer = this.offerService.findOne(offerId);
 		//Reutilizo este método para comprobar que la oferta para la que se quiere crear una solicitud de colaboración pertenece al principal
-		offerService.canEditOffer(offerId);
+		this.offerService.canEditOffer(offerId);
 		Assert.isTrue(offer.getState().equals(Constant.OFFER_CREATED) || offer.getState().equals(Constant.OFFER_IN_DEVELOPMENT));
 		result.setOffer(offer);
 
 		return result;
 	}
 
-	public CollaborationRequest save(CollaborationRequest collaborationRequest) {
+	public CollaborationRequest save(final CollaborationRequest collaborationRequest) {
 
 		CollaborationRequest result;
 
 		Assert.notNull(collaborationRequest);
-		offerService.canEditOffer(collaborationRequest.getOffer().getId());
+		this.offerService.canEditOffer(collaborationRequest.getOffer().getId());
 		Assert.isTrue(collaborationRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || collaborationRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
 		result = this.collaborationRequestRepository.save(collaborationRequest);
 
@@ -59,50 +59,60 @@ public class CollaborationRequestService {
 
 	}
 
-	public CollaborationRequest findOne(int collaborationRequestId) {
+	public CollaborationRequest findOne(final int collaborationRequestId) {
 		CollaborationRequest result;
 		result = this.collaborationRequestRepository.findOne(collaborationRequestId);
 		Assert.notNull(result);
-		checkPrincipal(result);
+		this.checkPrincipal(result);
 		return result;
 	}
 
-	public CollaborationRequest findOneToEdit(int collaborationRequestId) {
+	public CollaborationRequest findOneToEdit(final int collaborationRequestId) {
 		CollaborationRequest result;
 		result = this.collaborationRequestRepository.findOne(collaborationRequestId);
 		Assert.notNull(result);
-		checkReceiverAndState(result);
+		this.checkReceiverAndState(result);
 		return result;
 	}
 
 	//Other methods
 
-	public Collection<CollaborationRequest> getSentCollaborationRequestsFromCommercialId(int commercialId) {
+	public Collection<CollaborationRequest> getSentCollaborationRequestsFromCommercialId(final int commercialId) {
 		return this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(commercialId);
 	}
 
-	public Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(int commercialId) {
+	public Collection<CollaborationRequest> getReceivedCollaborationRequestsFromCommercialId(final int commercialId) {
 		return this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(commercialId);
 	}
 
-	private void checkPrincipal(CollaborationRequest collaborationRequest) {
+	private void checkPrincipal(final CollaborationRequest collaborationRequest) {
 
-		Actor principal = this.actorService.findByPrincipal();
+		final Actor principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
-		Collection<CollaborationRequest> sent = this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(principal.getId());
-		Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
+		final Collection<CollaborationRequest> sent = this.collaborationRequestRepository.getSentCollaborationRequestsFromCommercialId(principal.getId());
+		final Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
 		Assert.isTrue(sent.contains(collaborationRequest) || received.contains(collaborationRequest));
 
 	}
 
-	private void checkReceiverAndState(CollaborationRequest collaborationRequest) {
-		Actor principal = this.actorService.findByPrincipal();
+	private void checkReceiverAndState(final CollaborationRequest collaborationRequest) {
+		final Actor principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
-		Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
+		final Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
 		Assert.isTrue(received.contains(collaborationRequest) && collaborationRequest.getAccepted() == null);
 
+	}
+
+	public void deleteByAdmin(final Collection<CollaborationRequest> collaborationRequest) {
+		this.collaborationRequestRepository.deleteInBatch(collaborationRequest);
+	}
+
+	//Other -------------------------------------------------------------------
+	public Collection<CollaborationRequest> findAllByOffer(final int offerId) {
+
+		return this.collaborationRequestRepository.findAllByOffer(offerId);
 	}
 
 }

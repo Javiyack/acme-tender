@@ -123,8 +123,8 @@ public class CompanyResultService {
 
 		return companyResults;
 	}
-	
-	public Collection<CompanyResult> findAllWinnerByTenderResult(int tenderResultId) {
+
+	public Collection<CompanyResult> findAllWinnerByTenderResult(final int tenderResultId) {
 		return this.companyResultRepository.findAllWinnerByTenderResult(tenderResultId);
 	}
 
