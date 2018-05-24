@@ -164,7 +164,11 @@ public class CollaborationRequestCommercialController extends AbstractController
 					if (sendNotification == true) {
 						this.myMessageService.collaborationRequestRejectionNotification(saved);
 					}
-					result = new ModelAndView("redirect:/");
+					if (collaborationRequest.getId() == 0) {
+						result = new ModelAndView("redirect:/offer/display.do?offerId=" + collaborationRequest.getOffer().getId());
+					} else {
+						result = new ModelAndView("redirect:display.do?collaborationRequestId=" + collaborationRequest.getId());
+					}
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
 
