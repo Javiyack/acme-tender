@@ -2,19 +2,22 @@
 package services;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.OfferRepository;
 import domain.Actor;
 import domain.Administrative;
+import domain.Administrator;
 import domain.Commercial;
 import domain.Executive;
 import domain.Offer;
+import domain.SubSection;
 import domain.Tender;
-import repositories.OfferRepository;
 
 @Service
 @Transactional
@@ -28,11 +31,15 @@ public class OfferService {
 	@Autowired
 	AdministrativeService	administrativeService;
 	@Autowired
+	AdministratorService	administratorService;
+	@Autowired
 	ActorService			actorService;
 	@Autowired
 	CommercialService		commercialService;
 	@Autowired
 	TenderService			tenderService;
+	@Autowired
+	SubSectionService		subSectionService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -73,7 +80,7 @@ public class OfferService {
 
 		return result;
 	}
-	
+
 	public Collection<Offer> findAllNotPublished() {
 		Collection<Offer> result;
 
@@ -82,8 +89,6 @@ public class OfferService {
 
 		return result;
 	}
-	
-	
 
 	public Collection<Offer> findAllByCommercialPropietary() {
 		Collection<Offer> result;
@@ -128,7 +133,7 @@ public class OfferService {
 
 		return result;
 	}
-	
+
 	public Collection<Offer> findOfferByKeyWord(final String word) {
 		final Collection<Offer> offers;
 		if (word.isEmpty())
@@ -200,6 +205,20 @@ public class OfferService {
 		}
 
 		return false;
+	}
+
+	public Collection<Offer> findAllOfferWithTabooWords() {
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		final Collection<Offer> ret = new LinkedList<Offer>();
+
+		final Collection<SubSection> subSections = this.subSectionService.findAllSubSectionsWithTabooWord();
+
+		for (final SubSection ss : subSections)
+			if (!ret.contains(ss.getOffer()))
+				ret.add(ss.getOffer());
+		return ret;
 	}
 
 	// Other business methods -------------------------------------------------

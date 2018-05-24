@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.transaction.Transactional;
 
@@ -9,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import repositories.TenderRepository;
 import domain.Actor;
 import domain.Administrative;
-import domain.Offer;
+import domain.Administrator;
 import domain.Tender;
-import repositories.TenderRepository;
 
 @Service
 @Transactional
@@ -28,6 +29,8 @@ public class TenderService {
 	private ActorService			actorService;
 	@Autowired
 	private AdministrativeService	administrativeService;
+	@Autowired
+	private AdministratorService	administratorService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -74,7 +77,7 @@ public class TenderService {
 
 		return result;
 	}
-	
+
 	public Collection<Tender> findTenderByKeyWord(final String word) {
 		final Collection<Tender> tenders;
 		if (word.isEmpty())
@@ -83,7 +86,7 @@ public class TenderService {
 			tenders = this.tenderRepository.findTenderByKeyword(word);
 
 		return tenders;
-	}	
+	}
 
 	//Other methods ---------------------------------------------------------------
 
@@ -112,5 +115,22 @@ public class TenderService {
 		final Collection<Tender> tenders = this.tenderRepository.findAllByAdministrative(administrative.getId());
 		Assert.notNull(tenders);
 		return tenders;
+	}
+
+	public Collection<Tender> findAllTenderWithTabooWords() {
+		final Administrator admin = this.administratorService.findByPrincipal();
+		Assert.notNull(admin);
+
+		final Collection<Tender> ret = new LinkedList<Tender>();
+
+		final Collection<Object[]> source = this.tenderRepository.findAllTenderWithTabooWord();
+
+		for (final Object obj[] : source) {
+			final Tender t = this.tenderRepository.findOne((Integer) obj[0]);
+
+			ret.add(t);
+		}
+
+		return ret;
 	}
 }

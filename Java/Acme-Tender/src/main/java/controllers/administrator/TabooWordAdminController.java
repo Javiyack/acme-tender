@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.TabooWordService;
+import services.TenderService;
 import controllers.AbstractController;
 import domain.TabooWord;
 
@@ -24,6 +25,8 @@ public class TabooWordAdminController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private TabooWordService	tabooWordService;
+	@Autowired
+	private TenderService		tenderService;
 
 
 	// Constructor -----------------------------------------------------------
