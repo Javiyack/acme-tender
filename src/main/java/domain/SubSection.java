@@ -45,7 +45,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "^(ADMINISTRATIVE_ACREDITATION|TECHNICAL_OFFER|ECONOMICAL_OFFER)$")
+	@Pattern(regexp = "^(" + Constant.SECTION_ADMINISTRATIVE_ACREDITATION + "|" + Constant.SECTION_TECHNICAL_OFFER + "|" + Constant.SECTION_ECONOMICAL_OFFER + ")$")
 	@NotBlank
 	public String getSection() {
 		return this.section;

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Commercial;
+import domain.Constant;
 import domain.Curriculum;
 import domain.SubSection;
 import services.ActorService;
@@ -64,7 +65,7 @@ public class CurriculumController extends AbstractController {
 		SubSection subSection;
 		subSection = subSectionService.findOne(subSectionId);
 		Assert.isTrue(subSection.getCommercial() == principal);
-		Assert.isTrue(!subSection.getSection().equals("ADMINISTRATIVE_ACREDITATION"));
+		Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 
 		Curriculum curriculum;
 		curriculum = curriculumService.create();

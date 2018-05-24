@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Offer;
+import services.ActorService;
 import services.OfferService;
 
 @Controller
@@ -20,6 +22,8 @@ public class OfferAdministrativeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private OfferService offerService;
+	@Autowired
+	private ActorService			actorService;		
 
 
 	// Constructor -----------------------------------------------------------
@@ -37,6 +41,9 @@ public class OfferAdministrativeController extends AbstractController {
 		result = new ModelAndView("offer/administrative/listOffersByCollaboration");
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/administrative/listOffersByCollaboration.do");
+		
+		Actor actor = this.actorService.findByPrincipal();
+		result.addObject("actorId", actor.getId());		
 
 		return result;
 	}

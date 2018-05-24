@@ -32,7 +32,7 @@ public class Offer extends DomainEntity {
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "^(CREATED|IN_DEVELOPMENT|ABANDONED|PRESENTED|WINNED|LOSED|CHALLENGED|DENIED)$")
+	@Pattern(regexp = "^(" + Constant.OFFER_CREATED + "|"  + Constant.OFFER_IN_DEVELOPMENT + "|"  + Constant.OFFER_ABANDONED + "|"  + Constant.OFFER_PRESENTED + "|"  + Constant.OFFER_WINNED + "|"  + Constant.OFFER_LOSED + "|"  + Constant.OFFER_CHALLENGED + "|"  + Constant.OFFER_DENIED + ")$")
 	@NotBlank
 	public String getState() {
 		return this.state;
@@ -96,13 +96,29 @@ public class Offer extends DomainEntity {
 		this.tender = tender;
 	}
 	
+	@Transient
+	public boolean isInDevelopment() {
+		
+		return this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
+	}
+	
+	public void setInDevelopment(boolean development) {
+		
+	}
 	
 	@Transient
 	public boolean isPublished() {
 		switch  (this.getState()) {		
-			case "PRESENTED": case "WINNED": case "LOSED": case "CHALLENGED":
+			case Constant.OFFER_PRESENTED: 
+			case Constant.OFFER_WINNED: 
+			case Constant.OFFER_LOSED: 
+			case Constant.OFFER_CHALLENGED:
 				return true;
-			case "ABANDONED": case "DENIED": case "CREATED": case "IN_DEVELOPMENT":
+				
+			case Constant.OFFER_ABANDONED: 
+			case Constant.OFFER_DENIED: 
+			case Constant.OFFER_CREATED: 
+			case Constant.OFFER_IN_DEVELOPMENT:
 				return false;
 		}
 		

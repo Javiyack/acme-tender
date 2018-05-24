@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.CompanyResultRepository;
 import domain.Administrative;
 import domain.CompanyResult;
+import domain.Constant;
 import domain.TenderResult;
 
 @Service
@@ -22,11 +23,6 @@ public class CompanyResultService {
 	@Autowired
 	private CompanyResultRepository	companyResultRepository;
 
-	// Managed services ------------------------------------------------
-	@Autowired
-	private AdministratorService	administratorService;
-	@Autowired
-	private TenderService			tenderService;
 	@Autowired
 	private TenderResultService		tenderResultService;
 	@Autowired
@@ -92,7 +88,7 @@ public class CompanyResultService {
 
 		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(companyResult.getTenderResult().getId());
 
-		if (companyResult.getState().equals("WINNER"))
+		if (companyResult.getState().equals(Constant.COMPANY_RESULT_WINNER))
 			for (final CompanyResult c : companyResults)
 				Assert.isTrue(!c.getState().equals(companyResult.getState()), "Only one Winner");
 	}

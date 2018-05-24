@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import domain.Actor;
 import domain.CompanyResult;
+import domain.Constant;
 import domain.Executive;
 import domain.Offer;
 
@@ -56,42 +57,42 @@ public class ComboService {
 		switch (actualState) {
 		
 		case "":
-			result.add("CREATED");
-			if (actor instanceof Executive) result.add("DENIED");
+			result.add(Constant.OFFER_CREATED);
+			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 			
-		case "CREATED":
-			result.add("IN_DEVELOPMENT");
-			result.add("ABANDONED");
-			if (actor instanceof Executive) result.add("DENIED");
+		case Constant.OFFER_CREATED:
+			result.add(Constant.OFFER_IN_DEVELOPMENT);
+			result.add(Constant.OFFER_ABANDONED);
+			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 			
-		case "IN_DEVELOPMENT":
-			result.add("PRESENTED");
-			result.add("ABANDONED");
-			if (actor instanceof Executive) result.add("DENIED");
+		case Constant.OFFER_IN_DEVELOPMENT:
+			result.add(Constant.OFFER_PRESENTED);
+			result.add(Constant.OFFER_ABANDONED);
+			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 
-		case "ABANDONED":
-			result.add("IN_DEVELOPMENT");
+		case Constant.OFFER_ABANDONED:
+			result.add(Constant.OFFER_IN_DEVELOPMENT);
 			break;
 			
-		case "PRESENTED":
-			result.add("WINNED");
-			result.add("LOSED");
-			result.add("CHALLENGED");
+		case Constant.OFFER_PRESENTED:
+			result.add(Constant.OFFER_WINNED);
+			result.add(Constant.OFFER_LOSED);
+			result.add(Constant.OFFER_CHALLENGED);
 			break;
 			
-		case "WINNED":
+		case Constant.OFFER_WINNED:
 			break;
 			
-		case "LOSED":
+		case Constant.OFFER_LOSED:
 			break;
 			
-		case "CHALLENGED":
+		case Constant.OFFER_CHALLENGED:
 			break;
 			
-		case "DENIED":
+		case Constant.OFFER_DENIED:
 			break;
 			
 		}
@@ -104,8 +105,8 @@ public class ComboService {
 		
 		Collection<String> result = new ArrayList<String>();
 		
-		result.add("TECHNICAL_OFFER");
-		result.add("ECONOMICAL_OFFER");
+		result.add(Constant.SECTION_TECHNICAL_OFFER);
+		result.add(Constant.SECTION_ECONOMICAL_OFFER);
 		
 		return result;
 	}	
@@ -114,9 +115,9 @@ public class ComboService {
 		
 		Collection<String> result = new ArrayList<String>();
 		
-		result.add("ADMINISTRATIVE_ACREDITATION");
-		result.add("TECHNICAL_OFFER");
-		result.add("ECONOMICAL_OFFER");
+		result.add(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
+		result.add(Constant.SECTION_TECHNICAL_OFFER);
+		result.add(Constant.SECTION_ECONOMICAL_OFFER);
 		
 		return result;
 	}	
@@ -125,10 +126,10 @@ public class ComboService {
 		
 		Collection<String> result = new ArrayList<String>();
 		
-		result.add("UNDEFINED");
-		result.add("LOW");
-		result.add("MEDIUM");
-		result.add("HIGH");
+		result.add(Constant.TENDER_INTEREST_UNDEFINED);
+		result.add(Constant.TENDER_INTEREST_LOW);
+		result.add(Constant.TENDER_INTEREST_MEDIUM);
+		result.add(Constant.TENDER_INTEREST_HIGH);
 		
 		return result;
 	}		
@@ -139,10 +140,10 @@ public class ComboService {
 		
 		Collection<CompanyResult> winners = this.companyResultService.findAllWinnerByTenderResult(companyResult.getTenderResult().getId());
 		if (winners.size() == 0)
-			result.add("WINNER");
+			result.add(Constant.COMPANY_RESULT_WINNER);
 		
-		result.add("LOSER");
-		result.add("RECKLESS_OFFER");
+		result.add(Constant.COMPANY_RESULT_LOSER);
+		result.add(Constant.COMPANY_RESULT_RECKLESS_OFFER);
 		
 		return result;
 	}		

@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
+import domain.Constant;
 import domain.Curriculum;
 import domain.File;
 import domain.Offer;
@@ -91,7 +92,7 @@ public class SubSectionService {
 
 		final SubSection subSection = new SubSection();
 		subSection.setAdministrative(administrative);
-		subSection.setSection("ADMINISTRATIVE_ACREDITATION");
+		subSection.setSection(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
 		subSection.setOffer(offer);
 		
 		return subSection;
@@ -148,6 +149,12 @@ public class SubSectionService {
 		subSection.setLastReviewDate(new Date());
 		result = this.subSectionRepository.save(subSection);
 		
+		if (subSection.getOffer().getState().equals(Constant.OFFER_CREATED)) {
+			subSection.getOffer().setState(Constant.OFFER_IN_DEVELOPMENT);
+			this.offerService.save(subSection.getOffer());
+		}
+		
+		
 		return result;
 	}
 
@@ -195,6 +202,10 @@ public class SubSectionService {
 		
 		Actor principal = actorService.findByPrincipal();
 		SubSection subSection = this.subSectionRepository.findOne(subSectionId);
+	
+		//Si la oferta está presentada, no puede editar la subseccion.
+		if (subSection.getOffer().isPublished())
+			return false;
 		
 		if (principal instanceof Commercial) {
 			Commercial commercial = this.commercialService.findByPrincipal();

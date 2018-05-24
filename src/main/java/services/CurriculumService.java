@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
+import domain.Constant;
 import domain.Curriculum;
 import domain.SubSection;
 import repositories.CurriculumRepository;
@@ -101,7 +102,7 @@ public class CurriculumService {
 	public Curriculum save(final Curriculum curriculum) {
 
 		Assert.notNull(curriculum);
-		Assert.isTrue(!curriculum.getSubSection().getSection().equals("ADMINISTRATIVE_ACREDITATION"));
+		Assert.isTrue(!curriculum.getSubSection().getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 
 		if (curriculum.getId() != 0) {
 			checkPrincipal(curriculum);
@@ -157,7 +158,7 @@ public class CurriculumService {
 
 		SubSection subSection;
 		subSection = this.subSectionService.findOne(subSectionId);
-		Assert.isTrue(!subSection.getSection().equals("ADMINISTRATIVE_ACREDITATION"));
+		Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 
 		Collection<Actor> subSectionCreators = new ArrayList<Actor>();
 		Collection<Commercial> subSectionCommercials = this.commercialService.getSubSectionCommercialsFromOfferId(subSection.getOffer().getId());

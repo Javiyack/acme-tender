@@ -166,11 +166,10 @@
 <br />
 
 <security:authorize access="hasRole('COMMERCIAL')">
-	<acme:button text="subSection.create" url="subSection/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-	<jstl:if test="${offer.state == 'CREATED' || offer.state == 'IN_DEVELOPMENT' }">
-		<jstl:if test="${offer.commercial eq actor }">
-			<acme:button text="collaborationRequest.newCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-		</jstl:if>
+	<jstl:if test="${offer.state == 'IN_DEVELOPMENT' && offer.commercial.id == actor.id}" >
+		<acme:button text="subSection.create" url="subSection/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+
+		<acme:button text="collaborationRequest.newCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
 	</jstl:if>
 </security:authorize>
 

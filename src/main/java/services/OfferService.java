@@ -187,6 +187,7 @@ public class OfferService {
 	}
 
 	//Una oferta solo puede ser editada por el comercial que la creó
+	//Si esta publicada, también la puede modificar (pero las subsecciones no)
 	public boolean canEditOffer(final int offerId) {
 		final Actor principal = this.actorService.findByPrincipal();
 		final Offer offer = this.offerRepository.findOne(offerId);

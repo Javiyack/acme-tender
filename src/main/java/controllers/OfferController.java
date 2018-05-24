@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import domain.Constant;
 import domain.Offer;
 import domain.SubSection;
 import forms.SearchForm;
@@ -60,11 +61,11 @@ public class OfferController extends AbstractController {
 		Collection<SubSection> subSectionsEconomical = new ArrayList<SubSection>();
 
 		for (SubSection ss : subSections) {
-			if (ss.getSection().equals("ADMINISTRATIVE_ACREDITATION"))
+			if (ss.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION))
 				subSectionsAcreditation.add(ss);
-			if (ss.getSection().equals("TECHNICAL_OFFER"))
+			if (ss.getSection().equals(Constant.SECTION_TECHNICAL_OFFER))
 				subSectionsTechnical.add(ss);
-			if (ss.getSection().equals("ECONOMICAL_OFFER"))
+			if (ss.getSection().equals(Constant.SECTION_ECONOMICAL_OFFER))
 				subSectionsEconomical.add(ss);
 		}
 
