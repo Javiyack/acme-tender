@@ -188,6 +188,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 		result.addObject("collaborationRequest", collaborationRequest);
 		result.addObject("message", messageCode);
 		result.addObject("commercials", commercials);
+
 		return result;
 	}
 }

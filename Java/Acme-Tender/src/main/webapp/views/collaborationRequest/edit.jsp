@@ -79,6 +79,19 @@
 	<acme:submit name="save" code="collaborationRequest.save" css="formButton toLeft" />&nbsp;
 
 	
-    <acme:cancel url="offer/display.do?offerId=${collaborationRequest.offer.id }" code="collaborationRequest.cancel" css="formButton toLeft" />
-		
+	<jstl:choose>
+		<jstl:when
+			test="${collaborationRequest.id == 0}">
+			<acme:cancel
+				url="offer/display.do?offerId=${collaborationRequest.offer.id }"
+				code="collaborationRequest.cancel" css="formButton toLeft" />
+		</jstl:when>
+		<jstl:otherwise>
+			<acme:cancel
+				url="collaborationRequest/commercial/display.do?collaborationRequestId=${collaborationRequest.id }"
+				code="collaborationRequest.cancel" css="formButton toLeft" />
+		</jstl:otherwise>
+	</jstl:choose>
+
+
 </form:form>
