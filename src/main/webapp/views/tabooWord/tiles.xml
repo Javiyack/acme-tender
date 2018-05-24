@@ -25,5 +25,15 @@
 		<put-attribute name="title" value="Edit taboo word" />
 		<put-attribute name="body" value="/views/tabooWord/edit.jsp" />
 	</definition>
+	
+	<definition name="tender/administrator/list" extends="master.page">
+		<put-attribute name="title" value="Tender List with Taboo Words" />
+		<put-attribute name="body" value="/views/tabooWord/listTender.jsp" />
+	</definition>
+	
+	<definition name="offer/administrator/list" extends="master.page">
+		<put-attribute name="title" value="Offer List with Taboo Words" />
+		<put-attribute name="body" value="/views/tabooWord/listOffer.jsp" />
+	</definition>
 
 </tiles-definitions>

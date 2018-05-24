@@ -401,7 +401,7 @@
 	
 	<bean id="tender5" class="domain.Tender">
 		<property name="reference" value="33122017-NN" />
-		<property name="title" value="Servicio de alojamiento de profesores extranjeros" />
+		<property name="title" value="Servicio de sex de profesores extranjeros" />
 		<property name="expedient" value="312/3223" />
 		<property name="estimatedAmount" value="229000" />
 		<property name="organism" value="Universidad de Sevilla" />
@@ -435,7 +435,7 @@
 		<property name="title" value="50 Ordenadores para las aulas de informática" />
 		<property name="expedient" value="512/53223" />
 		<property name="estimatedAmount" value="229000" />
-		<property name="organism" value="Universidad de Sevilla" />
+		<property name="organism" value="Universidad de Viagra" />
 		<property name="bulletin" value="BOUS 423/42112" />
 		<property name="bulletinDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
@@ -615,7 +615,7 @@
 		<property name="title" value="Certificado de confidencialidad." />
 		<property name="section" value="ADMINISTRATIVE_ACREDITATION" />
 		<property name="subsectionOrder" value="1" />
-		<property name="shortDescription" value="Certificado donde la empresa se compromete a cumplir la LOPD." />
+		<property name="shortDescription" value="Certificado donde la empresa se compromete a cumplir la Viagra" />
 		<property name="body" value="La empresa se compromete... y firma." />
 		<property name="lastReviewDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
@@ -631,7 +631,7 @@
 		<property name="title" value="Introducción" />
 		<property name="section" value="TECHNICAL_OFFER" />
 		<property name="subsectionOrder" value="1" />
-		<property name="shortDescription" value="Introducción al servicio a contratar." />
+		<property name="shortDescription" value="Introducción al cialis" />
 		<property name="body" value="El servicio se prestara por ...." />
 		<property name="lastReviewDate">
 			<bean factory-bean="dateFormat" factory-method="parse">

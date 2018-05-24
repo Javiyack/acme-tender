@@ -203,10 +203,10 @@
 				<a href="tabooWord/administrator/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.list" /></i>
 				</a>
-				<a href="tabooWord/administrator/listTenders.do"> 
+				<a href="tender/administrator/list.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.tenders" /></i>
 				</a>		
-				<a href="tabooWord/administrator/listOffers.do"> 
+				<a href="offer/administrator/list.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.offers" /></i>
 				</a>						
 				<hr />	
