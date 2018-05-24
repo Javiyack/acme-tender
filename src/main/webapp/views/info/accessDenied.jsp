@@ -28,7 +28,7 @@ int n = rand.nextInt(7);
 	<img height="300px" src="https://media1.tenor.com/images/a5fb111b44a3f592fe5a2ca90e714782/tenor.gif?itemid=5646504" />
 <% } %>
 <% if (n==3) { %>
-	<img height="300px" src="https://media1.giphy.com/media/3HAYjf9agsx7U3aXKXm/200w.webp" />
+	<img height="300px" src="https://media.giphy.com/media/3HAYjf9agsx7U3aXKXm/giphy.gif" />
 <% } %>
 <% if (n==4) { %>
 	<img height="300px" src="https://media.giphy.com/media/l0OXWXUHdp4K9nitq/giphy.gif" />
