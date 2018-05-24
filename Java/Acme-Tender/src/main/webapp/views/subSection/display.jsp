@@ -33,10 +33,10 @@
 
 <br />
 
-<jstl:if test="${subSection.commercial.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
 	<acme:button text="subSection.edit" url="/subSection/commercial/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 </jstl:if>
-<jstl:if test="${subSection.administrative.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
 	<acme:button text="subSection.edit" url="/subSection/administrative/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 </jstl:if>
 <acme:button text="subSection.back" url="/offer/display.do?offerId=${subSection.offer.id}" css="formButton toLeft" />
@@ -63,7 +63,7 @@
 		
 </display:table>
 <br /><br/>
-<jstl:if test="${subSection.commercial.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
 	<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 </jstl:if>
 <br/><br/>
@@ -85,10 +85,10 @@
 	</display:column>
 </display:table>
 <br /><br/>
-<jstl:if test="${subSection.commercial.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
 	<acme:button text="file.create" url="/file/commercial/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
 </jstl:if>
-<jstl:if test="${subSection.administrative.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
 	<acme:button text="file.create" url="/file/administrative/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
 </jstl:if>
 <br/><br/>
@@ -112,7 +112,7 @@
 	
 </display:table>
 <br /><br/>
-<jstl:if test="${subSection.commercial.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
 	<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 </jstl:if>
 

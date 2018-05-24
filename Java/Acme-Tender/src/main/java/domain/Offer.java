@@ -99,7 +99,7 @@ public class Offer extends DomainEntity {
 	@Transient
 	public boolean isInDevelopment() {
 		
-		return this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
+		return this.getState().equals(Constant.OFFER_CREATED) || this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
 	}
 	
 	public void setInDevelopment(boolean development) {
