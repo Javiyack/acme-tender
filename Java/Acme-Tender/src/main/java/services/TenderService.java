@@ -14,6 +14,8 @@ import repositories.TenderRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
+import domain.Comment;
+import domain.EvaluationCriteria;
 import domain.File;
 import domain.Offer;
 import domain.Tender;
@@ -25,21 +27,25 @@ public class TenderService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private TenderRepository		tenderRepository;
+	private TenderRepository			tenderRepository;
 
 	// Managed services ------------------------------------------------
 	@Autowired
-	private ActorService			actorService;
+	private ActorService				actorService;
 	@Autowired
-	private AdministrativeService	administrativeService;
+	private AdministrativeService		administrativeService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 	@Autowired
-	private TenderResultService		tenderResultService;
+	private TenderResultService			tenderResultService;
 	@Autowired
-	private FileService				fileService;
+	private FileService					fileService;
 	@Autowired
-	private OfferService			offerService;
+	private OfferService				offerService;
+	@Autowired
+	private CommentService				commentService;
+	@Autowired
+	private EvaluationCriteriaService	evaluationCriteriaService;
 
 
 	// Constructor ----------------------------------------------------------
@@ -111,6 +117,12 @@ public class TenderService {
 		final Offer offer = this.offerService.findByTender(tender.getId());
 		if (offer != null)
 			this.offerService.deleteByAdmin(offer);
+
+		final Collection<Comment> comment = this.commentService.findAllByTender(tender.getId());
+		this.commentService.deleteByAdmin(comment);
+
+		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tender.getId());
+		this.evaluationCriteriaService.deleteByAdmin(evaluationCriterias);
 
 		this.tenderRepository.delete(tender);
 

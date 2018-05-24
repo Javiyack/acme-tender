@@ -109,4 +109,9 @@ public class AnswerService {
 		return answers;
 	}
 
+	public void deleteInBatch(final Collection<Answer> answers) {
+		this.answerRepository.deleteInBatch(answers);
+
+	}
+
 }
