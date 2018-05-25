@@ -168,7 +168,7 @@
 		</div>
 	</display:column>
 </display:table>
-<br />
+<br /><br />
 
 <security:authorize access="hasRole('COMMERCIAL')">
 	<jstl:if test="${offer.inDevelopment && offer.commercial.id == actor.id}" >

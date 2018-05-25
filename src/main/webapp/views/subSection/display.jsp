@@ -112,8 +112,11 @@
 	
 </display:table>
 <br /><br/>
-<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
 	<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && !tenderHasEvaluationCriterias}" >
+	<spring:message code="subSection.cannot.add.subSectionEvaluationCriterias" />
 </jstl:if>
 
 
