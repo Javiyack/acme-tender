@@ -82,9 +82,10 @@ public class FileCommercialController extends AbstractController{
 	protected ModelAndView createEditModelAndView(final File file, final String messageCode) {
 		ModelAndView result;
 		result = new ModelAndView("file/edit");
+
 		result.addObject("file", file);
 		result.addObject("message", messageCode);
-		result.addObject("requestUri", "file/edit.do");
+		result.addObject("requestUri", "file/commercial/edit.do");
 
 		return result;
 	}
