@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
+import domain.Actor;
+
 public class RegisterForm {
 
 	private String		name;
@@ -14,9 +16,9 @@ public class RegisterForm {
 	private String		email;
 	private String		phone;			// Optional	
 	private String		address;		// Optional	
-	private String	    userName;
+	private String	    username;
 	private String	    password;
-	private String	    Authority;
+	private String	    authority;
 	
 	private int id;
 	private int version;
@@ -31,15 +33,28 @@ public class RegisterForm {
 		}
 
 
+	public RegisterForm(Actor actor) {
+		super();
+		this.id = actor.getId();
+		this.setName(actor.getName());
+		this.setSurname(actor.getSurname());
+		this.setEmail(actor.getEmail());
+		this.setPhone(actor.getPhone());
+		this.setAddress(actor.getAddress());
+		this.setUsername(actor.getUserAccount().getUsername());
+		this.setAuthority(actor.getUserAccount().getAuthorities().iterator().next().getAuthority());
+	}
+
+
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getAuthority() {
-		return Authority;
+		return this.authority;
 	}
 
 
 	public void setAuthority(String authority) {
-		Authority = authority;
+		this.authority = authority;
 	}
 
 
@@ -102,13 +117,13 @@ public class RegisterForm {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
 	@Size(min = 5, max = 32)
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 
 
