@@ -13,11 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import domain.Curriculum;
+import domain.EvaluationCriteria;
 import domain.File;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
 import services.ActorService;
 import services.CurriculumService;
+import services.EvaluationCriteriaService;
 import services.FileService;
 import services.SubSectionEvaluationCriteriaService;
 import services.SubSectionService;
@@ -35,6 +37,8 @@ public class SubSectionController extends AbstractController {
 	private CurriculumService					curriculumService;
 	@Autowired
 	private SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
+	@Autowired
+	private EvaluationCriteriaService	evaluationCriteriaService;	
 	@Autowired
 	private FileService							fileService;
 
@@ -60,12 +64,17 @@ public class SubSectionController extends AbstractController {
 		Collection<File> files = this.fileService.findAllBySubSection(subSectionId);
 		Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSectionId);
 
+		//Para ver si podemos añadir SubSectionEvaluationCriterias
+		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(subSection.getOffer().getTender().getId());
+		
 		result = new ModelAndView("subSection/display");
 
 		result.addObject("subSection", subSection);
 		result.addObject("curriculums", curriculums);
 		result.addObject("files", files);
 		result.addObject("actorId", actor.getId());
+		
+		result.addObject("tenderHasEvaluationCriterias", evaluationCriterias.size()!=0);
 		result.addObject("subSectionEvaluationCriterias", subSectionEvaluationCriterias);
 
 		return result;
