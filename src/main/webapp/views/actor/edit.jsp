@@ -18,21 +18,20 @@
 				document.getElementById('password').value == document.getElementById('confirm_password').value) {
 			document.getElementById('matching').style.color = 'green';
 		    document.getElementById('matching').style.display = 'inline';
-		    document.getElementById("save").disabled = false;
 		    document.getElementById("save").className = "formButton toLeft";
 		} else {
 		    document.getElementById('notMatching').style.color = 'red';
 		    document.getElementById('notMatching').style.display = 'inline';
-			document.getElementById("save").disabled = true;
 			document.getElementById("save").className = "formButton toLeft disabled";
 		}
 		return result;
 	};
 </script>
 
+
 <div class="form">
 
-	<form:form action="${requestUri}" modelAttribute="registerForm">
+	<form:form action="${requestUri}" modelAttribute="registerForm" >
 		<form:hidden path="id" />		
 		
 		<div class="seccion">
@@ -48,26 +47,37 @@
 			<br />
 		</div>
 		
+	<jstl:if test="${edition}">
 		<div class="seccion">
 			<div>
-				<form:label path="${path}"><spring:message code="actor.authority.selection"/>
-				</form:label>
-				
-				<form:select id="Authority" path="Authority" css="formInput" class="formInput">
-					<form:options items="${permisos}" itemValue="authority" />
-				</form:select>
-				<form:errors path="${path}" cssClass="error" />
+				<jstl:if test="${creation}">
+					<form:label path="${path}">
+						<spring:message code="actor.authority.selection" />
+					</form:label>
+					<select id="authority" name="authority" class="formInput">
+						<jstl:forEach items="${permisos}" var="permiso">
+							<option value="${permiso}"><spring:message
+									code="actor.authority.${permiso}" /></option>
+						</jstl:forEach>
+					</select>
+				</jstl:if>
+				<jstl:if test="${!creation}">
+					<form:hidden path="authority"/>
+					<acme:textbox code="actor.authority" path="authority"
+						css="formInput" readonly="true" />
+				</jstl:if>
 			</div>
 			<br>			
-			<acme:textbox code="actor.username" path="userName" css="formInput" />
+			<acme:textbox code="actor.username" path="username" css="formInput" />
 			<br />
+			<jstl:if test="${creation}">
 			<spring:message code="actor.password"/>
 			<form:password path="password" name="password" id="password" class="formInput" /> 
 			<form:errors path="password" cssClass="error" />
 			<br />
 			
 			<spring:message code="actor.password.repeat"/>
-			<input class="formInput" type="password" id="confirm_password" name="confirm_password" onkeyup="check();">
+			<form:password path="password" name="password" id="confirm_password" class="formInput" onkeyup="check();"/> 
 			<div class="error">
 				<span id='matching' style="display:none;">
 					<spring:message code="actor.password.matching" />
@@ -76,22 +86,49 @@
 					<spring:message code="actor.password.missmatching"/>
 				</span>
 			</div>
+			<br />
+			</jstl:if>
+			<jstl:if test="${!creation}">
+			<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="checkEdition();" />
+			<br />
+			<acme:password code="profile.userAccount.newPassword" path="password" css="formInput" id = "new_password" onkeyup="checkEdition();" />
+			<acme:password code="profile.userAccount.repeatPassword" path="password" css="formInput" onkeyup="checkEdition();" id="confirm_password"/>
+			<br />
+			</jstl:if>
 		</div>
-
+	
 		<security:authorize access="isAnonymous()">
 			<p class="terminos">
 				<spring:message code="term.registration" />
 			</p>
 			<br />
 	</security:authorize>
-
 		<input type="submit" name="save" id="save"
-			value='<spring:message code="actor.save"/>' class="formButton toLeft disabled" disabled/>&nbsp;
+			value='<spring:message code="actor.save"/>' class="formButton toLeft disabled"/>&nbsp;
 	<input type="button" name="cancel"
 			value='<spring:message code="actor.cancel" />'
 			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>
 		<br />
-
+	</jstl:if>
+	
 	</form:form>	
 
 </div>
+<script>
+	var checkEdition = function() {
+		if (document.getElementById('password').value.length > 4 && document.getElementById('password').value.length < 33) {
+			document.getElementById("save").disabled = false;
+			document.getElementById("save").className = "formButton toLeft";
+		} else {
+			document.getElementById("save").disabled = true;
+			document.getElementById("save").className = "formButton toLeft disabled";
+		}
+
+		if (document.getElementById('new_password').value ==
+			document.getElementById('confirm_password').value) {
+			document.getElementById('confirm_password').style.color = 'green';
+		} else {
+			document.getElementById('confirm_password').style.color = 'red';
+		}
+	}
+</script>

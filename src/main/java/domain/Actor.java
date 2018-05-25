@@ -58,7 +58,7 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 	@SafeHtml
-	@Pattern(regexp = "^[6,7]\\d{8}$")
+	@Pattern(regexp = "()|^[6,7]\\d{8}$")
 	public String getPhone() {
 		return this.phone;
 	}

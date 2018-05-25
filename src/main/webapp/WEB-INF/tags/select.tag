@@ -35,7 +35,7 @@
 <%@ attribute name="blankValue" required="false"%>
 
 <jstl:if test="${blankValue == null}">
-	<jstl:set var="blankValue" value="true" />
+	<jstl:set var="blankValue" value="false" />
 </jstl:if>
 
 <jstl:if test="${readonly == null}">
@@ -63,7 +63,7 @@
 			<form:option value="0" label="" />
 		</jstl:if>
 		
-		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
+		<form:options items="${items}" itemValue="${id}" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />
 </div>

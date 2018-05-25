@@ -36,7 +36,8 @@
 	<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 	
 	<security:intercept-url pattern="/info/accessDenied.do" access="permitAll" />
-
+	<security:intercept-url pattern="/actor/create.do" access="permitAll" />
+	
 	<!-- Admin -->
 	
 	<security:intercept-url pattern="/myMessage/administrator/**" access="hasRole('ADMIN')" />
@@ -88,8 +89,6 @@
 	
 			
 	<!-- IS ANONYMOUS -->
-	<security:intercept-url pattern="/actor/create.do" access="isAnonymous()" />
-	
        
 	<!-- 2+ Roles -->
 

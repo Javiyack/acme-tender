@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +26,7 @@ public class ActorController extends AbstractController {
 	// Supporting services -----------------------------------------------------
 
 	@Autowired
-	private ActorService	actorService;
-
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -58,63 +58,92 @@ public class ActorController extends AbstractController {
 		actor = this.actorService.findOne(actorId);
 
 		result = new ModelAndView("actor/display");
-		result.addObject("actor", actor);
+		result.addObject("registerForm", actor);
 
 		return result;
 	}
-	
+
 	// Create ---------------------------------------------------------------
 
-		@RequestMapping("/create")
-		public ModelAndView action1() {
-			ModelAndView result;
-			RegisterForm registerForm = new RegisterForm();
-			result = this.createEditModelAndView(registerForm, null);
-			return result;
+	@RequestMapping("/create")
+	public ModelAndView create() {
+		ModelAndView result;
+		RegisterForm registerForm = new RegisterForm();
+		result = this.createEditModelAndView(registerForm, null);
+		return result;
+	}
+
+	// Edit ---------------------------------------------------------------
+
+	@RequestMapping("/edit")
+	public ModelAndView edit() {
+		ModelAndView result;
+		RegisterForm model;
+
+		final Actor actor = this.actorService.findByPrincipal();
+		model = new RegisterForm(actor);
+		result = this.createEditModelAndView(model, null);
+		return result;
+	}
+
+	// Save mediante Post ---------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid RegisterForm registerForm, BindingResult binding) {
+		ModelAndView result;
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(registerForm);
+		else {
+			try {
+				Actor actor = actorService.recontruct(registerForm, binding);
+				if (binding.hasErrors())
+					result = this.createEditModelAndView(registerForm);
+				else
+					try {
+						this.actorService.save(actor);
+						result = new ModelAndView("actor/display");
+						result.addObject("registerForm", actor);
+					} catch (final Throwable oops) {						
+						result = this.createEditModelAndView(registerForm, "actor.commit.error");
+					}
+
+			} catch (final Throwable oops) {
+				if (oops.getLocalizedMessage().contains("profile"))
+					result = this.createEditModelAndView(registerForm, oops.getLocalizedMessage());
+				else if (oops.getCause().getCause() != null
+						&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
+					result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
+				else
+					result = this.createEditModelAndView(registerForm, "actor.recontruct.error");
+			}
 		}
+		return result;
+	}
 
-		// Save mediante Post ---------------------------------------------------
+	// Auxiliary methods -----------------------------------------------------
+	protected ModelAndView createEditModelAndView(RegisterForm model) {
+		final ModelAndView result;
+		result = this.createEditModelAndView(model, null);
+		return result;
+	}
 
-		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid RegisterForm registerForm, BindingResult binding) {
-			ModelAndView result;
+	protected ModelAndView createEditModelAndView(RegisterForm model, String message) {
+		final ModelAndView result;
+		Collection<Authority> permisos = Authority.listAuthorities();
+		Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		permisos.remove(authority);
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(registerForm);
-			else
-				try {
-					Actor actor = actorService.recontruct(registerForm, binding);
-					this.actorService.save(actor);
-					result = new ModelAndView("redirect:/");
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(registerForm, "actor.commit.error");
-				}
-			return result;
-		}
+		result = new ModelAndView("actor/create");
+		result.addObject("registerForm", model);
+		result.addObject("requestUri", "actor/create.do");
+		result.addObject("permisos", permisos);
+		result.addObject("edition", true);
+		result.addObject("creation", model.getId() == 0);
+		result.addObject("message", message);
 
-		// Auxiliary methods -----------------------------------------------------
-		protected ModelAndView createEditModelAndView(RegisterForm inidencia) {
-			final ModelAndView result;
-			result = this.createEditModelAndView(inidencia, null);
-			return result;
-		}
+		return result;
 
-		protected ModelAndView createEditModelAndView(RegisterForm actor, String message) {
-			final ModelAndView result;
-			Collection<Authority> permisos = Authority.listAuthorities();
-			Authority authority = new Authority();
-			authority.setAuthority(Authority.ADMIN);
-			permisos.remove(authority);
-			
-			result = new ModelAndView("actor/create");
-			result.addObject("registerForm", actor);
-			result.addObject("requestUri", "actor/create.do");
-			result.addObject("permisos", permisos);
-			result.addObject("message", message);
-
-			return result;
-
-		}
-
+	}
 
 }

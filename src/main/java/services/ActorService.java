@@ -31,18 +31,17 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository			actorRepository;
+	private ActorRepository actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private Validator				validator;
+	private Validator validator;
 	@Autowired
-	private UserAccountService		userAccountService;
+	private UserAccountService userAccountService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService administratorService;
 	@Autowired
-	private FolderService			folderService;
-
+	private FolderService folderService;
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -75,7 +74,7 @@ public class ActorService {
 		Assert.notNull(actor);
 		Actor result;
 		if (actor.getId() != 0)
-			Assert.isTrue(actor.equals(this.findByPrincipal()));
+			Assert.isTrue(actor.equals(this.findByPrincipal()), "not.allowed.action");
 
 		result = this.actorRepository.save(actor);
 
@@ -150,12 +149,18 @@ public class ActorService {
 		return authorities.get(0).getAuthority();
 	}
 
-	public Actor recontruct(final RegisterForm registerForm, final BindingResult bind) {
+	public Actor recontruct(final RegisterForm actorForm, final BindingResult bind) {
 		Actor result = null;
 		UserAccount useraccount = null;
-		if (registerForm.getId() == 0) {
+		Md5PasswordEncoder encoder;
+		encoder = new Md5PasswordEncoder();
+		if (actorForm.getId() == 0) {
+			Assert.isTrue(actorForm.getPassword().split(",").length == 2,
+					"profile.userAccount.repeatPassword.mismatch");
+			Assert.isTrue(actorForm.getPassword().split(",")[0].equals(actorForm.getPassword().split(",")[1]),
+					"profile.userAccount.repeatPassword.mismatch");
 			useraccount = new UserAccount();
-			switch (registerForm.getAuthority()) {
+			switch (actorForm.getAuthority()) {
 			case Authority.ADMINISTRATIVE:
 				result = new Administrative();
 				useraccount = this.userAccountService.createAsAdministrative();
@@ -177,25 +182,43 @@ public class ActorService {
 			default:
 				break;
 			}
+			useraccount.setUsername(actorForm.getUsername());
+			result.getUserAccount().setPassword(actorForm.getPassword().split(",")[0]);
+			this.validator.validate(useraccount, bind);
+			result.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword().split(",")[0], null));
+			useraccount.setActive(true);
 			this.folderService.createSystemFolders(result);
 		} else {
+			Assert.isTrue(actorForm.getPassword().split(",").length > 0,
+					"profile.wrong.password");
+			String pass = encoder.encodePassword(actorForm.getPassword().split(",")[0], null);
 			result = this.findByPrincipal();
+			Assert.isTrue(pass.equals(result.getUserAccount().getPassword()), "profile.wrong.password");
 			useraccount = result.getUserAccount();
+			useraccount.setUsername(actorForm.getUsername());
+			if (actorForm.getPassword().split(",").length > 1) {
+				Assert.isTrue(actorForm.getPassword().split(",").length == 3,
+						"profile.userAccount.repeatPassword.mismatch");
+				Assert.isTrue(actorForm.getPassword().split(",")[1].length() > 4,
+						"profile.userAccount.password.toShort");
+				Assert.isTrue(actorForm.getPassword().split(",")[1].length() < 33,
+						"profile.userAccount.password.toLong");
+				Assert.isTrue(actorForm.getPassword().split(",")[1].equals(actorForm.getPassword().split(",")[2]),
+						"profile.userAccount.repeatPassword.mismatch");
+				useraccount.setPassword(actorForm.getPassword().split(",")[1]);
+				this.validator.validate(useraccount, bind);
+				useraccount.setPassword(encoder.encodePassword(actorForm.getPassword().split(",")[1], null));
+			} else
+				this.validator.validate(useraccount, bind);
+			useraccount.setActive(result.getUserAccount().getActive());
 		}
-		result.setName(registerForm.getName());
-		result.setSurname(registerForm.getSurname());
-		result.setEmail(registerForm.getEmail());
-		result.setAddress(registerForm.getAddress());
-		result.setPhone(registerForm.getPhone());
+		result.setName(actorForm.getName());
+		result.setSurname(actorForm.getSurname());
+		result.setEmail(actorForm.getEmail());
+		result.setAddress(actorForm.getAddress());
+		result.setPhone(actorForm.getPhone());
 		this.validator.validate(result, bind);
 
-		useraccount.setUsername(registerForm.getUserName());
-		Md5PasswordEncoder encoder;
-		encoder = new Md5PasswordEncoder();
-		useraccount.setPassword(encoder.encodePassword(registerForm.getPassword(), null));
-		useraccount.setActive(true);
-
-		this.validator.validate(useraccount, bind);
 		return result;
 	}
 }

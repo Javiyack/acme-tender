@@ -301,6 +301,7 @@ h5 {
 .disabled {
 	color: #fff !important;
 	background-color: #DCDCDC !important;
+	cursor: not-allowed;
 }
 
 /* Carrusel de fotos */
