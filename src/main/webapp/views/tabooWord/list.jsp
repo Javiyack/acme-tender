@@ -36,7 +36,6 @@
 	</display:column>
 
 </display:table>
+<br />
+<acme:button url="tabooWord/administrator/create.do" text="tabooWord.create" css="formButton toLeft"/>
 
-<a href="tabooWord/administrator/create.do">
-	<spring:message code="tabooWord.create" />
-</a>

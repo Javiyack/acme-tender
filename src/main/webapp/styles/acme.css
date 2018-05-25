@@ -177,6 +177,8 @@ body {
 	text-align: center;
 	cursor: pointer;
 	white-space: nowrap;
+	margin-left: 3px;
+	margin-right: 3px;
 }
 
 .center {

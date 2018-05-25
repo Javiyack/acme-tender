@@ -23,37 +23,37 @@
 
 <!-- Listing grid -->
 
-<display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="categories" requestURI="${requestUri}" id="row">
+<display:table pagesize="5" class="displaytag" keepStatus="true" name="categories" requestURI="${requestUri}" id="row">
 
-			<spring:message code="category.name" var="nameHeader" />
-			<display:column title="${nameHeader}">
+	<spring:message code="category.name" var="nameHeader" />
+	<display:column title="${nameHeader}">
 
-				<spring:url
-					value="category/administrator/list.do?parentCategoryId=${row.id}"
-					var="tenderByCategoryURL" />
-				<a href="${tenderByCategoryURL}"><jstl:out value="${row.name}" /></a>
+		<spring:url
+			value="category/administrator/list.do?parentCategoryId=${row.id}"
+			var="tenderByCategoryURL" />
+		<a href="${tenderByCategoryURL}"><jstl:out value="${row.name}" /></a>
 
-			</display:column>
+	</display:column>
 
-			<spring:message code="category.parentCategory" var="columnHeader" />
-			<display:column property="fatherCategory.name" title="${columnHeader}">
-			</display:column>
+	<spring:message code="category.parentCategory" var="columnHeader" />
+	<display:column property="fatherCategory.name" title="${columnHeader}">
+	</display:column>
 
-			<spring:message code="category.edit" var="columnHeader" />
-			<display:column title="${columnHeader}">
-				<a href="category/administrator/edit.do?categoryId=${row.id}"><spring:message
-						code="category.edit" /></a>
-			</display:column>
-
-
+	<spring:message code="category.edit" var="columnHeader" />
+	<display:column title="${columnHeader}">
+		<a href="category/administrator/edit.do?categoryId=${row.id}">
+			<spring:message code="category.edit" />
+		</a>
+	</display:column>
 
 </display:table>
+<br/><br/>
+<acme:button url="category/administrator/create.do" text="category.create" css="formButton toLeft"/>
 
-<security:authorize access="hasRole('ADMIN')">
-	<a href="category/administrator/create.do"><spring:message
-			code="category.create" /></a>
-</security:authorize>
-<br />
-<acme:backButton text="msg.back" />
-<br />
+<jstl:if test="${parent != null && parent.fatherCategory == null}" >
+	<acme:button url="category/administrator/list.do" text="msg.back" css="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${parent != null && parent.fatherCategory != null}" >
+	<acme:button url="category/administrator/list.do?parentCategoryId=${parent.fatherCategory.id}" text="msg.back" css="formButton toLeft" />
+</jstl:if>
+

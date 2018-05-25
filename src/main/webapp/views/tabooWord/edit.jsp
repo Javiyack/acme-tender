@@ -20,8 +20,11 @@
 	<br />
 
 	<acme:submit name="save" code="tabooWord.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="/tabooWord/administrator/list.do"
-		code="tabooWord.cancel" css="formButton toLeft" />
+	
+	<jstl:if test="${tabooWord.id != 0}" >
+		<acme:submit name="delete" code="tabooWord.delete" css="formButton toLeft" />&nbsp;
+	</jstl:if>
+    <acme:cancel url="/tabooWord/administrator/list.do" code="tabooWord.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>

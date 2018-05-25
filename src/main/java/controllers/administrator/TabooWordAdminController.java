@@ -25,8 +25,6 @@ public class TabooWordAdminController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private TabooWordService	tabooWordService;
-	@Autowired
-	private TenderService		tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -71,6 +69,20 @@ public class TabooWordAdminController extends AbstractController {
 			}
 		return result;
 	}
+	
+	// Delete ---------------------------------------------------------------
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final TabooWord tabooWord, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			this.tabooWordService.delete(tabooWord);
+			result = new ModelAndView("redirect:/tabooWord/administrator/list.do");
+		} catch (final Throwable ooops) {
+			result = this.createEditModelAndView(tabooWord, "tabooWord.commit.error");
+		}
+		return result;
+	}	
 
 	// List TabooWords ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -94,7 +106,12 @@ public class TabooWordAdminController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final TabooWord tabooWord, final String message) {
-		final ModelAndView result = new ModelAndView("tabooWord/administrator/edit");
+		
+		ModelAndView result = null;
+		if (tabooWord.getId()==0)
+			result = new ModelAndView("tabooWord/administrator/create");
+		else
+			result = new ModelAndView("tabooWord/administrator/edit");
 
 		result.addObject("tabooWord", tabooWord);
 		result.addObject("message", message);
