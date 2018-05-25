@@ -13,17 +13,17 @@
 
 
 <b>
-	<spring:message code="offer.tender.reference" />: ${offer.tender.reference} <br/>
-	<spring:message code="offer.tender.title" />: ${offer.tender.title} <br/>
-	<spring:message code="offer.state" />: ${offer.state} <br/>
+	<spring:message code="offer.tender.reference" />: <jstl:out value="${offer.tender.reference}" /> <br/>
+	<spring:message code="offer.tender.title" />: <jstl:out value="${offer.tender.title}" /> <br/>
+	<spring:message code="offer.state" />: <jstl:out value="${offer.state}" /> <br/>
 	<jstl:if test="${offer.presentationDate != null}" >
-		<spring:message code="offer.presentationDate" />: ${offer.presentationDate} <br/>
+		<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}" /> <br/>
 	</jstl:if>
-	<spring:message code="offer.amount" />: ${offer.amount} <br/>
-	<spring:message code="offer.commercial" />: ${offer.commercial.name} ${offer.commercial.surname} <br/>
-	<spring:message code="offer.comision" />: ${offer.amount * (benefitsPercentage/100)} <br/>
+	<spring:message code="offer.amount" />: <jstl:out value="${offer.amount}" /> <br/>
+	<spring:message code="offer.commercial" />: <jstl:out value="${offer.commercial.name} ${offer.commercial.surname}" /> <br/>
+	<spring:message code="offer.comision" />: <jstl:out value="${offer.amount * (benefitsPercentage/100)}" /> <br/>
 	<jstl:if test="${offer.denialReason != null}" >
-		<spring:message code="offer.denialReason" />: ${offer.denialReason} <br/>
+		<spring:message code="offer.denialReason" />: <jstl:out value="${offer.denialReason}" /> <br/>
 	</jstl:if>
 </b>
 <br/>

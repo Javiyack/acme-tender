@@ -126,7 +126,12 @@ public class OfferCommercialController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Offer offer, final String message) {
 
-		final ModelAndView result = new ModelAndView("offer/commercial/edit");
+		ModelAndView result = null;
+		if (offer.getId()==0)
+			result = new ModelAndView("offer/commercial/create");
+		else
+			result = new ModelAndView("offer/commercial/edit");
+
 		result.addObject("offer", offer);
 		
 		Collection<String> statesCombo = this.comboService.offerStates(offer.getId());

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +53,9 @@ public class SubSectionController extends AbstractController {
 		SubSection subSection = subSectionService.findOne(subSectionId);
 
 		Actor actor = this.actorService.findByPrincipal();
+		
+		Assert.isTrue(this.subSectionService.canViewSubSection(subSectionId));
+		
 		Collection<Curriculum> curriculums = this.curriculumService.findAllBySubsection(subSectionId);
 		Collection<File> files = this.fileService.findAllBySubSection(subSectionId);
 		Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSectionId);

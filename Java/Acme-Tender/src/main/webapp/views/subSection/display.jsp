@@ -13,9 +13,9 @@
 
 
 <b>
-	<spring:message code="offer.tender.reference" />: ${subSection.offer.tender.reference} <br/>
-	<spring:message code="offer.tender.title" />: ${subSection.offer.tender.title} <br/>
-	<spring:message code="subSection.offer.state" />:${subSection.offer.state} <br/>
+	<spring:message code="offer.tender.reference" />: <jstl:out value="${subSection.offer.tender.reference}" /> <br/>
+	<spring:message code="offer.tender.title" />: <jstl:out value="${subSection.offer.tender.title}" /> <br/>
+	<spring:message code="subSection.offer.state" />: <jstl:out value="${subSection.offer.state}" /> <br/>
 </b>
 <br/>
 
@@ -23,13 +23,13 @@
 	<spring:message code="subSection.data" />
 </h5>
 
-<spring:message code="subSection.title" />: ${subSection.title} <br/>
-<spring:message code="subSection.section" />: ${subSection.section} <br/>
-<spring:message code="subSection.order" />: ${subSection.subsectionOrder} <br/>
-<spring:message code="subSection.shortDescription" />: ${subSection.shortDescription} <br/>
-<spring:message code="subSection.text" />: ${subSection.body} <br/>
-<spring:message code="subSection.lastReviewDate" />: ${subSection.lastReviewDate} <br/>
-<spring:message code="subSection.comments" />: ${subSection.comments} <br/>
+<spring:message code="subSection.title" />: <jstl:out value="${subSection.title}" /> <br/>
+<spring:message code="subSection.section" />: <jstl:out value="${subSection.section}" /> <br/>
+<spring:message code="subSection.order" />: <jstl:out value="${subSection.subsectionOrder}" /> <br/>
+<spring:message code="subSection.shortDescription" />: <jstl:out value="${subSection.shortDescription}" /> <br/>
+<spring:message code="subSection.text" />: <jstl:out value="${subSection.body}" /> <br/>
+<spring:message code="subSection.lastReviewDate" />: <jstl:out value="${subSection.lastReviewDate}" /> <br/>
+<spring:message code="subSection.comments" />: <jstl:out value="${subSection.comments}" /> <br/>
 
 <br />
 

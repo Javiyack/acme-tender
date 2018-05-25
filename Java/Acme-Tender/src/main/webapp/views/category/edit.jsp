@@ -6,8 +6,7 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
@@ -20,25 +19,33 @@
 	<acme:textbox code="category.name" path="name"/>
 	<br/>
 	
-	<jstl:if test="${haveChilds}">
-	<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" />
-	<br/>
-	</jstl:if>
 	<jstl:if test="${!haveChilds}">
-		<a>
-		<spring:message code="category.childs" />
-		</a>
+		<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" />
 	</jstl:if>
-	<br/>
+	<jstl:if test="${haveChilds}">
+		<spring:message code="category.parentCategory" />: 
+			<jstl:if test="${category.fatherCategory == null}" >
+				<spring:message code="category.without.father" />
+			</jstl:if>
+			<jstl:if test="${category.fatherCategory != null}" >
+				<jstl:out value="${category.fatherCategory.name}" />	
+			</jstl:if>
+			(<spring:message code="category.father.not.editable" />)
+	</jstl:if>
+
+	<br/><br/>
 	
-	
-	<acme:submit name="save" code="category.save"/>&nbsp;
+	<acme:submit name="save" code="category.save" css="formButton toLeft"/>&nbsp;
 	
 	<jstl:if test="${category.id != 0}">
-		<acme:submit name="delete" code="category.delete"/>
+		<acme:submit name="delete" code="category.delete" css="formButton toLeft"/>
 	</jstl:if>&nbsp;
 	
-	<acme:cancel url="/" code="category.cancel"/>
+	<jstl:if test="${category.fatherCategory == null}" >
+		<acme:cancel url="/category/administrator/list.do" code="category.cancel" css="formButton toLeft"/>
+	</jstl:if>
+	<jstl:if test="${category.fatherCategory != null}" >
+		<acme:cancel url="/category/administrator/list.do?parentCategoryId=${category.fatherCategory.id}" code="category.cancel" css="formButton toLeft"/>
+	</jstl:if>
 	
-
-	</form:form>
+</form:form>

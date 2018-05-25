@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.CategoryService;
 import controllers.AbstractController;
 import domain.Category;
@@ -22,17 +21,14 @@ import domain.Category;
 @RequestMapping("/category/administrator")
 public class CategoryAdministratorController extends AbstractController {
 
-	public CategoryAdministratorController() {
-		super();
-	}
-
-
+	
 	//Services
 	@Autowired
 	private CategoryService	categoryService;
-	@Autowired
-	private ActorService	actorService;
-
+	
+	public CategoryAdministratorController() {
+		super();
+	}
 
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -71,7 +67,7 @@ public class CategoryAdministratorController extends AbstractController {
 		else
 			try {
 				this.categoryService.save(category);
-				result = new ModelAndView("redirect:/");
+				result = new ModelAndView("redirect:/category/administrator/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(category, "category.commit.error");
 			}
@@ -86,7 +82,7 @@ public class CategoryAdministratorController extends AbstractController {
 
 		try {
 			this.categoryService.delete(category);
-			result = new ModelAndView("redirect:/");
+			result = new ModelAndView("redirect:/category/administrator/list.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(category, "category.delete.error");
 		}
@@ -100,16 +96,22 @@ public class CategoryAdministratorController extends AbstractController {
 	public ModelAndView list(@RequestParam(required = false) final Integer parentCategoryId) {
 		ModelAndView result;
 		Collection<Category> categories;
+		Category parent = null;
 		final boolean admin = true;
 
-		if (parentCategoryId == null)
+		if (parentCategoryId == null) {
 			categories = this.categoryService.getFirstLevelCategories();
-		else
+			parent = null;
+		} else {
 			categories = this.categoryService.getChildCategories(parentCategoryId);
+			parent= this.categoryService.findOne(parentCategoryId);
+		}
 
 		result = new ModelAndView("category/administrator/list");
-		result.addObject("requestURI", "category/administrator/list.do");
+		
+		result.addObject("requestUri", "category/administrator/list.do");
 		result.addObject("categories", categories);
+		result.addObject("parent", parent);
 		result.addObject("admin", admin);
 		return result;
 	}
@@ -130,9 +132,11 @@ public class CategoryAdministratorController extends AbstractController {
 
 		result = new ModelAndView("category/administrator/edit");
 		categories = this.categoryService.findAll();
-		final Boolean b = this.categoryService.getChildCategories(category.getId()).isEmpty();
 		categories.remove(category);
-		result.addObject("haveChilds", b);
+		
+		Boolean haveChilds = !this.categoryService.getChildCategories(category.getId()).isEmpty();
+		result.addObject("haveChilds", haveChilds);
+		
 		result.addObject("category", category);
 		result.addObject("message", message);
 		result.addObject("categories", categories);

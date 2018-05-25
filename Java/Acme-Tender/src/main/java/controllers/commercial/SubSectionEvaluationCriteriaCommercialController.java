@@ -126,7 +126,12 @@ public class SubSectionEvaluationCriteriaCommercialController extends AbstractCo
 
 	protected ModelAndView createEditModelAndView(final SubSectionEvaluationCriteria subSectionEvaluationCriteria, final String message) {
 
-		final ModelAndView result = new ModelAndView("subSectionEvaluationCriteria/commercial/edit");
+		ModelAndView result = null;
+		if (subSectionEvaluationCriteria.getId()==0)
+			result = new ModelAndView("subSectionEvaluationCriteria/commercial/create");
+		else
+			result = new ModelAndView("subSectionEvaluationCriteria/commercial/edit");
+		
 		result.addObject("subSectionEvaluationCriteria", subSectionEvaluationCriteria);
 
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(subSectionEvaluationCriteria.getSubSection().getOffer().getTender().getId());
