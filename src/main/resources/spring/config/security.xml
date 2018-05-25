@@ -68,6 +68,7 @@
 	<!-- Executive -->
 	
 	<security:intercept-url pattern="/offer/executive/**" access="hasRole('EXECUTIVE')" />	
+	<security:intercept-url pattern="/dashboard/executive/**" access="hasRole('EXECUTIVE')" />
 	
 	<!-- Commercial -->
 	
