@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -56,6 +55,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@Min(1)
+	@NotNull
 	public Integer getSubsectionOrder() {
 		return this.subsectionOrder;
 	}
@@ -75,6 +75,7 @@ public class SubSection extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@NotBlank
 	public String getBody() {
 		return this.body;
 	}
@@ -111,7 +112,7 @@ public class SubSection extends DomainEntity {
 
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return offer;

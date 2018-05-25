@@ -69,7 +69,7 @@
 	<acme:textbox code="collaborationRequest.maxDeliveryDate" path="maxDeliveryDate" placeholder="dd/MM/yyyy"/>
 	<br />
 	
-	<acme:select code="collaborationRequest.commercial" itemLabel="email" items="${commercials }" path="commercial"/>
+	<acme:select code="collaborationRequest.commercial" itemLabel="userAccount.username" items="${commercials }" path="commercial"/>
 	<br />
 	</jstl:if>
 	

@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.CollaborationRequestRepository;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Constant;
 import domain.Offer;
+import repositories.CollaborationRequestRepository;
 
 @Service
 @Transactional
@@ -49,10 +49,18 @@ public class CollaborationRequestService {
 	public CollaborationRequest save(final CollaborationRequest collaborationRequest) {
 
 		CollaborationRequest result;
-
 		Assert.notNull(collaborationRequest);
-		this.offerService.canEditOffer(collaborationRequest.getOffer().getId());
+
+		Actor principal;
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Commercial);
+
+		if (!principal.equals(collaborationRequest.getCommercial())) {
+			this.offerService.canEditOffer(collaborationRequest.getOffer().getId());
+		}
 		Assert.isTrue(collaborationRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || collaborationRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
+
 		result = this.collaborationRequestRepository.save(collaborationRequest);
 
 		return result;
