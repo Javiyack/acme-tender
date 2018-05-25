@@ -125,7 +125,12 @@ public class SubSectionCommercialController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final SubSection subSection, final String message) {
 
-		final ModelAndView result = new ModelAndView("subSection/commercial/edit");
+		ModelAndView result = null;
+		if (subSection.getId()==0)
+			result = new ModelAndView("subSection/commercial/create");
+		else
+			result = new ModelAndView("subSection/commercial/edit");
+		
 		result.addObject("subSection", subSection);
 		result.addObject("requestURI", "subSection/commercial/edit.do");
 		result.addObject("message", message);

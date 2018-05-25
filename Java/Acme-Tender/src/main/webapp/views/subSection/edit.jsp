@@ -23,8 +23,9 @@
 	
 	
 	<jstl:choose>
-		<jstl:when test="${collaboration == true }">
-			<acme:textbox code="subSection.title" path="title" readonly="true" />
+		<jstl:when test="${subSection.commercial.id != subSection.offer.commercial.id}">
+			<spring:message code="subSection.title" />: ${subSection.title} <br/>
+			<form:hidden path="title" />
 		</jstl:when>
 		<jstl:otherwise>
 			<acme:textbox code="subSection.title" path="title" />
