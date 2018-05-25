@@ -54,7 +54,7 @@
 	<form:select id="${id}" path="${path}" disabled="${readonly}" class="${css}">
 		
 		<jstl:if test="${blankValue}">
-			<form:option value="0" label="" />
+			<form:option value="" label="" />
 		</jstl:if>
 		
 		<form:options items="${items}" />

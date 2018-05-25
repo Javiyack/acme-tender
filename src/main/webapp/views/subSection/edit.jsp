@@ -38,6 +38,7 @@
 	</jstl:if>
 	<jstl:if test="${subSection.section != null && subSection.section != ''}" >
 		<spring:message code="subSection.section" />: ${subSection.section} <br/>
+		<form:hidden path="section" />
 	</jstl:if>
 		
 	<acme:textbox code="subSection.order" path="subsectionOrder" />
