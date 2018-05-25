@@ -73,6 +73,8 @@ public class SubSectionCommercialController extends AbstractController {
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
 		result = this.createEditModelAndView(subSection);
+		result.addObject("collaboration", false);
+		result.addObject("collaborationRequestId", 0);
 
 		return result;
 	}
@@ -81,20 +83,27 @@ public class SubSectionCommercialController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("collaboration") Boolean collaboration, @ModelAttribute("collaborationRequestId") int collaborationRequestId) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
+
 			result = this.createEditModelAndView(subSection);
-		else
+			result.addObject("collaboration", collaboration);
+			result.addObject("collaborationRequestId", collaborationRequestId);
+
+		} else {
 			try {
 				this.subSectionService.save(subSection);
 				if (collaboration == true) {
 					CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
 					collaborationRequest.setAccepted(true);
+					this.collaborationRequestService.save(collaborationRequest);
 				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(subSection, "subSection.commit.error");
 			}
+
+		}
 		return result;
 	}
 
@@ -126,16 +135,14 @@ public class SubSectionCommercialController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final SubSection subSection, final String message) {
 
 		ModelAndView result = null;
-		if (subSection.getId()==0)
+		if (subSection.getId() == 0)
 			result = new ModelAndView("subSection/commercial/create");
 		else
 			result = new ModelAndView("subSection/commercial/edit");
-		
+
 		result.addObject("subSection", subSection);
 		result.addObject("requestURI", "subSection/commercial/edit.do");
 		result.addObject("message", message);
-		result.addObject("collaboration", false);
-		result.addObject("collaborationRequestId", 0);
 		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
 		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
 		return result;

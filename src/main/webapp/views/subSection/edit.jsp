@@ -24,7 +24,7 @@
 	
 	<jstl:choose>
 		<jstl:when test="${subSection.commercial.id != subSection.offer.commercial.id}">
-			<spring:message code="subSection.title" />: ${subSection.title} <br/>
+			<spring:message code="subSection.title" />: <jstl:out value=" ${subSection.title}"/> <br/>
 			<form:hidden path="title" />
 		</jstl:when>
 		<jstl:otherwise>
