@@ -76,32 +76,26 @@ public class AdministratorService {
 		this.administratorRepository.flush();
 
 	}
-	
-	public boolean checkIsSpam(String subject, String body) {
+
+	public boolean checkIsSpam(final String subject, final String body) {
 
 		Boolean isSpam;
 
-		if (subject.isEmpty() && body.isEmpty()) {
-
+		if (subject.isEmpty() && body.isEmpty())
 			isSpam = false;
-
-		} else {
+		else {
 
 			Collection<TabooWord> tabooWords;
 			tabooWords = this.tabooWordService.getTabooWordFromMyMessageSubjectAndBody(subject, body);
 
-			if (tabooWords.isEmpty()) {
-
+			if (tabooWords.isEmpty())
 				isSpam = false;
-
-			} else {
-
+			else
 				isSpam = true;
-
-			}
 
 		}
 
 		return isSpam;
 	}
+
 }
