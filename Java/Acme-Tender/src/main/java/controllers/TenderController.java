@@ -3,6 +3,7 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,27 +56,22 @@ public class TenderController extends AbstractController {
 		return result;
 	}
 
-	// Search ---------------------------------------------------------------
+	
 	@RequestMapping(value = "/search")
 	public ModelAndView create() {
 		ModelAndView result;
 		final SearchForm searchForm = new SearchForm();
 
-		result = new ModelAndView("tender/search");
-		result.addObject("searchForm", searchForm);
+		result = this.createEditModelAndView(searchForm);
 
 		return result;
 	}
-
 	@RequestMapping(value = "/search", method = RequestMethod.POST, params = "searchButton")
-	public ModelAndView search(@Valid final SearchForm searchForm, final BindingResult binding) {
+	public ModelAndView search(final HttpServletRequest request, @Valid final SearchForm searchForm, final BindingResult binding) {
 		ModelAndView result;
+		final String word = request.getParameter("word");
+		result = this.searchResult(word);
 
-		if (binding.hasErrors()) {
-			result = new ModelAndView("tender/search");
-			result.addObject("searchForm", searchForm);
-		} else
-			result = this.searchResult(searchForm.getWord());
 		return result;
 	}
 
@@ -83,18 +79,36 @@ public class TenderController extends AbstractController {
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
 	public ModelAndView searchResult(@RequestParam final String word) {
 		ModelAndView result;
-
+		
 		final Collection<Tender> tenders = this.tenderService.findTenderByKeyWord(word);
 		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		final Actor actor = this.actorService.findByPrincipal();
 
-		result = new ModelAndView("tender/listSearch");
+		result = new ModelAndView("tender/searchResult");
+		result.addObject("requestUri", "tender/searchResult.do");
 		result.addObject("tenders", tenders);
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
-		result.addObject("actorId", actor.getId());
-		result.addObject("requestUri", "tender/list.do");
+		result.addObject("actorId", actor.getId());		
+		result.addObject("backSearch", true);
 
 		return result;
 	}
+	
+	
+	protected ModelAndView createEditModelAndView(final SearchForm searchForm) {
+		final ModelAndView result;
+		result = this.createEditModelAndView(searchForm, null);
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final SearchForm searchForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("tender/search");
+		result.addObject("searchForm", searchForm);
+
+		return result;
+	}
+	
 
 }

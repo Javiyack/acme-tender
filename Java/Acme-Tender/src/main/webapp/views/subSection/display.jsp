@@ -13,8 +13,8 @@
 
 
 <b>
-	<spring:message code="offer.tender.reference" />: <jstl:out value="${subSection.offer.tender.reference}" /> <br/>
-	<spring:message code="offer.tender.title" />: <jstl:out value="${subSection.offer.tender.title}" /> <br/>
+	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.reference}" /></a> <br/>
+	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.title}" /></a> <br/>
 	<spring:message code="subSection.offer.state" />: <jstl:out value="${subSection.offer.state}" /> <br/>
 </b>
 <br/>
