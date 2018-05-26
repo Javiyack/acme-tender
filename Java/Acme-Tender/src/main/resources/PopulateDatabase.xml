@@ -1054,6 +1054,16 @@
 		<property name="description" value="El concurso lo gano la empresa Comedor S.L. por presentar una oferta calificada de casi 10." />
 		<property name="tender" ref="tender3" />
 	</bean>
+	
+	<bean id="tenderresult2" class="domain.TenderResult">
+		<property name="tenderDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018" />
+			</bean>
+		</property>
+		<property name="description" value="El comercial de la empresa ganadora es super amiguito del tribunal del concurso..." />
+		<property name="tender" ref="tender2" />
+	</bean>
 
 	<!-- CompanyResults -->
 
@@ -1085,6 +1095,26 @@
 		<property name="comments" value="Precio demasiado bajo. ¿Reparten ahora también comida?" />
 		<property name="state" value="RECKLESS_OFFER" />
 		<property name="tenderResult" ref="tenderresult1" />
+	</bean>	
+	
+	<bean id="companyresult4" class="domain.CompanyResult">
+		<property name="name" value="Everis" />
+		<property name="economicalOffer" value="19000" />
+		<property name="score" value="64" />
+		<property name="position" value="1" />
+		<property name="comments" value="Tiene mala pinta, tal vez lo impugnen" />
+		<property name="state" value="WINNER" />
+		<property name="tenderResult" ref="tenderresult2" />
+	</bean>	
+	
+	<bean id="companyresult5" class="domain.CompanyResult">
+		<property name="name" value="Isotrol" />
+		<property name="economicalOffer" value="22000" />
+		<property name="score" value="49" />
+		<property name="position" value="2" />
+		<property name="comments" value="" />
+		<property name="state" value="LOSER" />
+		<property name="tenderResult" ref="tenderresult2" />
 	</bean>	
 
 	<!-- Comments -->
