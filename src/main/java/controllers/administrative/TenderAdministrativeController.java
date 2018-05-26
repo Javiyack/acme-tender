@@ -2,10 +2,15 @@
 package controllers.administrative;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -15,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Category;
+import domain.Constant;
 import domain.Tender;
+import services.CategoryService;
 import services.TenderService;
 
 @Controller
@@ -24,11 +32,14 @@ public class TenderAdministrativeController extends AbstractController {
 
 	// Supporting services -----------------------------------------------------
 	@Autowired
-	TenderService tenderService;
+	TenderService	tenderService;
+	@Autowired
+	MessageSource	messageSource;
+	@Autowired
+	CategoryService	categoryService;
 
 
 	// Constructors -----------------------------------------------------------
-
 	public TenderAdministrativeController() {
 		super();
 	}
@@ -77,7 +88,6 @@ public class TenderAdministrativeController extends AbstractController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
-
 		final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
 
 		result = new ModelAndView("tender/administrative/list");
@@ -97,6 +107,9 @@ public class TenderAdministrativeController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Tender tender, final String message) {
 		ModelAndView result;
+		final Map<String, String> interests = this.getInterestList();
+		final Collection<Category> categories = this.categoryService.findAll();
+
 		if (tender.getId() != 0)
 			result = new ModelAndView("tender/edit");
 		else
@@ -104,7 +117,25 @@ public class TenderAdministrativeController extends AbstractController {
 
 		result.addObject("tender", tender);
 		result.addObject("message", message);
+		result.addObject("interest", interests);
+		result.addObject("category", categories);
 		result.addObject("requestUri", "tender/administrative/edit.do");
+
+		return result;
+	}
+
+	private Map<String, String> getInterestList() {
+		final Locale locale = LocaleContextHolder.getLocale();
+		final String low = this.messageSource.getMessage("tender.interest.low", null, "tender.interest.low", locale);
+		final String medium = this.messageSource.getMessage("tender.interest.medium", null, "tender.interest.medium", locale);
+		final String high = this.messageSource.getMessage("tender.interest.high", null, "tender.interest.high", locale);
+		final String undefined = this.messageSource.getMessage("tender.interest.undefined", null, "tender.interest.undefined", locale);
+
+		final Map<String, String> result = new HashMap<>();
+		result.put(Constant.TENDER_INTEREST_LOW, low);
+		result.put(Constant.TENDER_INTEREST_MEDIUM, medium);
+		result.put(Constant.TENDER_INTEREST_HIGH, high);
+		result.put(Constant.TENDER_INTEREST_UNDEFINED, undefined);
 
 		return result;
 	}

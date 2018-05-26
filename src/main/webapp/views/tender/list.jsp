@@ -68,6 +68,14 @@
 			</a>
 		</div>
 	</display:column>
+	
+	<display:column>
+		<div>
+			<a href="tender/administrative/edit.do?tenderId=${row.id}">
+				<spring:message code="tender.edit" />
+			</a>
+		</div>
+	</display:column>
 
 </display:table>
 

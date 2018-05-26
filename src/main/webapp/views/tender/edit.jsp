@@ -9,16 +9,28 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form action="${requestUri}" modelAttribute="tender" method="post">
-<!-- pattern="yyyy-MM-dd" -->
+
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	
+	<form:hidden path="administrative" />
+	<form:hidden path="offer" />
+		
 	<h5>
-		<acme:textbox code="tender.reference" path="reference" css="formInput" />
+		<acme:textbox code="tender.reference" path="reference" css="formInput" readonly="true" />
 		<br />
 	</h5>
 	<acme:textbox code="tender.title" path="title" css="formInput" />
 	<br />
+	<!-- Combo para la categoría -->
+	<form:label path="category">
+		<spring:message code="tender.category" />
+ 	</form:label>
+ 	<br/>
+ 	<spring:message code="tender.select.option" var="selectOption"/>
+	<form:select path="category" class="formInput">
+	    <form:option value="0" label="${selectOption}" />
+	    <form:options items="${category}" itemValue="id" itemLabel="name"/>
+	</form:select>
 	<acme:textbox code="tender.expedient" path="expedient" css="formInput" />
 	<br />
 	<acme:textbox code="tender.estimatedAmount" path="estimatedAmount" css="formInput" />
@@ -27,21 +39,30 @@
 	<br />
 	<acme:textbox code="tender.bulletin" path="bulletin" css="formInput" />
 	<br />
-	<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" />
+	<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
 	<br />
-	<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" />
+	<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
 	<br />
-	<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" />
+	<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" />
 	<br />
-	<acme:textbox code="tender.executionTime" path="executionTime" css="formInput" />
+	<acme:textbox code="tender.executionTime" path="executionTime" css="formInput" placeholder="Write a number"/>
 	<br />
-	<acme:textbox code="tender.observations" path="observations" css="formInput" />
+	<acme:textarea code="tender.observations" path="observations" css="formTextArea" />
 	<br />
 	<acme:textbox code="tender.informationPage" path="informationPage" css="formInput" />
 	<br />
-	<acme:textbox code="tender.interest" path="interest" css="formInput" />
+	<!-- Combo para el interés -->
+	<form:label path="interest">
+		<spring:message code="tender.interest" />
+ 	</form:label>
+ 	<br/>
+ 	<spring:message code="tender.select.option" var="selectOption"/>
+	<form:select path="interest" class="formInput">
+	    <form:option value="0" label="${selectOption}" />
+	    <form:options items="${interest}" />
+	</form:select>
 	<br />
-	<acme:textbox code="tender.interestComment" path="interestComment" css="formInput" />
+	<acme:textarea code="tender.interestComment" path="interestComment" css="formTextArea" />
 	<br />
 	
 	<acme:submit name="save" code="tenderResult.save" css="formButton toLeft" />&nbsp;
