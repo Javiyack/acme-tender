@@ -56,8 +56,9 @@
 					</form:label>
 					<select id="authority" name="authority" class="formInput">
 						<jstl:forEach items="${permisos}" var="permiso">
-							<option value="${permiso}"><spring:message
-									code="actor.authority.${permiso}" /></option>
+							<option value="${permiso}">
+								<spring:message code="actor.authority.${permiso}" />
+							</option>
 						</jstl:forEach>
 					</select>
 				</jstl:if>
@@ -89,11 +90,11 @@
 			<br />
 			</jstl:if>
 			<jstl:if test="${!creation}">
-			<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="checkEdition();" />
-			<br />
-			<acme:password code="profile.userAccount.newPassword" path="password" css="formInput" id = "new_password" onkeyup="checkEdition();" />
-			<acme:password code="profile.userAccount.repeatPassword" path="password" css="formInput" onkeyup="checkEdition();" id="confirm_password"/>
-			<br />
+				<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="checkEdition();" />
+				<br />
+				<acme:password code="profile.userAccount.newPassword" path="password" css="formInput" id = "new_password" onkeyup="checkEdition();" />
+				<acme:password code="profile.userAccount.repeatPassword" path="password" css="formInput" onkeyup="checkEdition();" id="confirm_password"/>
+				<br />
 			</jstl:if>
 		</div>
 	
@@ -124,8 +125,7 @@
 			document.getElementById("save").className = "formButton toLeft disabled";
 		}
 
-		if (document.getElementById('new_password').value ==
-			document.getElementById('confirm_password').value) {
+		if (document.getElementById('new_password').value == document.getElementById('confirm_password').value) {
 			document.getElementById('confirm_password').style.color = 'green';
 		} else {
 			document.getElementById('confirm_password').style.color = 'red';
