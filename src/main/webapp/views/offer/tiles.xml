@@ -52,13 +52,13 @@
 	</definition>
 	
 	<definition name="offer/search" extends="master.page">
-		<put-attribute name="title" value="Published offers search" />
+		<put-attribute name="title" value="Offers search" />
 		<put-attribute name="body" value="/views/offer/search.jsp" />
 	</definition>	
 	
-	<definition name="offer/listSearch" extends="master.page">
-		<put-attribute name="title" value="Search results" />
+	<definition name="offer/searchResult" extends="master.page">
+		<put-attribute name="title" value="Search result" />
 		<put-attribute name="body" value="/views/offer/list.jsp" />
-	</definition>	
+	</definition>
 
 </tiles-definitions>
