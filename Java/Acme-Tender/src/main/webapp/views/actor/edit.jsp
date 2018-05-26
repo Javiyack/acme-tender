@@ -64,7 +64,9 @@
 				</jstl:if>
 				<jstl:if test="${!creation}">
 					<form:hidden path="authority"/>
-					<acme:textbox code="actor.authority" path="authority"
+					<acme:label code="actor.authority" path="authority"
+						readonly="true" />
+					<acme:label code="actor.authority.${registerForm.authority}" path="authority"
 						css="formInput" readonly="true" />
 				</jstl:if>
 			</div>
