@@ -84,9 +84,6 @@
 			<ref bean="localeChangeInterceptor" />
 		</property>
 	</bean>
-	
-	<bean id="acmeSecurityInterceptor" class="security.AcmeSecurityInterceptor">
-	</bean>	
 
 	<mvc:interceptors>
 		<mvc:interceptor>
@@ -94,10 +91,6 @@
 			<ref bean="localeChangeInterceptor" />
 		</mvc:interceptor>
 		
-		<mvc:interceptor>
-			<mvc:mapping path="/**/*.do" />
-			<ref bean="acmeSecurityInterceptor" />
-		</mvc:interceptor>		
 	</mvc:interceptors>
 
 	<!-- Validator -->
