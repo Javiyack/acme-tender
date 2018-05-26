@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -74,7 +75,7 @@ public class Tender extends DomainEntity {
 		this.expedient = expedient;
 	}
 
-	@Min(0)
+	@DecimalMin("0.0")
 	public double getEstimatedAmount() {
 		return this.estimatedAmount;
 	}
@@ -136,6 +137,7 @@ public class Tender extends DomainEntity {
 		this.maxPresentationDate = maxPresentationDate;
 	}
 
+	@Min(0)
 	public Integer getExecutionTime() {
 		return this.executionTime;
 	}
@@ -164,7 +166,7 @@ public class Tender extends DomainEntity {
 	}
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "^(" + Constant.TENDER_INTEREST_UNDEFINED + "|" +  Constant.TENDER_INTEREST_LOW + "|" +  Constant.TENDER_INTEREST_MEDIUM + "|" +  Constant.TENDER_INTEREST_HIGH + ")$")
+	@Pattern(regexp = "^(" + Constant.TENDER_INTEREST_UNDEFINED + "|" + Constant.TENDER_INTEREST_LOW + "|" + Constant.TENDER_INTEREST_MEDIUM + "|" + Constant.TENDER_INTEREST_HIGH + ")$")
 	@NotBlank
 	public String getInterest() {
 		return this.interest;
@@ -182,45 +184,44 @@ public class Tender extends DomainEntity {
 	public void setInterestComment(final String interestComment) {
 		this.interestComment = interestComment;
 	}
-	
+
+
 	//Relationships
-	private Administrative administrative;
-	private Offer offer;
-	private Category category;
+	private Administrative	administrative;
+	private Offer			offer;
+	private Category		category;
+
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@ManyToOne(optional = false)
 	public Administrative getAdministrative() {
-		return administrative;
+		return this.administrative;
 	}
 
-	public void setAdministrative(Administrative administrative) {
+	public void setAdministrative(final Administrative administrative) {
 		this.administrative = administrative;
 	}
 
 	@Valid
 	@OneToOne(optional = true)
 	public Offer getOffer() {
-		return offer;
+		return this.offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(final Offer offer) {
 		this.offer = offer;
 	}
 
 	@Valid
-	@NotNull	
-	@ManyToOne(optional = false)	
+	@NotNull
+	@ManyToOne(optional = false)
 	public Category getCategory() {
-		return category;
+		return this.category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(final Category category) {
 		this.category = category;
 	}
-	
-	
-	
 
 }

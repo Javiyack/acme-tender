@@ -65,11 +65,16 @@ public class TenderService {
 	}
 
 	public Tender save(final Tender tender) {
-		Tender saveTender;
+		Tender savedTender;
 
-		saveTender = this.tenderRepository.save(tender);
+		// Restrictions dates
+		//		Assert.isTrue(tender.getBulletinDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid bulletinDate");
+		Assert.isTrue(tender.getOpeningDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid openingDate");
+		Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
 
-		return saveTender;
+		savedTender = this.tenderRepository.save(tender);
+
+		return savedTender;
 	}
 
 	public Tender findOneToEdit(final int tenderId) {

@@ -79,7 +79,14 @@ public class TenderAdministrativeController extends AbstractController {
 				result = new ModelAndView("redirect:/tender/administrative/list.do");
 				result.addObject("requestUri", "tender/administrative/list.do");
 			} catch (final Throwable ooops) {
-				result = this.createEditModelAndView(tender, "tender.commit.error");
+				//				if (ooops.getMessage() == "Invalid bulletinDate")
+				//					result = this.createEditModelAndView(tender, "tender.commit.error.invalidBulletinDate");
+				if (ooops.getMessage() == "Invalid openingDate")
+					result = this.createEditModelAndView(tender, "tender.commit.error.invalidOpeningDate");
+				else if (ooops.getMessage() == "Invalid maxPresentationDate")
+					result = this.createEditModelAndView(tender, "tender.commit.error.maxPresentationDate");
+				else
+					result = this.createEditModelAndView(tender, "tender.commit.error");
 			}
 		return result;
 	}
