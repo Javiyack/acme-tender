@@ -27,10 +27,12 @@
 <%@ attribute name="type" required="true"%>
 <%@ attribute name="placeholder" required="false"%>
 
-<%@ attribute name="step" required="false"%>
 <%@ attribute name="value" required="false"%>
 <%@ attribute name="readonly" required="false"%>
 <%@ attribute name="css" required="false"%>
+<%@ attribute name="min" required="false"%>
+<%@ attribute name="max" required="false"%>
+<%@ attribute name="step" required="false"%>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -47,6 +49,6 @@
 		<spring:message code="${code}" />
 	</form:label>
 	<form:input path="${path}" type="${type}" readonly="${readonly}" placeholder="${placeholder}" step="${step}"
-		class="${css}" title="${value}"/>
+		class="${css}" title="${value}" min="${min}" max="${max}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>
