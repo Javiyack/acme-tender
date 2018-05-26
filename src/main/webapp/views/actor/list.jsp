@@ -19,20 +19,18 @@
 
 <display:table pagesize="5" class="displaytag" name="actors" requestURI="${requestUri}" id="row">
 
-	<spring:message code="actor.name" var="actorName" />
+	
 	<acme:column property="name" title="actor.name" />
 
-	<spring:message code="actor.surname" var="actorSurname" />
 	<acme:column property="surname" title="actor.surname" />
 
-	<spring:message code="actor.address" var="actorAddress" />
 	<acme:column property="address" title="actor.address" />
 
-	<spring:message code="actor.email" var="actorEmail" />
 	<acme:column property="email" title="actor.email" />
 
-	<spring:message code="actor.phone" var="actorPhone" />
 	<acme:column property="phone" title="actor.phone" />
+	
+	<acme:column property="userAccount.authorities[0]" title="actor.authority" sortable="true"/>
 	
 	<display:column>
 			<div>
