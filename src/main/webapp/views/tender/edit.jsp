@@ -33,19 +33,19 @@
 	</form:select>
 	<acme:textbox code="tender.expedient" path="expedient" css="formInput" />
 	<br />
-	<acme:textbox code="tender.estimatedAmount" path="estimatedAmount" css="formInput" />
+	<acme:input code="tender.estimatedAmount" path="estimatedAmount" type="number" step="0.1" css="formInput" />
 	<br />
 	<acme:textbox code="tender.organism" path="organism" css="formInput" />
 	<br />
 	<acme:textbox code="tender.bulletin" path="bulletin" css="formInput" />
 	<br />
-	<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
+	<acme:input type="datetime-local" code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
 	<br />
 	<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
 	<br />
 	<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" />
 	<br />
-	<acme:textbox code="tender.executionTime" path="executionTime" css="formInput" placeholder="Write a number"/>
+	<acme:input type="number" code="tender.executionTime" path="executionTime" css="formInput"/>
 	<br />
 	<acme:textarea code="tender.observations" path="observations" css="formTextArea" />
 	<br />
