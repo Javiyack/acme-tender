@@ -6,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -22,6 +24,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "title, section, comments")
+})
 public class SubSection extends DomainEntity {
 
 	private String	title;
@@ -115,30 +120,30 @@ public class SubSection extends DomainEntity {
 	@NotNull
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
-		return offer;
+		return this.offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(final Offer offer) {
 		this.offer = offer;
 	}
 
 	@Valid
 	@ManyToOne(optional = true)
 	public Commercial getCommercial() {
-		return commercial;
+		return this.commercial;
 	}
 
-	public void setCommercial(Commercial commercial) {
+	public void setCommercial(final Commercial commercial) {
 		this.commercial = commercial;
 	}
 
 	@Valid
 	@ManyToOne(optional = true)
 	public Administrative getAdministrative() {
-		return administrative;
+		return this.administrative;
 	}
 
-	public void setAdministrative(Administrative administrative) {
+	public void setAdministrative(final Administrative administrative) {
 		this.administrative = administrative;
 	}
 
