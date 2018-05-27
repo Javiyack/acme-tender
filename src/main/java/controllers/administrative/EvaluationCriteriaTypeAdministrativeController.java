@@ -110,7 +110,12 @@ public class EvaluationCriteriaTypeAdministrativeController extends AbstractCont
 	}
 
 	protected ModelAndView createEditModelAndView(final EvaluationCriteriaType evaluationCriteriaType, final String message) {
-		final ModelAndView result = new ModelAndView("evaluationCriteriaType/administrative/edit");
+		final ModelAndView result;
+		
+		if (evaluationCriteriaType.getId() == 0)
+			result = new ModelAndView("evaluationCriteriaType/administrative/create");
+		else
+			result = new ModelAndView("evaluationCriteriaType/administrative/edit");
 
 		result.addObject("evaluationCriteriaType", evaluationCriteriaType);
 		result.addObject("message", message);
