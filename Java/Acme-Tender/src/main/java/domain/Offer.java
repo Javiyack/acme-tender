@@ -6,8 +6,10 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -23,6 +25,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = {
+	@Index(columnList = "state")
+})
 public class Offer extends DomainEntity {
 
 	private String	state;
@@ -32,7 +37,8 @@ public class Offer extends DomainEntity {
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Pattern(regexp = "^(" + Constant.OFFER_CREATED + "|"  + Constant.OFFER_IN_DEVELOPMENT + "|"  + Constant.OFFER_ABANDONED + "|"  + Constant.OFFER_PRESENTED + "|"  + Constant.OFFER_WINNED + "|"  + Constant.OFFER_LOSED + "|"  + Constant.OFFER_CHALLENGED + "|"  + Constant.OFFER_DENIED + ")$")
+	@Pattern(regexp = "^(" + Constant.OFFER_CREATED + "|" + Constant.OFFER_IN_DEVELOPMENT + "|" + Constant.OFFER_ABANDONED + "|" + Constant.OFFER_PRESENTED + "|" + Constant.OFFER_WINNED + "|" + Constant.OFFER_LOSED + "|" + Constant.OFFER_CHALLENGED + "|"
+		+ Constant.OFFER_DENIED + ")$")
 	@NotBlank
 	public String getState() {
 		return this.state;
@@ -69,65 +75,66 @@ public class Offer extends DomainEntity {
 	public void setAmount(final double amount) {
 		this.amount = amount;
 	}
-	
+
+
 	//Relationships
-	private Commercial commercial;
-	private Tender tender;
+	private Commercial	commercial;
+	private Tender		tender;
+
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@ManyToOne(optional = false)
 	public Commercial getCommercial() {
-		return commercial;
+		return this.commercial;
 	}
 
-	public void setCommercial(Commercial commercial) {
+	public void setCommercial(final Commercial commercial) {
 		this.commercial = commercial;
 	}
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@OneToOne(optional = false)
 	public Tender getTender() {
-		return tender;
+		return this.tender;
 	}
 
-	public void setTender(Tender tender) {
+	public void setTender(final Tender tender) {
 		this.tender = tender;
 	}
-	
+
 	@Transient
 	public boolean isInDevelopment() {
-		
+
 		return this.getState().equals(Constant.OFFER_CREATED) || this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
 	}
-	
-	public void setInDevelopment(boolean development) {
-		
+
+	public void setInDevelopment(final boolean development) {
+
 	}
-	
+
 	@Transient
 	public boolean isPublished() {
-		switch  (this.getState()) {		
-			case Constant.OFFER_PRESENTED: 
-			case Constant.OFFER_WINNED: 
-			case Constant.OFFER_LOSED: 
-			case Constant.OFFER_CHALLENGED:
-				return true;
-				
-			case Constant.OFFER_ABANDONED: 
-			case Constant.OFFER_DENIED: 
-			case Constant.OFFER_CREATED: 
-			case Constant.OFFER_IN_DEVELOPMENT:
-				return false;
+		switch (this.getState()) {
+		case Constant.OFFER_PRESENTED:
+		case Constant.OFFER_WINNED:
+		case Constant.OFFER_LOSED:
+		case Constant.OFFER_CHALLENGED:
+			return true;
+
+		case Constant.OFFER_ABANDONED:
+		case Constant.OFFER_DENIED:
+		case Constant.OFFER_CREATED:
+		case Constant.OFFER_IN_DEVELOPMENT:
+			return false;
 		}
-		
+
 		return true;
 	}
-	
-	public void setPublished(boolean published) {
-		
+
+	public void setPublished(final boolean published) {
+
 	}
-	
 
 }
