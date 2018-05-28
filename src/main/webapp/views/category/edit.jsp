@@ -20,7 +20,7 @@
 	<br/>
 	
 	<jstl:if test="${!haveChilds}">
-		<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" />
+		<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" id="id"/>
 	</jstl:if>
 	<jstl:if test="${haveChilds}">
 		<spring:message code="category.parentCategory" />: 
