@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import domain.Actor;
+import domain.Administrative;
+import domain.AdministrativeRequest;
 import domain.Administrator;
 import domain.CollaborationRequest;
 import domain.Commercial;
@@ -259,7 +261,7 @@ public class MyMessageService {
 		return m;
 	}
 
-	public void collaborationRequestRejectionNotification(CollaborationRequest collaborationRequest) {
+	public void collaborationRequestNotification(CollaborationRequest collaborationRequest, boolean accept) {
 
 		Actor principal;
 		principal = this.actorService.findByPrincipal();
@@ -273,9 +275,57 @@ public class MyMessageService {
 		MyMessage notification = this.create();
 		notification.setRecipient(recipient);
 		notification.setPriority("NEUTRAL");
-		notification.setSubject("Solicitud de colaboración rechazada");
-		notification.setBody(principal.getName() + " " + principal.getSurname() + " ha rechazado su " + "solicitud de colaboración en la subsección con título " + "'" + collaborationRequest.getSubSectionTitle() + "'" + " perteneciente a la sección "
-			+ collaborationRequest.getSection());
+		if (accept == true) {
+
+			notification.setSubject("Solicitud de colaboración aceptada");
+			notification.setBody(principal.getName() + " " + principal.getSurname() + " ha aceptado su " + "solicitud de colaboración en la subsección con título " + "'" + collaborationRequest.getSubSectionTitle() + "'" + " perteneciente a la sección "
+				+ collaborationRequest.getSection());
+
+		} else {
+
+			notification.setSubject("Solicitud de colaboración rechazada");
+			notification.setBody(principal.getName() + " " + principal.getSurname() + " ha rechazado su " + "solicitud de colaboración en la subsección con título " + "'" + collaborationRequest.getSubSectionTitle() + "'" + " perteneciente a la sección "
+				+ collaborationRequest.getSection());
+
+		}
+
+		Date moment = new Date(System.currentTimeMillis() - 1);
+		notification.setMoment(moment);
+
+		MyMessage saved = this.myMessageRepository.save(notification);
+
+		Folder notificationbox = this.folderService.getNotificationBoxFolderFromActorId(recipient.getId());
+		Collection<MyMessage> notifications = notificationbox.getMymessages();
+		notifications.add(saved);
+		notificationbox.setMymessages(notifications);
+
+	}
+
+	public void administrativeRequestNotification(AdministrativeRequest administrativeRequest, boolean accept) {
+
+		Actor principal;
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		Assert.isTrue(principal instanceof Administrative);
+
+		Actor recipient;
+		recipient = administrativeRequest.getOffer().getCommercial();
+		Assert.notNull(recipient);
+
+		MyMessage notification = this.create();
+		notification.setRecipient(recipient);
+		notification.setPriority("NEUTRAL");
+		if (accept == true) {
+
+			notification.setSubject("Solicitud administrativa aceptada");
+			notification.setBody(principal.getName() + " " + principal.getSurname() + " ha aceptado su " + "solicitud administrativa en la subsección con título " + "'" + administrativeRequest.getSubSectionTitle() + "'");
+
+		} else {
+			notification.setSubject("Solicitud administrativa rechazada");
+			notification.setBody(principal.getName() + " " + principal.getSurname() + " ha rechazado su " + "solicitud administrativa en la subsección con título " + "'" + administrativeRequest.getSubSectionTitle() + "'");
+
+		}
+
 		Date moment = new Date(System.currentTimeMillis() - 1);
 		notification.setMoment(moment);
 

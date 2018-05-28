@@ -72,6 +72,16 @@ public class AdministrativeService {
 		return result;
 	}
 
+	public Collection<Administrative> simpleFindAll() {
+
+		Collection<Administrative> result;
+
+		result = this.administrativeRepository.findAll();
+
+		return result;
+
+	}
+
 	public Administrative save(final Administrative administrative) {
 
 		Assert.notNull(administrative);

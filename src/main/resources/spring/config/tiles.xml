@@ -47,6 +47,7 @@
 		<value>/views/collaborationRequest/tiles.xml</value>
 		<value>/views/info/tiles.xml</value>
 		<value>/views/dashboard/tiles.xml</value>
+		<value>/views/administrativeRequest/tiles.xml</value>
 		
 	</util:list>
 

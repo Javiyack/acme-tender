@@ -18,8 +18,8 @@
 	<form:hidden path="commercial" />
 	<form:hidden path="administrative" />
 	
-	<input type="hidden" name=collaboration value="${collaboration }" />
-	<input type="hidden" name=collaborationRequestId value="${collaborationRequestId }" />
+	<input type="hidden" name=request value="${request }" />
+	<input type="hidden" name=requestId value="${requestId }" />
 	
 	
 	<jstl:choose>

@@ -81,6 +81,8 @@
 	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/subSectionEvaluationCriteria/commercial/**" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/collaborationRequest/commercial/**" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/administrativeRequest/create.do" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/administrativeRequest/listSent.do" access="hasRole('COMMERCIAL')" />
 	
 	<!-- Administrative -->
 	
@@ -89,6 +91,9 @@
 	<security:intercept-url pattern="/companyResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/evaluationCriteria/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/evaluationCriteriaType/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/administrativeRequest/listReceived.do" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/administrativeRequest/reject.do" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/administrativeRequest/accept.do" access="hasRole('ADMINISTRATIVE')" />
 	
 			
 	<!-- IS ANONYMOUS -->
@@ -98,6 +103,8 @@
 	<security:intercept-url pattern="/myMessage/**" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE','ADMIN','EXECUTIVE')" />
 	<security:intercept-url pattern="/curriculum/list.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/curriculum/display.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/administrativeRequest/edit.do" access="hasAnyRole('COMMERCIAL', 'ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/administrativeRequest/display.do" access="hasAnyRole('COMMERCIAL', 'ADMINISTRATIVE')" />
 
 
 

@@ -39,7 +39,7 @@ public class CollaborationRequestService {
 		Offer offer;
 		offer = this.offerService.findOne(offerId);
 		//Reutilizo este método para comprobar que la oferta para la que se quiere crear una solicitud de colaboración pertenece al principal
-		this.offerService.canEditOffer(offerId);
+		Assert.isTrue(this.offerService.canEditOffer(offerId));
 		Assert.isTrue(offer.getState().equals(Constant.OFFER_CREATED) || offer.getState().equals(Constant.OFFER_IN_DEVELOPMENT));
 		result.setOffer(offer);
 
@@ -56,9 +56,16 @@ public class CollaborationRequestService {
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
 
-		if (!principal.equals(collaborationRequest.getCommercial())) {
-			this.offerService.canEditOffer(collaborationRequest.getOffer().getId());
+		if (collaborationRequest.getId() == 0) {
+
+			Assert.isTrue(this.offerService.canEditOffer(collaborationRequest.getOffer().getId()));
+
+		} else {
+
+			Assert.isTrue(principal.equals(collaborationRequest.getCommercial()));
+
 		}
+
 		Assert.isTrue(collaborationRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || collaborationRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
 
 		result = this.collaborationRequestRepository.save(collaborationRequest);
@@ -107,9 +114,7 @@ public class CollaborationRequestService {
 	private void checkReceiverAndState(final CollaborationRequest collaborationRequest) {
 		final Actor principal = this.actorService.findByPrincipal();
 		Assert.notNull(principal);
-		Assert.isTrue(principal instanceof Commercial);
-		final Collection<CollaborationRequest> received = this.collaborationRequestRepository.getReceivedCollaborationRequestsFromCommercialId(principal.getId());
-		Assert.isTrue(received.contains(collaborationRequest) && collaborationRequest.getAccepted() == null);
+		Assert.isTrue(principal.equals(collaborationRequest.getCommercial()) && collaborationRequest.getAccepted() == null);
 
 	}
 

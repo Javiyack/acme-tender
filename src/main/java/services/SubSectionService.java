@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.SubSectionRepository;
 import domain.Actor;
 import domain.Administrative;
+import domain.AdministrativeRequest;
 import domain.Administrator;
 import domain.CollaborationRequest;
 import domain.Commercial;
@@ -22,6 +22,7 @@ import domain.File;
 import domain.Offer;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
+import repositories.SubSectionRepository;
 
 @Service
 @Transactional
@@ -79,7 +80,6 @@ public class SubSectionService {
 		Assert.isTrue(collaborationRequest.getCommercial() == commercial);
 
 		final Offer offer = this.offerService.findOne(collaborationRequest.getOffer().getId());
-		Assert.notNull(offer);
 
 		final SubSection subSection = new SubSection();
 		subSection.setCommercial(commercial);
@@ -90,18 +90,19 @@ public class SubSectionService {
 		return subSection;
 	}
 
-	public SubSection createByAdministrativeCollaborationAcceptation(final int offerId) {
+	public SubSection createByAdministrativeCollaborationAcceptation(final AdministrativeRequest administrativeRequest) {
 
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
+		Assert.isTrue(administrativeRequest.getAdministrative() == administrative);
 
-		final Offer offer = this.offerService.findOne(offerId);
-		Assert.notNull(offer);
+		final Offer offer = this.offerService.findOne(administrativeRequest.getOffer().getId());
 
 		final SubSection subSection = new SubSection();
 		subSection.setAdministrative(administrative);
 		subSection.setSection(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
 		subSection.setOffer(offer);
+		subSection.setTitle(administrativeRequest.getSubSectionTitle());
 
 		return subSection;
 	}
@@ -143,6 +144,7 @@ public class SubSectionService {
 
 		if (subSection.getAdministrative() != null) {
 			final Administrative administrative = this.administrativeService.findByPrincipal();
+
 			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
 		}
 

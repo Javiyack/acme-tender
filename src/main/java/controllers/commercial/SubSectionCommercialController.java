@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.SubSection;
+import services.ActorService;
 import services.CollaborationRequestService;
 import services.ComboService;
 import services.CommercialService;
+import services.MyMessageService;
 import services.SubSectionService;
 
 @Controller
@@ -37,6 +40,10 @@ public class SubSectionCommercialController extends AbstractController {
 	private ComboService				comboService;
 	@Autowired
 	private CollaborationRequestService	collaborationRequestService;
+	@Autowired
+	private MyMessageService			myMessageService;
+	@Autowired
+	private ActorService				actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -56,8 +63,8 @@ public class SubSectionCommercialController extends AbstractController {
 
 		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
 		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
-		result.addObject("collaboration", false);
-		result.addObject("collaborationRequestId", 0);
+		result.addObject("request", false);
+		result.addObject("requestId", 0);
 
 		return result;
 	}
@@ -73,29 +80,33 @@ public class SubSectionCommercialController extends AbstractController {
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
 		result = this.createEditModelAndView(subSection);
-		result.addObject("collaboration", false);
-		result.addObject("collaborationRequestId", 0);
+		result.addObject("request", false);
+		result.addObject("requestId", 0);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("collaboration") Boolean collaboration, @ModelAttribute("collaborationRequestId") int collaborationRequestId) {
+	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("request") Boolean request, @ModelAttribute("requestId") int requestId) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
 
 			result = this.createEditModelAndView(subSection);
-			result.addObject("collaboration", collaboration);
-			result.addObject("collaborationRequestId", collaborationRequestId);
+			result.addObject("request", request);
+			result.addObject("requestId", requestId);
 
 		} else {
 			try {
 				this.subSectionService.save(subSection);
-				if (collaboration == true) {
-					CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
+				if (request == true) {
+					CollaborationRequest collaborationRequest = collaborationRequestService.findOne(requestId);
+					Actor principal = actorService.findByPrincipal();
+					Assert.notNull(principal);
+					Assert.isTrue(principal.equals(collaborationRequest.getCommercial()) && collaborationRequest.getAccepted() == null);
 					collaborationRequest.setAccepted(true);
-					this.collaborationRequestService.save(collaborationRequest);
+					CollaborationRequest saved = this.collaborationRequestService.save(collaborationRequest);
+					this.myMessageService.collaborationRequestNotification(saved, true);
 				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 

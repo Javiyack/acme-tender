@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -49,9 +50,10 @@ public class AdministrativeRequest extends DomainEntity {
 		this.subSectionDescription = subSectionDescription;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxAcceptanceDate() {
 		return this.maxAcceptanceDate;
 	}
@@ -60,9 +62,10 @@ public class AdministrativeRequest extends DomainEntity {
 		this.maxAcceptanceDate = maxAcceptanceDate;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@Future
 	public Date getMaxDeliveryDate() {
 		return this.maxDeliveryDate;
 	}
@@ -71,7 +74,7 @@ public class AdministrativeRequest extends DomainEntity {
 		this.maxDeliveryDate = maxDeliveryDate;
 	}
 
-	public Boolean isAccepted() {
+	public Boolean getAccepted() {
 		return this.accepted;
 	}
 
@@ -87,11 +90,12 @@ public class AdministrativeRequest extends DomainEntity {
 	public void setRejectedReason(final String rejectedReason) {
 		this.rejectedReason = rejectedReason;
 	}
-	
-	
+
+
 	// Relationships
-	private Administrative administrative;
-	private Offer offer;
+	private Administrative	administrative;
+	private Offer			offer;
+
 
 	@Valid
 	@NotNull
@@ -105,7 +109,7 @@ public class AdministrativeRequest extends DomainEntity {
 	}
 
 	@Valid
-	@NotNull	
+	@NotNull
 	@ManyToOne(optional = false)
 	public Offer getOffer() {
 		return offer;
@@ -114,7 +118,5 @@ public class AdministrativeRequest extends DomainEntity {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
 
 }
