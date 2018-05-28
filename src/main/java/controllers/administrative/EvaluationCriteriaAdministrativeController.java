@@ -76,7 +76,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 		else
 			try {
 				this.evaluationCriteriaService.save(evaluationCriteria);
-				result = new ModelAndView("redirect:/evaluationCriteria/administrative/list.do?tenderId=" + evaluationCriteria.getTender().getId());
+				result = new ModelAndView("redirect:/tender/display.do?tenderId=" + evaluationCriteria.getTender().getId());
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(evaluationCriteria, "evaluationCriteria.commit.error");
@@ -91,7 +91,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 
 		try {
 			this.evaluationCriteriaService.delete(evaluationCriteria);
-			result = new ModelAndView("redirect:/evaluationCriteria/administrative/list.do?tenderId=" + evaluationCriteria.getTender().getId());
+			result = new ModelAndView("redirect:/tender/display.do?tenderId=" + evaluationCriteria.getTender().getId());
 
 		} catch (final Throwable ooops) {
 			if (ooops.getMessage().equals("evaluationCriteria.cannot.delete.in.use"))
@@ -128,7 +128,12 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 
 	protected ModelAndView createEditModelAndView(final EvaluationCriteria evaluationCriteria, final String message) {
 
-		final ModelAndView result = new ModelAndView("evaluationCriteria/administrative/edit");
+		ModelAndView result = null;
+		if (evaluationCriteria.getId() != 0)
+			result = new ModelAndView("evaluationCriteria/administrative/edit");
+		else
+			result = new ModelAndView("evaluationCriteria/administrative/create");
+		
 		result.addObject("evaluationCriteria", evaluationCriteria);
 
 		Collection<EvaluationCriteriaType> evaluationCriteriaTypes = this.evaluationCriteriaTypeService.findAll();

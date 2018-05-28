@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Category;
 import domain.Constant;
 import domain.Tender;
+import services.ActorService;
 import services.CategoryService;
 import services.TenderService;
 
@@ -37,6 +39,8 @@ public class TenderAdministrativeController extends AbstractController {
 	MessageSource	messageSource;
 	@Autowired
 	CategoryService	categoryService;
+	@Autowired
+	ActorService actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -96,9 +100,11 @@ public class TenderAdministrativeController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 		final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
+		Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("tender/administrative/list");
 		result.addObject("tenders", tenders);
+		result.addObject("actor", actor);
 		result.addObject("myTender", true);
 		result.addObject("requestUri", "tender/administrative/list.do");
 

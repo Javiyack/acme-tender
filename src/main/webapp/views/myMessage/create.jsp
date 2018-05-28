@@ -36,7 +36,7 @@
 	<br />
 	
 	<jstl:if test="${requestUri eq 'myMessage/edit.do'}">
-	<acme:select items="${actors}" itemLabel="userAccount.username" code="ms.recipient" path="recipient"/>
+	<acme:select items="${actors}" itemLabel="userAccount.username" code="ms.recipient" path="recipient" id="id"/>
 	<br />
 	</jstl:if>
 	

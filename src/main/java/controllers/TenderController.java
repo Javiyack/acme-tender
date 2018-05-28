@@ -100,9 +100,11 @@ public class TenderController extends AbstractController {
 		ModelAndView result;
 
 		final Collection<Tender> tenders = this.tenderService.findAll();
+		Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("tender/list");
 		result.addObject("tenders", tenders);
+		result.addObject("actor", actor);
 		result.addObject("requestUri", "tender/list.do");
 		result.addObject("anonymous", true);
 

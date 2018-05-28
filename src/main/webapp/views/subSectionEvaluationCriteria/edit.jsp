@@ -15,7 +15,7 @@
 	<form:hidden path="subSection" />
 
 	<acme:textarea code="subSectionEvaluationCriteria.comments" path="comments" />
-	<acme:select itemLabel="title" blankValue="false" items="${evaluationCriterias}" code="subSectionEvaluationCriteria.evaluationCriteria" path="evaluationCriteria" />
+	<acme:select itemLabel="title" blankValue="false" items="${evaluationCriterias}" code="subSectionEvaluationCriteria.evaluationCriteria" path="evaluationCriteria" id="id" />
 	<br />
 
 	<acme:submit name="save" code="subSectionEvaluationCriteria.save" css="formButton toLeft" />&nbsp;

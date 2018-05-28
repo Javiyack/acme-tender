@@ -24,6 +24,20 @@
 	<acme:column property="title" title="tender.title" />
 	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" />
 	
+	<spring:message code="tender.administrative" var="tenderAdministrative" />
+	<display:column title="${tenderAdministrative}">
+		<div>
+			<jstl:if test="${row.administrative.id == actor.id}" >
+				<spring:message code="offer.mine" />
+			</jstl:if>
+			<jstl:if test="${row.administrative.id != actor.id}" >
+				<a href="actor/display.do?actorId=${row.administrative.id}">
+					${row.administrative.name} ${row.administrative.surname}
+				</a>
+			</jstl:if>
+		</div>
+	</display:column>
+	
 	<display:column>
 		<div>
 			<a href="tender/display.do?tenderId=${row.id}">
