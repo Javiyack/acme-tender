@@ -89,34 +89,38 @@ public class ActorController extends AbstractController {
 	// Save mediante Post ---------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid RegisterForm registerForm, BindingResult binding) {
+	public ModelAndView save(RegisterForm registerForm, BindingResult binding) {
 		ModelAndView result;
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(registerForm);
-		else {
-			try {
-				Actor actor = actorService.recontruct(registerForm, binding);
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(registerForm);
-				else
-					try {
-						this.actorService.save(actor);
-						result = new ModelAndView("actor/display");
-						result.addObject("registerForm", actor);
-					} catch (final Throwable oops) {						
-						result = this.createEditModelAndView(registerForm, "actor.commit.error");
-					}
+		Actor actor;
 
-			} catch (final Throwable oops) {
-				if (oops.getLocalizedMessage().contains("profile"))
-					result = this.createEditModelAndView(registerForm, oops.getLocalizedMessage());
-				else if (oops.getCause().getCause() != null
-						&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
-					result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
-				else
-					result = this.createEditModelAndView(registerForm, "actor.recontruct.error");
+		try {
+			actor = actorService.recontruct(registerForm, binding);
+			if (binding.hasErrors()) {
+				result = this.createEditModelAndView(registerForm);
+			} else {
+				try {
+					this.actorService.save(actor);
+					result = new ModelAndView("actor/display");
+					result.addObject("registerForm", actor);
+				} catch (final Throwable oops) {
+					if (oops.getCause().getCause() != null
+							&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
+						result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
+					else
+						result = this.createEditModelAndView(registerForm, "actor.commit.error");
+				}
 			}
+
+		} catch (final Throwable oops) {
+			if (oops.getLocalizedMessage().contains("profile"))
+				result = this.createEditModelAndView(registerForm, oops.getLocalizedMessage());
+			else if (oops.getCause().getCause() != null
+					&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
+				result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
+			else
+				result = this.createEditModelAndView(registerForm, "actor.recontruct.error");
 		}
+
 		return result;
 	}
 

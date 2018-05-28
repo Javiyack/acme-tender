@@ -9,41 +9,21 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<script>
-	var check = function() {
-		document.getElementById('matching').style.display = 'none';
-		document.getElementById('notMatching').style.display = 'none';
-		
-		if (document.getElementById('password').value != "" &&
-				document.getElementById('password').value == document.getElementById('confirm_password').value) {
-			document.getElementById('matching').style.color = 'green';
-		    document.getElementById('matching').style.display = 'inline';
-		    document.getElementById("save").className = "formButton toLeft";
-		} else {
-		    document.getElementById('notMatching').style.color = 'red';
-		    document.getElementById('notMatching').style.display = 'inline';
-			document.getElementById("save").className = "formButton toLeft disabled";
-		}
-		return result;
-	};
-</script>
-
-
 <div class="form">
 
 	<form:form action="${requestUri}" modelAttribute="registerForm" >
 		<form:hidden path="id" />		
 		
 		<div class="seccion">
-			<acme:textbox code="actor.name" path="name" css="formInput" />
+			<acme:textbox code="actor.name" path="name" css="formInput" readonly="${!edition}"/>
 			<br />
-			<acme:textbox code="actor.surname" path="surname" css="formInput" />
+			<acme:textbox code="actor.surname" path="surname" css="formInput" readonly="${!edition}" />
 			<br />
-			<acme:textbox code="actor.email" path="email" css="formInput" />
+			<acme:textbox code="actor.email" path="email" css="formInput" readonly="${!edition}" />
 			<br />
-			<acme:textbox code="actor.phone" path="phone" css="formInput" />
+			<acme:textbox code="actor.phone" path="phone" css="formInput" readonly="${!edition}" />
 			<br />
-			<acme:textbox code="actor.address" path="address" css="formInput" />
+			<acme:textbox code="actor.address" path="address" css="formInput" readonly="${!edition}" />
 			<br />
 		</div>
 		
@@ -74,30 +54,15 @@
 			<acme:textbox code="actor.username" path="username" css="formInput" />
 			<br />
 			<jstl:if test="${creation}">
-			<spring:message code="actor.password"/>
-			<form:password path="password" name="password" id="password" class="formInput" /> 
-			<form:errors path="password" cssClass="error" />
-			<br />
+				<acme:password code="profile.userAccount.password" path="password" css="formInput" id = "password" onkeyup="javascript: checkPassword();" />
+				<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkPassword();"/>		
 			
-			<spring:message code="actor.password.repeat"/>
-			<form:password path="password" name="password" id="confirm_password" class="formInput" onkeyup="check();"/> 
-			<div class="error">
-				<span id='matching' style="display:none;">
-					<spring:message code="actor.password.matching" />
-				</span>
-				<span id='notMatching' style="display:none;" >
-					<spring:message code="actor.password.missmatching"/>
-				</span>
-			</div>
-			<br />
-			</jstl:if>
+			</jstl:if>		
 			<jstl:if test="${!creation}">
-				<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="checkEdition();" />
-				<br />
-				<acme:password code="profile.userAccount.newPassword" path="password" css="formInput" id = "new_password" onkeyup="checkEdition();" />
-				<acme:password code="profile.userAccount.repeatPassword" path="password" css="formInput" onkeyup="checkEdition();" id="confirm_password"/>
-				<br />
-			</jstl:if>
+				<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="javascript: checkEdition();" />	
+				<acme:password code="profile.userAccount.newPassword" path="newPassword" css="formInput" id = "new_password" onkeyup="javascript: checkEdition();" />
+				<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkEdition();"/>		
+			</jstl:if>	
 		</div>
 	
 		<security:authorize access="isAnonymous()">
@@ -117,20 +82,3 @@
 	</form:form>	
 
 </div>
-<script>
-	var checkEdition = function() {
-		if (document.getElementById('password').value.length > 4 && document.getElementById('password').value.length < 33) {
-			document.getElementById("save").disabled = false;
-			document.getElementById("save").className = "formButton toLeft";
-		} else {
-			document.getElementById("save").disabled = true;
-			document.getElementById("save").className = "formButton toLeft disabled";
-		}
-
-		if (document.getElementById('new_password').value == document.getElementById('confirm_password').value) {
-			document.getElementById('confirm_password').style.color = 'green';
-		} else {
-			document.getElementById('confirm_password').style.color = 'red';
-		}
-	}
-</script>

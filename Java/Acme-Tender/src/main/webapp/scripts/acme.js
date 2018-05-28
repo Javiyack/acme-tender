@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 	showSlides(1);
 });
@@ -12,7 +11,7 @@ function relativeRedir(loc) {
 	var b = document.getElementsByTagName('base');
 	if (b && b[0] && b[0].href) {
 		if (b[0].href.substr(b[0].href.length - 1) == '/'
-			&& loc.charAt(0) == '/')
+				&& loc.charAt(0) == '/')
 			loc = loc.substr(1);
 		loc = b[0].href + loc;
 	}
@@ -23,8 +22,10 @@ function ellipsis(elemento) {
 	elemento.classList.toggle("ellipsis");
 }
 
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
+/*
+ * When the user clicks on the button, toggle between hiding and showing the
+ * dropdown content
+ */
 function myFunction() {
 	document.getElementById("myDropdown").classList.toggle("show");
 }
@@ -43,7 +44,6 @@ window.onclick = function(event) {
 		}
 	}
 }
-
 
 function plusSlides(n) {
 	showSlides(slideIndex += n);
@@ -89,24 +89,86 @@ function drop(evt, target) {
 	} else {
 		if (document.getElementById("fotosPath").innerHTML.length > 0) {
 			if (!document.getElementById("fotosPath").innerHTML.includes(url)) {
-				document.getElementById("fotosPath").innerHTML = document.getElementById("fotosPath").innerHTML.concat(", " + url);
+				document.getElementById("fotosPath").innerHTML = document
+						.getElementById("fotosPath").innerHTML.concat(", "
+						+ url);
 				$(document.getElementById("carrusel")).append(elemento);
 				$(document.getElementById("fotos")).append(imagen);
 				var slides = document.getElementsByClassName("mySlides");
-				var punto = ('<span class="dot" onclick="currentSlide(' + slides.length + ')"></span>');
+				var punto = ('<span class="dot" onclick="currentSlide('
+						+ slides.length + ')"></span>');
 				$(document.getElementById("punto")).append(punto);
-				
+
 			}
 		} else {
-			document.getElementById("fotosPath").innerHTML = document.getElementById("fotosPath").innerHTML.concat(url);
+			document.getElementById("fotosPath").innerHTML = document
+					.getElementById("fotosPath").innerHTML.concat(url);
 			$(document.getElementById("carrusel")).append(elemento);
 			$(document.getElementById("fotos")).append(imagen);
 			var slides = document.getElementsByClassName("mySlides");
-			var punto = ('<span class="dot" onclick="currentSlide(' + slides.length + ')"></span>');
+			var punto = ('<span class="dot" onclick="currentSlide('
+					+ slides.length + ')"></span>');
 			$(document.getElementById("punto")).append(punto);
-			
+
 		}
 	}
 	showSlides(-1);
 }
-/*  */
+
+function checkPassword() {
+
+	if (document.getElementById('password').value.length > 4
+			&& document.getElementById('password').value.length < 33) {
+		document.getElementById('password').style.color = 'green';
+		document.getElementById("save").className = "formButton toLeft";
+	} else {
+		document.getElementById('password').style.color = 'red';
+		document.getElementById("save").className = "formButton toLeft disabled";
+	}
+
+	if (document.getElementById('password').value == document
+			.getElementById('confirm_password').value) {
+		document.getElementById('confirm_password').style.color = 'green';
+		document.getElementById("save").className = "formButton toLeft";
+	} else {
+		document.getElementById('confirm_password').style.color = 'red';
+		document.getElementById("save").className = "formButton toLeft disabled";
+	}
+}
+
+function checkEdition() {
+	var enabled = true;
+	
+	if (document.getElementById('new_password').value.length > 4
+			&& document.getElementById('new_password').value.length < 33) {
+		document.getElementById('new_password').style.color = 'green';
+	} else {
+		document.getElementById('new_password').style.color = 'red';
+		enabled = false;
+	}
+	
+	if (document.getElementById('new_password').value == document
+			.getElementById('confirm_password').value) {
+		document.getElementById('confirm_password').style.color = 'green';
+	} else {
+		document.getElementById('confirm_password').style.color = 'red';
+		enabled = false;
+	}
+	
+	if (document.getElementById('password').value.length > 4
+			&& document.getElementById('password').value.length < 33) {
+		document.getElementById('password').style.color = 'green';
+		if(document.getElementById('new_password').value.length == 0 && document.getElementById('confirm_password').value.length == 0){
+			enabled = true;
+		}		
+		} else {
+		document.getElementById('password').style.color = 'red';
+		enabled = false;
+	}
+	if (enabled == true) {
+		document.getElementById("save").className = "formButton toLeft";
+	} else {
+		document.getElementById("save").className = "formButton toLeft disabled";
+	}
+
+}

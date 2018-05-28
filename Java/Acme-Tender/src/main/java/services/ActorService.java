@@ -35,13 +35,14 @@ public class ActorService {
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private Validator validator;
-	@Autowired
 	private UserAccountService userAccountService;
 	@Autowired
 	private AdministratorService administratorService;
 	@Autowired
 	private FolderService folderService;
+
+	@Autowired
+	private Validator validator;
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -149,76 +150,76 @@ public class ActorService {
 		return authorities.get(0).getAuthority();
 	}
 
-	public Actor recontruct(final RegisterForm actorForm, final BindingResult bind) {
-		Actor result = null;
+	public Actor recontruct(final RegisterForm actorForm, BindingResult binding) {
+		Actor logedActor = null;
 		UserAccount useraccount = null;
 		Md5PasswordEncoder encoder;
 		encoder = new Md5PasswordEncoder();
 		if (actorForm.getId() == 0) {
-			Assert.isTrue(actorForm.getPassword().split(",").length == 2,
-					"profile.userAccount.repeatPassword.mismatch");
-			Assert.isTrue(actorForm.getPassword().split(",")[0].equals(actorForm.getPassword().split(",")[1]),
-					"profile.userAccount.repeatPassword.mismatch");
+			actorForm.setNewPassword(actorForm.getPassword());
 			useraccount = new UserAccount();
 			switch (actorForm.getAuthority()) {
 			case Authority.ADMINISTRATIVE:
-				result = new Administrative();
+				logedActor = new Administrative();
 				useraccount = this.userAccountService.createAsAdministrative();
-				result.setUserAccount(useraccount);
+				logedActor.setUserAccount(useraccount);
 				break;
 
 			case Authority.COMMERCIAL:
-				result = new Commercial();
+				logedActor = new Commercial();
 				useraccount = this.userAccountService.createAsCommercial();
-				result.setUserAccount(useraccount);
+				logedActor.setUserAccount(useraccount);
 				break;
 
 			case Authority.EXECUTIVE:
-				result = new Executive();
+				logedActor = new Executive();
 				useraccount = this.userAccountService.createAsExecutive();
-				result.setUserAccount(useraccount);
+				logedActor.setUserAccount(useraccount);
 				break;
 
 			default:
 				break;
 			}
-			useraccount.setUsername(actorForm.getUsername());
-			result.getUserAccount().setPassword(actorForm.getPassword().split(",")[0]);
-			this.validator.validate(useraccount, bind);
-			result.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword().split(",")[0], null));
+			logedActor.getUserAccount().setUsername(actorForm.getUsername());
+			logedActor.getUserAccount().setPassword(actorForm.getPassword());
+			logedActor.setName(actorForm.getName());
+			logedActor.setSurname(actorForm.getSurname());
+			logedActor.setEmail(actorForm.getEmail());
+			logedActor.setAddress(actorForm.getAddress());
+			logedActor.setPhone(actorForm.getPhone());
+			this.validator.validate(actorForm, binding);
+			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()),
+					"profile.userAccount.repeatPassword.mismatch");
+			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
 			useraccount.setActive(true);
-			this.folderService.createSystemFolders(result);
-		} else {
-			Assert.isTrue(actorForm.getPassword().split(",").length > 0,
-					"profile.wrong.password");
-			String pass = encoder.encodePassword(actorForm.getPassword().split(",")[0], null);
-			result = this.findByPrincipal();
-			Assert.isTrue(pass.equals(result.getUserAccount().getPassword()), "profile.wrong.password");
-			useraccount = result.getUserAccount();
-			useraccount.setUsername(actorForm.getUsername());
-			if (actorForm.getPassword().split(",").length > 1) {
-				Assert.isTrue(actorForm.getPassword().split(",").length == 3,
-						"profile.userAccount.repeatPassword.mismatch");
-				Assert.isTrue(actorForm.getPassword().split(",")[1].length() > 4,
-						"profile.userAccount.password.toShort");
-				Assert.isTrue(actorForm.getPassword().split(",")[1].length() < 33,
-						"profile.userAccount.password.toLong");
-				Assert.isTrue(actorForm.getPassword().split(",")[1].equals(actorForm.getPassword().split(",")[2]),
-						"profile.userAccount.repeatPassword.mismatch");
-				useraccount.setPassword(actorForm.getPassword().split(",")[1]);
-				this.validator.validate(useraccount, bind);
-				useraccount.setPassword(encoder.encodePassword(actorForm.getPassword().split(",")[1], null));
-			} else
-				this.validator.validate(useraccount, bind);
-			useraccount.setActive(result.getUserAccount().getActive());
-		}
-		result.setName(actorForm.getName());
-		result.setSurname(actorForm.getSurname());
-		result.setEmail(actorForm.getEmail());
-		result.setAddress(actorForm.getAddress());
-		result.setPhone(actorForm.getPhone());
-		this.validator.validate(result, bind);
+			this.folderService.createSystemFolders(logedActor);			
 
-		return result;
+		} else {
+			String formPass = encoder.encodePassword(actorForm.getPassword(), null);
+			logedActor = this.findByPrincipal();
+			logedActor.getUserAccount().setUsername(actorForm.getUsername());
+			logedActor.setName(actorForm.getName());
+			logedActor.setSurname(actorForm.getSurname());
+			logedActor.setEmail(actorForm.getEmail());
+			logedActor.setAddress(actorForm.getAddress());
+			logedActor.setPhone(actorForm.getPhone());
+			if (actorForm.getPassword().isEmpty()) {
+				actorForm.setNewPassword("XXXXX");
+				actorForm.setConfirmPassword("XXXXX");
+				this.validator.validate(actorForm, binding);
+			}else {
+				if (!actorForm.getNewPassword().isEmpty()) {
+					this.validator.validate(actorForm, binding);
+					Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()),
+							"profile.userAccount.repeatPassword.mismatch");
+					actorForm.setPassword(actorForm.getNewPassword());
+				}
+			}
+			Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));			
+			
+		}
+
+		return logedActor;
 	}
 }
