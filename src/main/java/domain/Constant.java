@@ -1,8 +1,6 @@
 
 package domain;
 
-import java.util.HashMap;
-
 public class Constant {
 
 	// Offer states

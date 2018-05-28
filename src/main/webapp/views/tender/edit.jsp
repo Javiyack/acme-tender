@@ -58,9 +58,10 @@
  	<br/>
  	<spring:message code="tender.select.option" var="selectOption"/>
 	<form:select path="interest" class="formInput">
-	    <form:option value="0" label="${selectOption}" />
+	    <form:option value="" label="${selectOption}" />
 	    <form:options items="${interest}" />
 	</form:select>
+	<form:errors path="interest" cssClass="error" />
 	<br />
 	<acme:textarea code="tender.interestComment" path="interestComment" css="formTextArea" />
 	<br />
