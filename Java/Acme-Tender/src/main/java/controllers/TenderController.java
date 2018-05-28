@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,10 +17,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
+import domain.Comment;
+import domain.CompanyResult;
+import domain.Constant;
+import domain.EvaluationCriteria;
+import domain.Offer;
+import domain.SubSection;
 import domain.Tender;
+import domain.TenderResult;
 import forms.SearchForm;
 import services.ActorService;
+import services.CommentService;
+import services.CompanyResultService;
 import services.ConfigurationService;
+import services.EvaluationCriteriaService;
+import services.TenderResultService;
 import services.TenderService;
 
 @Controller
@@ -33,6 +46,14 @@ public class TenderController extends AbstractController {
 	private ActorService			actorService;
 	@Autowired
 	private ConfigurationService	configurationService;
+	@Autowired
+	private EvaluationCriteriaService evaluationCriteriaService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private TenderResultService tenderResultService;
+	@Autowired
+	private CompanyResultService companyResultService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -40,6 +61,38 @@ public class TenderController extends AbstractController {
 	public TenderController() {
 		super();
 	}
+	
+	//Display
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam int tenderId) {
+
+		ModelAndView result;
+
+		Tender tender = tenderService.findOne(tenderId);
+		Double benefitsPercentage = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();
+		
+		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tender.getId());
+
+		Collection<Comment> comments = this.commentService.findAllByTender(tenderId);
+		TenderResult tenderResult = this.tenderResultService.findOneByTenderAnonymous(tenderId);
+		
+		Collection<CompanyResult> companyResults = new ArrayList<CompanyResult>();
+		if (tenderResult != null)
+			companyResults = this.companyResultService.findAllByTenderResultAnonymous(tenderResult.getId());
+
+		result = new ModelAndView("tender/display");
+		result.addObject("tender", tender);
+		result.addObject("benefitsPercentage", benefitsPercentage);
+		result.addObject("actor", actor);
+		result.addObject("evaluationCriterias", evaluationCriterias);
+		result.addObject("comments", comments);
+		result.addObject("tenderResult", tenderResult);
+		result.addObject("companyResults", companyResults);
+
+		return result;
+
+	}	
 
 	// List ------------------------------------------------------------------
 	@RequestMapping(value = "/list")

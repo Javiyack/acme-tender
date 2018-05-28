@@ -12,7 +12,7 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<b>
+
 	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.reference}" /></a> <br/>
 	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.title}" /></a> <br/>
 
@@ -26,7 +26,7 @@
 	<jstl:if test="${offer.denialReason != null}" >
 		<spring:message code="offer.denialReason" />: <jstl:out value="${offer.denialReason}" /> <br/>
 	</jstl:if>
-</b>
+
 <br/>
 <jstl:if test="${offer.commercial.id == actor.id}" >
 	<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>

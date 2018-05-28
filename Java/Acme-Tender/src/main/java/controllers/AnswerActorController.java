@@ -71,11 +71,12 @@ public class AnswerActorController extends AbstractController {
 		ModelAndView result;
 
 		final Collection<Answer> answers = this.answerService.findAllByComment(commentId);
+		
+		Comment comment = this.commentService.findOne(commentId);
 
 		result = new ModelAndView("answer/actor/list");
 		result.addObject("answers", answers);
-
-		final Comment comment = this.commentService.findOne(commentId);
+		result.addObject("comment", comment);
 		result.addObject("tenderId", comment.getTender().getId());
 
 		return result;
