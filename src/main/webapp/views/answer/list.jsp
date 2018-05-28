@@ -17,6 +17,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
+
+<b><spring:message code="answer.comment" /></b><br/>
+
+	<spring:message code="comment.text" />: <jstl:out value="${comment.text}"/>  <br/>
+	<spring:message code="comment.writingDate" />: <jstl:out value="${comment.writingDate}"/>  <br/>
+
+<br/>
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
 	<spring:message code="answer.writingDate" var="answerWritingDate" />
@@ -26,5 +34,6 @@
 	<acme:column property="text" title="answer.text" />
 
 </display:table>
-
-<acme:cancel url="comment/list.do?tenderId=${tenderId}" code="comment.back" css="formButton toLeft" />
+<br /> <br />
+<acme:button url="answer/actor/create.do?commentId=${comment.id}" text="comment.answer.create" css="formButton toLeft" />
+<acme:cancel url="tender/display.do?tenderId=${tenderId}" code="comment.back" css="formButton toLeft" />

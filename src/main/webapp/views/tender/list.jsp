@@ -20,64 +20,48 @@
 
 <display:table pagesize="5" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
 
-	<spring:message code="tender.reference" var="tenderReference" />
 	<acme:column property="reference" title="tender.reference" />
-
-	<spring:message code="tender.title" var="tenderTitle" />
 	<acme:column property="title" title="tender.title" />
-
-	<security:authorize access="hasRole('COMMERCIAL')">
-	<display:column>
-		<div>
-			<a href="comment/commercial/create.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.create" />
-			</a>
-		</div>
+	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" />
+	
+	<spring:message code="tender.associated.offer" var="tenderOffer"/>
+	<display:column title="${tenderOffer}">
+		<jstl:if test="${tender.offer != null}" >
+			<div>
+				<a href="offer/display.do?tenderId=${row.id}">
+					<jstl:out value="${tender.offer.commercial.name} ${tender.offer.commercial.surname}" />
+				</a>
+			</div>
+		</jstl:if>
+		<jstl:if test="${tender.offer == null}" >
+			<security:authorize access="hasRole('COMMERCIAL')"> 
+				<div>
+					<a href="offer/create.do?tenderId=${row.id}">
+						<spring:message code="tender.create.offer" />
+					</a>
+				</div>
+			</security:authorize>
+		</jstl:if>		
 	</display:column>
-	</security:authorize>
-
-	
-	<security:authorize access="isAuthenticated()">
-		<jstl:if test="${anonymous}">
-			<display:column>
-				<div>
-					<a href="tenderResult/display.do?tenderId=${row.id}">
-						<spring:message code="tender.tenderResult.display" />
-					</a>
-				</div>
-			</display:column>
-		</jstl:if>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('ADMINISTRATIVE')">
-		<jstl:if test="${myTender}">
-			<display:column>
-				<div>
-					<a href="tenderResult/administrative/display.do?tenderId=${row.id}">
-						<spring:message code="tender.tenderResult.display" />
-					</a>
-				</div>
-			</display:column>
-		</jstl:if>
-	</security:authorize>
 	
 	<display:column>
 		<div>
-			<a href="comment/list.do?tenderId=${row.id}">
-				<spring:message code="tender.comment.list" />
+			<a href="tender/display.do?tenderId=${row.id}">
+				<spring:message code="tender.display" />
 			</a>
 		</div>
 	</display:column>
 	
 	<display:column>
 		<div>
-			<a href="tender/administrative/edit.do?tenderId=${row.id}">
-				<spring:message code="tender.edit" />
+			<a href="tenderResult/display.do?tenderId=${row.id}">
+				<spring:message code="tender.tenderResult.display" />
 			</a>
 		</div>
 	</display:column>
 
 </display:table>
+<br/><br/>
 
 <security:authorize access="hasRole('ADMINISTRATIVE')">
 	<acme:button url="tender/create.do" text="tender.new" css="formButton toLeft" />

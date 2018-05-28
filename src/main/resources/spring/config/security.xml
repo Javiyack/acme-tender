@@ -60,12 +60,14 @@
 	<security:intercept-url pattern="/actor/edit.do" access="isAuthenticated()" />
 	
 	<security:intercept-url pattern="/tender/list.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/tender/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tenderResult/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tender/search.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/comment/list.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/offer/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/subSection/**" access="isAuthenticated()" />
-	<security:intercept-url pattern="/subSectionEvaluationCriteria/**" access="isAuthenticated()" />		
+	<security:intercept-url pattern="/subSectionEvaluationCriteria/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/evaluationCriteria/**" access="isAuthenticated()" />			
 	
 	<!-- Executive -->
 	

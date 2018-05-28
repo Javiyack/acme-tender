@@ -19,7 +19,7 @@
 	<br />
 
 	<acme:submit name="save" code="answer.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="comment/list.do?tenderId=${answer.comment.tender.id}" code="answer.cancel" css="formButton toLeft" />
+    <acme:cancel url="answer/actor/list.do?commentId=${answer.comment.id}" code="answer.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>
