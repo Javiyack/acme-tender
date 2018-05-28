@@ -47,13 +47,19 @@
 		</jstl:if>
 	</jstl:if>
 
-<br/>
-<jstl:if test="${tender.administrative.id == actor.id}" >
-	<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
-</jstl:if>
-
-<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
-<br/><br/>
+	<jstl:if test="${tender.offer == null}" >
+		<security:authorize access="hasRole('COMMERCIAL')"> 
+			<acme:button url="offer/commercial/create.do?tenderId=${tender.id}" text="tender.create.offer" css="formButton toLeft"/>
+		</security:authorize>
+	</jstl:if>
+	
+	<jstl:if test="${tender.administrative.id == actor.id}" >
+		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
+	</jstl:if>
+	
+	<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+		
+	<br/><br/>
 
 
 <h5>
@@ -87,6 +93,15 @@
 
 	<acme:column property="writingDate" title="comment.writingDate" />
 	<acme:column property="text" title="comment.text" />
+
+	<spring:message code="comment.commercial" var="commentCommercial" />
+	<display:column title="${commentCommercial}">
+		<div>
+			<a href="actor/display.do?actorId=${row.commercial.id}">
+				<jstl:out value="${row.commercial.name} ${row.commercial.surname}" />
+			</a> 
+		</div>
+	</display:column>
 	
 	<display:column>
 		<div>
@@ -94,9 +109,11 @@
 				<spring:message code="comment.answer.list" />
 			</a>
 		</div>
-	</display:column>
+	</display:column>	
+	
 
 </display:table>
+<br />
 
 <jstl:if test="${tender.administrative.id != actor.id}" >
 	<br />
