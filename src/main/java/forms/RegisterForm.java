@@ -1,8 +1,10 @@
 
 package forms;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -18,6 +20,8 @@ public class RegisterForm {
 	private String		address;		// Optional	
 	private String	    username;
 	private String	    password;
+	private String	    newPassword;
+	private String	    confirmPassword;
 	private String	    authority;
 	
 	private int id;
@@ -82,6 +86,7 @@ public class RegisterForm {
 	}
 
 
+	@Email
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
 	public String getEmail() {
@@ -94,6 +99,7 @@ public class RegisterForm {
 	}
 
 
+	@Pattern(regexp = "()|^[6,7]\\d{8}$")
 	public String getPhone() {
 		return phone;
 	}
@@ -138,6 +144,41 @@ public class RegisterForm {
 	public void setPassword(String pasword) {
 		this.password = pasword;
 	}
+	
+	
+	/**
+	 * @return the newPassword
+	 */
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 5, max = 32)
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+
+	/**
+	 * @param newPassword the newPassword to set
+	 */
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	/**
+	 * @return the confirmPassword
+	 */
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@Size(min = 5, max = 32)
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+
+	/**
+	 * @param confirmPassword the confirmPassword to set
+	 */
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 
 
 	public int getId() {
@@ -158,6 +199,10 @@ public class RegisterForm {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+
+
+
+	
 	
 	
 }
