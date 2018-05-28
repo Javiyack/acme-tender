@@ -24,26 +24,6 @@
 	<acme:column property="title" title="tender.title" />
 	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" />
 	
-	<spring:message code="tender.associated.offer" var="tenderOffer"/>
-	<display:column title="${tenderOffer}">
-		<jstl:if test="${tender.offer != null}" >
-			<div>
-				<a href="offer/display.do?tenderId=${row.id}">
-					<jstl:out value="${tender.offer.commercial.name} ${tender.offer.commercial.surname}" />
-				</a>
-			</div>
-		</jstl:if>
-		<jstl:if test="${tender.offer == null}" >
-			<security:authorize access="hasRole('COMMERCIAL')"> 
-				<div>
-					<a href="offer/create.do?tenderId=${row.id}">
-						<spring:message code="tender.create.offer" />
-					</a>
-				</div>
-			</security:authorize>
-		</jstl:if>		
-	</display:column>
-	
 	<display:column>
 		<div>
 			<a href="tender/display.do?tenderId=${row.id}">

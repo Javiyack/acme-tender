@@ -51,7 +51,7 @@ public class CommentCommercialController extends AbstractController {
 		else
 			try {
 				this.commentService.save(comment);
-				result = new ModelAndView("redirect:/comment/list.do?tenderId=" + comment.getTender().getId());
+				result = new ModelAndView("redirect:/tender/display.do?tenderId=" + comment.getTender().getId());
 			} catch (final Throwable oops) {
 				oops.printStackTrace();
 				result = this.createEditModelAndView(comment, "comment.commit.error");

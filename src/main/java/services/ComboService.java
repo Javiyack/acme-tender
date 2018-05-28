@@ -39,11 +39,12 @@ public class ComboService {
 		
 		//Obtenemos el estado desde el que partimos
 		String actualState= "";
-		Offer offer = this.offerService.findOne(offerId);
-		if (offer == null)
+		if (offerId == 0) {
 			actualState = "";
-		else
+		} else {
+			Offer offer = this.offerService.findOne(offerId);
 			actualState = offer.getState();
+		}
 		
 		
 		Collection<String> result = new ArrayList<String>();

@@ -27,10 +27,7 @@
 <br/>
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
-	<spring:message code="answer.writingDate" var="answerWritingDate" />
 	<acme:column property="writingDate" title="answer.writingDate" />
-
-	<spring:message code="answer.text" var="answerText" />
 	<acme:column property="text" title="answer.text" />
 
 </display:table>
