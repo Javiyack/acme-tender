@@ -17,7 +17,7 @@
 	<acme:textbox path="title" code="evaluationCriteria.title" />
 	<acme:textarea path="description" code="evaluationCriteria.description" />
 	<acme:textbox path="maxScore" code="evaluationCriteria.maxScore" />
-	<acme:select itemLabel="name" blankValue="false" items="${evaluationCriteriaTypes}" path="evaluationCriteriaType" code="evaluationCriteria.evaluationCriteriaType" />
+	<acme:select itemLabel="name" blankValue="false" items="${evaluationCriteriaTypes}" path="evaluationCriteriaType" code="evaluationCriteria.evaluationCriteriaType" id="id"/>
 
 	<br/>
 	
@@ -25,6 +25,6 @@
 	<jstl:if test="${evaluationCriteria.id != 0}">
 		<acme:submit name="delete" code="evaluationCriteria.delete" css="formButton toLeft" />&nbsp;
 	</jstl:if>	
-    <acme:cancel url="/evaluationCriteria/administrative/list.do?tenderId=${tenderId}" code="evaluationCriteria.cancel" css="formButton toLeft" />
+    <acme:cancel url="/tender/display.do?tenderId=${tenderId}" code="evaluationCriteria.cancel" css="formButton toLeft" />
 
 </form:form>

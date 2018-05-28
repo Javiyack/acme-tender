@@ -27,8 +27,16 @@
 	<spring:message code="tender.informationPage" />: <jstl:out value="${tender.informationPage}" /> <br/>
 	<spring:message code="tender.interest" />: <jstl:out value="${tender.interest}" /> <br/>
 	<spring:message code="tender.interestComment" />: <jstl:out value="${tender.interestComment}" /> <br/><br/>
+	
+	<jstl:if test="${tender.administrative.id == actor.id}" >
+		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
+	</jstl:if>
+	
+	<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+		
 
 	<jstl:if test="${tender.offer != null}" >
+		<br /><br />
 		<b><spring:message code="tender.associated.offer" />: </b><br/>
 		
 		<spring:message code="offer.state" />: 
@@ -53,12 +61,7 @@
 		</security:authorize>
 	</jstl:if>
 	
-	<jstl:if test="${tender.administrative.id == actor.id}" >
-		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
-	</jstl:if>
-	
-	<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
-		
+
 	<br/><br/>
 
 
@@ -83,7 +86,13 @@
 	</display:column>
 
 </display:table>
-<br /><br/>
+
+<jstl:if test="${tender.administrative.id == actor.id}" >
+	<br /><br />
+	<acme:button text="tender.evaluationCriteria.create" url="evaluationCriteria/administrative/create.do?tenderId=${tender.id}" css="formButton toLeft" />
+</jstl:if>
+
+<br /><br />
 
 <h5>
 	<spring:message code="tender.comments" />
