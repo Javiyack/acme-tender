@@ -126,12 +126,12 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 	//Reject
 	@RequestMapping(value = "/reject", method = RequestMethod.GET)
-	public ModelAndView reject(@RequestParam int collaborationRequestId) {
+	public ModelAndView reject(@RequestParam int requestId) {
 
 		ModelAndView result;
 
 		CollaborationRequest collaborationRequest;
-		collaborationRequest = this.collaborationRequestService.findOneToEdit(collaborationRequestId);
+		collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
 
 		result = this.createEditModelAndView(collaborationRequest);
 		result.addObject("reject", true);
@@ -142,12 +142,12 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 	//Accept
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
-	public ModelAndView accept(@RequestParam int collaborationRequestId) {
+	public ModelAndView accept(@RequestParam int requestId) {
 
 		ModelAndView result;
 
 		CollaborationRequest collaborationRequest;
-		collaborationRequest = this.collaborationRequestService.findOneToEdit(collaborationRequestId);
+		collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
 
 		SubSection subSection;
 		subSection = this.subSectionService.createByCommercialCollaborationAcceptation(collaborationRequest);
@@ -155,8 +155,8 @@ public class CollaborationRequestCommercialController extends AbstractController
 		result = new ModelAndView("subSection/commercial/create");
 		result.addObject("subSection", subSection);
 		result.addObject("requestURI", "subSection/commercial/edit.do");
-		result.addObject("collaboration", true);
-		result.addObject("collaborationRequestId", collaborationRequestId);
+		result.addObject("request", true);
+		result.addObject("requestId", requestId);
 
 		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
 		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
@@ -164,23 +164,6 @@ public class CollaborationRequestCommercialController extends AbstractController
 		return result;
 
 	}
-
-	/*
-	 * @RequestMapping(value = "/create", method = RequestMethod.GET)
-	 * public ModelAndView create(@RequestParam final int offerId) {
-	 * 
-	 * final ModelAndView result = new ModelAndView("subSection/commercial/create");
-	 * 
-	 * final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
-	 * result.addObject("subSection", subSection);
-	 * result.addObject("requestUri", "subSection/commercial/edit.do");
-	 * 
-	 * Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-	 * result.addObject("subSectionSectionsCombo",subSectionSectionsCombo);
-	 * 
-	 * return result;
-	 * }
-	 */
 
 	//Save
 
@@ -213,7 +196,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 					}
 					CollaborationRequest saved = collaborationRequestService.save(collaborationRequest);
 					if (sendNotification == true) {
-						this.myMessageService.collaborationRequestRejectionNotification(saved);
+						this.myMessageService.collaborationRequestNotification(saved, false);
 					}
 					if (collaborationRequest.getId() == 0) {
 						result = new ModelAndView("redirect:/offer/display.do?offerId=" + collaborationRequest.getOffer().getId());

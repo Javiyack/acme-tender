@@ -34,7 +34,7 @@
 
 <jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
 	<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-	<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+	<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
 </jstl:if>
 
 <acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>

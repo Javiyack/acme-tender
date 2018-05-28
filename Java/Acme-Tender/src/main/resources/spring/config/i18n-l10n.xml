@@ -47,6 +47,7 @@
 		<value>/views/collaborationRequest/messages</value>
 		<value>/views/info/messages</value>
 		<value>/views/dashboard/messages</value>
+		<value>/views/administrativeRequest/messages</value>
 		
 	</util:list>
 

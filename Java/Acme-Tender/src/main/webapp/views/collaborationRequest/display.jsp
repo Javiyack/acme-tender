@@ -73,7 +73,7 @@
 	
 	
 	<jstl:if test="${principal eq collaborationRequest.commercial && collaborationRequest.accepted == null }">
-		<acme:button url="collaborationRequest/commercial/reject.do?collaborationRequestId=${collaborationRequest.id }" text="collaborationRequest.reject" css="formButton toLeft"/>
-		<acme:button url="collaborationRequest/commercial/accept.do?collaborationRequestId=${collaborationRequest.id }" text="collaborationRequest.accept" css="formButton toLeft"/>
+		<acme:button url="collaborationRequest/commercial/reject.do?requestId=${collaborationRequest.id }" text="collaborationRequest.reject" css="formButton toLeft"/>
+		<acme:button url="collaborationRequest/commercial/accept.do?requestId=${collaborationRequest.id }" text="collaborationRequest.accept" css="formButton toLeft"/>
 	</jstl:if>
 

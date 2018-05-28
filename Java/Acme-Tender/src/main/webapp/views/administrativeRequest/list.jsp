@@ -13,26 +13,24 @@
 
 
 
-<display:table pagesize="5" class="displaytag" name="collaborationRequests"
+<display:table pagesize="5" class="displaytag" name="administrativeRequests"
 	requestURI="${requestURI }" id="row">
 	
-	<acme:column property="offer.tender.reference" title="collaborationRequest.tender.reference" sortable="true" />
+	<acme:column property="offer.tender.reference" title="administrativeRequest.tender.reference" sortable="true" />
 	
-	<acme:column property="section" title="collaborationRequest.section" sortable="true" />
-	
-	<acme:column property="subSectionTitle" title="collaborationRequest.subSectionTitle" sortable="true" />
+	<acme:column property="subSectionTitle" title="administrativeRequest.subSectionTitle" sortable="true" />
 
 	<jstl:choose>
 		<jstl:when
-			test="${requestURI == 'collaborationRequest/commercial/listSent.do' }">
-			<spring:message code="collaborationRequest.receiver"
+			test="${requestURI == 'administrativeRequest/listSent.do' }">
+			<spring:message code="administrativeRequest.receiver"
 				var="receiverVar" />
 			<display:column
-				value="${row.commercial.name } ${row.commercial.surname }"
+				value="${row.administrative.name } ${row.administrative.surname }"
 				title="${receiverVar }" sortable="true" />
 		</jstl:when>
 		<jstl:otherwise>
-			<spring:message code="collaborationRequest.sender"
+			<spring:message code="administrativeRequest.sender"
 				var="senderVar" />
 			<display:column
 				value="${row.offer.commercial.name } ${row.offer.commercial.surname }"
@@ -41,7 +39,7 @@
 	</jstl:choose>
 
 	<spring:message code="date.pattern" var="dateFormat" />
-	<spring:message code="collaborationRequest.maxAcceptanceDate"
+	<spring:message code="administrativeRequest.maxAcceptanceDate"
 		var="codeAcceptanceVar" />
 	<fmt:formatDate value="${row.maxAcceptanceDate}"
 		pattern="${dateFormat}" var="acceptanceVar" />
@@ -49,7 +47,7 @@
 		sortable="true" />
 
 	
-	<spring:message code="collaborationRequest.maxDeliveryDate"
+	<spring:message code="administrativeRequest.maxDeliveryDate"
 		var="codeDeliveryVar" />
 	<fmt:formatDate value="${row.maxDeliveryDate}"
 		pattern="${dateFormat}" var="deliveryVar" />
@@ -59,19 +57,19 @@
 
  	<jstl:choose>
 		<jstl:when test="${row.accepted eq true }">
-			<spring:message code="collaborationRequest.state.accepted"
+			<spring:message code="administrativeRequest.state.accepted"
 				var="acceptedVar" />
 		</jstl:when>
 		<jstl:when test="${row.accepted eq false }">
-			<spring:message code="collaborationRequest.state.rejected"
+			<spring:message code="administrativeRequest.state.rejected"
 				var="acceptedVar" />
 		</jstl:when>
 		<jstl:otherwise>
-			<spring:message code="collaborationRequest.state.withoutReply"
+			<spring:message code="administrativeRequest.state.withoutReply"
 				var="acceptedVar" />
 		</jstl:otherwise>
 	</jstl:choose> 
-	<spring:message code="collaborationRequest.state" var="codeAcceptedVar"/>
+	<spring:message code="administrativeRequest.state" var="codeAcceptedVar"/>
 	<display:column value="${acceptedVar}" title="${codeAcceptedVar}"
 		sortable="true" />
 	
@@ -81,8 +79,8 @@
 	<display:column>
 
 		<a
-			href="collaborationRequest/commercial/display.do?collaborationRequestId=<jstl:out value="${row.id}"/>"><spring:message
-				code="collaborationRequest.show" /></a>
+			href="administrativeRequest/display.do?administrativeRequestId=<jstl:out value="${row.id}"/>"><spring:message
+				code="administrativeRequest.show" /></a>
 
 	</display:column>
 

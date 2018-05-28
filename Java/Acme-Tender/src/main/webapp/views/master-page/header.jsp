@@ -66,7 +66,7 @@
 				
 				<!-- Solicitudes administrativas -->
 				<b><a><spring:message code="master.page.administrative.requests" /></a> </b>
-				<a href="administrativeRequest/administrative/list.do">
+				<a href="administrativeRequest/listReceived.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.administrative.requests.received" /></i>
 				</a>	
 				<hr />				
@@ -143,7 +143,7 @@
 				
 				<!-- Solicitudes administrativas -->
 				<b><a><spring:message code="master.page.administrative.requests" /></a> </b>
-				<a href="administrativeRequest/commercial/list.do">
+				<a href="administrativeRequest/listSent.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.administrative.requests.sended" /></i>
 				</a>	
 				<hr />					

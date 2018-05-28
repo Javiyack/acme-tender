@@ -1010,12 +1010,12 @@
 		<property name="subSectionDescription" value="Certificado donde conste la antiguedad de la empresa." />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/06/2018" />
+				<constructor-arg value="01/08/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="15/06/2018" />
+				<constructor-arg value="15/08/2018" />
 			</bean>
 		</property>
 		<property name="accepted" value="true" />
@@ -1028,12 +1028,12 @@
 		<property name="subSectionDescription" value="Certificado donde la empresa se compromete a cumplir la LOPD." />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/02/2018" />
+				<constructor-arg value="01/09/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="15/02/2018" />
+				<constructor-arg value="15/09/2018" />
 			</bean>
 		</property>
 		<property name="accepted" value="true" />

@@ -39,6 +39,7 @@
 		<bean class="converters.OfferToStringConverter" />
 		<bean class="converters.AdministrativeToStringConverter" />
 		<bean class="converters.CollaborationRequestToStringConverter" />
+		<bean class="converters.AdministrativeRequestToStringConverter" />
 		
 	
 		<bean class="converters.StringToMyMessageConverter" />	
@@ -62,6 +63,7 @@
 		<bean class="converters.StringToOfferConverter" />
 		<bean class="converters.StringToAdministrativeConverter" />
 		<bean class="converters.StringToCollaborationRequestConverter" />
+		<bean class="converters.StringToAdministrativeRequestConverter" />
 		
 			
 	</util:list>

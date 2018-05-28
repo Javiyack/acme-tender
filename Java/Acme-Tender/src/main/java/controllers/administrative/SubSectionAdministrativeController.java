@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Administrative;
+import domain.AdministrativeRequest;
 import domain.SubSection;
+import services.ActorService;
+import services.AdministrativeRequestService;
 import services.AdministrativeService;
+import services.MyMessageService;
 import services.SubSectionService;
 
 @Controller
@@ -25,9 +30,15 @@ public class SubSectionAdministrativeController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private SubSectionService		subSectionService;
+	private SubSectionService				subSectionService;
 	@Autowired
-	private AdministrativeService	administrativeService;
+	private AdministrativeService			administrativeService;
+	@Autowired
+	private AdministrativeRequestService	administrativeRequestService;
+	@Autowired
+	private MyMessageService				myMessageService;
+	@Autowired
+	private ActorService					actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -47,18 +58,33 @@ public class SubSectionAdministrativeController extends AbstractController {
 			Assert.isTrue(administrative.getId() == subSection.getAdministrative().getId());
 
 		result = this.createEditModelAndView(subSection);
+		result.addObject("request", false);
+		result.addObject("requestId", 0);
+
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("request") Boolean request, @ModelAttribute("requestId") int requestId) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(subSection);
-		else
+			result.addObject("request", request);
+			result.addObject("requestId", requestId);
+
+		} else
 			try {
 				this.subSectionService.save(subSection);
+				if (request == true) {
+					AdministrativeRequest administrativeRequest = administrativeRequestService.findOne(requestId);
+					Actor principal = actorService.findByPrincipal();
+					Assert.notNull(principal);
+					Assert.isTrue(principal.equals(administrativeRequest.getAdministrative()) && administrativeRequest.getAccepted() == null);
+					administrativeRequest.setAccepted(true);
+					AdministrativeRequest saved = this.administrativeRequestService.save(administrativeRequest);
+					this.myMessageService.administrativeRequestNotification(saved, true);
+				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
 			} catch (final Throwable oops) {
