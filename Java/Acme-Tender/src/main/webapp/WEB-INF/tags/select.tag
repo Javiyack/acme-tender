@@ -50,6 +50,13 @@
 	<jstl:set var="onchange" value="javascript: return true;" />
 </jstl:if>
 
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formInput" />
+</jstl:if>
+
 <%-- Definition --%>
 
 <div>
@@ -57,7 +64,7 @@
 		<spring:message code="${code}" />
 	</form:label>
 	
-	<form:select id="${id}" path="${path}" onchange="${onchange}" disabled="${readonly}" class="${css}">
+	<form:select id="${id}" path="${path}" onchange="${onchange}" disabled="${readonly}" class="${cssVar}">
 		
 		<jstl:if test="${blankValue}">
 			<form:option value="0" label="" />

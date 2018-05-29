@@ -14,20 +14,23 @@
 
 <fieldset>
 	<legend><spring:message code="tender.data" /></legend>
-	<spring:message code="tender.reference" />: <jstl:out value="${tender.reference}" /> <br/>
-	<spring:message code="tender.title" />: <jstl:out value="${tender.title}" /> <br/>
-	<spring:message code="tender.expedient" />: <jstl:out value="${tender.expedient}" /> <br/>
-	<spring:message code="tender.estimatedAmount" />: <jstl:out value="${tender.estimatedAmount}" /> <br/>
-	<spring:message code="tender.organism" />: <jstl:out value="${tender.organism}" /> <br/>
-	<spring:message code="tender.bulletin" />: <jstl:out value="${tender.bulletin}" /> <br/>
-	<spring:message code="tender.bulletinDate" />: <jstl:out value="${tender.bulletinDate}" /> <br/>
-	<spring:message code="tender.openingDate" />: <jstl:out value="${tender.openingDate}" /> <br/>
-	<spring:message code="tender.maxPresentationDate" />: <jstl:out value="${tender.maxPresentationDate}" /> <br/>
-	<spring:message code="tender.executionTime" />: <jstl:out value="${tender.executionTime}" /> <br/>
-	<spring:message code="tender.observations" />: <jstl:out value="${tender.observations}" /> <br/>
-	<spring:message code="tender.informationPage" />: <jstl:out value="${tender.informationPage}" /> <br/>
-	<spring:message code="tender.interest" />: <jstl:out value="${tender.interest}" /> <br/>
-	<spring:message code="tender.interestComment" />: <jstl:out value="${tender.interestComment}" /> <br/><br/>
+	
+	
+	<acme:labelvalue code="tender.reference"    value="${tender.reference}" /> 
+	<acme:labelvalue code="tender.title"    value="${tender.title}" /> 
+	<acme:labelvalue code="tender.expedient"    value="${tender.expedient}" /> 
+	<acme:labelvalue code="tender.estimatedAmount" value="${tender.estimatedAmount}" isCurrency="true"/>
+	<acme:labelvalue code="tender.organism"    value="${tender.organism}" /> 
+	<acme:labelvalue code="tender.bulletin"    value="${tender.bulletin}" /> 
+	<acme:labelvalue code="tender.bulletinDate"    value="${tender.bulletinDate}" isDatetime="true" />
+	<acme:labelvalue code="tender.openingDate"    value="${tender.openingDate}" isDatetime="true"/> 
+	<acme:labelvalue code="tender.maxPresentationDate"    value="${tender.maxPresentationDate}" isDatetime="true" /> 
+	<acme:labelvalue code="tender.executionTime"    value="${tender.executionTime}" /> 
+	<acme:labelvalue code="tender.observations"    value="${tender.observations}" /> 
+	<acme:labelvalue code="tender.informationPage" value="${tender.informationPage}" href="${tender.informationPage}" />
+	<acme:labelvalue code="tender.interest"    value="${tender.interest}" /> 
+	<acme:labelvalue code="tender.interestComment"    value="${tender.interestComment}" /> 
+	<br/><br/>
 
 	<jstl:if test="${tender.administrative.id == actor.id}" >
 		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
@@ -47,16 +50,16 @@
 		<fieldset>
 			<legend><spring:message code="tender.associated.offer" /></legend>
 	
-				<spring:message code="offer.state" />: <jstl:out value="${tender.offer.state}" /> <br/>
+				<acme:labelvalue code="offer.state" value="${tender.offer.state}" /> 
 					
 				<jstl:if test="${tender.offer.presentationDate != null}" >
-					<spring:message code="offer.presentationDate" />: <jstl:out value="${tender.offer.presentationDate}" /> <br/>
+					<acme:labelvalue code="offer.presentationDate" value="${tenderOfferPresentationDate}" isDatetime="true" />
 				</jstl:if>
-				<spring:message code="offer.amount" />: <jstl:out value="${tender.offer.amount}" /> <br/>
-				<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${tender.offer.commercial.id}"><jstl:out value="${tender.offer.commercial.name} ${tender.offer.commercial.surname}" /></a> <br/>
-				<spring:message code="offer.comision" />: <jstl:out value="${tender.offer.amount * (benefitsPercentage/100)}" /> <br/>
+				<acme:labelvalue code="offer.amount" value="${tender.offer.amount}" isCurrency="true" /> 
+				<acme:labelvalue code="offer.commercial" href="actor/display.do?actorId=${tender.offer.commercial.id}"  value="${tender.offer.commercial.name} ${tender.offer.commercial.surname}" />
+				<acme:labelvalue code="offer.comision" value="${tender.offer.amount * (benefitsPercentage/100)}" isCurrency="true" /> 
 				<jstl:if test="${tender.offer.denialReason != null && tender.offer.denialReason != ''}" >
-					<spring:message code="offer.denialReason" />: <jstl:out value="${tender.offer.denialReason}" /> <br/>
+					<acme:labelvalue code="offer.denialReason" value="${tender.offer.denialReason}" /> 
 				</jstl:if>
 		</fieldset>
 	</jstl:if>

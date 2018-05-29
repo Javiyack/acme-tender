@@ -36,12 +36,13 @@
 
 	<acme:column property="reference" title="tender.reference" style="background-color: ${rowCss}"  />
 	<acme:column property="title" title="tender.title" style="background-color: ${rowCss}" />
-	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" format="display.date.format" style="background-color: ${rowCss}" />
+	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" format="display.date.time.format" style="background-color: ${rowCss}" />
 	
-	<spring:message code="tender.comision" var="varTenderComision"/>
-	<display:column title="${varTenderComision}" style="background-color: ${rowCss}" >
+	<spring:message code="tender.comision" var="titleTenderComision"/>
+	<display:column title="${titleTenderComision}" style="background-color: ${rowCss}" >
+		<fmt:formatNumber value="${row.estimatedAmount * (benefitsPercentaje/100)}" pattern="${formpriceformat}" var="varTenderComision" />
 		<div>
-			${row.estimatedAmount * (benefitsPercentaje/100)}
+			${varTenderComision} <spring:message code="currency.symbol" />
 		</div>
 	</display:column>	
 	

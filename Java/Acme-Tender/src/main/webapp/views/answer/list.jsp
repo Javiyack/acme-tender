@@ -21,8 +21,8 @@
 <fieldset>
 	<legend><spring:message code="answer.comment" /></legend>
 
-	<spring:message code="comment.text" />: <jstl:out value="${comment.text}"/>  <br/>
-	<spring:message code="comment.writingDate" />: <jstl:out value="${comment.writingDate}" />  <br/>
+	<acme:labelvalue code="comment.text" value="${comment.text}"/> 
+	<acme:labelvalue code="comment.writingDate" value="${comment.writingDate}" isDatetime="true"/>
 </fieldset>
 
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">

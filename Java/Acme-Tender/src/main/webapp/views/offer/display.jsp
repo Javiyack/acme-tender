@@ -14,59 +14,51 @@
 
 <fieldset>
 	<legend><spring:message code="offer.tender.data" /></legend>
-	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.reference}" /></a> <br/>
-	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.title}" /></a> <br/>
+	<acme:labelvalue code="offer.tender.reference" value="${offer.tender.reference}" />
+	<acme:labelvalue code="offer.tender.title" value="${offer.tender.title}" />
 </fieldset>
 
 <fieldset>
 	<legend><spring:message code="offer.data" /></legend>
-	<jstl:choose>
+		<jstl:choose>
 			<jstl:when test="${offer.state eq 'CREATED' }">
-				<spring:message code="offer.state.created"
-					var="stateVar" />
+				<spring:message code="offer.state.created" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'IN_DEVELOPMENT' }">
-				<spring:message code="offer.state.indevelopment"
-					var="stateVar" />
+				<spring:message code="offer.state.indevelopment" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'ABANDONED' }">
-				<spring:message code="offer.state.abandoned"
-					var="stateVar" />
+				<spring:message code="offer.state.abandoned" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'PRESENTED' }">
-				<spring:message code="offer.state.presented"
-					var="stateVar" />
+				<spring:message code="offer.state.presented" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'WINNED' }">
-				<spring:message code="offer.state.won"
-					var="stateVar" />
+				<spring:message code="offer.state.won" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'LOSED' }">
-				<spring:message code="offer.state.lost"
-					var="stateVar" />
+				<spring:message code="offer.state.lost" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'CHALLENGED' }">
-				<spring:message code="offer.state.challenged"
-					var="stateVar" />
+				<spring:message code="offer.state.challenged" var="stateVar" />
 			</jstl:when>
 			<jstl:when test="${offer.state eq 'DENIED' }">
-				<spring:message code="offer.state.denied"
-					var="stateVar" />
+				<spring:message code="offer.state.denied" var="stateVar" />
 			</jstl:when>
 		</jstl:choose>
-		<spring:message code="offer.state" />: <jstl:out value="${stateVar}" /> <br/>
+		<acme:labelvalue code="offer.state" value="${stateVar}" />
 		
 		<jstl:if test="${offer.presentationDate != null}" >
-			<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}"  /> <br/>
+			<acme:labelvalue code="offer.presentationDate" value="${offer.presentationDate}" isDatetime="true" />
 		</jstl:if>
-		<spring:message code="offer.amount" />: <jstl:out value="${offer.amount}" /> <br/>
-		<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${offer.commercial.id}"><jstl:out value="${offer.commercial.name} ${offer.commercial.surname}" /></a> <br/>
-		<spring:message code="offer.comision" />: <jstl:out value="${offer.amount * (benefitsPercentage/100)}" /> <br/>
+		<acme:labelvalue code="offer.amount" value="${offer.amount}" isCurrency="true"/> 
+		<acme:labelvalue code="offer.commercial" href="actor/display.do?actorId=${offer.commercial.id}" value="${offer.commercial.name} ${offer.commercial.surname}" />
+		<acme:labelvalue code="offer.comision" value="${offer.amount * (benefitsPercentage/100)}" isCurrency="true" />
 		<jstl:if test="${offer.denialReason != null}" >
-			<spring:message code="offer.denialReason" />: <jstl:out value="${offer.denialReason}" /> <br/>
+			<acme:labelvalue code="offer.denialReason" value="${offer.denialReason}" /> 
 		</jstl:if>
 	
-	<br/>
+	<br/><br/>
 	<jstl:if test="${offer.commercial.id == actor.id}" >
 		<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
 	</jstl:if>
@@ -87,10 +79,10 @@
 <display:table class="displaytag" name="subSectionsAcreditation" id="row">
 	
 	<acme:column property="title" title="subSection.title" style="width:50%"/>
-	<acme:column property="subsectionOrder" title="subSection.order" />
+	<acme:column property="subsectionOrder" title="subSection.order" style="width:10%"/>
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
-	<display:column title="${offerSubSectionProperty}">
+	<display:column title="${offerSubSectionProperty}" style="width:15%">
 		<div>
 			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
@@ -111,9 +103,9 @@
 		</div>
 	</display:column>
 
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format" style="width:15%"/>
 
-	<display:column>
+	<display:column style="width:10%">
 		<div>
 			<a href="subSection/display.do?subSectionId=${row.id}"> 
 				<spring:message code="subSection.display" />
@@ -131,10 +123,10 @@
 <display:table class="displaytag" name="subSectionsTechnical"  id="row">
 
 	<acme:column property="title" title="subSection.title" style="width:50%"/>
-	<acme:column property="subsectionOrder" title="subSection.order" />
+	<acme:column property="subsectionOrder" title="subSection.order" style="width:10%"/>
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
-	<display:column title="${offerSubSectionProperty}">
+	<display:column title="${offerSubSectionProperty}" style="width:15%">
 		<div>
 			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
@@ -155,9 +147,9 @@
 		</div>
 	</display:column>	
 	
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format" style="width:15%"/>
 
-	<display:column>
+	<display:column style="width:10%">
 		<div>
 			<a href="subSection/display.do?subSectionId=${row.id}"> 
 				<spring:message code="subSection.display" />
@@ -175,10 +167,10 @@
 <display:table class="displaytag" name="subSectionsEconomical" id="row">
 
 	<acme:column property="title" title="subSection.title" style="width:50%"/>
-	<acme:column property="subsectionOrder" title="subSection.order" />
+	<acme:column property="subsectionOrder" title="subSection.order" style="width:10%"/>
 	
 	<spring:message code="offer.subSection.property" var="offerSubSectionProperty" />
-	<display:column title="${offerSubSectionProperty}">
+	<display:column title="${offerSubSectionProperty}" style="width:15%">
 		<div>
 			<jstl:if test="${row.commercial.id != null && row.commercial.id == actor.id}" >
 				<spring:message code="offer.subSection.mine" />
@@ -199,9 +191,9 @@
 		</div>
 	</display:column>	
 	
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format" style="width:15%"/>
 
-	<display:column>
+	<display:column style="width:10%">
 		<div>
 			<a href="subSection/display.do?subSectionId=${row.id}"> 
 				<spring:message code="subSection.display" />

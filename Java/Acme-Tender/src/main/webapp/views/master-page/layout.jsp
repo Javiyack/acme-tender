@@ -42,6 +42,16 @@
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
+<!-- Formats -->
+<!-- Metemos en estas variables los formatos -->
+<spring:message code="display.price.format" var="displaypriceformat" scope="request"/>
+<spring:message code="display.date.format" var="displaydateformat" scope="request"/>
+<spring:message code="display.date.time.format" var="displaydatetimeformat" scope="request"/>
+
+<spring:message code="form.price.format" var="formpriceformat" scope="request"/>
+<spring:message code="form.date.format" var="formdateformat" scope="request"/>
+<spring:message code="form.date.time.format" var="formdatetimeformat" scope="request"/>
+
 </head>
 
 <body>
