@@ -27,8 +27,17 @@
 <br/>
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
-	<acme:column property="writingDate" title="answer.writingDate" />
 	<acme:column property="text" title="answer.text" />
+	<acme:column property="writingDate" title="answer.writingDate" />
+	
+	<spring:message code="answer.user" var="answerUser" />
+	<display:column title="${answerUser}">
+		<div>
+			<a href="actor/display.do?actorId=${row.actor.id}">
+				<jstl:out value="${row.actor.name} ${row.actor.surname}" />
+			</a> 
+		</div>
+	</display:column>	
 
 </display:table>
 <br /> <br />

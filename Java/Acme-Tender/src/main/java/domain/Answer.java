@@ -50,6 +50,7 @@ public class Answer extends DomainEntity {
 	//Relationships
 	
 	private Comment comment;
+	private Actor actor;
 
 	@Valid
 	@NotNull	
@@ -61,6 +62,18 @@ public class Answer extends DomainEntity {
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
+
+	@Valid
+	@NotNull	
+	@ManyToOne(optional = false)
+	public Actor getActor() {
+		return actor;
+	}
+
+	public void setActor(Actor actor) {
+		this.actor = actor;
+	}
+	
 	
 	
 
