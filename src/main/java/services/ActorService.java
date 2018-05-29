@@ -13,17 +13,17 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.ActorRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import security.UserAccountService;
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
 import domain.Commercial;
 import domain.Executive;
 import forms.RegisterForm;
-import repositories.ActorRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
-import security.UserAccountService;
 
 @Service
 @Transactional
@@ -31,18 +31,19 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository actorRepository;
+	private ActorRepository			actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private UserAccountService userAccountService;
+	private UserAccountService		userAccountService;
 	@Autowired
-	private AdministratorService administratorService;
+	private AdministratorService	administratorService;
 	@Autowired
-	private FolderService folderService;
+	private FolderService			folderService;
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
+
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -150,7 +151,7 @@ public class ActorService {
 		return authorities.get(0).getAuthority();
 	}
 
-	public Actor recontruct(final RegisterForm actorForm, BindingResult binding) {
+	public Actor recontruct(final RegisterForm actorForm, final BindingResult binding) {
 		Actor logedActor = null;
 		UserAccount useraccount = null;
 		Md5PasswordEncoder encoder;
@@ -188,16 +189,15 @@ public class ActorService {
 			logedActor.setAddress(actorForm.getAddress());
 			logedActor.setPhone(actorForm.getPhone());
 			this.validator.validate(actorForm, binding);
-			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()),
-					"profile.userAccount.repeatPassword.mismatch");
+			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()), "profile.userAccount.repeatPassword.mismatch");
 			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
-			
+
 			//Al registrarse, el usuario esta desactivado. El admin debe de activarlo.
 			useraccount.setActive(false);
-			this.folderService.createSystemFolders(logedActor);			
+			this.folderService.createSystemFolders(logedActor);
 
 		} else {
-			String formPass = encoder.encodePassword(actorForm.getPassword(), null);
+			final String formPass = encoder.encodePassword(actorForm.getPassword(), null);
 			logedActor = this.findByPrincipal();
 			logedActor.getUserAccount().setUsername(actorForm.getUsername());
 			logedActor.setName(actorForm.getName());
@@ -209,19 +209,21 @@ public class ActorService {
 				actorForm.setNewPassword("XXXXX");
 				actorForm.setConfirmPassword("XXXXX");
 				this.validator.validate(actorForm, binding);
-			}else {
-				if (!actorForm.getNewPassword().isEmpty()) {
-					this.validator.validate(actorForm, binding);
-					Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()),
-							"profile.userAccount.repeatPassword.mismatch");
-					actorForm.setPassword(actorForm.getNewPassword());
-				}
+			} else if (!actorForm.getNewPassword().isEmpty()) {
+				this.validator.validate(actorForm, binding);
+				Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()), "profile.userAccount.repeatPassword.mismatch");
+				actorForm.setPassword(actorForm.getNewPassword());
 			}
 			Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
-			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));			
-			
+			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
+
 		}
 
 		return logedActor;
+	}
+
+	public void flush() {
+		this.actorRepository.flush();
+
 	}
 }
