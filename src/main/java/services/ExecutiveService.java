@@ -31,4 +31,34 @@ public class ExecutiveService {
 
 		return numbers;
 	}
+
+	public Collection<Object> tendersByInterestLevel() {
+		final Collection<Object> numbers = this.executiveRepository.tendersByInterestLevel();
+
+		return numbers;
+	}
+
+	public Collection<Object> offersByState() {
+		final Collection<Object> numbers = this.executiveRepository.offersByState();
+
+		return numbers;
+	}
+
+	public Collection<Object> offersByStateAndCommercial() {
+		final Collection<Object> numbers = this.executiveRepository.offersByStateAndCommercial();
+
+		return numbers;
+	}
+
+	public Collection<Object> offersByStateRatio() {
+		final Collection<Object> numbers = this.executiveRepository.offersByStateRatio();
+
+		return numbers;
+	}
+
+	public Collection<Object> offersByStateAndCommercialRatio() {
+		final Collection<Object> numbers = this.executiveRepository.offersByStateAndCommercialRatio();
+
+		return numbers;
+	}
 }
