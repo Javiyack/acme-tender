@@ -27,6 +27,10 @@
 			<br />
 		</div>
 		
+	<jstl:if test="${!edition}">	
+		<acme:backButton text="actor.back" css="formButton toLeft"/>
+	</jstl:if>	
+		
 	<jstl:if test="${edition}">
 		<div class="seccion">
 			<div>
@@ -70,10 +74,10 @@
 				<spring:message code="term.registration" />
 			</p>
 			<br />
-	</security:authorize>
+		</security:authorize>
 		<input type="submit" name="save" id="save"
 			value='<spring:message code="actor.save"/>' class="formButton toLeft disabled"/>&nbsp;
-	<input type="button" name="cancel"
+		<input type="button" name="cancel"
 			value='<spring:message code="actor.cancel" />'
 			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>
 		<br />
