@@ -22,13 +22,13 @@
 <b><spring:message code="answer.comment" /></b><br/>
 
 	<spring:message code="comment.text" />: <jstl:out value="${comment.text}"/>  <br/>
-	<spring:message code="comment.writingDate" />: <jstl:out value="${comment.writingDate}"/>  <br/>
+	<spring:message code="comment.writingDate" />: <jstl:out value="${comment.writingDate}" />  <br/>
 
 <br/>
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
 	<acme:column property="text" title="answer.text" />
-	<acme:column property="writingDate" title="answer.writingDate" />
+	<acme:column property="writingDate" title="answer.writingDate" format="display.date.format"/>
 	
 	<spring:message code="answer.user" var="answerUser" />
 	<display:column title="${answerUser}">

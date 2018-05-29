@@ -54,7 +54,7 @@
 	<spring:message code="offer.state" />: <jstl:out value="${stateVar}" /> <br/>
 	
 	<jstl:if test="${offer.presentationDate != null}" >
-		<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}" /> <br/>
+		<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}"  /> <br/>
 	</jstl:if>
 	<spring:message code="offer.amount" />: <jstl:out value="${offer.amount}" /> <br/>
 	<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${offer.commercial.id}"><jstl:out value="${offer.commercial.name} ${offer.commercial.surname}" /></a> <br/>
@@ -107,7 +107,7 @@
 		</div>
 	</display:column>
 
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
 
 	<display:column>
 		<div>
@@ -151,7 +151,7 @@
 		</div>
 	</display:column>	
 	
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
 
 	<display:column>
 		<div>
@@ -195,7 +195,7 @@
 		</div>
 	</display:column>	
 	
-	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" />
+	<acme:column property="lastReviewDate" title="subSection.lastReviewDate" format="display.date.time.format"/>
 
 	<display:column>
 		<div>
