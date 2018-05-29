@@ -42,7 +42,7 @@
 		<form:hidden path="section" />
 	</jstl:if>
 		
-	<acme:textbox code="subSection.order" path="subsectionOrder" />
+	<acme:input type="number" code="subSection.order" path="subsectionOrder" css="formInput"/>
 	<acme:textarea code="subSection.shortDescription" path="shortDescription" />
 	<acme:textarea code="subSection.text" path="body" />
 	<acme:textarea code="subSection.comments" path="comments" />
