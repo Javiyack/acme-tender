@@ -55,7 +55,8 @@
 		</jstl:if>
 	</jstl:if>
 
-	<jstl:if test="${tender.offer == null}" >
+	<jstl:set var="fechaActual" value="<%=new java.util.Date()%>"/>
+	<jstl:if test="${tender.offer == null && tender.maxPresentationDate lt fechaActual}" >
 		<security:authorize access="hasRole('COMMERCIAL')"> 
 			<acme:button url="offer/commercial/create.do?tenderId=${tender.id}" text="tender.create.offer" css="formButton toLeft"/>
 		</security:authorize>
@@ -100,8 +101,8 @@
 
 <display:table class="displaytag" name="comments"  id="row">
 
-	<acme:column property="writingDate" title="comment.writingDate" />
 	<acme:column property="text" title="comment.text" />
+	<acme:column property="writingDate" title="comment.writingDate" />
 
 	<spring:message code="comment.commercial" var="commentCommercial" />
 	<display:column title="${commentCommercial}">

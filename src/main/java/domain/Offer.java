@@ -106,6 +106,8 @@ public class Offer extends DomainEntity {
 
 	@Transient
 	public boolean isInDevelopment() {
+		if (this.getState() == null)
+			return false;
 
 		return this.getState().equals(Constant.OFFER_CREATED) || this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
 	}
@@ -116,6 +118,9 @@ public class Offer extends DomainEntity {
 
 	@Transient
 	public boolean isPublished() {
+		if (this.getState() == null)
+			return false;
+					
 		switch (this.getState()) {
 		case Constant.OFFER_PRESENTED:
 		case Constant.OFFER_WINNED:

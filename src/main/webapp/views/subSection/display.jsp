@@ -41,31 +41,38 @@
 </jstl:if>
 <acme:button text="subSection.back" url="/offer/display.do?offerId=${subSection.offer.id}" css="formButton toLeft" />
 
-<br/><br/>
-<h5>
-	<spring:message code="subSection.data.curriculums" />
-</h5>
 
-<display:table class="displaytag" name="curriculums" id="row">
+
+<jstl:if test="${subSection.section != 'ADMINISTRATIVE_ACREDITATION'}" >
+	<br/><br/>
+	<h5>
+		<spring:message code="subSection.data.curriculums" />
+	</h5>
 	
-	<acme:column property="name" title="curriculum.name" />
-	<acme:column property="surname" title="curriculum.surname" />
-	<acme:column property="dateOfBirth" title="curriculum.dateOfBirth" />
-	<acme:column property="minSalaryExpectation" title="curriculum.minSalaryExpectation" />
-
-	<display:column>
-		<div>
-			<a href="curriculum/display.do?curriculumId=${row.id}"> 
-				<spring:message code="curriculum.display" />
-			</a>
-		</div>
-	</display:column>
+	<display:table class="displaytag" name="curriculums" id="row">
 		
-</display:table>
-<br /><br/>
-<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
-	<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+		<acme:column property="name" title="curriculum.name" />
+		<acme:column property="surname" title="curriculum.surname" />
+		<acme:column property="dateOfBirth" title="curriculum.dateOfBirth" />
+		<acme:column property="minSalaryExpectation" title="curriculum.minSalaryExpectation" />
+	
+		<display:column>
+			<div>
+				<a href="curriculum/display.do?curriculumId=${row.id}"> 
+					<spring:message code="curriculum.display" />
+				</a>
+			</div>
+		</display:column>
+			
+	</display:table>
+	<br /><br/>
+	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
+		<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+	</jstl:if>
 </jstl:if>
+
+
+
 <br/><br/>
 <h5>
 	<spring:message code="subSection.data.files" />
@@ -91,6 +98,11 @@
 <jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
 	<acme:button text="file.create" url="/file/administrative/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
 </jstl:if>
+
+
+
+
+
 <br/><br/>
 <h5>
 	<spring:message code="subSection.data.evaluationCriterias" />

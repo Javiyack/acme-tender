@@ -47,6 +47,7 @@ public class AnswerService {
 		final Answer answer;
 
 		answer = new Answer();
+		answer.setActor(actor);
 		answer.setComment(comment);
 
 		return answer;

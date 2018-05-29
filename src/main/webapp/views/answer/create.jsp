@@ -14,6 +14,7 @@
 	<form:hidden path="version" />
 	<form:hidden path="writingDate" />
 	<form:hidden path="comment" />
+	<form:hidden path="actor" />
 
 	<acme:textbox code="answer.text" path="text" />
 	<br />
