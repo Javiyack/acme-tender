@@ -23,20 +23,25 @@
 
 <!-- Listing grid -->
 
+
+<spring:message code="category.parentCategory" />: 
+	<jstl:if test="${parent != null}" >
+		${parent.name} <br/><br/>
+	</jstl:if>
+	<jstl:if test="${parent == null}" >
+		<spring:message code="category.without.father" /> <br/><br/>
+	</jstl:if>
+	
+
 <display:table pagesize="5" class="displaytag" keepStatus="true" name="categories" requestURI="${requestUri}" id="row">
 
-	<spring:message code="category.name" var="nameHeader" />
-	<display:column title="${nameHeader}">
+	<acme:column property="name" title="category.name"/>
+	<acme:column property="description" title="category.description"/>
 
-		<spring:url
-			value="category/administrator/list.do?parentCategoryId=${row.id}"
-			var="tenderByCategoryURL" />
-		<a href="${tenderByCategoryURL}"><jstl:out value="${row.name}" /></a>
-
-	</display:column>
-
-	<spring:message code="category.parentCategory" var="columnHeader" />
-	<display:column property="fatherCategory.name" title="${columnHeader}">
+	<display:column>
+		<a href="category/administrator/list.do?parentCategoryId=${row.id}">
+			<spring:message code="category.childCategories" />
+		</a>
 	</display:column>
 
 	<spring:message code="category.edit" var="columnHeader" />
@@ -48,12 +53,20 @@
 
 </display:table>
 <br/><br/>
-<acme:button url="category/administrator/create.do" text="category.create" css="formButton toLeft"/>
+
+
+<jstl:if test="${parent != null}" >
+	<acme:button url="category/administrator/create.do?parentCategoryId=${parent.id}" text="category.create" css="formButton toLeft"/>
+</jstl:if>
+<jstl:if test="${parent == null}" >
+	<acme:button url="category/administrator/create.do" text="category.create" css="formButton toLeft"/>
+</jstl:if>
+
 
 <jstl:if test="${parent != null && parent.fatherCategory == null}" >
-	<acme:button url="category/administrator/list.do" text="msg.back" css="formButton toLeft" />
+	<acme:button url="category/administrator/list.do" text="category.move.to.up.level" css="formButton toLeft" />
 </jstl:if>
 <jstl:if test="${parent != null && parent.fatherCategory != null}" >
-	<acme:button url="category/administrator/list.do?parentCategoryId=${parent.fatherCategory.id}" text="msg.back" css="formButton toLeft" />
+	<acme:button url="category/administrator/list.do?parentCategoryId=${parent.fatherCategory.id}" text="category.move.to.up.level" css="formButton toLeft" />
 </jstl:if>
 

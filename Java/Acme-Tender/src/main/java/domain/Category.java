@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 public class Category extends DomainEntity {
 
 	private String	name;
+	private String description;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -28,8 +29,21 @@ public class Category extends DomainEntity {
 		this.name = name;
 	}
 	
-	//Relationships
 	
+	
+	//Relationships
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	@NotBlank
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
 	private Category fatherCategory;
 
 	@Valid

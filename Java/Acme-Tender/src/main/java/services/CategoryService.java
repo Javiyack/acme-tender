@@ -27,12 +27,18 @@ public class CategoryService {
 	//CRUDS
 
 	//Create
-	public Category create() {
+	public Category create(Integer parentCategoryId) {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 
 		Category result;
 		result = new Category();
+		
+		if (parentCategoryId == null)
+			result.setFatherCategory(null);
+		else
+			result.setFatherCategory(this.findOne(parentCategoryId));
+		
 		return result;
 	}
 	//Save
@@ -47,15 +53,14 @@ public class CategoryService {
 	}
 	//Delete
 	public void delete(final Category category) {
+		Assert.notNull(category);
+		
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
-		Assert.isNull(this.categoryRepository.haveTender(category.getId()), "category.delete.error");
-		Assert.notNull(category);
-		Assert.isTrue(this.getChildCategories(category.getId()).isEmpty());
-		Collection<Category> childCategories;
-		childCategories = this.categoryRepository.getChildCategories(category.getId());
-		if (!childCategories.isEmpty())
-			this.categoryRepository.delete(childCategories);
+		
+		Assert.isNull(this.categoryRepository.haveTender(category.getId()), "category.cannot.delete.because.has.tender");
+		Assert.isTrue(this.getChildCategories(category.getId()).size() == 0, "category.cannot.delete.because.has.childs");
+
 		this.categoryRepository.delete(category);
 	}
 	//findOne

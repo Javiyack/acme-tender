@@ -32,12 +32,12 @@ public class CategoryAdministratorController extends AbstractController {
 
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam (required=false) Integer parentCategoryId) {
 
 		ModelAndView result;
 		Category category;
-
-		category = this.categoryService.create();
+		
+		category = this.categoryService.create(parentCategoryId);
 		result = this.createEditModelAndView(category);
 
 		return result;
@@ -67,7 +67,11 @@ public class CategoryAdministratorController extends AbstractController {
 		else
 			try {
 				this.categoryService.save(category);
-				result = new ModelAndView("redirect:/category/administrator/list.do");
+				if (category.getFatherCategory() == null)
+					result = new ModelAndView("redirect:/category/administrator/list.do");
+				else
+					result = new ModelAndView("redirect:/category/administrator/list.do?parentCategoryId=" + category.getFatherCategory().getId());
+					
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(category, "category.commit.error");
 			}
@@ -84,7 +88,13 @@ public class CategoryAdministratorController extends AbstractController {
 			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/category/administrator/list.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(category, "category.delete.error");
+			
+			if (oops.getMessage() == "category.cannot.delete.because.has.childs")
+				result = this.createEditModelAndView(category, "category.cannot.delete.because.has.childs");
+			else if (oops.getMessage() == "category.cannot.delete.because.has.tender")
+				result = this.createEditModelAndView(category, "category.cannot.delete.because.has.tender");
+			else
+				result = this.createEditModelAndView(category, "category.commit.error");
 		}
 
 		return result;
@@ -130,16 +140,13 @@ public class CategoryAdministratorController extends AbstractController {
 		ModelAndView result;
 		Collection<Category> categories;
 
-		result = new ModelAndView("category/administrator/edit");
-		categories = this.categoryService.findAll();
-		categories.remove(category);
-		
-		Boolean haveChilds = !this.categoryService.getChildCategories(category.getId()).isEmpty();
-		result.addObject("haveChilds", haveChilds);
-		
+		if (category.getId() == 0)
+			result = new ModelAndView("category/administrator/create");
+		else
+			result = new ModelAndView("category/administrator/edit");
+
 		result.addObject("category", category);
 		result.addObject("message", message);
-		result.addObject("categories", categories);
 
 		return result;
 	}
