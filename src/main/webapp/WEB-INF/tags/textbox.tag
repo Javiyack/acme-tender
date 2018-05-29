@@ -38,6 +38,13 @@
 	<jstl:set var="placeholder" value="" />
 </jstl:if>
 
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formInput" />
+</jstl:if>
+
 <%-- Definition --%>
 
 <div>
@@ -45,6 +52,6 @@
 		<spring:message code="${code}" />
 	</form:label>
 	<form:input path="${path}" readonly="${readonly}" placeholder="${placeholder}" 
-		class="${css}" title="${value}"/>
+		class="${cssVar}" title="${value}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>

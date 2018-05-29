@@ -16,7 +16,7 @@
 	<form:hidden path="comment" />
 	<form:hidden path="actor" />
 
-	<acme:textbox code="answer.text" path="text" />
+	<acme:textarea code="answer.text" path="text" />
 	<br />
 
 	<acme:submit name="save" code="answer.save" css="formButton toLeft" />&nbsp;

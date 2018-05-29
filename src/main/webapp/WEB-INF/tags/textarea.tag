@@ -40,6 +40,14 @@
 	<jstl:set var="placeholder" value="" />
 </jstl:if>
 
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formTextArea" />
+</jstl:if>
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+
+
 <%-- Definition --%>
 
 <div class="form-group">
@@ -47,6 +55,6 @@
 		<spring:message code="${code}" />
 	</form:label>
 	<form:textarea path="${path}" readonly="${readonly}" id="${id}"
-		class="${css}" style="display:${visible}" placeholder="${placeholder}"/>
+		class="${cssVar}" style="display:${visible}" placeholder="${placeholder}"/>
 	<form:errors path="${path}" cssClass="error" />
 </div>

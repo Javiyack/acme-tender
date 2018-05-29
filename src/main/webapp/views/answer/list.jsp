@@ -18,13 +18,13 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-
-<b><spring:message code="answer.comment" /></b><br/>
+<fieldset>
+	<legend><spring:message code="answer.comment" /></legend>
 
 	<spring:message code="comment.text" />: <jstl:out value="${comment.text}"/>  <br/>
 	<spring:message code="comment.writingDate" />: <jstl:out value="${comment.writingDate}" />  <br/>
+</fieldset>
 
-<br/>
 <display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 
 	<acme:column property="text" title="answer.text" />
