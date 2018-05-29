@@ -25,7 +25,45 @@
 
 	<acme:column property="tender.reference" title="offer.tender.reference" />
 	<acme:column property="tender.title" title="offer.tender.title" />
-	<acme:column property="state" title="subSection.offer.state" />
+	
+	<jstl:choose>
+		<jstl:when test="${row.state eq 'CREATED' }">
+			<spring:message code="offer.state.created"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'IN_DEVELOPMENT' }">
+			<spring:message code="offer.state.indevelopment"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'ABANDONED' }">
+			<spring:message code="offer.state.abandoned"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'PRESENTED' }">
+			<spring:message code="offer.state.presented"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'WINNED' }">
+			<spring:message code="offer.state.won"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'LOSED' }">
+			<spring:message code="offer.state.lost"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'CHALLENGED' }">
+			<spring:message code="offer.state.challenged"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${row.state eq 'DENIED' }">
+			<spring:message code="offer.state.denied"
+				var="stateVar" />
+		</jstl:when>
+	</jstl:choose>
+	<spring:message code="offer.state" var="codeStateVar"/>
+	<display:column value="${stateVar}" title="${codeStateVar}"
+		sortable="true" />
+		
 	<acme:column property="amount" title="offer.amount" />
 
 	<spring:message code="offer.commercial" var="offerCommercial" />

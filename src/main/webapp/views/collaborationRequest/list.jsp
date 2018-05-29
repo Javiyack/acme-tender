@@ -18,7 +18,21 @@
 	
 	<acme:column property="offer.tender.reference" title="collaborationRequest.tender.reference" sortable="true" />
 	
-	<acme:column property="section" title="collaborationRequest.section" sortable="true" />
+	
+	
+	<jstl:choose>
+		<jstl:when test="${row.section eq 'TECHNICAL_OFFER' }">
+			<spring:message code="collaborationRequest.section.technicaloffer"
+				var="sectionVar" />
+		</jstl:when>
+		<jstl:when test="${row.section eq 'ECONOMICAL_OFFER' }">
+			<spring:message code="collaborationRequest.section.economicaloffer"
+				var="sectionVar" />
+		</jstl:when>
+	</jstl:choose>
+	<spring:message code="collaborationRequest.section" var="codeSectionVar"/>
+	<display:column value="${sectionVar}" title="${codeSectionVar}"
+		sortable="true" />
 	
 	<acme:column property="subSectionTitle" title="collaborationRequest.subSectionTitle" sortable="true" />
 

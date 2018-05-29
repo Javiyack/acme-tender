@@ -16,7 +16,43 @@
 	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.reference}" /></a> <br/>
 	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.title}" /></a> <br/>
 
-	<spring:message code="offer.state" />: <jstl:out value="${offer.state}" /> <br/>
+
+<jstl:choose>
+		<jstl:when test="${offer.state eq 'CREATED' }">
+			<spring:message code="offer.state.created"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'IN_DEVELOPMENT' }">
+			<spring:message code="offer.state.indevelopment"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'ABANDONED' }">
+			<spring:message code="offer.state.abandoned"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'PRESENTED' }">
+			<spring:message code="offer.state.presented"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'WINNED' }">
+			<spring:message code="offer.state.won"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'LOSED' }">
+			<spring:message code="offer.state.lost"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'CHALLENGED' }">
+			<spring:message code="offer.state.challenged"
+				var="stateVar" />
+		</jstl:when>
+		<jstl:when test="${offer.state eq 'DENIED' }">
+			<spring:message code="offer.state.denied"
+				var="stateVar" />
+		</jstl:when>
+	</jstl:choose>
+	<spring:message code="offer.state" />: <jstl:out value="${stateVar}" /> <br/>
+	
 	<jstl:if test="${offer.presentationDate != null}" >
 		<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}" /> <br/>
 	</jstl:if>

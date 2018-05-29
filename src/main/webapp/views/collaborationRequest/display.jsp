@@ -25,7 +25,20 @@
 	</jstl:when>
 	</jstl:choose>
 	
-	<spring:message code="collaborationRequest.section" />: <jstl:out value="${collaborationRequest.section} "/> <br/>
+	
+	<jstl:choose>
+		<jstl:when test="${collaborationRequest.section eq 'TECHNICAL_OFFER' }">
+			<spring:message code="collaborationRequest.section.technicaloffer"
+				var="sectionVar" />
+		</jstl:when>
+		<jstl:when test="${collaborationRequest.section eq 'ECONOMICAL_OFFER' }">
+			<spring:message code="collaborationRequest.section.economicaloffer"
+				var="sectionVar" />
+		</jstl:when>
+	</jstl:choose>
+	<spring:message code="collaborationRequest.section"/>:
+	<jstl:out value="${sectionVar} "/>
+	 <br/>
 	
 	<spring:message code="collaborationRequest.subSectionTitle" />: <jstl:out value="${collaborationRequest.subSectionTitle} "/> <br/>
 	
