@@ -57,6 +57,21 @@ public class DashboardExecutiveController extends AbstractController {
 		final Collection<Object> consultaC1 = this.executiveService.numberTenderByAdministrative();
 		result.addObject("c1Datos", consultaC1);
 
+		final Collection<Object> consultaC2 = this.executiveService.tendersByInterestLevel();
+		result.addObject("c2Datos", consultaC2);
+
+		final Collection<Object> consultaC3 = this.executiveService.offersByState();
+		result.addObject("c3Datos", consultaC3);
+
+		final Collection<Object> consultaC4 = this.executiveService.offersByStateAndCommercial();
+		result.addObject("c4Datos", consultaC4);
+
+		final Collection<Object> consultaC5 = this.executiveService.offersByStateRatio();
+		result.addObject("c5Datos", consultaC5);
+
+		final Collection<Object> consultaC6 = this.executiveService.offersByStateAndCommercialRatio();
+		result.addObject("c6Datos", consultaC6);
+
 		return result;
 	}
 }

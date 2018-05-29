@@ -46,6 +46,17 @@
 		</div>
 	</display:column>
 	
+	<jstl:if test="${myTender}">
+		<display:column>
+		<div>
+			<a href="tenderResult/administrative/display.do?tenderId=${row.id}">
+				<spring:message code="tender.tenderResult.display" />
+			</a>
+		</div>
+	</display:column>
+	</jstl:if>
+	
+	<jstl:if test="${anonymous}">
 	<display:column>
 		<div>
 			<a href="tenderResult/display.do?tenderId=${row.id}">
@@ -53,6 +64,7 @@
 			</a>
 		</div>
 	</display:column>
+	</jstl:if>
 
 </display:table>
 <br/><br/>
