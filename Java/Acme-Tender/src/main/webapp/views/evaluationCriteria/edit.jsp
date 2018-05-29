@@ -16,7 +16,7 @@
 
 	<acme:textbox path="title" code="evaluationCriteria.title" />
 	<acme:textarea path="description" code="evaluationCriteria.description" />
-	<acme:textbox path="maxScore" code="evaluationCriteria.maxScore" />
+	<acme:input type="number" path="maxScore" code="evaluationCriteria.maxScore" css="formInput"/>
 	<acme:select itemLabel="name" blankValue="false" items="${evaluationCriteriaTypes}" path="evaluationCriteriaType" code="evaluationCriteria.evaluationCriteriaType" id="id"/>
 
 	<br/>

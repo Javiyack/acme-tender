@@ -19,7 +19,6 @@
 
 <jstl:if test="${evaluationCriteria.tender.administrative.id == actor.id}" >
 	<acme:button url="evaluationCriteria/administrative/edit.do?evaluationCriteriaId=${evaluationCriteria.id}" text="evaluationCriteria.edit" css="formButton toLeft" />
-	<acme:button url="evaluationCriteria/administrative/delete.do?evaluationCriteriaId=${evaluationCriteria.id}" text="evaluationCriteria.delete" css="formButton toLeft" />
 </jstl:if>
 <acme:button url="tender/display.do?tenderId=${evaluationCriteria.tender.id}" text="evaluationCriteria.back" css="formButton toLeft" />
 
