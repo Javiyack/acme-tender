@@ -17,8 +17,8 @@
 	<form:hidden path="fatherCategory" />
 	
 	
-	<acme:textbox code="category.name" path="name"/>
-	<acme:textbox code="category.description" path="description"/>
+	<acme:textbox code="category.name" path="name" />
+	<acme:textarea code="category.description" path="description"/>
 
 	<br/><br/>
 	

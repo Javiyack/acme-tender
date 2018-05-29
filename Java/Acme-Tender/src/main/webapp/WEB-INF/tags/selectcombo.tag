@@ -43,6 +43,12 @@
 	<jstl:set var="id" value="${UUID.randomUUID().toString()}" />
 </jstl:if>
 
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formInput" />
+</jstl:if>
 
 <%-- Definition --%>
 
@@ -51,7 +57,7 @@
 		<spring:message code="${code}" />
 	</form:label>
 	
-	<form:select id="${id}" path="${path}" disabled="${readonly}" class="${css}">
+	<form:select id="${id}" path="${path}" disabled="${readonly}" class="${cssVar}">
 		
 		<jstl:if test="${blankValue}">
 			<form:option value="" label="" />

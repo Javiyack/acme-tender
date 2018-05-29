@@ -12,69 +12,73 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-
+<fieldset>
+	<legend><spring:message code="offer.tender.data" /></legend>
 	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.reference}" /></a> <br/>
 	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${offer.tender.id}"><jstl:out value="${offer.tender.title}" /></a> <br/>
+</fieldset>
 
-
-<jstl:choose>
-		<jstl:when test="${offer.state eq 'CREATED' }">
-			<spring:message code="offer.state.created"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'IN_DEVELOPMENT' }">
-			<spring:message code="offer.state.indevelopment"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'ABANDONED' }">
-			<spring:message code="offer.state.abandoned"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'PRESENTED' }">
-			<spring:message code="offer.state.presented"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'WINNED' }">
-			<spring:message code="offer.state.won"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'LOSED' }">
-			<spring:message code="offer.state.lost"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'CHALLENGED' }">
-			<spring:message code="offer.state.challenged"
-				var="stateVar" />
-		</jstl:when>
-		<jstl:when test="${offer.state eq 'DENIED' }">
-			<spring:message code="offer.state.denied"
-				var="stateVar" />
-		</jstl:when>
-	</jstl:choose>
-	<spring:message code="offer.state" />: <jstl:out value="${stateVar}" /> <br/>
+<fieldset>
+	<legend><spring:message code="offer.data" /></legend>
+	<jstl:choose>
+			<jstl:when test="${offer.state eq 'CREATED' }">
+				<spring:message code="offer.state.created"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'IN_DEVELOPMENT' }">
+				<spring:message code="offer.state.indevelopment"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'ABANDONED' }">
+				<spring:message code="offer.state.abandoned"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'PRESENTED' }">
+				<spring:message code="offer.state.presented"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'WINNED' }">
+				<spring:message code="offer.state.won"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'LOSED' }">
+				<spring:message code="offer.state.lost"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'CHALLENGED' }">
+				<spring:message code="offer.state.challenged"
+					var="stateVar" />
+			</jstl:when>
+			<jstl:when test="${offer.state eq 'DENIED' }">
+				<spring:message code="offer.state.denied"
+					var="stateVar" />
+			</jstl:when>
+		</jstl:choose>
+		<spring:message code="offer.state" />: <jstl:out value="${stateVar}" /> <br/>
+		
+		<jstl:if test="${offer.presentationDate != null}" >
+			<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}"  /> <br/>
+		</jstl:if>
+		<spring:message code="offer.amount" />: <jstl:out value="${offer.amount}" /> <br/>
+		<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${offer.commercial.id}"><jstl:out value="${offer.commercial.name} ${offer.commercial.surname}" /></a> <br/>
+		<spring:message code="offer.comision" />: <jstl:out value="${offer.amount * (benefitsPercentage/100)}" /> <br/>
+		<jstl:if test="${offer.denialReason != null}" >
+			<spring:message code="offer.denialReason" />: <jstl:out value="${offer.denialReason}" /> <br/>
+		</jstl:if>
 	
-	<jstl:if test="${offer.presentationDate != null}" >
-		<spring:message code="offer.presentationDate" />: <jstl:out value="${offer.presentationDate}"  /> <br/>
+	<br/>
+	<jstl:if test="${offer.commercial.id == actor.id}" >
+		<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
 	</jstl:if>
-	<spring:message code="offer.amount" />: <jstl:out value="${offer.amount}" /> <br/>
-	<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${offer.commercial.id}"><jstl:out value="${offer.commercial.name} ${offer.commercial.surname}" /></a> <br/>
-	<spring:message code="offer.comision" />: <jstl:out value="${offer.amount * (benefitsPercentage/100)}" /> <br/>
-	<jstl:if test="${offer.denialReason != null}" >
-		<spring:message code="offer.denialReason" />: <jstl:out value="${offer.denialReason}" /> <br/>
+	
+	<jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
+		<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+		<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
 	</jstl:if>
-
+	
+	<acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
+</fieldset>
 <br/>
-<jstl:if test="${offer.commercial.id == actor.id}" >
-	<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
-</jstl:if>
-
-<jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
-	<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-	<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
-</jstl:if>
-
-<acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
-<br/><br/>
 
 <h5>
 	<spring:message code="offer.administrative_acreditation" />
