@@ -35,7 +35,7 @@
 	<acme:textarea code="curriculum.text" path="text" />
 	<br />
 	
-	<acme:textbox code="curriculum.minSalaryExpectation" path="minSalaryExpectation" />
+	<acme:input type="number" code="curriculum.minSalaryExpectation" path="minSalaryExpectation" css="formInput"/>
 	<br />
 
 	<acme:submit name="save" code="curriculum.save" css="formButton toLeft" />&nbsp;
