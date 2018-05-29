@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.EvaluationCriteria;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
+import services.ActorService;
 import services.EvaluationCriteriaService;
 import services.SubSectionEvaluationCriteriaService;
 import services.SubSectionService;
@@ -33,6 +36,8 @@ public class SubSectionEvaluationCriteriaCommercialController extends AbstractCo
 	private EvaluationCriteriaService			evaluationCriteriaService;
 	@Autowired
 	private SubSectionService					subSectionService;
+	@Autowired
+	private ActorService actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -62,6 +67,9 @@ public class SubSectionEvaluationCriteriaCommercialController extends AbstractCo
 	public ModelAndView edit(@RequestParam final int subSectionEvaluationCriteriaId) {
 		ModelAndView result;
 		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.findOne(subSectionEvaluationCriteriaId);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().getId() == actor.getId());
 
 		result = this.createEditModelAndView(subSectionEvaluationCriteria);
 		return result;
@@ -90,6 +98,9 @@ public class SubSectionEvaluationCriteriaCommercialController extends AbstractCo
 		ModelAndView result;
 
 		try {
+			Actor actor = this.actorService.findByPrincipal();
+			Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().getId() == actor.getId());			
+			
 			this.subSectionEvaluationCriteriaService.delete(subSectionEvaluationCriteria);
 			result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + subSectionEvaluationCriteria.getSubSection().getId());
 

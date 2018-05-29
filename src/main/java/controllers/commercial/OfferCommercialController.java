@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +61,9 @@ public class OfferCommercialController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int offerId) {
 		ModelAndView result;
 		final Offer offer = this.offerService.findOne(offerId);
+
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(offer.getCommercial().getId() == actor.getId());
 
 		result = this.createEditModelAndView(offer);
 		return result;

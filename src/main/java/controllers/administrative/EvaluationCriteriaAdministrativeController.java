@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
 import domain.Tender;
+import services.ActorService;
 import services.EvaluationCriteriaService;
 import services.EvaluationCriteriaTypeService;
 import services.TenderService;
@@ -33,6 +36,8 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	private EvaluationCriteriaTypeService	evaluationCriteriaTypeService;
 	@Autowired
 	private TenderService					tenderService;
+	@Autowired
+	private ActorService actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -45,6 +50,10 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	public ModelAndView create(@RequestParam final int tenderId) {
 
 		final ModelAndView result = new ModelAndView("evaluationCriteria/administrative/create");
+		
+		Tender tender = this.tenderService.findOne(tenderId);
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
 
 		final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.create(tenderId);
 		result.addObject("evaluationCriteria", evaluationCriteria);
@@ -62,6 +71,9 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	public ModelAndView edit(@RequestParam final int evaluationCriteriaId) {
 		ModelAndView result;
 		final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationCriteriaId);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());		
 
 		result = this.createEditModelAndView(evaluationCriteria);
 		return result;
@@ -90,6 +102,9 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 		ModelAndView result;
 
 		try {
+			Actor actor = this.actorService.findByPrincipal();
+			Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());	
+			
 			this.evaluationCriteriaService.delete(evaluationCriteria);
 			result = new ModelAndView("redirect:/tender/display.do?tenderId=" + evaluationCriteria.getTender().getId());
 
