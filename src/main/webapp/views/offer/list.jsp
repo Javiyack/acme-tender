@@ -64,7 +64,13 @@
 	<display:column value="${stateVar}" title="${codeStateVar}"
 		sortable="true" />
 		
-	<acme:column property="amount" title="offer.amount" />
+	<spring:message code="offer.amount" var="titleOfferAmount"/>
+	<display:column title="${titleOfferAmount}" >
+		<fmt:formatNumber value="${row.amount}" pattern="${formpriceformat}" var="varOfferAmount" />
+		<div>
+			${varOfferAmount} <spring:message code="currency.symbol" />
+		</div>
+	</display:column>	
 
 	<spring:message code="offer.commercial" var="offerCommercial" />
 	<display:column title="${offerCommercial}">
@@ -80,10 +86,11 @@
 		</div>
 	</display:column>
 
-	<spring:message code="offer.comision" var="varOfferComision"/>
-	<display:column title="${varOfferComision}">
+	<spring:message code="offer.comision" var="titleOfferComision"/>
+	<display:column title="${titleOfferComision}" >
+		<fmt:formatNumber value="${row.amount * (benefitsPercentaje/100)}" pattern="${formpriceformat}" var="varOfferComision" />
 		<div>
-			${row.amount * (benefitsPercentaje/100)}
+			${varOfferComision} <spring:message code="currency.symbol" />
 		</div>
 	</display:column>
 

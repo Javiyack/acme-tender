@@ -113,8 +113,6 @@
 	<!-- 2+ Roles -->
 
 	<security:intercept-url pattern="/myMessage/**" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE','ADMIN','EXECUTIVE')" />
-	<security:intercept-url pattern="/curriculum/list.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
-	<security:intercept-url pattern="/curriculum/display.do" access="hasAnyRole('COMMERCIAL','ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/administrativeRequest/edit.do" access="hasAnyRole('COMMERCIAL', 'ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/administrativeRequest/display.do" access="hasAnyRole('COMMERCIAL', 'ADMINISTRATIVE')" />
 

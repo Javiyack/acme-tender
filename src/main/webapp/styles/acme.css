@@ -179,6 +179,7 @@ body {
 	white-space: nowrap;
 	margin-left: 3px;
 	margin-right: 3px;
+	margin-top: 15px;
 }
 
 .center {
@@ -208,6 +209,10 @@ body {
 		rgba(0, 0, 0, 0.19);
 	box-sizing: border-box;
 	padding: 2px;
+}
+
+legend {
+	font-weight: bold;
 }
 
 h4 {

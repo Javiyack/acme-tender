@@ -8,26 +8,22 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<spring:message code="date.pattern" var="momentFormat" />
-<fmt:formatDate value="${curriculum.dateOfBirth}" pattern="${momentFormat}" var="momentVar" />
 
-	<spring:message code="curriculum.name" />: <jstl:out value="${curriculum.name}"/>  <br/>
-	<spring:message code="curriculum.surname" />: <jstl:out value="${curriculum.surname}"/>  <br/>
-	<spring:message code="curriculum.identificationNumber" />: <jstl:out value="${curriculum.identificationNumber}" /> <br/>
-	<spring:message code="curriculum.phone" />: <jstl:out value="${curriculum.phone} "/> <br/>
-	<spring:message code="curriculum.email" />: <jstl:out value="${curriculum.email}" /> <br/>
-	<spring:message code="curriculum.dateOfBirth" />: <jstl:out value="${momentVar} "/> <br/>
-	<spring:message code="curriculum.minSalaryExpectation" />: <jstl:out value="${curriculum.minSalaryExpectation} "/> <br/>
+<acme:labelvalue code="curriculum.name" value="${curriculum.name}"/> 
+<acme:labelvalue code="curriculum.surname" value="${curriculum.surname}"/> 
+<acme:labelvalue code="curriculum.identificationNumber"  value="${curriculum.identificationNumber}" />
+<acme:labelvalue code="curriculum.phone"  value="${curriculum.phone}"/> 
+<acme:labelvalue code="curriculum.email"  value="${curriculum.email}" /> 
+<acme:labelvalue code="curriculum.dateOfBirth"  value="${curriculum.dateOfBirth}" /> 
+<acme:labelvalue code="curriculum.minSalaryExpectation" value="${curriculum.minSalaryExpectation}" isCurrency="true"/> 
+<acme:labelvalue code="curriculum.text"  value="${curriculum.text}" /> 
 
-	<spring:message code="curriculum.text" />: <br/>
-		<div class="dashboard">
-			<jstl:out value="${curriculum.text}"/>
-		</div>
-<br>
+<br/>
 
 <jstl:if test="${curriculum.subSection.offer.inDevelopment && curriculum.subSection.commercial.id == actorId}" >
 	<acme:button url="curriculum/edit.do?curriculumId=${curriculum.id}" text="curriculum.edit" css="formButton toLeft" />
 </jstl:if>
 <acme:button url="subSection/display.do?subSectionId=${curriculum.subSection.id}" text="curriculum.back" css="formButton toLeft" />
 
+&nbsp;
 

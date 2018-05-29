@@ -12,36 +12,34 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
+<fieldset>
+	<legend><spring:message code="tender.data" /></legend>
+	<acme:labelvalue code="offer.tender.reference" value="${subSection.offer.tender.reference}" />
+	<acme:labelvalue code="offer.tender.title"  value="${subSection.offer.tender.title}" />
+	<acme:labelvalue code="subSection.offer.state" value="${subSection.offer.state}" />
+</fieldset>
 
-<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.reference}" /></a> <br/>
-<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.title}" /></a> <br/>
-<spring:message code="subSection.offer.state" />: <jstl:out value="${subSection.offer.state}" /> <br/>
+<fieldset>
+	<legend><spring:message code="subSection.data" /></legend>
 
-<br/>
+	<acme:labelvalue code="subSection.title" value="${subSection.title}" />
+	<acme:labelvalue code="subSection.section"  value="${subSection.section}" /> 
+	<acme:labelvalue code="subSection.order"  value="${subSection.subsectionOrder}" />
+	<acme:labelvalue code="subSection.shortDescription"  value="${subSection.shortDescription}" />
+	<acme:labelvalue code="subSection.text"  value="${subSection.body}" /> 
+	<acme:labelvalue code="subSection.lastReviewDate"  value="${subSection.lastReviewDate}" isDatetime="true" /> 
+	<acme:labelvalue code="subSection.comments"  value="${subSection.comments}" /> 
+	<br/><br/>
 
-<h5>
-	<spring:message code="subSection.data" />
-</h5>
+	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
+		<acme:button text="subSection.edit" url="/subSection/commercial/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+	</jstl:if>
+	<jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
+		<acme:button text="subSection.edit" url="/subSection/administrative/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+	</jstl:if>
+	<acme:button text="subSection.back" url="/offer/display.do?offerId=${subSection.offer.id}" css="formButton toLeft" />
 
-<spring:message code="subSection.title" />: <jstl:out value="${subSection.title}" /> <br/>
-<spring:message code="subSection.section" />: <jstl:out value="${subSection.section}" /> <br/>
-<spring:message code="subSection.order" />: <jstl:out value="${subSection.subsectionOrder}" /> <br/>
-<spring:message code="subSection.shortDescription" />: <jstl:out value="${subSection.shortDescription}" /> <br/>
-<spring:message code="subSection.text" />: <jstl:out value="${subSection.body}" /> <br/>
-<spring:message code="subSection.lastReviewDate" />: <jstl:out value="${subSection.lastReviewDate}" /> <br/>
-<spring:message code="subSection.comments" />: <jstl:out value="${subSection.comments}" /> <br/>
-
-<br />
-
-<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
-	<acme:button text="subSection.edit" url="/subSection/commercial/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
-</jstl:if>
-<jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
-	<acme:button text="subSection.edit" url="/subSection/administrative/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
-</jstl:if>
-<acme:button text="subSection.back" url="/offer/display.do?offerId=${subSection.offer.id}" css="formButton toLeft" />
-
-
+</fieldset>
 
 <jstl:if test="${subSection.section != 'ADMINISTRATIVE_ACREDITATION'}" >
 	<br/><br/>
