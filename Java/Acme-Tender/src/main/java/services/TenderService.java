@@ -68,7 +68,6 @@ public class TenderService {
 		Tender savedTender;
 
 		// Restrictions dates
-		//		Assert.isTrue(tender.getBulletinDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid bulletinDate");
 		Assert.isTrue(tender.getOpeningDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid openingDate");
 		Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
 

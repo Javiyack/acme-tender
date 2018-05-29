@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.OfferRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.AdministrativeRequest;
@@ -20,6 +19,7 @@ import domain.Executive;
 import domain.Offer;
 import domain.SubSection;
 import domain.Tender;
+import repositories.OfferRepository;
 
 @Service
 @Transactional
@@ -159,9 +159,14 @@ public class OfferService {
 		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
 
-		Offer result;
-		result = this.offerRepository.save(offer);
+		final Offer result = this.offerRepository.save(offer);
 
+		if (offer.getId() == 0) {
+			// Guardamos la oferta en el concurso
+			final Tender tender = result.getTender();
+			tender.setOffer(result);
+			this.tenderService.save(tender);
+		}
 		return result;
 	}
 
