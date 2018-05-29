@@ -539,7 +539,7 @@
 		</property>
 		<property name="comments" value="" />
 		<property name="offer" ref="offer1" />
-		<property name="administrative" ref="administrative1" />
+		<property name="commercial" ref="commercial1" />
 
 	</bean>
 
@@ -595,7 +595,7 @@
 	</bean>	
 	
 	<bean id="subsection5" class="domain.SubSection">
-		<property name="title" value="Presupuesto" />
+		<property name="title" value="Costes" />
 		<property name="section" value="ECONOMICAL_OFFER" />
 		<property name="subsectionOrder" value="1" />
 		<property name="shortDescription" value="Oferta económica del sistema de información Web" />
@@ -607,7 +607,7 @@
 		</property>
 		<property name="comments" value="Precio segun tarifas estándares de la empresa - 10% (hablado con directivo)" />
 		<property name="offer" ref="offer1" />
-		<property name="commercial" ref="commercial2" />
+		<property name="commercial" ref="commercial1" />
 
 	</bean>	
 	
@@ -624,7 +624,7 @@
 		</property>
 		<property name="comments" value="" />
 		<property name="offer" ref="offer2" />
-		<property name="administrative" ref="administrative2" />
+		<property name="commercial" ref="commercial1" />
 	</bean>	
 
 	<bean id="subsection7" class="domain.SubSection">
@@ -981,11 +981,11 @@
 	
 	<bean id="collaborationrequest2" class="domain.CollaborationRequest">
 		<property name="benefitsPercentage" value="10" />
-		<property name="section" value="TECHNICAL_OFFER" />
+		<property name="section" value="ECONOMICAL_OFFER" />
 		<property name="requirements" value="La parte del Acerca de... bien comentada." />
 		<property name="numberOfPages" value="4" />
 		
-		<property name="subSectionTitle" value="Contenido de Acerca de..." />
+		<property name="subSectionTitle" value="Presupuesto" />
 		<property name="subSectionDescription" value="El contenido de dicha parte de la web" />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
@@ -997,8 +997,6 @@
 				<constructor-arg value="10/05/2019" />
 			</bean>
 		</property>
-		<property name="accepted" value="false" />
-		<property name="rejectedReason" value="Me parece un porcentaje de beneficios demasiado bajo, aparte de que da poco tiempo para hacerlo." />
 		<property name="commercial" ref="commercial2" />
 		<property name="offer" ref="offer1" />
 	</bean>		
@@ -1018,7 +1016,6 @@
 				<constructor-arg value="15/08/2018" />
 			</bean>
 		</property>
-		<property name="accepted" value="true" />
 		<property name="administrative" ref="administrative1" />
 		<property name="offer" ref="offer1" />
 	</bean>
@@ -1036,7 +1033,6 @@
 				<constructor-arg value="15/09/2018" />
 			</bean>
 		</property>
-		<property name="accepted" value="true" />
 		<property name="rejectedReason" value="" />
 		<property name="administrative" ref="administrative2" />
 		<property name="offer" ref="offer2" />		
