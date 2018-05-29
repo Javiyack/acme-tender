@@ -52,7 +52,6 @@
 	
 	<security:intercept-url pattern="/folder/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/profile/actor/**" access="isAuthenticated()" />
-	<security:intercept-url pattern="/answer/actor/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/file/**" access="isAuthenticated()" />
 	
 	<security:intercept-url pattern="/actor/list.do" access="isAuthenticated()" />
@@ -63,11 +62,19 @@
 	<security:intercept-url pattern="/tender/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tenderResult/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tender/search.do" access="isAuthenticated()" />
-	<security:intercept-url pattern="/comment/list.do" access="isAuthenticated()" />
-	<security:intercept-url pattern="/offer/**" access="isAuthenticated()" />
+	<security:intercept-url pattern="/tender/searchResult.do" access="isAuthenticated()" />
+
+	<security:intercept-url pattern="/offer/list.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/offer/display.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/offer/search.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/offer/searchResult.do" access="isAuthenticated()" />	
+
 	<security:intercept-url pattern="/subSection/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/subSectionEvaluationCriteria/**" access="isAuthenticated()" />
 	<security:intercept-url pattern="/evaluationCriteria/**" access="isAuthenticated()" />			
+
+	<security:intercept-url pattern="/curriculum/display.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/answer/**" access="isAuthenticated()" />
 	
 	<!-- Executive -->
 	
@@ -76,6 +83,8 @@
 	
 	<!-- Commercial -->
 	
+	<security:intercept-url pattern="/offer/commercial/**" access="hasRole('COMMERCIAL')" />
+	<security:intercept-url pattern="/tender/commercial/**" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/comment/commercial/**" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/curriculum/create.do" access="hasRole('COMMERCIAL')" />
 	<security:intercept-url pattern="/curriculum/edit.do" access="hasRole('COMMERCIAL')" />
@@ -88,6 +97,7 @@
 	
 	<security:intercept-url pattern="/tenderResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/tender/administrative/**" access="hasRole('ADMINISTRATIVE')" />
+	<security:intercept-url pattern="/offer/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/companyResult/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/evaluationCriteria/administrative/**" access="hasRole('ADMINISTRATIVE')" />
 	<security:intercept-url pattern="/evaluationCriteriaType/administrative/**" access="hasRole('ADMINISTRATIVE')" />

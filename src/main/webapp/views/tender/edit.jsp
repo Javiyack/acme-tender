@@ -69,7 +69,14 @@
 	<br />
 	
 	<acme:submit name="save" code="tenderResult.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="tender/administrative/list.do" code="tenderResult.cancel" css="formButton toLeft" />
+	
+	<jstl:if test="${tender.id == 0}" >
+    	<acme:cancel url="tender/administrative/list.do" code="tenderResult.cancel" css="formButton toLeft" />
+    </jstl:if>
+	<jstl:if test="${tender.id != 0}" >
+    	<acme:cancel url="tender/display.do?tenderId=${tender.id}" code="tenderResult.cancel" css="formButton toLeft" />
+    </jstl:if>
+    
 	<br />
 
 </form:form>

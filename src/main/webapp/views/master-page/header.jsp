@@ -292,12 +292,10 @@
 				<a href="actor/edit.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.profile" /></i>
 				</a>							
+				<hr />
 				
 				<!-- Dashboard -->
-				<b><a><spring:message code="master.page.dashboard" /></a></b> 
-				<a href="dashboard/executive/display.do">
-					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.dashboard" /></i>
-				</a>
+				<b><a href="dashboard/executive/display.do"><spring:message code="master.page.dashboard" /></a></b> 
 			</div>
 		</div>
 	</security:authorize>	
