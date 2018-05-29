@@ -98,13 +98,15 @@ public class TenderController extends AbstractController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
-
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		
 		final Collection<Tender> tenders = this.tenderService.findAll();
 		Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("tender/list");
 		result.addObject("tenders", tenders);
 		result.addObject("actor", actor);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("requestUri", "tender/list.do");
 		result.addObject("anonymous", true);
 
