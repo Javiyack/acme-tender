@@ -35,14 +35,11 @@
 	<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
 		
 
-	<jstl:if test="${tender.offer != null}" >
+	<jstl:if test="${tender.offer != null && tender.offer.published}" >
 		<br /><br />
 		<b><spring:message code="tender.associated.offer" />: </b><br/>
 		
-		<spring:message code="offer.state" />: 
-			<a href="offer/display.do?offerId=${tender.offer.id}" >
-				<jstl:out value="${tender.offer.state}" /> <br/>
-			</a>
+		<spring:message code="offer.state" />: <jstl:out value="${tender.offer.state}" /> <br/>
 			
 		<jstl:if test="${tender.offer.presentationDate != null}" >
 			<spring:message code="offer.presentationDate" />: <jstl:out value="${tender.offer.presentationDate}" /> <br/>
@@ -50,13 +47,12 @@
 		<spring:message code="offer.amount" />: <jstl:out value="${tender.offer.amount}" /> <br/>
 		<spring:message code="offer.commercial" />: <a href="actor/display.do?actorId=${tender.offer.commercial.id}"><jstl:out value="${tender.offer.commercial.name} ${tender.offer.commercial.surname}" /></a> <br/>
 		<spring:message code="offer.comision" />: <jstl:out value="${tender.offer.amount * (benefitsPercentage/100)}" /> <br/>
-		<jstl:if test="${tender.offer.denialReason != null}" >
+		<jstl:if test="${tender.offer.denialReason != null && tender.offer.denialReason != ''}" >
 			<spring:message code="offer.denialReason" />: <jstl:out value="${tender.offer.denialReason}" /> <br/>
 		</jstl:if>
 	</jstl:if>
 
-	<jstl:set var="fechaActual" value="<%=new java.util.Date()%>"/>
-	<jstl:if test="${tender.offer == null && tender.maxPresentationDate lt fechaActual}" >
+	<jstl:if test="${tender.canCreateOffer}" >
 		<security:authorize access="hasRole('COMMERCIAL')"> 
 			<acme:button url="offer/commercial/create.do?tenderId=${tender.id}" text="tender.create.offer" css="formButton toLeft"/>
 		</security:authorize>
