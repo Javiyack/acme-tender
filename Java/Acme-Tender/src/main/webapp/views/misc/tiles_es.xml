@@ -24,5 +24,10 @@
 		<put-attribute name="title" value="Solo para suscriptores" />
 		<put-attribute name="body" value="/views/misc/subscribersOnly.jsp" />
 	</definition>
+	
+	<definition name="misc/message" extends="master.page">
+		<put-attribute name="title" value="Mensaje" />
+		<put-attribute name="body" value="/views/misc/message.jsp" />
+	</definition>		
 
 </tiles-definitions>

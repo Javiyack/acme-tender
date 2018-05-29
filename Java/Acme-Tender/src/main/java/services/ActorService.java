@@ -191,7 +191,9 @@ public class ActorService {
 			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()),
 					"profile.userAccount.repeatPassword.mismatch");
 			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
-			useraccount.setActive(true);
+			
+			//Al registrarse, el usuario esta desactivado. El admin debe de activarlo.
+			useraccount.setActive(false);
 			this.folderService.createSystemFolders(logedActor);			
 
 		} else {
