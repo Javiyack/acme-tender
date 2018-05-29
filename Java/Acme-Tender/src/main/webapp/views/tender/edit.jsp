@@ -28,9 +28,11 @@
  	<br/>
  	<spring:message code="tender.select.option" var="selectOption"/>
 	<form:select path="category" class="formInput">
-	    <form:option value="0" label="${selectOption}" />
+	    <form:option value="" label="${selectOption}" />
 	    <form:options items="${category}" itemValue="id" itemLabel="name"/>
 	</form:select>
+	<form:errors path="category" cssClass="error" />
+	<br />	
 	<acme:textbox code="tender.expedient" path="expedient" css="formInput" />
 	<br />
 	<acme:input code="tender.estimatedAmount" path="estimatedAmount" type="number" step="0.1" css="formInput"/>
