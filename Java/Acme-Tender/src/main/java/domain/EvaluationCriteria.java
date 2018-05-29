@@ -42,6 +42,7 @@ public class EvaluationCriteria extends DomainEntity {
 		this.description = description;
 	}
 
+	@NotNull
 	@Min(0)
 	public Integer getMaxScore() {
 		return this.maxScore;

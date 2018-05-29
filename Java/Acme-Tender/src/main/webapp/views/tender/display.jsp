@@ -102,7 +102,7 @@
 <display:table class="displaytag" name="comments"  id="row">
 
 	<acme:column property="text" title="comment.text" />
-	<acme:column property="writingDate" title="comment.writingDate" />
+	<acme:column property="writingDate" title="comment.writingDate" format="display.date.time.format"/>
 
 	<spring:message code="comment.commercial" var="commentCommercial" />
 	<display:column title="${commentCommercial}">

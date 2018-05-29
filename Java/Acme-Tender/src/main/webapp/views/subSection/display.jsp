@@ -12,11 +12,11 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<b>
-	<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.reference}" /></a> <br/>
-	<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.title}" /></a> <br/>
-	<spring:message code="subSection.offer.state" />: <jstl:out value="${subSection.offer.state}" /> <br/>
-</b>
+
+<spring:message code="offer.tender.reference" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.reference}" /></a> <br/>
+<spring:message code="offer.tender.title" />: <a href="tender/display.do?tenderId=${subSection.offer.tender.id}"><jstl:out value="${subSection.offer.tender.title}" /></a> <br/>
+<spring:message code="subSection.offer.state" />: <jstl:out value="${subSection.offer.state}" /> <br/>
+
 <br/>
 
 <h5>
@@ -53,7 +53,7 @@
 		
 		<acme:column property="name" title="curriculum.name" />
 		<acme:column property="surname" title="curriculum.surname" />
-		<acme:column property="dateOfBirth" title="curriculum.dateOfBirth" />
+		<acme:column property="dateOfBirth" title="curriculum.dateOfBirth" format="display.date.format"/>
 		<acme:column property="minSalaryExpectation" title="curriculum.minSalaryExpectation" />
 	
 		<display:column>
@@ -81,7 +81,7 @@
 <display:table class="displaytag" name="files" id="row">
 	
 	<acme:column property="name" title="file.name" />
-	<acme:column property="uploadDate" title="file.uploadDate" />
+	<acme:column property="uploadDate" title="file.uploadDate" format="display.date.time.format"/>
 	
 	<display:column>
 		<div>
