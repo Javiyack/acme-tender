@@ -465,29 +465,35 @@
 
 	<bean id="category1" class="domain.Category">
 		<property name="name" value="Servicios informáticos" />
+		<property name="description" value="Servicios relacionados con la informática en general" />
 	</bean>
 
 	<bean id="category2" class="domain.Category">
 		<property name="name" value="Creación de sistemas de información" />
+		<property name="description" value="Creación de páginas web u otras" />
 		<property name="fatherCategory" ref="category1" />
 	</bean>
 
 	<bean id="category3" class="domain.Category">
 		<property name="name" value="Servicios de soporte informático" />
+		<property name="description" value="Servicios técnicos informáticos o relacionados" />
 		<property name="fatherCategory" ref="category1" />		
 	</bean>
 
 	<bean id="category4" class="domain.Category">
 		<property name="name" value="Otros servicios" />
+		<property name="description" value="No clasificados" />
 	</bean>
 	
 	<bean id="category5" class="domain.Category">
 		<property name="name" value="Servicios de comedor" />
+		<property name="description" value="Servicios de alimentación" />
 		<property name="fatherCategory" ref="category4" />		
 	</bean>
 	
 	<bean id="category6" class="domain.Category">
 		<property name="name" value="Venta de productos" />
+		<property name="description" value="Venta de material o productos" />
 		<property name="fatherCategory" ref="category4" />		
 	</bean>	
 		

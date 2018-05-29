@@ -14,24 +14,11 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="fatherCategory" />
 	
 	
 	<acme:textbox code="category.name" path="name"/>
-	<br/>
-	
-	<jstl:if test="${!haveChilds}">
-		<acme:select items="${categories}" itemLabel="name" code="category.parentCategory" path="fatherCategory" id="id"/>
-	</jstl:if>
-	<jstl:if test="${haveChilds}">
-		<spring:message code="category.parentCategory" />: 
-			<jstl:if test="${category.fatherCategory == null}" >
-				<spring:message code="category.without.father" />
-			</jstl:if>
-			<jstl:if test="${category.fatherCategory != null}" >
-				<jstl:out value="${category.fatherCategory.name}" />	
-			</jstl:if>
-			(<spring:message code="category.father.not.editable" />)
-	</jstl:if>
+	<acme:textbox code="category.description" path="description"/>
 
 	<br/><br/>
 	
