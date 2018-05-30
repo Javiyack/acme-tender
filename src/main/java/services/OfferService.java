@@ -15,6 +15,7 @@ import domain.AdministrativeRequest;
 import domain.Administrator;
 import domain.CollaborationRequest;
 import domain.Commercial;
+import domain.Constant;
 import domain.Executive;
 import domain.Offer;
 import domain.SubSection;
@@ -169,6 +170,18 @@ public class OfferService {
 		}
 		return result;
 	}
+	
+	public Offer saveToDeny(final Offer offer) {
+		Assert.notNull(offer);
+		Actor actor = this.actorService.findByPrincipal();
+		
+		Assert.isTrue(actor instanceof Executive);
+		
+		offer.setState(Constant.OFFER_DENIED);
+		final Offer result = this.offerRepository.save(offer);
+
+		return result;
+	}	
 
 	//Visibilidad de una oferta:
 	//Si esta presentada, es visible por todos los autenticados
@@ -205,13 +218,11 @@ public class OfferService {
 	//Una oferta solo puede ser editada por el comercial que la creó
 	//Si esta publicada, también la puede modificar (pero las subsecciones no)
 	public boolean canEditOffer(final int offerId) {
-		final Actor principal = this.actorService.findByPrincipal();
+		final Actor actor = this.actorService.findByPrincipal();
 		final Offer offer = this.offerRepository.findOne(offerId);
 
-		if (principal instanceof Commercial) {
-			final Commercial commercial = this.commercialService.findByPrincipal();
-
-			if (commercial.getId() == offer.getCommercial().getId())
+		if (actor instanceof Commercial) {
+			if (actor.getId() == offer.getCommercial().getId())
 				return true;
 		}
 

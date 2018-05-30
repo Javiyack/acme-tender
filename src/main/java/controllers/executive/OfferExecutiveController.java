@@ -25,8 +25,7 @@ public class OfferExecutiveController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private OfferService offerService;
-
-
+	
 	// Constructor -----------------------------------------------------------
 	public OfferExecutiveController() {
 		super();
@@ -41,6 +40,7 @@ public class OfferExecutiveController extends AbstractController {
 		final Offer offer = this.offerService.findOne(offerId);
 
 		result = this.createEditModelAndView(offer);
+		
 		return result;
 	}
 
@@ -48,11 +48,14 @@ public class OfferExecutiveController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("offer") @Valid final Offer offer, final BindingResult binding) {
 		ModelAndView result;
 
+		if (offer.getDenialReason().isEmpty()) 
+			return this.createEditModelAndView(offer, "offer.deny.reason.needed");
+		
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(offer);
 		else
 			try {
-				Offer saved = this.offerService.save(offer);
+				Offer saved = this.offerService.saveToDeny(offer);
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + saved.getId());
 
 			} catch (final Throwable oops) {
@@ -73,7 +76,7 @@ public class OfferExecutiveController extends AbstractController {
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/executive/listNotPublished.do");
 		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
-
+		
 		return result;
 	}
 

@@ -22,7 +22,7 @@
 
 	<br/>
 	
-	<jstl:if test="${curriculum.subSection.offer.inDevelopment && curriculum.subSection.commercial.id == actor.id}" >
+	<jstl:if test="${!curriculum.subSection.offer.published && curriculum.subSection.commercial.id == actor.id}" >
 		<acme:button url="curriculum/edit.do?curriculumId=${curriculum.id}" text="curriculum.edit" css="formButton toLeft" />
 	</jstl:if>
 	<acme:button url="subSection/display.do?subSectionId=${curriculum.subSection.id}" text="curriculum.back" css="formButton toLeft" />
@@ -44,7 +44,7 @@
 		</display:column>
 	</display:table>
 	<br />
-	<jstl:if test="${curriculum.subSection.offer.inDevelopment && curriculum.subSection.commercial.id == actor.id}" >
+	<jstl:if test="${!curriculum.subSection.offer.published && curriculum.subSection.commercial.id == actor.id}" >
 		<acme:button text="file.create" url="/file//create.do?id=${curriculum.id}&type=curriculum" css="formButton toLeft" />
 	</jstl:if>
 

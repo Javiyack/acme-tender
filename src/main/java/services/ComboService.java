@@ -53,29 +53,23 @@ public class ComboService {
 		if (!actualState.equals(""))
 			result.add(actualState);
 		
-		Actor actor = this.actorService.findByPrincipal();
-		
 		switch (actualState) {
 		
 		case "":
 			result.add(Constant.OFFER_CREATED);
-			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 			
 		case Constant.OFFER_CREATED:
 			result.add(Constant.OFFER_IN_DEVELOPMENT);
 			result.add(Constant.OFFER_ABANDONED);
-			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 			
 		case Constant.OFFER_IN_DEVELOPMENT:
 			result.add(Constant.OFFER_PRESENTED);
 			result.add(Constant.OFFER_ABANDONED);
-			if (actor instanceof Executive) result.add(Constant.OFFER_DENIED);
 			break;
 
 		case Constant.OFFER_ABANDONED:
-			result.add(Constant.OFFER_IN_DEVELOPMENT);
 			break;
 			
 		case Constant.OFFER_PRESENTED:
