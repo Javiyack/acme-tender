@@ -47,10 +47,7 @@
 
 	<acme:submit name="save" code="subSection.save" css="formButton toLeft" />
 	
-	<jstl:if test="${subSection.commercial.id == actorId && subSection.id != 0}" >
-		<acme:submit name="delete" code="subSection.delete" css="formButton toLeft" />
-	</jstl:if>
-	<jstl:if test="${subSection.administrative.id == actorId && subSection.id != 0}" >
+	<jstl:if test="${subSection.commercial.id == actorId && subSection.id != 0 && subSection.offer.commercial.id == actorId}" >
 		<acme:submit name="delete" code="subSection.delete" css="formButton toLeft" />
 	</jstl:if>
 	
