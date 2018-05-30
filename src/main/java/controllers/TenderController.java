@@ -97,8 +97,8 @@ public class TenderController extends AbstractController {
 	}	
 
 	// List ------------------------------------------------------------------
-	@RequestMapping(value = "/list")
-	public ModelAndView list() {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(Integer pageSize) {
 		ModelAndView result;
 		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		
@@ -111,6 +111,7 @@ public class TenderController extends AbstractController {
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("requestUri", "tender/list.do");
 		result.addObject("anonymous", true);
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 
 		return result;
 	}

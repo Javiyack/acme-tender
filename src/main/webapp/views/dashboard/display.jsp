@@ -263,5 +263,123 @@
 		
 	</display:table>
 	
+	<!-- Dashboar B.1  -->
+	<display:table class="displaytag" name="consultaB1" id="row">
+		
+		<spring:message code="dashboard.executive.name" var="executiveName" />
+		<display:column title="${executiveName}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.created" var="stateCreated" />
+		<display:column title="${stateCreated}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.inDevelopment" var="stateInDevelopment" />
+		<display:column title="${stateInDevelopment}">
+			<jstl:out value="${row[2]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.abandoned" var="stateAbandoned" />
+		<display:column title="${stateAbandoned}">
+			<jstl:out value="${row[3]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.presented" var="statePresented" />
+		<display:column title="${statePresented}">
+			<jstl:out value="${row[4]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.winned" var="stateWinned" />
+		<display:column title="${stateWinned}">
+			<jstl:out value="${row[5]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.lossed" var="stateLossed" />
+		<display:column title="${stateLossed}">
+			<jstl:out value="${row[6]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.challenged" var="stateChallenged" />
+		<display:column title="${stateChallenged}">
+			<jstl:out value="${row[7]}" />
+		</display:column>
+		
+		<spring:message code="dashboard.state.denied" var="stateDenied" />
+		<display:column title="${stateDenied}">
+			<jstl:out value="${row[8]}" />
+		</display:column>
+		
+	</display:table>	
+	
+</div>
+
+<div class="dashboard">
+
+	<h5><spring:message code="dashboard.level"></spring:message> B</h5>
+	<br>
+	<h3>
+		<spring:message code="dashboard.last.month.top10.offers" />
+	</h3>
+	<display:table class="displaytag" name="consultaB1" id="row">
+		<acme:column property="amount" title="offer.amount"/>
+		<acme:column property="commercial.userAccount.username" title="offer.commercial"/>
+		<acme:column property="tender.title" title="offer.tender.title"/>
+		<acme:column property="presentationDate" title="offer.presentationDate"/>
+	</display:table>
+	<br>
+	<h3>
+		<spring:message code="dashboard.last.3month.top10.wined.offers" />
+	</h3>
+	<display:table class="displaytag" name="consultaB2" id="row">
+		<acme:column property="amount" title="offer.amount"/>
+		<acme:column property="commercial.userAccount.username" title="offer.commercial"/>
+		<acme:column property="tender.title" title="offer.tender.title"/>
+		<acme:column property="presentationDate" title="offer.presentationDate"/>
+	</display:table>
+	<br>
+	<h3>
+		<spring:message code="dashboard.average.ratio.amount.offer.tender" />
+	</h3>
+	<display:table class="displaytag" name="consultaB3" id="row">
+		<spring:message code="companyResult.company" var="titleCompanyName" />
+		<display:column title="${titleCompanyName}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		<spring:message code="dashboard.ratio" var="titleRatio" />
+		<display:column title="${titleRatio}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+	</display:table>
+	<br>
+	<h3>
+		<spring:message code="dashboard.Top10.offers.companies" />
+	</h3>
+	<display:table class="displaytag" name="consultaB4" id="row">
+		<spring:message code="companyResult.company" var="titleCompanyName" />
+		<display:column title="${titleCompanyName}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		<spring:message code="dashboard.number" var="titleRatio" />
+		<display:column title="${titleRatio}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+	</display:table>
+	<br>
+	<h3>
+		<spring:message code="dashboard.Top10.winned.companies" />
+	</h3>
+	<display:table class="displaytag" name="consultaB5" id="row">
+		<spring:message code="companyResult.company" var="titleCompanyName" />
+		<display:column title="${titleCompanyName}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		<spring:message code="dashboard.number" var="titleRatio" />
+		<display:column title="${titleRatio}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+	</display:table>
+	<br>
 </div>
 

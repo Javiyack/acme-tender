@@ -18,7 +18,12 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<display:table pagesize="5" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
+<form:form action="${requestUri}" method="GET">
+		<spring:message code="pagination.size" />
+		<input type="number" name="pageSize" min="1" max="100" value="${pageSize}">
+  		<input type="submit" value=">" >
+</form:form>
+<display:table pagesize="${pageSize}" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
 
 	<jstl:if test="${row.interest == 'UNDEFINED'}" >
 		<spring:message var="rowCss" text="white" />

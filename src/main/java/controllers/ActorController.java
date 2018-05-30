@@ -32,8 +32,8 @@ public class ActorController extends AbstractController {
 	}
 
 	// List ------------------------------------------------------------------
-	@RequestMapping(value = "/list")
-	public ModelAndView list() {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(Integer pageSize) {
 		ModelAndView result;
 
 		final Collection<Actor> actors = this.actorService.findAllActivated();
@@ -41,7 +41,7 @@ public class ActorController extends AbstractController {
 		result = new ModelAndView("actor/list");
 		result.addObject("actors", actors);
 		result.addObject("requestUri", "actor/list.do");
-
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 		return result;
 	}
 

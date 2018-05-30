@@ -88,7 +88,7 @@ public class OfferController extends AbstractController {
 
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(Integer pageSize) {
 
 		ModelAndView result;
 
@@ -101,7 +101,7 @@ public class OfferController extends AbstractController {
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("actorId", actor.getId());
 		result.addObject("requestUri", "offer/list.do");
-
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 		return result;
 	}
 

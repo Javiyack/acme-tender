@@ -1,5 +1,5 @@
 /*
- * QueryDatabase.java
+select cr.name, avg(cr.economicalOffer / t.estimatedAmount) from CompanyResult cr join cr.tenderResult tr join tr.tender t where t.estimatedAmount != 0 group by cr.name * QueryDatabase.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
