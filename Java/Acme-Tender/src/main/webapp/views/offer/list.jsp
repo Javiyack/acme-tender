@@ -21,7 +21,14 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<display:table pagesize="5" class="displaytag" name="offers" requestURI="${requestUri}" id="row">
+
+<form:form action="${requestUri}" method="GET">
+		<spring:message code="pagination.size" />
+		<input type="number" name="pageSize" min="1" max="100">
+  		<input type="submit">
+</form:form>
+
+<display:table pagesize="${pageSize}" class="displaytag" name="offers" requestURI="${requestUri}" id="row">
 
 	<acme:column property="tender.reference" title="offer.tender.reference" />
 	<acme:column property="tender.title" title="offer.tender.title" />

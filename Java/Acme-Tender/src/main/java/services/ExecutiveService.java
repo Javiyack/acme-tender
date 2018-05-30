@@ -2,11 +2,15 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.Offer;
 import repositories.ExecutiveRepository;
 
 @Service
@@ -60,5 +64,25 @@ public class ExecutiveService {
 		final Collection<Object> numbers = this.executiveRepository.offersByStateAndCommercialRatio();
 
 		return numbers;
+	}
+
+	public Collection<Offer> findTopOffersOnMonth(Date fecha, int pageSize) {
+		return this.executiveRepository.findTopOffersOnMonth(fecha, new PageRequest(0, pageSize));
+	}
+
+	public List<Offer> findTopWinedOffersOnThreeMonthsFrom(Date fecha, int pageSize) {
+		return this.executiveRepository.findTopWinedOffersOnThreeMonths(fecha, new PageRequest(0, pageSize));
+	}
+
+	public Collection<Object> findAvgRatioAmounOfferOverTender() {
+		return this.executiveRepository.findAvgRatioAmounOfferOverTender();
+	}
+
+	public Collection<Object> findTopFrecuentsCompanies(int pageSize) {
+		return this.executiveRepository.findTopFrecuentsCompanies();
+	}
+
+	public Collection<Object> findTopFrecuentsWinnersCompanies(int pageSize) {
+		return this.executiveRepository.findTopFrecuentsWinnersCompanies();
 	}
 }

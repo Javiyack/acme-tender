@@ -17,8 +17,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<display:table pagesize="5" class="displaytag" name="actors" requestURI="${requestUri}" id="row">
+<form:form action="${requestUri}" method="GET">
+		<spring:message code="pagination.size" />
+		<input type="number" name="pageSize" min="1" max="100" value="${pageSize}">
+  		<input type="submit" value=">" >
+</form:form>
 
+<display:table pagesize="${pageSize}" class="displaytag" name="actors" requestURI="${requestUri}" id="row">
 	
 	<acme:column property="name" title="actor.name" />
 	<acme:column property="surname" title="actor.surname" />
