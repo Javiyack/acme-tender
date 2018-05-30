@@ -18,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Offer;
+import domain.Tender;
 import services.ActorService;
 import services.ComboService;
 import services.OfferService;
+import services.TenderService;
 
 @Controller
 @RequestMapping("/offer/commercial")
@@ -33,7 +35,8 @@ public class OfferCommercialController extends AbstractController {
 	private ComboService comboService;
 	@Autowired
 	private ActorService			actorService;	
-
+	@Autowired
+	private TenderService tenderService;
 
 	// Constructor -----------------------------------------------------------
 	public OfferCommercialController() {
@@ -45,6 +48,9 @@ public class OfferCommercialController extends AbstractController {
 	public ModelAndView create(@RequestParam final int tenderId) {
 
 		final ModelAndView result = new ModelAndView("offer/commercial/create");
+		
+		Tender tender = this.tenderService.findOne(tenderId);
+		Assert.isTrue(tender.getCanCreateOffer());
 
 		final Offer offer = this.offerService.create(tenderId);
 		result.addObject("offer", offer);

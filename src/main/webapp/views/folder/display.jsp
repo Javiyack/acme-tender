@@ -28,7 +28,7 @@
 	
 	</display:table>
 </fieldset>
-<br />
+
 
 <fieldset>
 	<legend><spring:message code="folder.messages" /></legend>

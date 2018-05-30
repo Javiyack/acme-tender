@@ -64,6 +64,9 @@ public class TenderAdministrativeController extends AbstractController {
 		ModelAndView result;
 		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 		Assert.notNull(tender);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
 
 		result = this.createEditModelAndView(tender);
 
@@ -82,6 +85,7 @@ public class TenderAdministrativeController extends AbstractController {
 				this.tenderService.save(tender);
 				result = new ModelAndView("redirect:/tender/administrative/list.do");
 				result.addObject("requestUri", "tender/administrative/list.do");
+
 			} catch (final Throwable ooops) {
 				//				if (ooops.getMessage() == "Invalid bulletinDate")
 				//					result = this.createEditModelAndView(tender, "tender.commit.error.invalidBulletinDate");

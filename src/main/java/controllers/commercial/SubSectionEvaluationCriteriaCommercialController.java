@@ -49,9 +49,13 @@ public class SubSectionEvaluationCriteriaCommercialController extends AbstractCo
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int subSectionId) {
 
-		final ModelAndView result = new ModelAndView("subSectionEvaluationCriteria/commercial/create");
+		ModelAndView result = new ModelAndView("subSectionEvaluationCriteria/commercial/create");
 
-		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.create(subSectionId);
+		SubSection subSection = this.subSectionService.findOne(subSectionId);
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
+		
+		SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.create(subSectionId);
 		result.addObject("subSectionEvaluationCriteria", subSectionEvaluationCriteria);
 
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(subSectionEvaluationCriteria.getSubSection().getOffer().getTender().getId());

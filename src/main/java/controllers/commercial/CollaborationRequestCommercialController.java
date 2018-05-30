@@ -42,10 +42,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 	private MyMessageService			myMessageService;
 	@Autowired
 	private SubSectionService			subSectionService;
-	@Autowired
-	private ComboService				comboService;
-
-
+	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam int collaborationRequestId) {
@@ -53,13 +50,14 @@ public class CollaborationRequestCommercialController extends AbstractController
 		ModelAndView result;
 
 		CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
-		Actor principal = this.actorService.findByPrincipal();
-		Assert.notNull(principal);
-		Assert.isTrue(principal instanceof Commercial);
+		Actor actor = this.actorService.findByPrincipal();
+		
+		//Puede verla si es el remitente o el destinatario
+		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId() || collaborationRequest.getOffer().getCommercial().getId() == actor.getId());
 
 		result = new ModelAndView("collaborationRequest/display");
 		result.addObject("collaborationRequest", collaborationRequest);
-		result.addObject("principal", principal);
+		result.addObject("principal", actor);
 		return result;
 
 	}
@@ -133,6 +131,9 @@ public class CollaborationRequestCommercialController extends AbstractController
 		CollaborationRequest collaborationRequest;
 		collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
 
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId());
+		
 		result = this.createEditModelAndView(collaborationRequest);
 		result.addObject("reject", true);
 
@@ -145,6 +146,10 @@ public class CollaborationRequestCommercialController extends AbstractController
 	public ModelAndView accept(@RequestParam int requestId) {
 
 		CollaborationRequest collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId());
+		
 		collaborationRequest.setAccepted(true);
 		CollaborationRequest savedCR = this.collaborationRequestService.save(collaborationRequest);
 		this.myMessageService.collaborationRequestNotification(savedCR, true);
@@ -165,16 +170,13 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(collaborationRequest);
-		} else
-
-		if (!collaborationRequest.getMaxDeliveryDate().after(collaborationRequest.getMaxAcceptanceDate())) {
-
+		
+		} else	if (!collaborationRequest.getMaxDeliveryDate().after(collaborationRequest.getMaxAcceptanceDate())) {
 			result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.date.error");
 
 		} else {
 
 			if (collaborationRequest.getId() != 0 && collaborationRequest.getRejectedReason().isEmpty()) {
-
 				result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.rejection.error");
 
 			} else {

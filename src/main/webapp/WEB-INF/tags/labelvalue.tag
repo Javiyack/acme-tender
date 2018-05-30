@@ -59,7 +59,7 @@
 
 
 <div style="float:left; width: 100%">
-	<div style="float:left; width: 40%">
+	<div style="float:left; width: 35%">
 		<spring:message code="${code}" />:
 	</div> 
 

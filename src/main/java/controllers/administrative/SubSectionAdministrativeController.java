@@ -15,13 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Actor;
-import domain.Administrative;
-import domain.AdministrativeRequest;
 import domain.SubSection;
 import services.ActorService;
-import services.AdministrativeRequestService;
-import services.AdministrativeService;
-import services.MyMessageService;
 import services.SubSectionService;
 
 @Controller
@@ -31,12 +26,6 @@ public class SubSectionAdministrativeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private SubSectionService				subSectionService;
-	@Autowired
-	private AdministrativeService			administrativeService;
-	@Autowired
-	private AdministrativeRequestService	administrativeRequestService;
-	@Autowired
-	private MyMessageService				myMessageService;
 	@Autowired
 	private ActorService					actorService;
 
@@ -52,10 +41,8 @@ public class SubSectionAdministrativeController extends AbstractController {
 		ModelAndView result;
 		SubSection subSection = this.subSectionService.findOne(subSectionId);
 
-		Administrative administrative = this.administrativeService.findByPrincipal();
-
-		if (subSection.getAdministrative() != null)
-			Assert.isTrue(administrative.getId() == subSection.getAdministrative().getId());
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSection.getAdministrative().getId() == actor.getId());
 
 		result = this.createEditModelAndView(subSection);
 		result.addObject("request", false);
@@ -86,10 +73,8 @@ public class SubSectionAdministrativeController extends AbstractController {
 	public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
 
-		Administrative administrative = this.administrativeService.findByPrincipal();
-
-		if (subSection.getAdministrative() != null)
-			Assert.isTrue(administrative.getId() == subSection.getAdministrative().getId());
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSection.getAdministrative().getId() == actor.getId());
 
 		try {
 			this.subSectionService.delete(subSection);

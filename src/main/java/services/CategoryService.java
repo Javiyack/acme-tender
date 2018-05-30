@@ -58,7 +58,7 @@ public class CategoryService {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 		
-		Assert.isNull(this.categoryRepository.haveTender(category.getId()), "category.cannot.delete.because.has.tender");
+		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size()==0, "category.cannot.delete.because.has.tender");
 		Assert.isTrue(this.getChildCategories(category.getId()).size() == 0, "category.cannot.delete.because.has.childs");
 
 		this.categoryRepository.delete(category);
