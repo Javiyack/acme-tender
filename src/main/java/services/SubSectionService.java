@@ -168,6 +168,8 @@ public class SubSectionService {
 			subSection.getOffer().setState(Constant.OFFER_IN_DEVELOPMENT);
 			this.offerService.save(subSection.getOffer());
 		}
+		
+		this.subSectionRepository.flush();
 
 		return result;
 	}
