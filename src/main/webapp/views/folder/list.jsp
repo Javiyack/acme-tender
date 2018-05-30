@@ -18,13 +18,12 @@
 	<acme:column property="name" title="folder.name" sortable="true"/>
 	
 	<display:column>
-		<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>"><spring:message
-				code="folder.show" /></a>
+		<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>">
+			<spring:message code="folder.show" />
+		</a>
 
 	</display:column>
 </display:table>
 
+<acme:button text="folder.newfolder" url="folder/createFirst.do" />
 
-
-<a href="folder/createFirst.do"><spring:message
-		code="folder.newfolder" /></a>&nbsp;

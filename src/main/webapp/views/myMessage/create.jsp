@@ -22,17 +22,15 @@
 	<spring:message code="ms.priority.high" var="high" />
 	
 
-
 	<form:label path="priority">
 		<spring:message code="ms.priority" />
 	</form:label>
-	<form:select path="priority">
+	<form:select path="priority" class="formInput">
 		<form:option label="${low}" value="LOW" />
 		<form:option label="${neutral}" value="NEUTRAL" />
 		<form:option label="${high}" value="HIGH" />
 	</form:select>
 	<form:errors cssClass="error" path="priority" />
-	<br />
 	<br />
 	
 	<jstl:if test="${requestUri eq 'myMessage/edit.do'}">
