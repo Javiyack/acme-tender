@@ -20,7 +20,7 @@
 	<acme:textbox code="companyResult.economicalOffer" path="economicalOffer" />
 	<acme:textbox code="companyResult.score" path="score" />
 	<acme:textbox code="companyResult.position" path="position" />
-	<acme:textbox code="companyResult.comments" path="comments" />
+	<acme:textarea code="companyResult.comments" path="comments" />
 	<acme:selectcombo code="companyResult.state" items="${companyResultStatesCombo}" path="state"/>	
 	<br />
 

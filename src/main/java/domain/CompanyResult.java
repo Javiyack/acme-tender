@@ -19,8 +19,8 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 public class CompanyResult extends DomainEntity {
 
 	private String	name;
-	private double	economicalOffer;
-	private double	score;
+	private Double	economicalOffer;
+	private Double	score;
 	private Integer	position;
 	private String	comments;
 	private String	state;
@@ -38,21 +38,21 @@ public class CompanyResult extends DomainEntity {
 
 	@Min(0)
 	@NotNull
-	public double getEconomicalOffer() {
+	public Double getEconomicalOffer() {
 		return this.economicalOffer;
 	}
 
-	public void setEconomicalOffer(final double economicalOffer) {
+	public void setEconomicalOffer(final Double economicalOffer) {
 		this.economicalOffer = economicalOffer;
 	}
 
 	@Min(0)
 	@NotNull	
-	public double getScore() {
+	public Double getScore() {
 		return this.score;
 	}
 
-	public void setScore(final double score) {
+	public void setScore(final Double score) {
 		this.score = score;
 	}
 
