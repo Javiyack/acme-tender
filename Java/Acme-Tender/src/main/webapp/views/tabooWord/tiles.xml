@@ -28,12 +28,12 @@
 	
 	<definition name="tender/administrator/list" extends="master.page">
 		<put-attribute name="title" value="Tenders with Taboo Words" />
-		<put-attribute name="body" value="/views/tabooWord/listTender.jsp" />
+		<put-attribute name="body" value="/views/tender/list.jsp" />
 	</definition>
 	
 	<definition name="offer/administrator/list" extends="master.page">
 		<put-attribute name="title" value="Offers with Taboo Words" />
-		<put-attribute name="body" value="/views/tabooWord/listOffer.jsp" />
+		<put-attribute name="body" value="/views/offer/list.jsp" />
 	</definition>
 
 </tiles-definitions>

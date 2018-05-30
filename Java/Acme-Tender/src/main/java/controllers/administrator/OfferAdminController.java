@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.ConfigurationService;
 import services.OfferService;
-import services.TabooWordService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Offer;
 
 @Controller
@@ -22,9 +24,11 @@ public class OfferAdminController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private TabooWordService	tabooWordService;
-	@Autowired
 	private OfferService		offerService;
+	@Autowired
+	private ActorService			actorService;
+	@Autowired
+	private ConfigurationService	configurationService;	
 
 
 	// Constructor -----------------------------------------------------------
@@ -32,20 +36,47 @@ public class OfferAdminController extends AbstractController {
 		super();
 	}
 
-	// List Tenders ---------------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listOffer() {
+	// List Offers with taboo words ---------------------------------------------------------------
+	@RequestMapping(value = "/listWithTabooWord", method = RequestMethod.GET)
+	public ModelAndView listOffer(Integer pageSize) {
 
 		final ModelAndView result;
 
 		final Collection<Offer> offers = this.offerService.findAllOfferWithTabooWords();
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();		
 
 		result = new ModelAndView("offer/administrator/list");
 		result.addObject("offers", offers);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("actorId", actor.getId());
+		result.addObject("requestUri", "offer/administrator/listWithTabooWord.do");
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);		
 
 		return result;
+	
 	}
 
+	// List ---------------------------------------------------------------
+	@RequestMapping(value = "/listNotPublished", method = RequestMethod.GET)
+	public ModelAndView listOffersByPropietary(Integer pageSize) {
+
+		ModelAndView result;
+
+		final Collection<Offer> offers = this.offerService.findAllNotPublished();
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();			
+
+		result = new ModelAndView("offer/listNotPublished");
+		result.addObject("offers", offers);
+		result.addObject("requestUri", "offer/administrator/listNotPublished.do");
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("actorId", actor.getId());		
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
+		
+		return result;
+	}	
+	
 	// Delete ---------------------------------------------------------------
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam(required = false) final Integer offerId) {

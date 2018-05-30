@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
@@ -167,4 +168,17 @@ public class CollaborationRequest extends DomainEntity {
 		this.offer = offer;
 	}
 
+	
+	@Transient 
+	public boolean isAnswerable() {
+		
+		if (this.getMaxAcceptanceDate() == null)
+			return false;
+		
+		return this.getMaxAcceptanceDate().after(new Date());
+	}
+	
+	public void setAnswerable(final boolean answerable) {
+
+	}	
 }

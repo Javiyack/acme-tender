@@ -61,11 +61,12 @@
 	<br/><br/>
 	<jstl:if test="${offer.commercial.id == actor.id}" >
 		<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
-	</jstl:if>
-	
-	<jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
-		<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
-		<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
+		<acme:button url="offer/commercial/listOffersByPropietary.do" text="offer.back" css="formButton toLeft"/>
+		
+		<jstl:if test="${offer.inDevelopment}" >
+			<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
+			<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
+		</jstl:if>
 	</jstl:if>
 	
 	<security:authorize access="hasRole('EXECUTIVE')">
@@ -74,7 +75,25 @@
 		</jstl:if>
 	</security:authorize>
 	
-	<acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
+	<jstl:if test="${offer.commercial.id != actor.id}" >
+		<jstl:if test="${offer.published}" >		
+			<acme:button url="offer/list.do" text="offer.back" css="formButton toLeft"/>
+		</jstl:if>
+		<jstl:if test="${!offer.published}" >		
+			<security:authorize access="hasRole('COMMERCIAL')">
+				<acme:button url="offer/commercial/listOffersByCollaboration.do" text="offer.back" css="formButton toLeft"/>
+			</security:authorize>
+			<security:authorize access="hasRole('ADMINISTRATIVE')">
+				<acme:button url="offer/administrative/listOffersByCollaboration.do" text="offer.back" css="formButton toLeft"/>
+			</security:authorize>
+			<security:authorize access="hasRole('EXECUTIVE')">
+				<acme:button url="offer/executive/listNotPublished.do" text="offer.back" css="formButton toLeft"/>
+			</security:authorize>
+			<security:authorize access="hasRole('ADMIN')">
+				<acme:button url="offer/administrator/listNotPublished.do" text="offer.back" css="formButton toLeft"/>
+			</security:authorize>
+		</jstl:if>
+	</jstl:if>
 </fieldset>
 
 

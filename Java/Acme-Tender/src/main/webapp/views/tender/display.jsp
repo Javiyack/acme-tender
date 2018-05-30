@@ -33,9 +33,11 @@
 
 	<jstl:if test="${tender.administrative.id == actor.id}" >
 		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
+		<acme:button url="tender/administrative/list.do" text="tender.back" css="formButton toLeft"/>
 	</jstl:if>
-	
-	<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+	<jstl:if test="${tender.administrative.id != actor.id}" > 
+		<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+	</jstl:if>
 	
 </fieldset>
 		

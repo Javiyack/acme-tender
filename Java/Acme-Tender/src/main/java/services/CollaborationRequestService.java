@@ -57,16 +57,12 @@ public class CollaborationRequestService {
 		Assert.isTrue(principal instanceof Commercial);
 
 		if (collaborationRequest.getId() == 0) {
-
 			Assert.isTrue(this.offerService.canEditOffer(collaborationRequest.getOffer().getId()));
 
 		} else {
-
 			Assert.isTrue(principal.equals(collaborationRequest.getCommercial()));
 
 		}
-
-		Assert.isTrue(collaborationRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || collaborationRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
 
 		result = this.collaborationRequestRepository.save(collaborationRequest);
 

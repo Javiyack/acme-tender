@@ -205,6 +205,9 @@ public class OfferService {
 
 			if (actor instanceof Executive)
 				return true;
+			
+			if (actor instanceof Administrator)
+				return true;			
 
 			if (actor instanceof Administrative) {
 				final Administrative administrative = this.administrativeService.findByPrincipal();

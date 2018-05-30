@@ -85,7 +85,7 @@
 	 </jstl:choose>
 	
 	
-	<jstl:if test="${principal eq collaborationRequest.commercial && collaborationRequest.accepted == null }">
+	<jstl:if test="${principal eq collaborationRequest.commercial && collaborationRequest.accepted == null  && !collaborationRequest.offer.published && collaborationRequest.answerable}">
 		<acme:button url="collaborationRequest/commercial/reject.do?requestId=${collaborationRequest.id }" text="collaborationRequest.reject" css="formButton toLeft"/>
 		<acme:button url="collaborationRequest/commercial/accept.do?requestId=${collaborationRequest.id }" text="collaborationRequest.accept" css="formButton toLeft"/>
 	</jstl:if>

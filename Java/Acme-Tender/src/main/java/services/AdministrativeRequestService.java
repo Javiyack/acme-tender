@@ -59,8 +59,6 @@ public class AdministrativeRequestService {
 
 		checkPrincipal(administrativeRequest);
 
-		Assert.isTrue(administrativeRequest.getOffer().getState().equals(Constant.OFFER_CREATED) || administrativeRequest.getOffer().getState().equals(Constant.OFFER_IN_DEVELOPMENT));
-
 		result = this.administrativeRequestRepository.save(administrativeRequest);
 
 		return result;

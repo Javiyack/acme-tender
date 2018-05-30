@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Offer;
+import services.ActorService;
+import services.ConfigurationService;
 import services.OfferService;
 
 @Controller
@@ -25,6 +28,10 @@ public class OfferExecutiveController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private OfferService offerService;
+	@Autowired
+	private ActorService			actorService;
+	@Autowired
+	private ConfigurationService	configurationService;	
 	
 	// Constructor -----------------------------------------------------------
 	public OfferExecutiveController() {
@@ -71,10 +78,14 @@ public class OfferExecutiveController extends AbstractController {
 		ModelAndView result;
 
 		final Collection<Offer> offers = this.offerService.findAllNotPublished();
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		Actor actor = this.actorService.findByPrincipal();			
 
-		result = new ModelAndView("offer/executive/listNotPublished");
+		result = new ModelAndView("offer/listNotPublished");
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/executive/listNotPublished.do");
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("actorId", actor.getId());			
 		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 		
 		return result;
