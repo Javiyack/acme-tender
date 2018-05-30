@@ -119,14 +119,14 @@ public class OfferController extends AbstractController {
 	public ModelAndView search(final HttpServletRequest request, @Valid final SearchForm searchForm, final BindingResult binding) {
 		ModelAndView result;
 		final String word = request.getParameter("word");
-		result = this.searchResult(word);
+		result = this.searchResult(word, 5);
 
 		return result;
 	}
 
 	// searchResult ---------------------------------------------------------------
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
-	public ModelAndView searchResult(@RequestParam final String word) {
+	public ModelAndView searchResult(@RequestParam final String word, Integer pageSize) {
 		ModelAndView result;
 		
 		final Collection<Offer> offers = this.offerService.findOfferByKeyWord(word);
@@ -139,6 +139,8 @@ public class OfferController extends AbstractController {
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("actorId", actor.getId());		
 		result.addObject("backSearch", true);
+		result.addObject("word", word);
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 
 		return result;
 	}

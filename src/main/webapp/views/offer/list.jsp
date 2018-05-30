@@ -21,11 +21,14 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+<jstl:if test="${pageSize == null}" >
+		<jstl:set value="5" var="pageSize"/>
+</jstl:if>
 <form:form action="${requestUri}" method="GET">
 		<spring:message code="pagination.size" />
-		<input type="number" name="pageSize" min="1" max="100">
-  		<input type="submit">
+		<input hidden="true" name="word" value="${word}">
+		<input type="number" name="pageSize" min="1" max="100" value="${pageSize}">
+  		<input type="submit" value=">" >
 </form:form>
 
 <display:table pagesize="${pageSize}" class="displaytag" name="offers" requestURI="${requestUri}" id="row">
