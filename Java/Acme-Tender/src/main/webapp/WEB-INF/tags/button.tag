@@ -27,9 +27,17 @@
 
 <%@ attribute name="css" required="false"%>
 <%@ attribute name="id" required="false"%>
+
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+
 <%-- Definition --%>
 
-<button type="button" onclick="javascript: relativeRedir('${url}')" class="${css}" id="${id}">
+<button type="button" onclick="javascript: relativeRedir('${url}')" class="${cssVar}" id="${id}">
 	<spring:message code="${text}" />
 </button>
 

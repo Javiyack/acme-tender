@@ -14,85 +14,66 @@
 	<jstl:out value="${folder.getName()}" />
 </h2>
 
-<b><spring:message code="folder.folders" /> :</b>
-<br />
-<display:table pagesize="10" class="displaytag" name="folders"
-	requestURI="folder/display.do" id="row">
-
-	<acme:column property="name" title="folder.name" sortable="true"/>
-
-	<display:column>
-		<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>"><spring:message
-				code="folder.show" /></a>
-	</display:column>
-
-</display:table>
-<br />
-<br />
-<b><spring:message code="folder.messages" /> :</b>
-<br />
-<display:table pagesize="10" class="displaytag" name="messages"
-	requestURI="folder/display.do" id="row2">
-
-
-	<acme:column property="subject" title="ms.subject" sortable="true"/>
+<fieldset>
+	<legend><spring:message code="folder.folders" /></legend>
+	<display:table pagesize="10" class="displaytag" name="folders" requestURI="folder/display.do" id="row">
 	
-	<display:column>
-		<a
-			href="myMessage/display.do?messageId=${row2.id}"><spring:message
-				code="ms.show" /></a>
-	</display:column>
-
-
-<display:column>
-		<a
-			href="myMessage/delete.do?messageId=${row2.id}"><spring:message
-				code="ms.delete" /></a>
-	</display:column>
-
-</display:table>
-
-<br />
+		<acme:column property="name" title="folder.name" sortable="true"/>
+	
+		<display:column>
+			<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>">
+				<spring:message code="folder.show" />
+			</a>
+		</display:column>
+	
+	</display:table>
+</fieldset>
 <br />
 
-<a href="folder/create.do?folderId=${folder.id }"><spring:message
-		code="folder.newfolder" /></a>
+<fieldset>
+	<legend><spring:message code="folder.messages" /></legend>
+	<display:table pagesize="10" class="displaytag" name="messages" requestURI="folder/display.do" id="row2">
+	
+		<acme:column property="subject" title="ms.subject" sortable="true"/>
+		
+		<display:column>
+			<a href="myMessage/display.do?messageId=${row2.id}">
+				<spring:message code="ms.show" />
+			</a>
+		</display:column>
+	
+	
+		<display:column>
+			<a href="myMessage/delete.do?messageId=${row2.id}">
+				<spring:message code="ms.delete" />
+			</a>
+		</display:column>
+	
+	</display:table>
+</fieldset>
 
-<input type="button" name="back"
-	value="<spring:message code="folder.back"/>"
-	onclick=<jstl:choose>
-			<jstl:when test="${empty folder.getParentFolder()}">
-			<jstl:out value="javascript:relativeRedir('folder/list.do')"/>
-		</jstl:when>
-		<jstl:otherwise>
-		<jstl:out value="javascript:relativeRedir('folder/display.do?folderId=${folder.parentFolder.id}')"/>
-		</jstl:otherwise>
-		</jstl:choose> class ="formButton toLeft"/>
+
+
+<acme:button text="folder.newfolder" url="folder/create.do?folderId=${folder.id}" />
+
+<jstl:if test="${empty folder.getParentFolder()}" >
+	<acme:button text="folder.back" url="folder/list.do" />
+</jstl:if>
+<jstl:if test="${!empty folder.getParentFolder()}" >
+	<acme:button text="folder.back" url="folder/display.do?folderId=${folder.parentFolder.id}" />
+</jstl:if>
+
 		
 <jstl:if test="${folder.getSystemFolder() eq false }">
+	<acme:button text="folder.move" url="folder/move.do?folderId=${folder.getId()}" />
+	<acme:button text="folder.delete" url="folder/delete.do?folderId=${folder.getId()}" />
 
-	<%-- <input type="submit" name="move"
-		value="<spring:message code="folder.move" />" /> --%>
-	<input type="button" name="move"
-		value="<spring:message code="folder.move" />"
-		onclick="javascript: relativeRedir('folder/move.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
-	<input type="button" name="delete"
-		value="<spring:message code="folder.delete" />"
-		onclick="javascript: relativeRedir('folder/delete.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
-
-	<jstl:choose>
-		<jstl:when test="${empty folder.getParentFolder()}">
-			<input type="button"
-				value="<spring:message code="folder.changeName" />"
-				onclick="javascript: relativeRedir('folder/editFirst.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
-		</jstl:when>
-		<jstl:otherwise>
-			<input type="button"
-				value="<spring:message code="folder.changeName" />"
-				onclick="javascript: relativeRedir('folder/edit.do?folderId=<jstl:out value="${folder.getId()}"/>');" class ="formButton toLeft"/>
-		</jstl:otherwise>
-	</jstl:choose>
-
+	<jstl:if test="${empty folder.getParentFolder()}">
+		<acme:button text="folder.changeName" url="folder/editFirst.do?folderId=${folder.getId()}" />
+	</jstl:if>
+	<jstl:if test="${!empty folder.getParentFolder()}">
+		<acme:button text="folder.changeName" url="folder/edit.do?folderId=${folder.getId()}" />		
+	</jstl:if>
 </jstl:if>
 
 
