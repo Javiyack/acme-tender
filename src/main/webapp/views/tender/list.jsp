@@ -91,5 +91,5 @@
 <br/><br/>
 
 <security:authorize access="hasRole('ADMINISTRATIVE')">
-	<acme:button url="tender/create.do" text="tender.new" css="formButton toLeft" />
+	<acme:button url="tender/administrative/create.do" text="tender.new" css="formButton toLeft" />
 </security:authorize>
