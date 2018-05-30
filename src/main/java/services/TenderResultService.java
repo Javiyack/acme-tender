@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import repositories.TenderResultRepository;
 import domain.Administrative;
-import domain.Administrator;
 import domain.CompanyResult;
 import domain.File;
 import domain.Tender;
@@ -27,8 +26,6 @@ public class TenderResultService {
 	private TenderResultRepository	tenderResultRepository;
 
 	// Managed services ------------------------------------------------
-	@Autowired
-	private AdministratorService	administratorService;
 	@Autowired
 	private TenderService			tenderService;
 	@Autowired
@@ -81,11 +78,6 @@ public class TenderResultService {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
-
-		if (tenderResult.getId() == 0) {
-			final Date moment = new Date(System.currentTimeMillis() - 1);
-			tenderResult.setTenderDate(moment);
-		}
 
 		saved = this.tenderResultRepository.save(tenderResult);
 		
