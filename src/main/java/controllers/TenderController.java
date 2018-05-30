@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,10 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Comment;
 import domain.CompanyResult;
-import domain.Constant;
 import domain.EvaluationCriteria;
-import domain.Offer;
-import domain.SubSection;
+import domain.File;
 import domain.Tender;
 import domain.TenderResult;
 import forms.SearchForm;
@@ -31,6 +28,7 @@ import services.CommentService;
 import services.CompanyResultService;
 import services.ConfigurationService;
 import services.EvaluationCriteriaService;
+import services.FileService;
 import services.TenderResultService;
 import services.TenderService;
 
@@ -54,7 +52,8 @@ public class TenderController extends AbstractController {
 	private TenderResultService tenderResultService;
 	@Autowired
 	private CompanyResultService companyResultService;
-
+	@Autowired
+	private FileService fileService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -72,6 +71,8 @@ public class TenderController extends AbstractController {
 		Double benefitsPercentage = this.configurationService.findBenefitsPercentage();
 		Actor actor = this.actorService.findByPrincipal();
 		
+		Collection<File> files = this.fileService.findAllByTender(tenderId);
+		
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(tender.getId());
 
 		Collection<Comment> comments = this.commentService.findAllByTender(tenderId);
@@ -87,6 +88,7 @@ public class TenderController extends AbstractController {
 		result.addObject("actor", actor);
 		result.addObject("evaluationCriterias", evaluationCriterias);
 		result.addObject("comments", comments);
+		result.addObject("files", files);
 		result.addObject("tenderResult", tenderResult);
 		result.addObject("companyResults", companyResults);
 

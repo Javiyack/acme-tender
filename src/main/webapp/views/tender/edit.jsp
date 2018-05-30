@@ -14,6 +14,7 @@
 	<form:hidden path="version" />
 	<form:hidden path="administrative" />
 	<form:hidden path="offer" />
+	<form:hidden path="tenderResult" />
 		
 	<h5>
 		<acme:textbox code="tender.reference" path="reference" css="formInput" readonly="true" />

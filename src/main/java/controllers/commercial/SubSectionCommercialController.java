@@ -38,14 +38,6 @@ public class SubSectionCommercialController extends AbstractController {
 	private CommercialService			commercialService;
 	@Autowired
 	private ComboService				comboService;
-	@Autowired
-	private CollaborationRequestService	collaborationRequestService;
-	@Autowired
-	private MyMessageService			myMessageService;
-	@Autowired
-	private ActorService				actorService;
-
-
 	// Constructor -----------------------------------------------------------
 	public SubSectionCommercialController() {
 		super();
@@ -80,34 +72,21 @@ public class SubSectionCommercialController extends AbstractController {
 			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
 
 		result = this.createEditModelAndView(subSection);
-		result.addObject("request", false);
-		result.addObject("requestId", 0);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("request") Boolean request, @ModelAttribute("requestId") int requestId) {
+	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
 
 			result = this.createEditModelAndView(subSection);
-			result.addObject("request", request);
-			result.addObject("requestId", requestId);
 
 		} else {
 			try {
 				this.subSectionService.save(subSection);
-				if (request == true) {
-					CollaborationRequest collaborationRequest = collaborationRequestService.findOne(requestId);
-					Actor principal = actorService.findByPrincipal();
-					Assert.notNull(principal);
-					Assert.isTrue(principal.equals(collaborationRequest.getCommercial()) && collaborationRequest.getAccepted() == null);
-					collaborationRequest.setAccepted(true);
-					CollaborationRequest saved = this.collaborationRequestService.save(collaborationRequest);
-					this.myMessageService.collaborationRequestNotification(saved, true);
-				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
 			} catch (final Throwable oops) {

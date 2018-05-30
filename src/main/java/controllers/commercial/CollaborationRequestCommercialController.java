@@ -144,24 +144,15 @@ public class CollaborationRequestCommercialController extends AbstractController
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
 	public ModelAndView accept(@RequestParam int requestId) {
 
-		ModelAndView result;
+		CollaborationRequest collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
+		collaborationRequest.setAccepted(true);
+		CollaborationRequest savedCR = this.collaborationRequestService.save(collaborationRequest);
+		this.myMessageService.collaborationRequestNotification(savedCR, true);
 
-		CollaborationRequest collaborationRequest;
-		collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
-
-		SubSection subSection;
-		subSection = this.subSectionService.createByCommercialCollaborationAcceptation(collaborationRequest);
-
-		result = new ModelAndView("subSection/commercial/create");
-		result.addObject("subSection", subSection);
-		result.addObject("requestURI", "subSection/commercial/edit.do");
-		result.addObject("request", true);
-		result.addObject("requestId", requestId);
-
-		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
-
-		return result;
+		SubSection subSection = this.subSectionService.createByCommercialCollaborationAcceptation(collaborationRequest);
+		SubSection savedSS = this.subSectionService.save(subSection);
+		
+		return this.createMessageModelAndView("collaborationRequest.message.accepted", "offer/display.do?offerId=" + savedSS.getOffer().getId());
 
 	}
 

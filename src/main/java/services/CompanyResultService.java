@@ -41,7 +41,7 @@ public class CompanyResultService {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
 
-		final TenderResult tenderResult = this.tenderResultService.findOneToDisplay(tenderResultId);
+		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
 		Assert.notNull(tenderResult);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
 
@@ -90,7 +90,8 @@ public class CompanyResultService {
 
 		if (companyResult.getState().equals(Constant.COMPANY_RESULT_WINNER))
 			for (final CompanyResult c : companyResults)
-				Assert.isTrue(!c.getState().equals(companyResult.getState()), "Only one Winner");
+				if (c.getId() != companyResult.getId())				
+					Assert.isTrue(!c.getState().equals(companyResult.getState()), "companyResult.only.winner");
 	}
 
 	private void checkPosition(final CompanyResult companyResult) {
@@ -98,7 +99,8 @@ public class CompanyResultService {
 		final Collection<CompanyResult> companyResults = this.companyResultRepository.findAllByTenderResult(companyResult.getTenderResult().getId());
 
 		for (final CompanyResult c : companyResults)
-			Assert.isTrue(!c.getPosition().equals(companyResult.getPosition()), "Can not repeat position");
+			if (c.getId() != companyResult.getId())
+				Assert.isTrue(!c.getPosition().equals(companyResult.getPosition()), "companyResult.not.repeat.position");
 
 	}
 
@@ -114,7 +116,7 @@ public class CompanyResultService {
 
 	public Collection<CompanyResult> findAllByTenderResult(final int tenderResultId) {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
-		final TenderResult tenderResult = this.tenderResultService.findOneToDisplay(tenderResultId);
+		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
 		Assert.notNull(administrative);
 		Assert.notNull(tenderResult);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));

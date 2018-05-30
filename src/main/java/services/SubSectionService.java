@@ -86,6 +86,9 @@ public class SubSectionService {
 		subSection.setOffer(offer);
 		subSection.setTitle(collaborationRequest.getSubSectionTitle());
 		subSection.setSection(collaborationRequest.getSection());
+		subSection.setBody("Pending");
+		subSection.setShortDescription("Pending");
+		subSection.setSubsectionOrder(99);		
 
 		return subSection;
 	}
@@ -103,6 +106,9 @@ public class SubSectionService {
 		subSection.setSection(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
 		subSection.setOffer(offer);
 		subSection.setTitle(administrativeRequest.getSubSectionTitle());
+		subSection.setBody("Pending");
+		subSection.setShortDescription("Pending");
+		subSection.setSubsectionOrder(99);
 
 		return subSection;
 	}

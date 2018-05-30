@@ -197,6 +197,7 @@ public class Tender extends DomainEntity {
 	private Administrative	administrative;
 	private Offer			offer;
 	private Category		category;
+	private TenderResult 	tenderResult;
 
 
 	@Valid
@@ -231,6 +232,16 @@ public class Tender extends DomainEntity {
 		this.category = category;
 	}
 	
+	@Valid
+	@OneToOne(optional = true)
+	public TenderResult getTenderResult() {
+		return tenderResult;
+	}
+
+	public void setTenderResult(TenderResult tenderResult) {
+		this.tenderResult = tenderResult;
+	}
+
 	@Transient
 	public boolean getCanCreateOffer() {
 		

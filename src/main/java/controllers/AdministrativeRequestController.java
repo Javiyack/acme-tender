@@ -23,7 +23,6 @@ import domain.SubSection;
 import services.ActorService;
 import services.AdministrativeRequestService;
 import services.AdministrativeService;
-import services.ComboService;
 import services.MyMessageService;
 import services.SubSectionService;
 
@@ -42,8 +41,6 @@ public class AdministrativeRequestController extends AbstractController {
 	private ActorService					actorService;
 	@Autowired
 	private SubSectionService				subSectionService;
-	@Autowired
-	private ComboService					comboService;
 
 
 	// Create ---------------------------------------------------------------
@@ -189,24 +186,15 @@ public class AdministrativeRequestController extends AbstractController {
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
 	public ModelAndView accept(@RequestParam int requestId) {
 
-		ModelAndView result;
+		AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(requestId);
+		administrativeRequest.setAccepted(true);
+		AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
+		this.myMessageService.administrativeRequestNotification(savedAR , true);
+		
+		SubSection subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
+		SubSection savedSS = this.subSectionService.save(subSection);
 
-		AdministrativeRequest administrativeRequest;
-		administrativeRequest = this.administrativeRequestService.findOneToEdit(requestId);
-
-		SubSection subSection;
-		subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
-
-		result = new ModelAndView("subSection/commercial/create");
-		result.addObject("subSection", subSection);
-		result.addObject("requestURI", "subSection/administrative/edit.do");
-		result.addObject("request", true);
-		result.addObject("requestId", requestId);
-
-		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
-
-		return result;
+		return this.createMessageModelAndView("administrativeRequest.message.accepted", "offer/display.do?offerId=" + savedSS.getOffer().getId());
 
 	}
 

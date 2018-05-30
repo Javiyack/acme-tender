@@ -33,65 +33,62 @@
 			<form:hidden path="commercial" />
 		</jstl:otherwise>
 	</jstl:choose>
-	
+
 	<input type="hidden" name="reject" value="${reject }" />
-	
+
 
 
 	<jstl:if test="${collaborationRequest.id == 0 }">
-	<form:label path="section"><spring:message code="collaborationRequest.section"/></form:label>
-	<form:select path="section">
-	<form:option label="TECHNICAL_OFFER" value="TECHNICAL_OFFER"/>
-	<form:option label="ECONOMICAL_OFFER" value="ECONOMICAL_OFFER"/>
-	</form:select>
-	<br />
-	<br />
-	
-	
-	<acme:textbox code="collaborationRequest.subSectionTitle" path="subSectionTitle" />
-	<br />
-	
-	<acme:textarea code="collaborationRequest.subSectionDescription" path="subSectionDescription" />
-	<br />
-	
-	<acme:textbox code="collaborationRequest.benefitsPercentage" path="benefitsPercentage" />
-	<br />
-	
-	<acme:textarea code="collaborationRequest.requirements" path="requirements"/>
-	<br />
-	
-	<acme:textbox code="collaborationRequest.numberOfPages" path="numberOfPages" />
-	<br />
-	
-	<acme:textbox code="collaborationRequest.maxAcceptanceDate" path="maxAcceptanceDate" placeholder="dd/MM/yyyy"/>
-	<br />
-	
-	<acme:textbox code="collaborationRequest.maxDeliveryDate" path="maxDeliveryDate" placeholder="dd/MM/yyyy"/>
-	<br />
-	
-	<acme:select code="collaborationRequest.commercial" itemLabel="userAccount.username" items="${commercials }" path="commercial" id ="id"/>
-	<br />
+		<form:label path="section">
+			<spring:message code="collaborationRequest.section" />
+		</form:label>
+		<form:select path="section" class="formInput">
+			<form:option label="TECHNICAL_OFFER" value="TECHNICAL_OFFER" />
+			<form:option label="ECONOMICAL_OFFER" value="ECONOMICAL_OFFER" />
+		</form:select>
+		<br />
+		<br />
+
+
+		<acme:textbox code="collaborationRequest.subSectionTitle" path="subSectionTitle" />
+		<br />
+
+		<acme:textarea code="collaborationRequest.subSectionDescription" path="subSectionDescription" />
+		<br />
+
+		<acme:textbox code="collaborationRequest.benefitsPercentage" path="benefitsPercentage" />
+		<br />
+
+		<acme:textarea code="collaborationRequest.requirements" path="requirements" />
+		<br />
+
+		<acme:textbox code="collaborationRequest.numberOfPages" path="numberOfPages" />
+		<br />
+
+		<acme:textbox code="collaborationRequest.maxAcceptanceDate" path="maxAcceptanceDate" placeholder="dd/MM/yyyy" />
+		<br />
+
+		<acme:textbox code="collaborationRequest.maxDeliveryDate" path="maxDeliveryDate" placeholder="dd/MM/yyyy" />
+		<br />
+
+		<acme:select code="collaborationRequest.commercial" itemLabel="userAccount.username" items="${commercials }" path="commercial" id="id" />
+		<br />
 	</jstl:if>
-	
+
 	<jstl:if test="${collaborationRequest.id !=0 }">
-	<acme:textarea code="collaborationRequest.rejectedReason" path="rejectedReason" />
-	<br />
+		<acme:textarea code="collaborationRequest.rejectedReason" path="rejectedReason" />
+		<br />
 	</jstl:if>
-	
+
 	<acme:submit name="save" code="collaborationRequest.save" css="formButton toLeft" />&nbsp;
 
 	
 	<jstl:choose>
-		<jstl:when
-			test="${collaborationRequest.id == 0}">
-			<acme:cancel
-				url="offer/display.do?offerId=${collaborationRequest.offer.id }"
-				code="collaborationRequest.cancel" css="formButton toLeft" />
+		<jstl:when test="${collaborationRequest.id == 0}">
+			<acme:cancel url="offer/display.do?offerId=${collaborationRequest.offer.id }" code="collaborationRequest.cancel" css="formButton toLeft" />
 		</jstl:when>
 		<jstl:otherwise>
-			<acme:cancel
-				url="collaborationRequest/commercial/display.do?collaborationRequestId=${collaborationRequest.id }"
-				code="collaborationRequest.cancel" css="formButton toLeft" />
+			<acme:cancel url="collaborationRequest/commercial/display.do?collaborationRequestId=${collaborationRequest.id }" code="collaborationRequest.cancel" css="formButton toLeft" />
 		</jstl:otherwise>
 	</jstl:choose>
 

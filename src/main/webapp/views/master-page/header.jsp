@@ -233,7 +233,7 @@
 				
 				<!-- Users y profile -->
 				<b><a><spring:message code="master.page.users" /></a> </b>
-				<a href="actor/list.do">
+				<a href="actor/administrator/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.actor.list" /></i>
 				</a>
 				<a href="actor/edit.do">

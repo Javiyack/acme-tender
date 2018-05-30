@@ -37,6 +37,7 @@ public class CompanyResult extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public double getEconomicalOffer() {
 		return this.economicalOffer;
 	}
@@ -46,6 +47,7 @@ public class CompanyResult extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull	
 	public double getScore() {
 		return this.score;
 	}
@@ -55,6 +57,7 @@ public class CompanyResult extends DomainEntity {
 	}
 
 	@Min(1)
+	@NotNull	
 	public Integer getPosition() {
 		return this.position;
 	}

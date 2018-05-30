@@ -65,26 +65,15 @@ public class SubSectionAdministrativeController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding, @ModelAttribute("request") Boolean request, @ModelAttribute("requestId") int requestId) {
+	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(subSection);
-			result.addObject("request", request);
-			result.addObject("requestId", requestId);
 
 		} else
 			try {
 				this.subSectionService.save(subSection);
-				if (request == true) {
-					AdministrativeRequest administrativeRequest = administrativeRequestService.findOne(requestId);
-					Actor principal = actorService.findByPrincipal();
-					Assert.notNull(principal);
-					Assert.isTrue(principal.equals(administrativeRequest.getAdministrative()) && administrativeRequest.getAccepted() == null);
-					administrativeRequest.setAccepted(true);
-					AdministrativeRequest saved = this.administrativeRequestService.save(administrativeRequest);
-					this.myMessageService.administrativeRequestNotification(saved, true);
-				}
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
 			} catch (final Throwable oops) {

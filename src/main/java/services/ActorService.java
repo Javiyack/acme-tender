@@ -60,6 +60,15 @@ public class ActorService {
 
 		return result;
 	}
+	
+	public Collection<Actor> findAllActivated() {
+		Collection<Actor> result;
+
+		result = this.actorRepository.findAllActivated();
+		Assert.notNull(result);
+
+		return result;
+	}	
 
 	public Actor findOne(final int actorId) {
 		Assert.isTrue(actorId != 0);
