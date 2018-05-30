@@ -63,7 +63,7 @@ public class OfferExecutiveController extends AbstractController {
 
 	// List ---------------------------------------------------------------
 	@RequestMapping(value = "/listNotPublished", method = RequestMethod.GET)
-	public ModelAndView listOffersByPropietary() {
+	public ModelAndView listOffersByPropietary(Integer pageSize) {
 
 		ModelAndView result;
 
@@ -72,6 +72,7 @@ public class OfferExecutiveController extends AbstractController {
 		result = new ModelAndView("offer/executive/listNotPublished");
 		result.addObject("offers", offers);
 		result.addObject("requestUri", "offer/executive/listNotPublished.do");
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
 
 		return result;
 	}
