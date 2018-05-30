@@ -1,6 +1,8 @@
 
 package controllers.administrator;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
+import domain.Actor;
 import services.ActorService;
 
 @Controller
@@ -26,6 +29,20 @@ public class ActorAdminController extends AbstractController {
 	public ActorAdminController() {
 		super();
 	}
+	
+	// List ------------------------------------------------------------------
+	@RequestMapping(value = "/list")
+	public ModelAndView list() {
+		ModelAndView result;
+
+		final Collection<Actor> actors = this.actorService.findAll();
+
+		result = new ModelAndView("actor/list");
+		result.addObject("actors", actors);
+		result.addObject("requestUri", "actor/administrator/list.do");
+
+		return result;
+	}	
 
 	// ActivateOrDeactivate ------------------------------------------------------------------
 	@RequestMapping(value = "/activeOrDeactivate", method = RequestMethod.GET)
@@ -34,7 +51,7 @@ public class ActorAdminController extends AbstractController {
 
 		this.actorService.ActivateOrDeactivate(actorId);
 
-		result = new ModelAndView("redirect:/actor/list.do");
+		result = new ModelAndView("redirect:/actor/administrator/list.do");
 
 		return result;
 	}

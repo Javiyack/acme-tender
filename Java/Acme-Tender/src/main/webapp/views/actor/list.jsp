@@ -21,38 +21,35 @@
 
 	
 	<acme:column property="name" title="actor.name" />
-
 	<acme:column property="surname" title="actor.surname" />
-
 	<acme:column property="address" title="actor.address" />
-
 	<acme:column property="email" title="actor.email" />
-
 	<acme:column property="phone" title="actor.phone" />
-	
 	<acme:column property="userAccount.authorities[0]" title="actor.authority" sortable="true"/>
-	
-	<display:column>
-			<div>
-				<a href="actor/display.do?actorId=${row.id}"> 
-					<spring:message code="actor.showProfile" />
-				</a>
-			</div>
-	</display:column>
-	
+
 	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
-			<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">
-				<button class = "btn">
-					<jstl:if test="${row.userAccount.active}">
-						<spring:message code="actor.deactivate" />
-					</jstl:if>
-					<jstl:if test="${!row.userAccount.active}">
-						<spring:message code="actor.activate" />
-					</jstl:if>
-				</button>
-			</a>
+		<spring:message code="actor.state" var="varState" />
+		<display:column title="${varState}">
+			<jstl:if test="${row.userAccount.active}">
+				<spring:message code="actor.is.active" />
+				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">
+					(<spring:message code="actor.deactivate" />)
+				</a>
+			</jstl:if>
+			<jstl:if test="${!row.userAccount.active}">
+				<spring:message code="actor.is.not.active" />
+				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">			
+					(<spring:message code="actor.activate" />)
+				</a>
+			</jstl:if>
 		</display:column>
 	</security:authorize>
+
+	<display:column>
+		<a href="actor/display.do?actorId=${row.id}"> 
+			<spring:message code="actor.showProfile" />
+		</a>
+	</display:column>
+	
 	
 </display:table>

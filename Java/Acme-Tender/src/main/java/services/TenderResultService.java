@@ -56,19 +56,9 @@ public class TenderResultService {
 		return tenderResult;
 	}
 
-	public TenderResult findOneToDisplay(final int tenderResultId) {
-		TenderResult result;
-
-		result = this.tenderResultRepository.findOne(tenderResultId);
-		Assert.notNull(result);
-
-		return result;
-	}
 
 	public TenderResult findOne(final int tenderResultId) {
 		TenderResult result;
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
 
 		result = this.tenderResultRepository.findOne(tenderResultId);
 		Assert.notNull(result);
@@ -91,7 +81,6 @@ public class TenderResultService {
 		final Administrative administrative = this.administrativeService.findByPrincipal();
 		Assert.notNull(administrative);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
-		Assert.isTrue(!this.hasTenderResult(tenderResult.getTender()), "Has a result");
 
 		if (tenderResult.getId() == 0) {
 			final Date moment = new Date(System.currentTimeMillis() - 1);
@@ -99,6 +88,12 @@ public class TenderResultService {
 		}
 
 		saved = this.tenderResultRepository.save(tenderResult);
+		
+		if (saved.getTender().getTenderResult() == null) {
+			Tender tender = this.tenderService.findOne(tenderResult.getTender().getId());
+			tender.setTenderResult(saved);
+			this.tenderService.save(tender);
+		}
 
 		return saved;
 	}

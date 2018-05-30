@@ -18,9 +18,11 @@ import domain.Actor;
 import domain.Commercial;
 import domain.Constant;
 import domain.Curriculum;
+import domain.File;
 import domain.SubSection;
 import services.ActorService;
 import services.CurriculumService;
+import services.FileService;
 import services.SubSectionService;
 
 @Controller
@@ -34,6 +36,8 @@ public class CurriculumController extends AbstractController {
 	private SubSectionService	subSectionService;
 	@Autowired
 	private ActorService		actorService;
+	@Autowired
+	private FileService fileService;
 
 
 	//Display
@@ -45,10 +49,13 @@ public class CurriculumController extends AbstractController {
 		Actor actor = this.actorService.findByPrincipal();
 		Curriculum curriculum = curriculumService.findOne(curriculumId);
 		curriculumService.checkListAndDisplay(curriculum.getSubSection().getId());
+		
+		Collection<File> files = this.fileService.findAllByCurriculum(curriculumId);
 
 		result = new ModelAndView("curriculum/display");
 		result.addObject("curriculum", curriculum);
-		result.addObject("actorId", actor.getId());
+		result.addObject("actor", actor);
+		result.addObject("files", files);
 		return result;
 
 	}

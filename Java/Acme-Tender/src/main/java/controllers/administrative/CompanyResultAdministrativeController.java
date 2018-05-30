@@ -6,17 +6,19 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.ComboService;
 import services.CompanyResultService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.CompanyResult;
-import domain.TenderResult;
 
 @Controller
 @RequestMapping("/companyResult/administrative")
@@ -27,6 +29,8 @@ public class CompanyResultAdministrativeController extends AbstractController {
 	private ComboService			comboService;
 	@Autowired
 	private CompanyResultService	companyResultService;
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -45,9 +49,21 @@ public class CompanyResultAdministrativeController extends AbstractController {
 
 		return result;
 	}
+	
+	// Edit ---------------------------------------------------------------
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int companyResultId) {
+		ModelAndView result;
+		final CompanyResult companyResult;
+
+		companyResult = this.companyResultService.findOne(companyResultId);
+		result = this.createEditModelAndView(companyResult);
+
+		return result;
+	}	
 
 	// Save ---------------------------------------------------------------
-	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final CompanyResult companyResult, final BindingResult binding) {
 		ModelAndView result;
 
@@ -56,16 +72,12 @@ public class CompanyResultAdministrativeController extends AbstractController {
 		else
 			try {
 				this.companyResultService.save(companyResult);
-				final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(companyResult.getTenderResult().getId());
-				result = new ModelAndView("redirect:/tenderResult/administrative/display.do?tenderId=" + companyResult.getTenderResult().getTender().getId());
-				result.addObject("tenderResult", companyResult.getTenderResult());
-				result.addObject("companyResultCreate", true);
-				result.addObject("companyResults", companyResults);
-				result.addObject("tenderId", companyResult.getTenderResult().getTender().getId());
+				result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + companyResult.getTenderResult().getId());
+
 			} catch (final Throwable oops) {
-				if (oops.getMessage() == "Only one Winner")
+				if (oops.getMessage() == "companyResult.only.winner")
 					result = this.createEditModelAndView(companyResult, "companyResult.only.winner");
-				else if (oops.getMessage() == "Can not repeat position")
+				else if (oops.getMessage() == "companyResult.not.repeat.position")
 					result = this.createEditModelAndView(companyResult, "companyResult.not.repeat.position");
 				else
 					result = this.createEditModelAndView(companyResult, "companyResult.commit.error");
@@ -73,33 +85,24 @@ public class CompanyResultAdministrativeController extends AbstractController {
 		return result;
 	}
 
-	// Delete ---------------------------------------------------------------
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam(required = false) final Integer companyResultId) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(CompanyResult companyResult, final BindingResult binding) {
 		ModelAndView result;
-		final CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
-		final TenderResult tenderResult = companyResult.getTenderResult();
-		final Integer tenderResultId = companyResult.getTenderResult().getId();
-		final Integer tenderId = companyResult.getTenderResult().getTender().getId();
+		Actor actor = this.actorService.findByPrincipal();
+
+		Assert.isTrue(actor.getId() == companyResult.getTenderResult().getTender().getAdministrative().getId());
 
 		try {
 			this.companyResultService.delete(companyResult);
-			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResultId);
-			result = new ModelAndView("redirect:/tenderResult/administrative/display.do?tenderId=" + tenderId);
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("companyResults", companyResults);
-			result.addObject("tenderId", tenderId);
-		} catch (final Throwable ooops) {
-			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResultId);
-			result = new ModelAndView("redirect:/tenderResult/administrative/display.do?tenderId=" + tenderId);
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("companyResults", companyResults);
-			result.addObject("tenderId", tenderId);
+			result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + companyResult.getTenderResult().getId());
+
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(companyResult, "companyResult.commit.error");
 		}
 		return result;
-	}
+	}	
+	
+
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final CompanyResult companyResult) {
 		final ModelAndView result;
@@ -109,7 +112,12 @@ public class CompanyResultAdministrativeController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final CompanyResult companyResult, final String message) {
 
-		final ModelAndView result = new ModelAndView("companyResult/administrative/create");
+		ModelAndView result = null;
+		
+		if (companyResult.getId() == 0) 
+			result = new ModelAndView("companyResult/administrative/create");
+		else
+			result = new ModelAndView("companyResult/administrative/edit");
 		
 		Collection<String> companyResultStatesCombo = this.comboService.companyResultStates(companyResult);
 		result.addObject("companyResultStatesCombo", companyResultStatesCombo);

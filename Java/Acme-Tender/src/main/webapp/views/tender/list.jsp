@@ -68,26 +68,20 @@
 		</div>
 	</display:column>
 	
-	<jstl:if test="${myTender}"  >
-	<display:column style="background-color: ${rowCss}">
-		<div>
-			<a href="tenderResult/administrative/display.do?tenderId=${row.id}">
-				<spring:message code="tender.tenderResult.display" />
-			</a>
-		</div>
-	</display:column>
-	</jstl:if>
-	
-	<jstl:if test="${anonymous}" >
-	<display:column style="background-color: ${rowCss}">
-		<div>
-			<a href="tenderResult/display.do?tenderId=${row.id}">
-				<spring:message code="tender.tenderResult.display" />
-			</a>
-		</div>
-	</display:column>
-	</jstl:if>
 
+	<display:column style="background-color: ${rowCss}">
+		<jstl:if test="${row.tenderResult != null}"  >
+			<a href="tenderResult/display.do?tenderResultId=${row.tenderResult.id}">
+				<spring:message code="tender.tenderResult.display" />
+			</a>
+		</jstl:if>
+		<jstl:if test="${row.tenderResult == null && row.administrative.id == actor.id}"  >
+			<a href="tenderResult/administrative/create.do?tenderId=${row.id}">
+				<spring:message code="tender.tenderResult.create" />
+			</a>
+		</jstl:if>
+	</display:column>
+	
 </display:table>
 <br/><br/>
 

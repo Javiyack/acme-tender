@@ -25,21 +25,24 @@
 	<acme:labelvalue code="comment.writingDate" value="${comment.writingDate}" isDatetime="true"/>
 </fieldset>
 
-<display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
-
-	<acme:column property="text" title="answer.text" />
-	<acme:column property="writingDate" title="answer.writingDate" format="display.date.format"/>
+<fieldset>
+	<legend><spring:message code="answer.answers" /></legend>
+	<display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/list.do" id="row">
 	
-	<spring:message code="answer.user" var="answerUser" />
-	<display:column title="${answerUser}">
-		<div>
-			<a href="actor/display.do?actorId=${row.actor.id}">
-				<jstl:out value="${row.actor.name} ${row.actor.surname}" />
-			</a> 
-		</div>
-	</display:column>	
+		<acme:column property="text" title="answer.text" />
+		<acme:column property="writingDate" title="answer.writingDate" format="display.date.format"/>
+		
+		<spring:message code="answer.user" var="answerUser" />
+		<display:column title="${answerUser}">
+			<div>
+				<a href="actor/display.do?actorId=${row.actor.id}">
+					<jstl:out value="${row.actor.name} ${row.actor.surname}" />
+				</a> 
+			</div>
+		</display:column>	
+	
+	</display:table>
+</fieldset>
 
-</display:table>
-<br /> <br />
 <acme:button url="answer/actor/create.do?commentId=${comment.id}" text="comment.answer.create" css="formButton toLeft" />
 <acme:cancel url="tender/display.do?tenderId=${tenderId}" code="comment.back" css="formButton toLeft" />

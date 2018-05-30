@@ -1,8 +1,6 @@
 
 package controllers.administrative;
 
-import java.util.Collection;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CompanyResultService;
 import services.TenderResultService;
-import services.TenderService;
 import controllers.AbstractController;
-import domain.CompanyResult;
-import domain.Tender;
 import domain.TenderResult;
-import exceptions.HackingException;
 
 @Controller
 @RequestMapping("/tenderResult/administrative")
@@ -30,10 +23,6 @@ public class TenderResultAdministrativeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private TenderResultService		tenderResultService;
-	@Autowired
-	private TenderService			tenderService;
-	@Autowired
-	private CompanyResultService	companyResultService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -52,9 +41,22 @@ public class TenderResultAdministrativeController extends AbstractController {
 
 		return result;
 	}
+	
+	// Edit -----------------------------------------------------------
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int tenderResultId) {
+		ModelAndView result;
+		
+		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
+		Assert.notNull(tenderResult);
+
+		result = this.createEditModelAndView(tenderResult);
+
+		return result;
+	}	
 
 	// Save ---------------------------------------------------------------
-	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final TenderResult tenderResult, final BindingResult binding) {
 		ModelAndView result;
 
@@ -62,70 +64,15 @@ public class TenderResultAdministrativeController extends AbstractController {
 			result = this.createEditModelAndView(tenderResult);
 		else
 			try {
-				this.tenderResultService.save(tenderResult);
-				result = new ModelAndView("redirect:/tender/administrative/list.do");
-				result.addObject("myTender", true);
-				result.addObject("requestUri", "tender/administrative/list.do");
+				TenderResult saved = this.tenderResultService.save(tenderResult);
+				result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + saved.getId());
+
 			} catch (final Throwable oops) {
-				if (oops.getMessage() == "Has a result")
-					result = this.createEditModelAndView(tenderResult, "tenderResult.has.result");
-				else
-					result = this.createEditModelAndView(tenderResult, "tenderResult.commit.error");
+				result = this.createEditModelAndView(tenderResult, "tenderResult.commit.error");
 			}
 		return result;
 	}
 
-	// Delete ---------------------------------------------------------------
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam(required = false) final Integer tenderResultId) {
-		ModelAndView result;
-
-		Assert.notNull(tenderResultId);
-		final TenderResult tenderResult = this.tenderResultService.findOneToDisplay(tenderResultId);
-		final Integer tenderId = tenderResult.getTender().getId();
-
-		try {
-			this.tenderResultService.delete(tenderResult);
-			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
-			result = new ModelAndView("tender/administrative/list");
-			result.addObject("myTender", true);
-			result.addObject("tenders", tenders);
-			result.addObject("requestUri", "tender/administrative/list.do");
-		} catch (final Throwable ooops) {
-			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
-			result = new ModelAndView("tenderResult/administrative/display");
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("companyResults", companyResults);
-			result.addObject("tenderId", tenderId);
-			result.addObject("message", "tenderResult.commit.error");
-		}
-		return result;
-	}
-
-	// Display ---------------------------------------------------------------
-	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int tenderId) throws HackingException {
-		ModelAndView result;
-		final TenderResult tenderResult;
-
-		tenderResult = this.tenderResultService.findOneByTender(tenderId);
-		if (tenderResult != null) {
-			final Collection<CompanyResult> companyResults = this.companyResultService.findAllByTenderResult(tenderResult.getId());
-			result = new ModelAndView("tenderResult/administrative/display");
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("companyResults", companyResults);
-			result.addObject("tenderId", tenderId);
-		} else {
-			result = new ModelAndView("tenderResult/administrative/display");
-			result.addObject("tenderResult", tenderResult);
-			result.addObject("companyResultCreate", true);
-			result.addObject("tenderId", tenderId);
-		}
-
-		return result;
-	}
 	// Auxiliary methods ----------------------------------------------------
 	protected ModelAndView createEditModelAndView(final TenderResult tenderResult) {
 		final ModelAndView result;
@@ -135,23 +82,17 @@ public class TenderResultAdministrativeController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final TenderResult tenderResult, final String message) {
 
-		final ModelAndView result = new ModelAndView("tenderResult/administrative/create");
+		ModelAndView result = null;
+		
+		if (tenderResult.getId() != 0)
+			result = new ModelAndView("tenderResult/administrative/edit");
+		else
+			result = new ModelAndView("tenderResult/administrative/create");
+		
 		result.addObject("tenderResult", tenderResult);
 		result.addObject("message", message);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView2(final Collection<Tender> tenders) {
-		final ModelAndView result;
-		result = this.createEditModelAndView2(tenders, null);
-		return result;
-	}
 
-	protected ModelAndView createEditModelAndView2(final Collection<Tender> tenders, final String message) {
-
-		final ModelAndView result = new ModelAndView("tender/administrative/list");
-		result.addObject("tenders", tenders);
-		result.addObject("message", message);
-		return result;
-	}
 }

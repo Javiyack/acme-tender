@@ -10,27 +10,26 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="companyResult" method="post">
+<form:form action="companyResult/administrative/edit.do" modelAttribute="companyResult" method="post">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="tenderResult" />
 
 	<acme:textbox code="companyResult.name" path="name" />
-	<br />
 	<acme:textbox code="companyResult.economicalOffer" path="economicalOffer" />
-	<br />
 	<acme:textbox code="companyResult.score" path="score" />
-	<br />
 	<acme:textbox code="companyResult.position" path="position" />
-	<br />
 	<acme:textbox code="companyResult.comments" path="comments" />
-	<br />
 	<acme:selectcombo code="companyResult.state" items="${companyResultStatesCombo}" path="state"/>	
 	<br />
 
-	<acme:submit name="save" code="companyResult.save" css="formButton toLeft" />&nbsp;
-    <acme:cancel url="tenderResult/administrative/display.do?tenderId=${companyResult.tenderResult.tender.id}" code="companyResult.cancel" css="formButton toLeft" />
+	<acme:submit name="save" code="companyResult.save" css="formButton toLeft" />
+	
+	<jstl:if test="${companyResult.id != 0}" >
+		<acme:submit name="delete" code="companyResult.delete" css="formButton toLeft" />
+	</jstl:if>
+    <acme:cancel url="tenderResult/display.do?tenderResultId=${companyResult.tenderResult.id}" code="companyResult.cancel" css="formButton toLeft" />
 	<br />
 
 </form:form>

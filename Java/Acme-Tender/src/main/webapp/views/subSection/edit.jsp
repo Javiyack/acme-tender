@@ -18,10 +18,6 @@
 	<form:hidden path="commercial" />
 	<form:hidden path="administrative" />
 	
-	<input type="hidden" name=request value="${request }" />
-	<input type="hidden" name=requestId value="${requestId }" />
-	
-	
 	<jstl:choose>
 		<jstl:when test="${subSection.commercial.id != subSection.offer.commercial.id}">
 			<spring:message code="subSection.title" />: <jstl:out value=" ${subSection.title}"/> <br/>

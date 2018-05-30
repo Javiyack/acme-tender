@@ -13,12 +13,12 @@
 	</definition>
 	
 	<definition name="curriculum/edit" extends="master.page">
-		<put-attribute name="title" value="Edición de currículo" />
+		<put-attribute name="title" value="Editar curriculum" />
 		<put-attribute name="body" value="/views/curriculum/edit.jsp" />
 	</definition>
 	
 	<definition name="curriculum/display" extends="master.page">
-		<put-attribute name="title" value="Mostrando currículo" />
+		<put-attribute name="title" value="Mostrar curriculum" />
 		<put-attribute name="body" value="/views/curriculum/display.jsp" />
 	</definition>
 

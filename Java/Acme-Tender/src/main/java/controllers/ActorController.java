@@ -36,7 +36,7 @@ public class ActorController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result;
 
-		final Collection<Actor> actors = this.actorService.findAll();
+		final Collection<Actor> actors = this.actorService.findAllActivated();
 
 		result = new ModelAndView("actor/list");
 		result.addObject("actors", actors);

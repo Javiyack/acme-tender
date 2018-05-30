@@ -28,4 +28,10 @@ public class Constant {
 	public static final String	COMPANY_RESULT_WINNER				= "WINNER";
 	public static final String	COMPANY_RESULT_LOSER				= "LOSER";
 	public static final String	COMPANY_RESULT_RECKLESS_OFFER		= "RECKLESS_OFFER";
+	
+	// File parent types
+	public static final String	FILE_CURRICULUM						= "curriculum";
+	public static final String	FILE_SUBSECTION						= "subSection";
+	public static final String	FILE_TENDER							= "tender";
+	public static final String	FILE_TENDER_RESULT					= "tenderResult";
 }

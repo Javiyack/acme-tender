@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -70,7 +71,7 @@ public class FileService {
 
 		final File file = new File();
 		file.setSubSection(subSection);
-
+		
 		return file;
 	}
 
@@ -207,14 +208,7 @@ public class FileService {
 		if (file.getCurriculum() != null) {
 			if (file.getCurriculum().getSubSection().getCommercial() != null) {
 				commercial = this.commercialService.findByPrincipal();
-				;
 				Assert.isTrue(commercial.getId() == file.getCurriculum().getSubSection().getCommercial().getId());
-				return true;
-			}
-
-			if (file.getCurriculum().getSubSection().getAdministrative() != null) {
-				administrative = this.administrativeService.findByPrincipal();
-				Assert.isTrue(administrative.getId() == file.getCurriculum().getSubSection().getAdministrative().getId());
 				return true;
 			}
 		}
@@ -222,7 +216,6 @@ public class FileService {
 		if (file.getSubSection() != null) {
 			if (file.getSubSection().getCommercial() != null) {
 				commercial = this.commercialService.findByPrincipal();
-				;
 				Assert.isTrue(commercial.getId() == file.getSubSection().getCommercial().getId());
 				return true;
 			}
@@ -240,6 +233,7 @@ public class FileService {
 	public File save(final File file) {
 
 		if (this.canEditFile(file)) {
+			file.setUploadDate(new Date());
 			final File saved = this.fileRepository.save(file);
 
 			return saved;

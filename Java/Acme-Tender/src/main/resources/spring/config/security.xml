@@ -61,6 +61,7 @@
 	<security:intercept-url pattern="/tender/list.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tender/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tenderResult/display.do" access="isAuthenticated()" />
+	<security:intercept-url pattern="/companyResult/display.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tender/search.do" access="isAuthenticated()" />
 	<security:intercept-url pattern="/tender/searchResult.do" access="isAuthenticated()" />
 

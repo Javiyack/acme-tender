@@ -74,7 +74,6 @@ public class File extends DomainEntity {
 	private Tender tender;
 	private TenderResult tenderResult;
 
-	@Valid
 	@ManyToOne(optional = true)
 	public Curriculum getCurriculum() {
 		return curriculum;
@@ -84,7 +83,6 @@ public class File extends DomainEntity {
 		this.curriculum = curriculum;
 	}
 
-	@Valid
 	@ManyToOne(optional = true)	
 	public SubSection getSubSection() {
 		return subSection;
@@ -94,7 +92,6 @@ public class File extends DomainEntity {
 		this.subSection = subSection;
 	}
 
-	@Valid
 	@ManyToOne(optional = true)	
 	public Tender getTender() {
 		return tender;
@@ -104,7 +101,6 @@ public class File extends DomainEntity {
 		this.tender = tender;
 	}
 
-	@Valid
 	@ManyToOne(optional = true)	
 	public TenderResult getTenderResult() {
 		return tenderResult;

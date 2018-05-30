@@ -334,6 +334,7 @@
 		<property name="administrative" ref="administrative2" />
 		<property name="category" ref="category3" />
 		<property name="offer" ref="offer2" />
+		<property name="tenderResult" ref="tenderresult2" />
 	</bean>
 
 	<bean id="tender3" class="domain.Tender">
@@ -366,6 +367,7 @@
 		<property name="administrative" ref="administrative1" />
 		<property name="category" ref="category5" />
 		<property name="offer" ref="offer3" />
+		<property name="tenderResult" ref="tenderresult1" />
 	</bean>
 	
 	<bean id="tender4" class="domain.Tender">

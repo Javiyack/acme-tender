@@ -10,10 +10,20 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
+
+	<definition name="companyResult/display" extends="master.page">
+		<put-attribute name="title" value="Display Company Result" />
+		<put-attribute name="body" value="/views/companyResult/display.jsp" />
+	</definition>
 	
 	<definition name="companyResult/administrative/create" extends="master.page">
-		<put-attribute name="title" value="Create a Company Result" />
-		<put-attribute name="body" value="/views/companyResult/create.jsp" />
+		<put-attribute name="title" value="Create Company Result" />
+		<put-attribute name="body" value="/views/companyResult/edit.jsp" />
 	</definition>
+	
+	<definition name="companyResult/administrative/edit" extends="master.page">
+		<put-attribute name="title" value="Edit Company Result" />
+		<put-attribute name="body" value="/views/companyResult/edit.jsp" />
+	</definition>	
 
 </tiles-definitions>
