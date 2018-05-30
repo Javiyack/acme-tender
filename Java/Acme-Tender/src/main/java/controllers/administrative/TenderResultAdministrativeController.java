@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.TenderResultService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.TenderResult;
 
 @Controller
@@ -23,6 +25,8 @@ public class TenderResultAdministrativeController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private TenderResultService		tenderResultService;
+	@Autowired
+	private ActorService actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -37,6 +41,10 @@ public class TenderResultAdministrativeController extends AbstractController {
 		final TenderResult tenderResult;
 
 		tenderResult = this.tenderResultService.create(tenderId);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == actor.getId());
+		
 		result = this.createEditModelAndView(tenderResult);
 
 		return result;
@@ -50,6 +58,9 @@ public class TenderResultAdministrativeController extends AbstractController {
 		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
 		Assert.notNull(tenderResult);
 
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == actor.getId());
+		
 		result = this.createEditModelAndView(tenderResult);
 
 		return result;

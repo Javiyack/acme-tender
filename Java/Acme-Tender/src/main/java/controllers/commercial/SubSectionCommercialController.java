@@ -17,14 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Actor;
-import domain.CollaborationRequest;
-import domain.Commercial;
+import domain.Offer;
 import domain.SubSection;
 import services.ActorService;
-import services.CollaborationRequestService;
 import services.ComboService;
-import services.CommercialService;
-import services.MyMessageService;
+import services.OfferService;
 import services.SubSectionService;
 
 @Controller
@@ -35,9 +32,12 @@ public class SubSectionCommercialController extends AbstractController {
 	@Autowired
 	private SubSectionService			subSectionService;
 	@Autowired
-	private CommercialService			commercialService;
-	@Autowired
 	private ComboService				comboService;
+	@Autowired
+	private ActorService actorService;
+	@Autowired
+	private OfferService  offerService;
+	
 	// Constructor -----------------------------------------------------------
 	public SubSectionCommercialController() {
 		super();
@@ -48,6 +48,10 @@ public class SubSectionCommercialController extends AbstractController {
 	public ModelAndView create(@RequestParam final int offerId) {
 
 		final ModelAndView result = new ModelAndView("subSection/commercial/create");
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Offer offer = this.offerService.findOne(offerId);
+		Assert.isTrue(offer.getCommercial().getId() == actor.getId());
 
 		final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
 		result.addObject("subSection", subSection);
@@ -66,10 +70,9 @@ public class SubSectionCommercialController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int subSectionId) {
 		ModelAndView result;
 		SubSection subSection = this.subSectionService.findOne(subSectionId);
-		Commercial commercial = this.commercialService.findByPrincipal();
 
-		if (subSection.getCommercial() != null)
-			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 
 		result = this.createEditModelAndView(subSection);
 
@@ -81,7 +84,6 @@ public class SubSectionCommercialController extends AbstractController {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
-
 			result = this.createEditModelAndView(subSection);
 
 		} else {
@@ -100,10 +102,9 @@ public class SubSectionCommercialController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
 		ModelAndView result;
-		Commercial commercial = this.commercialService.findByPrincipal();
 
-		if (subSection.getCommercial() != null)
-			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 
 		try {
 			this.subSectionService.delete(subSection);

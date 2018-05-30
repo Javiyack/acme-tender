@@ -16,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ComboService;
 import services.CompanyResultService;
+import services.TenderResultService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.CompanyResult;
+import domain.TenderResult;
 
 @Controller
 @RequestMapping("/companyResult/administrative")
@@ -31,7 +33,8 @@ public class CompanyResultAdministrativeController extends AbstractController {
 	private CompanyResultService	companyResultService;
 	@Autowired
 	private ActorService	actorService;
-
+	@Autowired
+	private TenderResultService tenderResultService;
 
 	// Constructor -----------------------------------------------------------
 	public CompanyResultAdministrativeController() {
@@ -44,6 +47,10 @@ public class CompanyResultAdministrativeController extends AbstractController {
 		ModelAndView result;
 		final CompanyResult companyResult;
 
+		TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == actor.getId());
+		
 		companyResult = this.companyResultService.create(tenderResultId);
 		result = this.createEditModelAndView(companyResult);
 
@@ -57,6 +64,10 @@ public class CompanyResultAdministrativeController extends AbstractController {
 		final CompanyResult companyResult;
 
 		companyResult = this.companyResultService.findOne(companyResultId);
+		
+		Actor actor = this.actorService.findByPrincipal();
+		Assert.isTrue(companyResult.getTenderResult().getTender().getAdministrative().getId() == actor.getId());
+		
 		result = this.createEditModelAndView(companyResult);
 
 		return result;
@@ -90,7 +101,7 @@ public class CompanyResultAdministrativeController extends AbstractController {
 		ModelAndView result;
 		Actor actor = this.actorService.findByPrincipal();
 
-		Assert.isTrue(actor.getId() == companyResult.getTenderResult().getTender().getAdministrative().getId());
+		Assert.isTrue(companyResult.getTenderResult().getTender().getAdministrative().getId() == actor.getId());
 
 		try {
 			this.companyResultService.delete(companyResult);

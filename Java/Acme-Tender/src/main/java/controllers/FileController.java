@@ -28,7 +28,6 @@ public class FileController extends AbstractController{
 	@Autowired
 	private ActorService actorService;
 	
-
 	// Display 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int fileId) {
@@ -36,7 +35,9 @@ public class FileController extends AbstractController{
 
 		File file = this.fileService.findOne(fileId);
 		Actor actor = this.actorService.findByPrincipal();
-
+		
+		Assert.isTrue(this.fileService.canViewFile(file));		
+		
 		result = new ModelAndView("file/display");
 		result.addObject("file", file);
 		result.addObject("actor", actor);
@@ -79,6 +80,8 @@ public class FileController extends AbstractController{
 		ModelAndView result;
 
 		File file = this.fileService.findOne(fileId);
+		
+		Assert.isTrue(this.fileService.canEditFile(file));			
 			
 		result = this.createEditModelAndView(file);
 		return result;
@@ -97,20 +100,7 @@ public class FileController extends AbstractController{
 		} else {
 			try {
 				fileService.save(file);
-				
-				if (file.getTender() != null) {
-					result = new ModelAndView("redirect:/tender/display.do?tenderId=" + file.getTender().getId());
-				}
-				if (file.getTenderResult() != null) {
-					result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + file.getTenderResult().getId());
-				}	
-				if (file.getSubSection() != null) {
-					result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + file.getSubSection().getId());
-				}		
-				if (file.getCurriculum() != null) {
-					result = new ModelAndView("redirect:/curriculum/display.do?curriculumId=" + file.getCurriculum().getId());
-				}					
-				
+				result = this.getRedirect(file);				
 
 			} catch (Throwable oops) {
 				result = createEditModelAndView(file, "file.commit.error");
@@ -126,23 +116,12 @@ public class FileController extends AbstractController{
 	public ModelAndView delete(File file, BindingResult binding) {
 		
 		ModelAndView result = null;
+		
+		Assert.isTrue(this.fileService.canEditFile(file));		
 
 		try {
 			fileService.delete(file);
-			
-			if (file.getTender() != null) {
-				result = new ModelAndView("redirect:/tender/display.do?tenderId=" + file.getTender().getId());
-			}
-			if (file.getTenderResult() != null) {
-				result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + file.getTenderResult().getId());
-			}	
-			if (file.getSubSection() != null) {
-				result = new ModelAndView("redirect:/subSection/display.do?subSectionId=" + file.getSubSection().getId());
-			}		
-			if (file.getCurriculum() != null) {
-				result = new ModelAndView("redirect:/curriculum/display.do?curriculumId=" + file.getCurriculum().getId());
-			}					
-			
+			result = this.getRedirect(file);
 
 		} catch (Throwable oops) {
 			result = createEditModelAndView(file, "file.commit.error");
@@ -173,28 +152,26 @@ public class FileController extends AbstractController{
 		result.addObject("file", file);
 		result.addObject("message", messageCode);
 		
-		if (file.getTender() != null) {
-			result.addObject("parentId", file.getTender().getId());
-			result.addObject("parentType", Constant.FILE_TENDER);
-		}
-		if (file.getTenderResult() != null) {
-			result.addObject("parentId", file.getTenderResult().getId());
-			result.addObject("parentType", Constant.FILE_TENDER_RESULT);
-		}	
-		if (file.getSubSection() != null) {
-			result.addObject("parentId", file.getSubSection().getId());
-			result.addObject("parentType", Constant.FILE_SUBSECTION);
-		}		
-		if (file.getCurriculum() != null) {
-			result.addObject("parentId", file.getCurriculum().getId());
-			result.addObject("parentType", Constant.FILE_CURRICULUM);
-		}		
-		
-		
 		return result;
 	}	
 	
-	
+	private ModelAndView getRedirect(File file) {
+		
+		if (file.getTender() != null) {
+			return new ModelAndView("redirect:/tender/display.do?tenderId=" + file.getTender().getId());
+		}
+		if (file.getTenderResult() != null) {
+			return new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + file.getTenderResult().getId());
+		}	
+		if (file.getSubSection() != null) {
+			return new ModelAndView("redirect:/subSection/display.do?subSectionId=" + file.getSubSection().getId());
+		}		
+		if (file.getCurriculum() != null) {
+			return new ModelAndView("redirect:/curriculum/display.do?curriculumId=" + file.getCurriculum().getId());
+		}		
+		
+		return null;
+	}
 	
 
 }

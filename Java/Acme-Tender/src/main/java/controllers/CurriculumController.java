@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
-import domain.Commercial;
 import domain.Constant;
 import domain.Curriculum;
 import domain.File;
@@ -47,7 +46,9 @@ public class CurriculumController extends AbstractController {
 		ModelAndView result;
 
 		Actor actor = this.actorService.findByPrincipal();
+
 		Curriculum curriculum = curriculumService.findOne(curriculumId);
+		Assert.isTrue(this.subSectionService.canViewSubSection(curriculum.getSubSection().getId()));
 		curriculumService.checkListAndDisplay(curriculum.getSubSection().getId());
 		
 		Collection<File> files = this.fileService.findAllByCurriculum(curriculumId);
@@ -66,12 +67,10 @@ public class CurriculumController extends AbstractController {
 
 		ModelAndView result;
 
-		Actor principal = actorService.findByPrincipal();
-		Assert.isTrue(principal instanceof Commercial);
+		Actor actor = actorService.findByPrincipal();
 
-		SubSection subSection;
-		subSection = subSectionService.findOne(subSectionId);
-		Assert.isTrue(subSection.getCommercial() == principal);
+		SubSection subSection  = subSectionService.findOne(subSectionId);
+		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 		Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 
 		Curriculum curriculum;
@@ -91,38 +90,15 @@ public class CurriculumController extends AbstractController {
 
 		final Curriculum curriculum = this.curriculumService.findOneToEdit(curriculumId);
 
+		Actor actor = actorService.findByPrincipal();
+		Assert.isTrue(curriculum.getSubSection().getCommercial().getId() == actor.getId());
+
 		result = this.createEditModelAndView(curriculum);
 
 		return result;
 	}
 
-	//List curriculums from subSection
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam int subSectionId) {
-
-		ModelAndView result;
-		Collection<Curriculum> curriculums;
-
-		curriculums = curriculumService.getCurriculumsFromSubSectionId(subSectionId);
-
-		SubSection subSection;
-		subSection = subSectionService.findOne(subSectionId);
-
-		Actor principal;
-		principal = actorService.findByPrincipal();
-
-		result = new ModelAndView("curriculum/list");
-		result.addObject("curriculums", curriculums);
-		result.addObject("subSection", subSection);
-		result.addObject("principal", principal);
-
-		return result;
-
-	}
-
 	//Save
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Curriculum curriculum, final BindingResult binding) {
 
@@ -130,10 +106,7 @@ public class CurriculumController extends AbstractController {
 
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(curriculum);
-		} else
-
-		if (!this.curriculumService.checkLegalAge(curriculum.getDateOfBirth())) {
-
+		} else if (!this.curriculumService.checkLegalAge(curriculum.getDateOfBirth())) {
 			result = this.createEditModelAndView(curriculum, "curriculum.age.error");
 
 		} else {
@@ -153,6 +126,8 @@ public class CurriculumController extends AbstractController {
 	public ModelAndView delete(Curriculum curriculum, BindingResult binding) {
 
 		ModelAndView result;
+		Actor actor = actorService.findByPrincipal();
+		Assert.isTrue(curriculum.getSubSection().getCommercial().getId() == actor.getId());
 
 		try {
 			this.curriculumService.delete(curriculum);

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import domain.Actor;
 import domain.Administrative;
 import domain.Commercial;
 import domain.Curriculum;
@@ -29,9 +30,7 @@ public class FileService {
 
 	//Services
 	@Autowired
-	private CommercialService		commercialService;
-	@Autowired
-	private AdministrativeService	administrativeService;
+	private ActorService		actorService;
 	@Autowired
 	private TenderService			tenderService;
 	@Autowired
@@ -50,23 +49,17 @@ public class FileService {
 	// Methods CRUD ---------------------------------------------------------
 
 	public File createForSubSection(final int subSectionId) {
-		Administrative administrative = null;
-		Commercial commercial = null;
+		Actor actor = this.actorService.findByPrincipal();
 
 		final SubSection subSection = this.subSectionService.findOne(subSectionId);
 		Assert.notNull(subSection);
 
 		if (subSection.getAdministrative() != null) {
-			administrative = this.administrativeService.findByPrincipal();
-			Assert.notNull(administrative);
-			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
+			Assert.isTrue(subSection.getAdministrative().getId() == actor.getId());
 		}
 
 		if (subSection.getCommercial() != null) {
-			commercial = this.commercialService.findByPrincipal();
-			;
-			Assert.notNull(commercial);
-			Assert.isTrue(commercial.getId() == subSection.getCommercial().getId());
+			Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 		}
 
 		final File file = new File();
@@ -76,23 +69,13 @@ public class FileService {
 	}
 
 	public File createForCurriculum(final int curriculumId) {
-		Administrative administrative = null;
-		Commercial commercial = null;
+		Actor actor = this.actorService.findByPrincipal();
 
-		final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
+		Curriculum curriculum = this.curriculumService.findOne(curriculumId);
 		Assert.notNull(curriculum);
 
-		if (curriculum.getSubSection().getAdministrative() != null) {
-			administrative = this.administrativeService.findByPrincipal();
-			Assert.notNull(administrative);
-			Assert.isTrue(curriculum.getSubSection().getAdministrative().getId() == administrative.getId());
-		}
-
 		if (curriculum.getSubSection().getCommercial() != null) {
-			commercial = this.commercialService.findByPrincipal();
-			;
-			Assert.notNull(commercial);
-			Assert.isTrue(curriculum.getSubSection().getCommercial().getId() == commercial.getId());
+			Assert.isTrue(curriculum.getSubSection().getCommercial().getId() == actor.getId());
 		}
 
 		final File file = new File();
@@ -102,7 +85,10 @@ public class FileService {
 	}
 
 	public File createForTender(final int tenderId) {
+		Actor actor = this.actorService.findByPrincipal();
+		
 		final Tender tender = this.tenderService.findOneToEdit(tenderId);
+		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
 
 		final File file = new File();
 		file.setTender(tender);
@@ -110,12 +96,10 @@ public class FileService {
 	}
 
 	public File createForTenderResult(final int tenderResultId) {
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
+		Actor actor = this.actorService.findByPrincipal();
 
 		final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
-		Assert.notNull(tenderResult);
-		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == administrative.getId());
+		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == actor.getId());
 
 		final File file = new File();
 		file.setTenderResult(tenderResult);
@@ -124,8 +108,6 @@ public class FileService {
 
 	public File findOne(final int fileId) {
 		File result;
-		//final Administrator admin = this.administratorService.findByPrincipal();
-		//Assert.notNull(admin);
 
 		result = this.fileRepository.findOne(fileId);
 		Assert.notNull(result);
@@ -137,9 +119,6 @@ public class FileService {
 
 		Collection<File> result;
 
-		//final Administrator admin = this.administratorService.findByPrincipal();
-		//Assert.notNull(admin);
-
 		result = this.fileRepository.findByTender(tenderId);
 		Assert.notNull(result);
 
@@ -149,9 +128,6 @@ public class FileService {
 	public Collection<File> findAllByCurriculum(final int curriculumId) {
 
 		Collection<File> result;
-
-		//final Administrator admin = this.administratorService.findByPrincipal();
-		//Assert.notNull(admin);
 
 		result = this.fileRepository.findByCurriculum(curriculumId);
 		Assert.notNull(result);
@@ -163,9 +139,6 @@ public class FileService {
 
 		Collection<File> result;
 
-		//final Administrator admin = this.administratorService.findByPrincipal();
-		//Assert.notNull(admin);
-
 		result = this.fileRepository.findByTenderResult(tenderResultId);
 		Assert.notNull(result);
 
@@ -176,9 +149,6 @@ public class FileService {
 
 		Collection<File> result;
 
-		//final Administrator admin = this.administratorService.findByPrincipal();
-		//Assert.notNull(admin);
-
 		result = this.fileRepository.findBySubsection(subSectionId);
 		Assert.notNull(result);
 
@@ -187,48 +157,43 @@ public class FileService {
 
 	public boolean canEditFile(final File file) {
 
-		Commercial commercial = null;
-		Administrative administrative = null;
+		Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(file);
 
 		if (file.getTender() != null) {
-			administrative = this.administrativeService.findByPrincipal();
-			Assert.notNull(administrative);
-			Assert.isTrue(file.getTender().getAdministrative().getId() == administrative.getId());
-			return true;
+			return file.getTender().getAdministrative().getId() == actor.getId();
 		}
-
 		if (file.getTenderResult() != null) {
-			administrative = this.administrativeService.findByPrincipal();
-			Assert.notNull(administrative);
-			Assert.isTrue(file.getTenderResult().getTender().getAdministrative().getId() == administrative.getId());
-			return true;
-		}
-
-		if (file.getCurriculum() != null) {
-			if (file.getCurriculum().getSubSection().getCommercial() != null) {
-				commercial = this.commercialService.findByPrincipal();
-				Assert.isTrue(commercial.getId() == file.getCurriculum().getSubSection().getCommercial().getId());
-				return true;
-			}
-		}
-
+			return file.getTenderResult().getTender().getAdministrative().getId() == actor.getId();
+		}			
 		if (file.getSubSection() != null) {
-			if (file.getSubSection().getCommercial() != null) {
-				commercial = this.commercialService.findByPrincipal();
-				Assert.isTrue(commercial.getId() == file.getSubSection().getCommercial().getId());
-				return true;
-			}
-
-			if (file.getSubSection().getAdministrative() != null) {
-				administrative = this.administrativeService.findByPrincipal();
-				Assert.isTrue(administrative.getId() == file.getSubSection().getAdministrative().getId());
-				return true;
-			}
-		}
-
+			return subSectionService.canEditSubSection(file.getSubSection().getId());
+		}		
+		if (file.getCurriculum() != null) {
+			return subSectionService.canEditSubSection(file.getCurriculum().getSubSection().getId());
+		}	
 		return false;
 	}
+	
+
+	public boolean canViewFile(final File file) {
+
+		Assert.notNull(file);
+
+		if (file.getTender() != null) {
+			return true;
+		}
+		if (file.getTenderResult() != null) {
+			return true;
+		}			
+		if (file.getSubSection() != null) {
+			return subSectionService.canViewSubSection(file.getSubSection().getId());
+		}		
+		if (file.getCurriculum() != null) {
+			return subSectionService.canViewSubSection(file.getCurriculum().getSubSection().getId());
+		}	
+		return false;
+	}	
 
 	public File save(final File file) {
 
