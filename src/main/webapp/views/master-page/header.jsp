@@ -192,6 +192,9 @@
 				<a href="offer/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list" /></i>
 				</a>
+				<a href="offer/administrator/listNotPublished.do">
+					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.list.notpublished" /></i>
+				</a>					
 				<a href="offer/search.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.offers.search" /></i>
 				</a>			
@@ -206,10 +209,10 @@
 				<a href="tabooWord/administrator/list.do">
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.list" /></i>
 				</a>
-				<a href="tender/administrator/list.do"> 
+				<a href="tender/administrator/listWithTabooWord.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.tenders" /></i>
 				</a>		
-				<a href="offer/administrator/list.do"> 
+				<a href="offer/administrator/listWithTabooWord.do"> 
 					&nbsp;&nbsp;&nbsp;<i><spring:message code="master.page.tabooWords.offers" /></i>
 				</a>						
 				<hr />	

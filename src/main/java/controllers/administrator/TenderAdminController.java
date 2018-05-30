@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
+import services.ConfigurationService;
 import services.TenderService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Tender;
 
 @Controller
@@ -22,6 +25,10 @@ public class TenderAdminController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private TenderService	tenderService;
+	@Autowired
+	private ActorService			actorService;
+	@Autowired
+	private ConfigurationService	configurationService;	
 
 
 	// Constructor -----------------------------------------------------------
@@ -29,17 +36,22 @@ public class TenderAdminController extends AbstractController {
 		super();
 	}
 
-	// List Tenders ---------------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listTender() {
+	// List Tenders with taboo words ---------------------------------------------------------------
+	@RequestMapping(value = "/listWithTabooWord", method = RequestMethod.GET)
+	public ModelAndView listTender(Integer pageSize) {
 
 		final ModelAndView result;
-
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();		
+		Actor actor = this.actorService.findByPrincipal();
+		
 		final Collection<Tender> tenders = this.tenderService.findAllTenderWithTabooWords();
 
 		result = new ModelAndView("tender/administrator/list");
 		result.addObject("tenders", tenders);
-		result.addObject("requestUri", "tender/list.do");
+		result.addObject("requestUri", "tender/administrator/listWithTabooWord.do");
+		result.addObject("actor", actor);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);		
 
 		return result;
 	}

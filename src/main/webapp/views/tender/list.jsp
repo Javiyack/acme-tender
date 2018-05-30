@@ -91,6 +91,14 @@
 		</jstl:if>
 	</display:column>
 	
+	<security:authorize access="hasRole('ADMIN')">
+		<display:column style="background-color: ${rowCss}">
+			<a href="tender/administrator/delete.do?tenderId=${row.id}">
+				<spring:message code="tender.delete" />
+			</a>
+		</display:column>
+	</security:authorize>	
+	
 </display:table>
 <br/><br/>
 

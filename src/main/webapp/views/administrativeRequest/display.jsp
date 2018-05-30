@@ -65,7 +65,7 @@
 	 </jstl:choose>
 	
 	
-	<jstl:if test="${principal eq administrativeRequest.administrative && administrativeRequest.accepted == null }">
+	<jstl:if test="${principal eq administrativeRequest.administrative && administrativeRequest.accepted == null && !administrativeRequest.offer.published && administrativeRequest.answerable}">
 		<acme:button url="administrativeRequest/reject.do?requestId=${administrativeRequest.id }" text="administrativeRequest.reject" css="formButton toLeft"/>
 		<acme:button url="administrativeRequest/accept.do?requestId=${administrativeRequest.id }" text="administrativeRequest.accept" css="formButton toLeft"/>
 	</jstl:if>
