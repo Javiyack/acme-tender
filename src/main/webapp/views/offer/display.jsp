@@ -63,13 +63,13 @@
 		<acme:button url="offer/commercial/edit.do?offerId=${offer.id}" text="offer.edit" css="formButton toLeft"/>
 	</jstl:if>
 	
-	<jstl:if test="${offer.commercial.id == actor.id && !offer.published}" >
+	<jstl:if test="${offer.commercial.id == actor.id && offer.inDevelopment}" >
 		<acme:button text="offer.createCollaborationRequest" url="collaborationRequest/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
 		<acme:button text="offer.createAdministrativeRequest" url="administrativeRequest/create.do?offerId=${offer.id}" css="formButton toLeft" />
 	</jstl:if>
 	
 	<security:authorize access="hasRole('EXECUTIVE')">
-		<jstl:if test="${!offer.published}" >
+		<jstl:if test="${offer.inDevelopment}" >
 			<acme:button text="offer.deny" url="offer/executive/edit.do?offerId=${offer.id}" css="formButton toLeft red" />
 		</jstl:if>
 	</security:authorize>
@@ -207,7 +207,7 @@
 </fieldset>
 
 <security:authorize access="hasRole('COMMERCIAL')">
-	<jstl:if test="${!offer.published && offer.commercial.id == actor.id}" >
+	<jstl:if test="${offer.inDevelopment && offer.commercial.id == actor.id}" >
 		<acme:button text="subSection.create" url="subSection/commercial/create.do?offerId=${offer.id}" css="formButton toLeft" />
 	</jstl:if>
 </security:authorize>
