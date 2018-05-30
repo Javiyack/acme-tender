@@ -220,7 +220,7 @@ public class SubSectionService {
 		final SubSection subSection = this.subSectionRepository.findOne(subSectionId);
 
 		//Si la oferta está presentada, no puede editar la subseccion.
-		if (subSection.getOffer().isPublished())
+		if (!subSection.getOffer().isInDevelopment())
 			return false;
 
 		if (principal instanceof Commercial) {
