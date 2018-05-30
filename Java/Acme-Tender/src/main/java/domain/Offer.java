@@ -104,17 +104,6 @@ public class Offer extends DomainEntity {
 		this.tender = tender;
 	}
 
-	@Transient
-	public boolean isInDevelopment() {
-		if (this.getState() == null)
-			return false;
-
-		return this.getState().equals(Constant.OFFER_CREATED) || this.getState().equals(Constant.OFFER_IN_DEVELOPMENT);
-	}
-
-	public void setInDevelopment(final boolean development) {
-
-	}
 
 	@Transient
 	public boolean isPublished() {
@@ -126,10 +115,10 @@ public class Offer extends DomainEntity {
 		case Constant.OFFER_WINNED:
 		case Constant.OFFER_LOSED:
 		case Constant.OFFER_CHALLENGED:
+		case Constant.OFFER_ABANDONED:
+		case Constant.OFFER_DENIED:			
 			return true;
 
-		case Constant.OFFER_ABANDONED:
-		case Constant.OFFER_DENIED:
 		case Constant.OFFER_CREATED:
 		case Constant.OFFER_IN_DEVELOPMENT:
 			return false;

@@ -546,3 +546,7 @@ to {
 .oculto{
 	display: none;
 }
+
+.red {
+	background-color: red !important;
+}

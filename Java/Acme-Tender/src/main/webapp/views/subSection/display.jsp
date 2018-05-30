@@ -31,10 +31,10 @@
 	<acme:labelvalue code="subSection.comments"  value="${subSection.comments}" /> 
 	<br/><br/>
 
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
+	<jstl:if test="${!subSection.offer.published && subSection.commercial.id == actorId}" >
 		<acme:button text="subSection.edit" url="/subSection/commercial/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 	</jstl:if>
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.administrative.id == actorId}" >
+	<jstl:if test="${!subSection.offer.published && subSection.administrative.id == actorId}" >
 		<acme:button text="subSection.edit" url="/subSection/administrative/edit.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 	</jstl:if>
 	<acme:button text="subSection.back" url="/offer/display.do?offerId=${subSection.offer.id}" css="formButton toLeft" />
@@ -62,7 +62,7 @@
 				
 		</display:table>
 		<br />
-		<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
+		<jstl:if test="${!subSection.offer.published && subSection.commercial.id == actorId}" >
 			<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 		</jstl:if>
 	</fieldset>
@@ -83,7 +83,7 @@
 		</display:column>
 	</display:table>
 	<br />
-	<jstl:if test="${subSection.offer.inDevelopment && (subSection.commercial.id == actorId || subSection.administrative.id == actorId)}" >
+	<jstl:if test="${!subSection.offer.published && (subSection.commercial.id == actorId || subSection.administrative.id == actorId)}" >
 		<acme:button text="file.create" url="/file/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
 	</jstl:if>
 
@@ -109,10 +109,10 @@
 		
 	</display:table>
 	<br />
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
+	<jstl:if test="${!subSection.offer.published && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
 		<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 	</jstl:if>
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && !tenderHasEvaluationCriterias}" >
+	<jstl:if test="${!subSection.offer.published && subSection.commercial.id == actorId && !tenderHasEvaluationCriterias}" >
 		<spring:message code="subSection.cannot.add.subSectionEvaluationCriterias" />
 	</jstl:if>
 	

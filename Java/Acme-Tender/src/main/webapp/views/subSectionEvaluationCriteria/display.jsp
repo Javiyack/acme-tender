@@ -20,7 +20,7 @@
 
 <br>
 
-<jstl:if test="${subSectionEvaluationCriteria.subSection.offer.inDevelopment && subSectionEvaluationCriteria.subSection.commercial.id == actorId}" >
+<jstl:if test="${!subSectionEvaluationCriteria.subSection.offer.published && subSectionEvaluationCriteria.subSection.commercial.id == actorId}" >
 	<acme:button url="subSectionEvaluationCriteria/commercial/edit.do?subSectionEvaluationCriteriaId=${subSectionEvaluationCriteria.id}" text="subSectionEvaluationCriteria.edit" css="formButton toLeft" />
 </jstl:if>
 <acme:button url="subSection/display.do?subSectionId=${subSectionEvaluationCriteria.subSection.id}" text="subSectionEvaluationCriteria.back" css="formButton toLeft" />
