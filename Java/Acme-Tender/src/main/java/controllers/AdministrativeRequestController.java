@@ -111,7 +111,12 @@ public class AdministrativeRequestController extends AbstractController {
 						result = new ModelAndView("redirect:display.do?administrativeRequestId=" + administrativeRequest.getId());
 					}
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.commit.error");
+					if (oops.getMessage() == "administrativeRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate")
+						result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
+					else if (oops.getMessage() == "administrativeRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate")
+						result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
+					else					
+						result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.commit.error");
 
 				}
 

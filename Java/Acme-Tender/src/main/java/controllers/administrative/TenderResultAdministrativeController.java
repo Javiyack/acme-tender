@@ -79,7 +79,11 @@ public class TenderResultAdministrativeController extends AbstractController {
 				result = new ModelAndView("redirect:/tenderResult/display.do?tenderResultId=" + saved.getId());
 
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(tenderResult, "tenderResult.commit.error");
+				
+				if (oops.getMessage() == "tenderResult.error.tenderDate.must.be.after.tender.maxPresentationDate")
+					result = this.createEditModelAndView(tenderResult, oops.getMessage());
+				else
+					result = this.createEditModelAndView(tenderResult, "tenderResult.commit.error");
 			}
 		return result;
 	}

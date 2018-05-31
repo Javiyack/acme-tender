@@ -87,7 +87,11 @@ public class OfferCommercialController extends AbstractController {
 				result = new ModelAndView("redirect:/offer/display.do?offerId=" + saved.getId());
 
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(offer, "offer.commit.error");
+				
+				if (oops.getMessage() == "offer.error.presentationDate.not.before.tender.maxPresentationDate")
+					result = this.createEditModelAndView(offer, oops.getMessage());
+				else
+					result = this.createEditModelAndView(offer, "offer.commit.error");
 			}
 		return result;
 	}

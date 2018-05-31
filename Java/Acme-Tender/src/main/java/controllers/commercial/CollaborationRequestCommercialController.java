@@ -197,7 +197,13 @@ public class CollaborationRequestCommercialController extends AbstractController
 						result = new ModelAndView("redirect:display.do?collaborationRequestId=" + collaborationRequest.getId());
 					}
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
+					
+					if (oops.getMessage() == "collaborationRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate")
+						result = this.createEditModelAndView(collaborationRequest, oops.getMessage());
+					else if (oops.getMessage() == "collaborationRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate")
+						result = this.createEditModelAndView(collaborationRequest, oops.getMessage());
+					else
+						result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.commit.error");
 
 				}
 
