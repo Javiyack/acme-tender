@@ -381,5 +381,127 @@
 		</display:column>
 	</display:table>
 	<br>
+	
 </div>
+<div class="dashboard">
 
+	<h5><spring:message code="dashboard.level"></spring:message> A</h5>
+	<br>
+	<h3>
+		<spring:message code="dashboard.high.interest.tenders" />
+		<spring:message code="dashboard.high.interest.no.offer.tenders" />
+	</h3>
+	
+	<display:table class="displaytag" name="consultaA1" id="row">
+		<acme:column property="organism" title="tender.organism"/>		
+		<spring:message code="tender.title" var="tituloColumna"/>
+		<display:column title="${tituloColumna}" class="${classTd}">
+			<div>
+				<a href="tender/display.do?tenderId=${row.id}"> 
+					<jstl:out value="${row.title}"/>
+				</a>
+			</div>
+		</display:column>
+		<acme:column property="maxPresentationDate" title="tender.maxPresentationDate"/>
+		<acme:column property="executionTime" title="tender.executionTime"/>
+		<acme:column property="estimatedAmount" title="tender.estimatedAmount"/>
+	</display:table>
+	<br>
+	<h3>
+		<spring:message code="dashboard.high.interest.tenders" />
+		<spring:message code="dashboard.high.interest.abandoned.tenders" />
+	</h3>
+	
+	<display:table class="displaytag" name="consultaA2" id="row">
+		
+		<acme:column property="organism" title="tender.organism"/>		
+		<spring:message code="tender.title" var="tituloColumna"/>
+		<display:column title="${tituloColumna}" class="${classTd}">
+			<div>
+				<a href="tender/display.do?tenderId=${row.id}"> 
+					<jstl:out value="${row.title}"/>
+				</a>
+			</div>
+		</display:column>
+		<acme:column property="maxPresentationDate" title="tender.maxPresentationDate"/>
+		<acme:column property="executionTime" title="tender.executionTime"/>
+		<acme:column property="estimatedAmount" title="tender.estimatedAmount"/>
+		
+	</display:table>
+	<br>
+	<!-- Listado de solicitudes administrativas rechazadas por el usuario administrativo, mostrando el motivo. -->
+	<h3>
+		<spring:message code="dashboard.A3" />
+	</h3>
+	<display:table class="displaytag" name="consultaA3" id="row">
+		<spring:message code="offer.tender.title" var="tituloColumna"/>
+		<display:column title="${tituloColumna}" class="${classTd}">
+			<div>
+				<a href="tender/display.do?tenderId=${row.offer.tender.id}"> 
+					<jstl:out value="${row.offer.tender.title}"/>
+				</a>
+			</div>
+		</display:column>
+		<acme:column property="administrative.userAccount.username" title="actor.name"/>
+		<acme:column property="maxAcceptanceDate" title="tender.executionTime"/>
+		<acme:column property="rejectedReason" title="administrativeRequest.rejectedReason"/>
+		<acme:column property="offer.amount" title="offer.amount"/>
+		
+	</display:table>
+	<br>
+	<!-- Listado de solicitudes de colaboraciÃ³n rechazadas por comerciales,
+		 * mostrando el motivo. --> 
+	<h3>
+		<spring:message code="dashboard.A4" />
+	</h3>
+	<display:table class="displaytag" name="consultaA4" id="row">
+		<spring:message code="offer.tender.title" var="tituloColumna"/>
+		<display:column title="${tituloColumna}" class="${classTd}">
+			<div>
+				<a href="tender/display.do?tenderId=${row.offer.tender.id}"> 
+					<jstl:out value="${row.offer.tender.title}"/>
+				</a>
+			</div>
+		</display:column>
+		<acme:column property="commercial.userAccount.username" title="actor.name"/>
+		<acme:column property="maxAcceptanceDate" title="tender.executionTime"/>
+		<acme:column property="rejectedReason" title="administrativeRequest.rejectedReason"/>
+		<acme:column property="offer.amount" title="offer.amount"/>
+		
+	</display:table>	
+	<br>
+	<!-- Media y desviación tÃ­pica del porcentaje de beneficios ofertado en Solicitudes de colaboracón aceptadas. -->
+
+	<h3>
+		<spring:message code="dashboard.A5" />
+	</h3>
+	<display:table class="displaytag" name="consultaA5" id="row">
+		<spring:message code="dashboard.avg" var="title" />
+		<display:column title="${title}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		<spring:message code="dashboard.dev" var="title" />
+		<display:column title="${title}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+	</display:table>
+	<br>
+	
+	
+	<!--  Media y desviacion tipica del porcentaje de beneficios ofertado en Solicitudes de colabora rechazadas. -->
+	<h3>
+		<spring:message code="dashboard.A6" />
+	</h3>
+	<display:table class="displaytag" name="consultaA6" id="row">
+		<spring:message code="dashboard.avg" var="title" />
+		<display:column title="${title}">
+			<jstl:out value="${row[0]}" />
+		</display:column>
+		<spring:message code="dashboard.dev" var="title" />
+		<display:column title="${title}">
+			<jstl:out value="${row[1]}" />
+		</display:column>
+	</display:table>
+	<br>
+	
+</div>

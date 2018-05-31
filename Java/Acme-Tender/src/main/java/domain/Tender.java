@@ -31,7 +31,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(indexes = {
-	@Index(columnList = "title, expedient, organism, bulletin, interestComment, informationPage")
+	@Index(columnList = "title, expedient, interestComment, informationPage")
 })
 public class Tender extends DomainEntity {
 
