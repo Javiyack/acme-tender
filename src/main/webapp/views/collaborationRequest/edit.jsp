@@ -56,13 +56,13 @@
 		<acme:textarea code="collaborationRequest.subSectionDescription" path="subSectionDescription" />
 		<br />
 
-		<acme:textbox code="collaborationRequest.benefitsPercentage" path="benefitsPercentage" />
+		<acme:input type="number" code="collaborationRequest.benefitsPercentage" path="benefitsPercentage" css="formInput"/>
 		<br />
 
-		<acme:textarea code="collaborationRequest.requirements" path="requirements" />
+		<acme:textarea code="collaborationRequest.requirements" path="requirements"/>
 		<br />
 
-		<acme:textbox code="collaborationRequest.numberOfPages" path="numberOfPages" />
+		<acme:input type="number" code="collaborationRequest.numberOfPages" path="numberOfPages" css="formInput"/>
 		<br />
 
 		<acme:textbox code="collaborationRequest.maxAcceptanceDate" path="maxAcceptanceDate" placeholder="dd/MM/yyyy" />

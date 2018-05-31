@@ -7,7 +7,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <div class="form">
 
@@ -43,8 +43,12 @@
 							<option value="${permiso}">
 								<spring:message code="actor.authority.${permiso}" />
 							</option>
+							
 						</jstl:forEach>
 					</select>
+					<br>
+					<acme:textbox code="actor.username" path="username" css="formInput"/>
+					<br>
 				</jstl:if>
 				<jstl:if test="${!creation}">
 					<form:hidden path="authority"/>
@@ -52,20 +56,25 @@
 						readonly="true" />
 					<acme:label code="actor.authority.${registerForm.authority}" path="authority"
 						css="formInput" readonly="true" />
+					<br>		
+					<acme:textbox code="actor.username" path="username" css="formInput" readonly="true"/>
 				</jstl:if>
 			</div>
-			<br>			
-			<acme:textbox code="actor.username" path="username" css="formInput" />
-			<br />
 			<jstl:if test="${creation}">
 				<acme:password code="profile.userAccount.password" path="password" css="formInput" id = "password" onkeyup="javascript: checkPassword();" />
 				<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkPassword();"/>		
 			
 			</jstl:if>		
 			<jstl:if test="${!creation}">
-				<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="javascript: checkEdition();" />	
-				<acme:password code="profile.userAccount.newPassword" path="newPassword" css="formInput" id = "new_password" onkeyup="javascript: checkEdition();" />
-				<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkEdition();"/>		
+				
+				<spring:message code="profile.userAccount.changePassword" var="pass"/>
+				<input type="button" value="${pass}" onclick="javascript: showPasswords();" class="formButton1"/>
+				<br>
+				<div id="changePassword" style="display:none;">
+					<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="javascript: checkEdition();" />
+					<acme:password code="profile.userAccount.newPassword" path="newPassword" css="formInput" id = "new_password" onkeyup="javascript: checkEdition();" />
+					<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkEdition();"/>
+				</div>		
 			</jstl:if>	
 		</div>
 	
@@ -76,7 +85,7 @@
 			<br />
 		</security:authorize>
 		<input type="submit" name="save" id="save"
-			value='<spring:message code="actor.save"/>' class="formButton toLeft disabled"/>&nbsp;
+			value='<spring:message code="actor.save"/>' class="formButton toLeft"/>&nbsp;
 		<input type="button" name="cancel"
 			value='<spring:message code="actor.cancel" />'
 			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>
