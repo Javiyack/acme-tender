@@ -13,17 +13,17 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.ActorRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
-import security.UserAccountService;
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
 import domain.Commercial;
 import domain.Executive;
 import forms.RegisterForm;
+import repositories.ActorRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import security.UserAccountService;
 
 @Service
 @Transactional
@@ -60,7 +60,7 @@ public class ActorService {
 
 		return result;
 	}
-	
+
 	public Collection<Actor> findAllActivated() {
 		Collection<Actor> result;
 
@@ -68,7 +68,7 @@ public class ActorService {
 		Assert.notNull(result);
 
 		return result;
-	}	
+	}
 
 	public Actor findOne(final int actorId) {
 		Assert.isTrue(actorId != 0);
@@ -160,11 +160,10 @@ public class ActorService {
 		return authorities.get(0).getAuthority();
 	}
 
-	public Actor recontruct(final RegisterForm actorForm, final BindingResult binding) {
+	public Actor reconstruct(final RegisterForm actorForm, final BindingResult binding) {
 		Actor logedActor = null;
 		UserAccount useraccount = null;
-		Md5PasswordEncoder encoder;
-		encoder = new Md5PasswordEncoder();
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		if (actorForm.getId() == 0) {
 			actorForm.setNewPassword(actorForm.getPassword());
 			useraccount = new UserAccount();
@@ -206,29 +205,43 @@ public class ActorService {
 			this.folderService.createSystemFolders(logedActor);
 
 		} else {
-			final String formPass = encoder.encodePassword(actorForm.getPassword(), null);
 			logedActor = this.findByPrincipal();
-			logedActor.getUserAccount().setUsername(actorForm.getUsername());
 			logedActor.setName(actorForm.getName());
 			logedActor.setSurname(actorForm.getSurname());
 			logedActor.setEmail(actorForm.getEmail());
 			logedActor.setAddress(actorForm.getAddress());
 			logedActor.setPhone(actorForm.getPhone());
-			if (actorForm.getPassword().isEmpty()) {
-				actorForm.setNewPassword("XXXXX");
-				actorForm.setConfirmPassword("XXXXX");
-				this.validator.validate(actorForm, binding);
-			} else if (!actorForm.getNewPassword().isEmpty()) {
-				this.validator.validate(actorForm, binding);
+
+			// Si ha cambiado algún parámetro del Authority (Usuario, password)
+			if (this.checkChangeAuthority(actorForm, logedActor)) {
+				// Comprueba la contraseña y la cambia si todo ha ido bien
+				final String formPass = encoder.encodePassword(actorForm.getPassword(), null);
 				Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()), "profile.userAccount.repeatPassword.mismatch");
-				actorForm.setPassword(actorForm.getNewPassword());
+				Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+
+				// Valida el formulario
+				this.validator.validate(actorForm, binding);
+
+				// Cambia el usuario y contraseña
+				logedActor.getUserAccount().setUsername(actorForm.getUsername());
+				logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getNewPassword(), null));
 			}
-			Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
-			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
-
 		}
-
 		return logedActor;
+	}
+
+	/**
+	 * Comprueba que el username no ha cambiado en el formulario y que la password no es vacía
+	 *
+	 * @param actorForm:
+	 *            Formulario web
+	 * @param logedActor:
+	 *            Actor logeado
+	 * @return boolean
+	 */
+	private Boolean checkChangeAuthority(final RegisterForm actorForm, final Actor logedActor) {
+		final UserAccount ua = logedActor.getUserAccount();
+		return ua.getUsername().equals(actorForm.getUsername()) && actorForm.getPassword().isEmpty() ? false : true;
 	}
 
 	public void flush() {

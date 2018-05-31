@@ -25,6 +25,7 @@ public class ActorController extends AbstractController {
 	@Autowired
 	private ActorService actorService;
 
+
 	// Constructors -----------------------------------------------------------
 
 	public ActorController() {
@@ -33,7 +34,7 @@ public class ActorController extends AbstractController {
 
 	// List ------------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(Integer pageSize) {
+	public ModelAndView list(final Integer pageSize) {
 		ModelAndView result;
 
 		final Collection<Actor> actors = this.actorService.findAllActivated();
@@ -41,7 +42,7 @@ public class ActorController extends AbstractController {
 		result = new ModelAndView("actor/list");
 		result.addObject("actors", actors);
 		result.addObject("requestUri", "actor/list.do");
-		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
+		result.addObject("pageSize", (pageSize != null) ? pageSize : 5);
 		return result;
 	}
 
@@ -65,7 +66,7 @@ public class ActorController extends AbstractController {
 	@RequestMapping("/create")
 	public ModelAndView create() {
 		ModelAndView result;
-		RegisterForm registerForm = new RegisterForm();
+		final RegisterForm registerForm = new RegisterForm();
 		result = this.createEditModelAndView(registerForm, null);
 		return result;
 	}
@@ -86,52 +87,51 @@ public class ActorController extends AbstractController {
 	// Save mediante Post ---------------------------------------------------
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(RegisterForm registerForm, BindingResult binding) {
+	public ModelAndView save(final RegisterForm registerForm, final BindingResult binding) {
 		ModelAndView result;
 		Actor actor;
 
 		try {
-			actor = actorService.recontruct(registerForm, binding);
-			if (binding.hasErrors()) {
+			actor = this.actorService.reconstruct(registerForm, binding);
+			if (binding.hasErrors())
 				result = this.createEditModelAndView(registerForm);
-			} else {
+			else
 				try {
 					this.actorService.save(actor);
-					result = this.createMessageModelAndView("user.created.but.not.activated", "security/login.do");
-					
+					if (actor.getId() == 0)
+						result = this.createMessageModelAndView("user.created.but.not.activated", "security/login.do");
+					else
+						result = new ModelAndView("redirect:/");
 				} catch (final Throwable oops) {
-					if (oops.getCause().getCause() != null
-							&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
+					if (oops.getCause().getCause() != null && oops.getCause().getCause().getMessage().startsWith("Duplicate"))
 						result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
 					else
 						result = this.createEditModelAndView(registerForm, "actor.commit.error");
 				}
-			}
 
 		} catch (final Throwable oops) {
 			if (oops.getLocalizedMessage().contains("profile"))
 				result = this.createEditModelAndView(registerForm, oops.getLocalizedMessage());
-			else if (oops.getCause().getCause() != null
-					&& oops.getCause().getCause().getMessage().startsWith("Duplicate"))
+			else if (oops.getCause().getCause() != null && oops.getCause().getCause().getMessage().startsWith("Duplicate"))
 				result = this.createEditModelAndView(registerForm, "profile.duplicate.username");
 			else
-				result = this.createEditModelAndView(registerForm, "actor.recontruct.error");
+				result = this.createEditModelAndView(registerForm, "actor.reconstruct.error");
 		}
 
 		return result;
 	}
 
 	// Auxiliary methods -----------------------------------------------------
-	protected ModelAndView createEditModelAndView(RegisterForm model) {
+	protected ModelAndView createEditModelAndView(final RegisterForm model) {
 		final ModelAndView result;
 		result = this.createEditModelAndView(model, null);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(RegisterForm model, String message) {
+	protected ModelAndView createEditModelAndView(final RegisterForm model, final String message) {
 		final ModelAndView result;
-		Collection<Authority> permisos = Authority.listAuthorities();
-		Authority authority = new Authority();
+		final Collection<Authority> permisos = Authority.listAuthorities();
+		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
 		permisos.remove(authority);
 

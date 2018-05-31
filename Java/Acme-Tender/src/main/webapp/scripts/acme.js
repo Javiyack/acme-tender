@@ -10,8 +10,7 @@ function askSubmission(msg, form) {
 function relativeRedir(loc) {
 	var b = document.getElementsByTagName('base');
 	if (b && b[0] && b[0].href) {
-		if (b[0].href.substr(b[0].href.length - 1) == '/'
-				&& loc.charAt(0) == '/')
+		if (b[0].href.substr(b[0].href.length - 1) == '/' && loc.charAt(0) == '/')
 			loc = loc.substr(1);
 		loc = b[0].href + loc;
 	}
@@ -23,8 +22,7 @@ function ellipsis(elemento) {
 }
 
 /*
- * When the user clicks on the button, toggle between hiding and showing the
- * dropdown content
+ * When the user clicks on the button, toggle between hiding and showing the dropdown content
  */
 function myFunction() {
 	document.getElementById("myDropdown").classList.toggle("show");
@@ -89,25 +87,20 @@ function drop(evt, target) {
 	} else {
 		if (document.getElementById("fotosPath").innerHTML.length > 0) {
 			if (!document.getElementById("fotosPath").innerHTML.includes(url)) {
-				document.getElementById("fotosPath").innerHTML = document
-						.getElementById("fotosPath").innerHTML.concat(", "
-						+ url);
+				document.getElementById("fotosPath").innerHTML = document.getElementById("fotosPath").innerHTML.concat(", " + url);
 				$(document.getElementById("carrusel")).append(elemento);
 				$(document.getElementById("fotos")).append(imagen);
 				var slides = document.getElementsByClassName("mySlides");
-				var punto = ('<span class="dot" onclick="currentSlide('
-						+ slides.length + ')"></span>');
+				var punto = ('<span class="dot" onclick="currentSlide(' + slides.length + ')"></span>');
 				$(document.getElementById("punto")).append(punto);
 
 			}
 		} else {
-			document.getElementById("fotosPath").innerHTML = document
-					.getElementById("fotosPath").innerHTML.concat(url);
+			document.getElementById("fotosPath").innerHTML = document.getElementById("fotosPath").innerHTML.concat(url);
 			$(document.getElementById("carrusel")).append(elemento);
 			$(document.getElementById("fotos")).append(imagen);
 			var slides = document.getElementsByClassName("mySlides");
-			var punto = ('<span class="dot" onclick="currentSlide('
-					+ slides.length + ')"></span>');
+			var punto = ('<span class="dot" onclick="currentSlide(' + slides.length + ')"></span>');
 			$(document.getElementById("punto")).append(punto);
 
 		}
@@ -117,8 +110,7 @@ function drop(evt, target) {
 
 function checkPassword() {
 
-	if (document.getElementById('password').value.length > 4
-			&& document.getElementById('password').value.length < 33) {
+	if (document.getElementById('password').value.length > 4 && document.getElementById('password').value.length < 33) {
 		document.getElementById('password').style.color = 'green';
 		document.getElementById("save").className = "formButton toLeft";
 	} else {
@@ -126,8 +118,7 @@ function checkPassword() {
 		document.getElementById("save").className = "formButton toLeft disabled";
 	}
 
-	if (document.getElementById('password').value == document
-			.getElementById('confirm_password').value) {
+	if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
 		document.getElementById('confirm_password').style.color = 'green';
 		document.getElementById("save").className = "formButton toLeft";
 	} else {
@@ -137,38 +128,39 @@ function checkPassword() {
 }
 
 function checkEdition() {
-	var enabled = true;
-	
-	if (document.getElementById('new_password').value.length > 4
-			&& document.getElementById('new_password').value.length < 33) {
-		document.getElementById('new_password').style.color = 'green';
-	} else {
-		document.getElementById('new_password').style.color = 'red';
-		enabled = false;
-	}
-	
-	if (document.getElementById('new_password').value == document
-			.getElementById('confirm_password').value) {
-		document.getElementById('confirm_password').style.color = 'green';
-	} else {
-		document.getElementById('confirm_password').style.color = 'red';
-		enabled = false;
-	}
-	
-	if (document.getElementById('password').value.length > 4
-			&& document.getElementById('password').value.length < 33) {
-		document.getElementById('password').style.color = 'green';
-		if(document.getElementById('new_password').value.length == 0 && document.getElementById('confirm_password').value.length == 0){
+	var enabled = false;
+	var newPassword = document.getElementById('new_password');
+	var confirmPassword = document.getElementById('confirm_password');
+
+	if (document.getElementById('password').value.length != 0 && newPassword.value.length > 4 && newPassword.value.length < 33) {
+		newPassword.style.color = 'green';
+		if (newPassword.value == confirmPassword.value) {
+			confirmPassword.style.color = 'green';
 			enabled = true;
-		}		
-		} else {
-		document.getElementById('password').style.color = 'red';
-		enabled = false;
-	}
+		} else
+			confirmPassword.style.color = 'red';
+	} else
+		newPassword.style.color = 'red';
+
 	if (enabled == true) {
 		document.getElementById("save").className = "formButton toLeft";
+		document.getElementById("save").disabled = false;
+		
 	} else {
 		document.getElementById("save").className = "formButton toLeft disabled";
+		document.getElementById("save").disabled = true;
+		
 	}
+}
 
+function showPasswords(){
+	
+	var changedPassword = document.getElementById("changePassword");
+	if(changedPassword.style.display == "block"){
+		changedPassword.style.display = "none"
+	} else{
+		changedPassword.style.display = "block"
+		document.getElementById("save").className = "formButton toLeft disabled";
+		document.getElementById("save").disabled = true;
+	}
 }
