@@ -10,6 +10,7 @@
 
 package controllers.executive;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import controllers.AbstractController;
 import domain.Actor;
+import domain.AdministrativeRequest;
+import domain.CollaborationRequest;
 import domain.Executive;
 import domain.Offer;
+import domain.Tender;
 import exceptions.HackingException;
 import services.ActorService;
 import services.DashboardService;
@@ -34,14 +38,13 @@ import services.ExecutiveService;
 public class DashboardExecutiveController extends AbstractController {
 
 	@Autowired
-	DashboardService	dashboardService;
+	DashboardService dashboardService;
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	ActorService		actorService;
+	ActorService actorService;
 	@Autowired
-	ExecutiveService	executiveService;
-
+	ExecutiveService executiveService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -75,72 +78,119 @@ public class DashboardExecutiveController extends AbstractController {
 		final Collection<Object> consultaC6 = this.executiveService.offersByStateAndCommercialRatio();
 		result.addObject("c6Datos", consultaC6);
 		/*
-		====================================
-		B
-		====================================
-		i.	Top 10 por importe de oferta econ�mica de ofertas presentadas el �ltimo mes.
-			(meter a�o*100 + mes anterior (2 digitos) al actual mediante java (integer):
-			select o from Offer o where year(o.presentationDate)*100+month(o.presentationDate) = 201802 order by o.amount desc
-
-		Para tomar solo las 10 primeras:
-						
-			En el repositorio (tiene que devolver List<>):
-				
-				@Query("from User u where ...")
-				List<User> findAllUsersWhereFoo(Pageable pageable);
-		
-		  	En el servicio:
-				
-				Collection<User> findTop10UsersWhereFoo() {
-					return findAllUsersWhereFoo(new PageRequest(0,10));
-			}
-*/
+		 * ==================================== B ====================================
+		 * 
+		 * i. Top 10 por importe de oferta económica de ofertas presentadas el último mes.
+		 */
 		Date now = new Date();
-		final Collection<Offer> consultaB1 = this.executiveService.findTopOffersOnMonth(now, 10);
-		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(now); // Configuramos la fecha actual
+		calendar.add(Calendar.MONTH, -1); // Lo ponemos al mes anterior
+		final Collection<Offer> consultaB1 = this.executiveService.findTopOffersOnMonth(calendar.getTime(), 10);
+
 		result.addObject("consultaB1", consultaB1);
-		
-		
-/*
-		ii.	Top 10 por importe de oferta econ�mica de ofertas ganadas los �ltimos tres meses.
-			(meter a�o*100 + mes(2 digitos) de hace 3 meses mediante java (integer))
-		select o from Offer o where year(o.presentationDate)*100+month(o.presentationDate) >= 201801 and o.status = 'WINNED' order by o.amount desc
-*/
-		final List<Offer> consultaB2 = this.executiveService.findTopWinedOffersOnThreeMonthsFrom(now, 10);
-		
+
+		/*
+		 * ii. Top 10 por importe de oferta económica de ofertas ganadas los últimos tres meses. 
+		 */
+		calendar.setTime(now); // Configuramos la fecha actual
+		calendar.add(Calendar.MONTH, -3); // Lo ponemos al mes anterior
+		final List<Offer> consultaB2 = this.executiveService.findTopWinedOffersOnThreeMonthsFrom(calendar.getTime(), now, 10);
+
 		result.addObject("consultaB2", consultaB2);
-		
-		
-/* 		iii. Ratio medio de la oferta econ�mica sobre el importe estimado de licitaci�n, agrupando por empresa en resultado de concurso.
 
-		select cr.name, avg(cr.economicalOffer / t.estimatedAmount) from CompanyResult cr join cr.tenderResult tr join tr.tender t where t.estimatedAmount != 0 group by cr.name
-
-*/
+		/*
+		 * iii. Ratio medio de la oferta económica sobre el importe estimado de
+		 * licitación, agrupando por empresa en resultado de concurso.
+		 * 
+		 * select cr.name, avg(cr.economicalOffer / t.estimatedAmount) from
+		 * CompanyResult cr join cr.tenderResult tr join tr.tender t where
+		 * t.estimatedAmount != 0 group by cr.name
+		 * 
+		 */
 		final Collection<Object> consultaB3 = this.executiveService.findAvgRatioAmounOfferOverTender();
-		
+
 		result.addObject("consultaB3", consultaB3);
-		
-		
-/*		iv.	Top 10 de empresas existentes en resultados de concurso.
 
-		select cr.name, count(cr.name) from CompanyResult cr group by cr.name order by count(cr.name) desc
-
-*/
+		/*
+		 * iv. Top 10 de empresas existentes en resultados de concurso.
+		 * 
+		 * select cr.name, count(cr.name) from CompanyResult cr group by cr.name order
+		 * by count(cr.name) desc
+		 * 
+		 */
 		final Collection<Object> consultaB4 = this.executiveService.findTopFrecuentsCompanies(10);
-		
+
 		result.addObject("consultaB4", consultaB4);
-		
-		
-/*
-		v. Top 10 de empresas ganadoras en resultados de concurso.
 
-		select cr.name, count(cr.name) from CompanyResult cr where cr.state = 'WINNER' group by cr.name order by count(cr.name) desc
-*/
+		/*
+		 * v. Top 10 de empresas ganadoras en resultados de concurso.
+		 * 
+		 * select cr.name, count(cr.name) from CompanyResult cr where cr.state =
+		 * 'WINNER' group by cr.name order by count(cr.name) desc
+		 */
 		final Collection<Object> consultaB5 = this.executiveService.findTopFrecuentsWinnersCompanies(10);
-		
-		result.addObject("consultaB5", consultaB5);
-		
 
+		result.addObject("consultaB5", consultaB5);
+
+		/*
+		 * 
+		 * ==================================== A ====================================
+		 * 
+		 * i. Listado de concursos con interés alto sin oferta asociada en los que
+		 * queden menos de un mes para llegar a la fecha máxima de presentación.
+		 * 
+		 */
+		calendar.setTime(now); // Configuramos la fecha actual
+		Date from = calendar.getTime();
+		calendar.add(Calendar.DAY_OF_YEAR, 30); // numero de días a añadir, o restar en caso de días<0
+		Date to = calendar.getTime();
+
+		final List<Tender> consultaA1 = this.executiveService.findHighInterestNoOferTendersCloseToExpire(from, to);
+
+		result.addObject("consultaA1", consultaA1);
+
+		/* Listado de concursos con interÃ©s alto con oferta asociada en estado
+		 * abandonada en los que queden entre 10 dÃ­as y un mes para llegar a la fecha
+		 * mÃ¡xima de presentaciÃ³n. ---> ESTA QUITARLA DE REQUISITOS!
+		 */
+		calendar.setTime(now); // Configuramos la fecha actual
+		calendar.add(Calendar.DAY_OF_YEAR, 10); // numero de días a añadir, o restar en caso de días<0
+		from = calendar.getTime();
+		
+		final List<Tender> consultaA2 = this.executiveService
+				.findHighInterestTendersWithAbandonedOfferCloseToExpire(from, to);
+		result.addObject("consultaA2", consultaA2);
+
+		/*
+		 * iii. Listado de solicitudes administrativas rechazadas por el usuario
+		 * administrativo, mostrando el motivo.
+		 * 
+		 * select ar.rejectedReason from AdministrativeRequest ar where ar.accepted =
+		 * false order by ar.maxAcceptanceDate desc
+		 */
+		final Collection<AdministrativeRequest> consultaA3 = this.executiveService.findRejectedAdministrativeRequest();
+		result.addObject("consultaA3", consultaA3);
+		/*
+		 * iv. Listado de solicitudes de colaboraciÃ³n rechazadas por comerciales,
+		 * mostrando el motivo.
+		 */
+		final Collection<CollaborationRequest> consultaA4 = this.executiveService.findRejectedComercialRequest();
+		result.addObject("consultaA4", consultaA4);
+		/*
+		 * v. Media y desviaciÃ³n tÃ­pica del porcentaje de beneficios ofertado en
+		 * â€œSolicitudes de colaboraciÃ³nâ€� aceptadas.
+		 */
+		final Collection<Object> consultaA5 = this.executiveService
+				.findAvgAndDevPerncentOfferProffitOnAceptedColaborationRequests();
+		result.addObject("consultaA5", consultaA5);
+		/*
+		 * vi. Media y desviaciÃ³n tÃ­pica del porcentaje de beneficios ofertado en
+		 * â€œSolicitudes de colaboraciÃ³nâ€� rechazadas.
+		 */
+		final Collection<Object> consultaA6 = this.executiveService
+				.findAvgAndDevPerncentOfferProffitOnRejectedColaborationRequests();
+		result.addObject("consultaA6", consultaA6);
 
 		return result;
 	}

@@ -10,7 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.AdministrativeRequest;
+import domain.CollaborationRequest;
 import domain.Offer;
+import domain.Tender;
 import repositories.ExecutiveRepository;
 
 @Service
@@ -70,8 +73,8 @@ public class ExecutiveService {
 		return this.executiveRepository.findTopOffersOnMonth(fecha, new PageRequest(0, pageSize));
 	}
 
-	public List<Offer> findTopWinedOffersOnThreeMonthsFrom(Date fecha, int pageSize) {
-		return this.executiveRepository.findTopWinedOffersOnThreeMonths(fecha, new PageRequest(0, pageSize));
+	public List<Offer> findTopWinedOffersOnThreeMonthsFrom(Date from, Date to, int pageSize) {
+		return this.executiveRepository.findTopWinedOffersOnThreeMonths(from, to, new PageRequest(0, pageSize));
 	}
 
 	public Collection<Object> findAvgRatioAmounOfferOverTender() {
@@ -79,10 +82,34 @@ public class ExecutiveService {
 	}
 
 	public Collection<Object> findTopFrecuentsCompanies(int pageSize) {
-		return this.executiveRepository.findTopFrecuentsCompanies();
+		return this.executiveRepository.findTopFrecuentsCompanies(new PageRequest(0, 10));
 	}
 
 	public Collection<Object> findTopFrecuentsWinnersCompanies(int pageSize) {
-		return this.executiveRepository.findTopFrecuentsWinnersCompanies();
+		return this.executiveRepository.findTopFrecuentsWinnersCompanies(new PageRequest(0, 10));
+	}
+
+	public List<Tender> findHighInterestNoOferTendersCloseToExpire(Date from, Date to) {
+		return this.executiveRepository.findHighInterestNoOferTendersCloseToExpire(from, to);
+	}
+
+	public List<Tender> findHighInterestTendersWithAbandonedOfferCloseToExpire(Date from, Date to) {
+		return this.executiveRepository.findHighInterestTendersWithAbandonedOfferCloseToExpire(from, to);
+	}
+
+	public Collection<AdministrativeRequest> findRejectedAdministrativeRequest() {
+		return this.executiveRepository.findRejectedAdministrativeRequest();
+	}
+
+	public Collection<CollaborationRequest> findRejectedComercialRequest() {
+		return this.executiveRepository.findRejectedComercialRequest();
+	}
+
+	public Collection<Object> findAvgAndDevPerncentOfferProffitOnAceptedColaborationRequests() {
+		return this.executiveRepository.findAvgAndDevPerncentOfferProffitOnAceptedColaborationRequests();
+	}
+
+	public Collection<Object> findAvgAndDevPerncentOfferProffitOnRejectedColaborationRequests() {
+		return this.executiveRepository.findAvgAndDevPerncentOfferProffitOnRejectedColaborationRequests();
 	}
 }
