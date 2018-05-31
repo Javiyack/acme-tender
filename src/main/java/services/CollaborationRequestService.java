@@ -63,6 +63,9 @@ public class CollaborationRequestService {
 			Assert.isTrue(principal.equals(collaborationRequest.getCommercial()));
 
 		}
+		
+		Assert.isTrue(collaborationRequest.getMaxAcceptanceDate().before(collaborationRequest.getMaxDeliveryDate()), "collaborationRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate");
+		Assert.isTrue(collaborationRequest.getMaxDeliveryDate().before(collaborationRequest.getOffer().getTender().getMaxPresentationDate()), "collaborationRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate");
 
 		result = this.collaborationRequestRepository.save(collaborationRequest);
 

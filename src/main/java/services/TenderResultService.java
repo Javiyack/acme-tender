@@ -79,6 +79,8 @@ public class TenderResultService {
 		Assert.notNull(administrative);
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
 
+		Assert.isTrue(tenderResult.getTenderDate().after(tenderResult.getTender().getMaxPresentationDate()), "tenderResult.error.tenderDate.must.be.after.tender.maxPresentationDate");
+		
 		saved = this.tenderResultRepository.save(tenderResult);
 		
 		if (saved.getTender().getTenderResult() == null) {
