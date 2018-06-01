@@ -24,11 +24,11 @@ public class TenderAdminController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private TenderService	tenderService;
+	private TenderService			tenderService;
 	@Autowired
 	private ActorService			actorService;
 	@Autowired
-	private ConfigurationService	configurationService;	
+	private ConfigurationService	configurationService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -38,12 +38,12 @@ public class TenderAdminController extends AbstractController {
 
 	// List Tenders with taboo words ---------------------------------------------------------------
 	@RequestMapping(value = "/listWithTabooWord", method = RequestMethod.GET)
-	public ModelAndView listTender(Integer pageSize) {
+	public ModelAndView listTender(final Integer pageSize) {
 
 		final ModelAndView result;
-		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();		
-		Actor actor = this.actorService.findByPrincipal();
-		
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		final Actor actor = this.actorService.findByPrincipal();
+
 		final Collection<Tender> tenders = this.tenderService.findAllTenderWithTabooWords();
 
 		result = new ModelAndView("tender/administrator/list");
@@ -51,7 +51,7 @@ public class TenderAdminController extends AbstractController {
 		result.addObject("requestUri", "tender/administrator/listWithTabooWord.do");
 		result.addObject("actor", actor);
 		result.addObject("benefitsPercentaje", benefitsPercentaje);
-		result.addObject("pageSize", (pageSize!=null)?pageSize:5);		
+		result.addObject("pageSize", (pageSize != null) ? pageSize : 5);
 
 		return result;
 	}
@@ -66,10 +66,10 @@ public class TenderAdminController extends AbstractController {
 
 		try {
 			this.tenderService.deleteByAdmin(tender);
-			result = new ModelAndView("redirect: /list.do");
+			result = new ModelAndView("redirect: listWithTabooWord.do");
 
 		} catch (final Throwable ooops) {
-			result = new ModelAndView("redirect: /list.do");
+			result = new ModelAndView("redirect: listWithTabooWord.do");
 			result.addObject("message", "tabooWord.commit.error");
 		}
 		return result;
