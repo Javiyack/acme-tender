@@ -32,7 +32,7 @@ public class ActorAdminController extends AbstractController {
 	
 	// List ------------------------------------------------------------------
 	@RequestMapping(value = "/list")
-	public ModelAndView list() {
+	public ModelAndView list(final Integer pageSize) {
 		ModelAndView result;
 
 		final Collection<Actor> actors = this.actorService.findAll();
@@ -40,18 +40,19 @@ public class ActorAdminController extends AbstractController {
 		result = new ModelAndView("actor/list");
 		result.addObject("actors", actors);
 		result.addObject("requestUri", "actor/administrator/list.do");
-
+		result.addObject("pageSize", (pageSize != null) ? pageSize : 5);
 		return result;
 	}	
 
 	// ActivateOrDeactivate ------------------------------------------------------------------
 	@RequestMapping(value = "/activeOrDeactivate", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int actorId) {
+	public ModelAndView list(@RequestParam final int actorId, final Integer pageSize) {
 		ModelAndView result;
 
 		this.actorService.ActivateOrDeactivate(actorId);
-
-		result = new ModelAndView("redirect:/actor/administrator/list.do");
+		int pSize = (pageSize != null) ? pageSize : 5;
+		result = new ModelAndView("redirect:/actor/administrator/list.do?pageSize="+pSize);
+		result.addObject("pageSize", pSize);
 
 		return result;
 	}
