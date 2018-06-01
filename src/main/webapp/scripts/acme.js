@@ -112,18 +112,14 @@ function checkPassword() {
 
 	if (document.getElementById('password').value.length > 4 && document.getElementById('password').value.length < 33) {
 		document.getElementById('password').style.color = 'green';
-		document.getElementById("save").className = "formButton toLeft";
 	} else {
 		document.getElementById('password').style.color = 'red';
-		document.getElementById("save").className = "formButton toLeft disabled";
 	}
 
 	if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
 		document.getElementById('confirm_password').style.color = 'green';
-		document.getElementById("save").className = "formButton toLeft";
 	} else {
 		document.getElementById('confirm_password').style.color = 'red';
-		document.getElementById("save").className = "formButton toLeft disabled";
 	}
 }
 
@@ -142,13 +138,7 @@ function checkEdition() {
 	} else
 		newPassword.style.color = 'red';
 
-	if (enabled == true) {
-		document.getElementById("save").className = "formButton toLeft";
-		
-	} else {
-		document.getElementById("save").className = "formButton toLeft disabled";
-		
-	}
+	
 }
 
 function showUserAccount(){
