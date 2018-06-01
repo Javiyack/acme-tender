@@ -1,6 +1,3 @@
-$(document).ready(function() {
-	showSlides(1);
-});
 
 function askSubmission(msg, form) {
 	if (confirm(msg))

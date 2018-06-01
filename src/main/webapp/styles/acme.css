@@ -35,6 +35,8 @@ body {
 	background-color: #ddd;
 	padding: 16px;
 	margin-top: 16px;
+	margin-left: 300px;
+	margin-top: 60px;
 }
 
 .cuerpo {
@@ -42,6 +44,25 @@ body {
 	padding: 0px;
 	max-width: 90%;
 	margin: auto;
+}
+
+/* Style the top menu */
+
+.top-menu {
+	background-color: #f1f1f1;
+	padding: 5px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	font-size: 1em;
+	margin-left: 300px;
+
+}
+
+.nombre-usuario {
+	font-size: large;
+	margin-left: 20px;
+	margin-right: 20px;		
 }
 
 /* Style the footer */
@@ -52,6 +73,7 @@ body {
 	bottom: 0;
 	width: 100%;
 	font-size: 1em;
+	margin-left: 300px;
 }
 
 .terminos{
@@ -165,7 +187,7 @@ body {
 .formButton {
 	float: right;
 	color: #fff !important;
-	background-color: #000000 !important;
+	background-color: #223850 !important;
 	border: none;
 	display: inline-block;
 	padding: 8px 16px;
@@ -180,6 +202,7 @@ body {
 	margin-left: 3px;
 	margin-right: 3px;
 	margin-top: 15px;
+	border-radius: 4px;
 }
 
 .formButton1 {
@@ -204,7 +227,6 @@ body {
 .center {
 	text-align: center;
 	max-width: 80%;
-	margin: auto;
 }
 
 .tableImg {
