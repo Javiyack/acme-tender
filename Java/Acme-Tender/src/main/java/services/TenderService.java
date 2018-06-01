@@ -71,7 +71,10 @@ public class TenderService {
 		//Solo al crearlo le pedimos que la fecha de apertura sea futura.
 		if (tender.getId() == 0)
 			Assert.isTrue(tender.getOpeningDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid openingDate");
-		
+		else
+			// Comprobamos que el propietario sea el creador del concurso
+			this.checkPrincipal(tender);
+
 		Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
 
 		savedTender = this.tenderRepository.save(tender);
