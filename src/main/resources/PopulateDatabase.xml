@@ -200,6 +200,7 @@
 				<ref bean="notificationbox4" />
 				<ref bean="trashbox4" />
 				<ref bean="spambox4" />
+				<ref bean="custombox4" />
 			</list>
 		</property>
 
@@ -243,6 +244,7 @@
 				<ref bean="notificationbox6" />
 				<ref bean="trashbox6" />
 				<ref bean="spambox6" />
+				<ref bean="custombox6" />
 			</list>
 		</property>
 
@@ -1225,6 +1227,7 @@
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
 			<list>
+				<ref bean="message1Copy" />
 			</list>
 		</property>
 	</bean>
@@ -1243,6 +1246,8 @@
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
 			<list>
+				<ref bean="message2Copy" />
+				<ref bean="message3Copy" />
 			</list>
 		</property>
 	</bean>
@@ -1271,6 +1276,7 @@
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
 			<list>
+				<ref bean="message3" />
 			</list>
 		</property>
 	</bean>
@@ -1289,6 +1295,7 @@
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
 			<list>
+				<ref bean="message2" />
 			</list>
 		</property>
 	</bean>
@@ -1307,6 +1314,7 @@
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
 			<list>
+				<ref bean="message1" />
 			</list>
 		</property>
 	</bean>
@@ -1508,6 +1516,24 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="custombox4" class="domain.Folder">
+		<property name="name" value="custombox" />
+		<property name="systemFolder" value="false" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="custombox6" class="domain.Folder">
+		<property name="name" value="custombox" />
+		<property name="systemFolder" value="false" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- TabooWords -->
@@ -1539,6 +1565,92 @@
 		<property name="welcomeMessageEs" value="Tu sitio para ganar licitaciones" />
 		<property name="welcomeMessageEn" value="Your place to win tenders!"/>
 		<property name="benefitsPercentage" value="10.0"/>
+	</bean>
+	
+	<!-- MyMessage -->
+	
+	<bean id="message1" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 21:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject1" />
+		<property name="body" value="body1" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="administrative1" />
+		<property name="sender" ref="executive1" />
+	</bean>
+	
+	<bean id="message2" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 22:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject2" />
+		<property name="body" value="body2" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="executive1" />
+		<property name="sender" ref="administrative1" />
+	</bean>
+	
+	<bean id="message3" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 20:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject3" />
+		<property name="body" value="body3" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="executive1" />
+		<property name="sender" ref="commercial1" />
+	</bean>
+	
+	<bean id="message1Copy" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 21:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject1" />
+		<property name="body" value="body1" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="administrative1" />
+		<property name="sender" ref="executive1" />
+	</bean>
+	
+	<bean id="message2Copy" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 22:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject2" />
+		<property name="body" value="body2" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="executive1" />
+		<property name="sender" ref="administrative1" />
+	</bean>
+	
+	<bean id="message3Copy" class="domain.MyMessage">
+		<property name="moment" >
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018 20:30" />
+			</bean>
+		</property>
+		<property name="subject" value="Subject3" />
+		<property name="body" value="body3" />
+		<property name="priority" value="HIGH" />
+		<property name="broadcast" value="false" />
+		<property name="recipient" ref="executive1" />
+		<property name="sender" ref="commercial1" />
 	</bean>
 
 </beans>
