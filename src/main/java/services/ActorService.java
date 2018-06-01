@@ -31,19 +31,18 @@ public class ActorService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActorRepository			actorRepository;
+	private ActorRepository actorRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private UserAccountService		userAccountService;
+	private UserAccountService userAccountService;
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService administratorService;
 	@Autowired
-	private FolderService			folderService;
+	private FolderService folderService;
 
 	@Autowired
-	private Validator				validator;
-
+	private Validator validator;
 
 	// Constructors -----------------------------------------------------------
 	public ActorService() {
@@ -197,14 +196,16 @@ public class ActorService {
 			logedActor.setAddress(actorForm.getAddress());
 			logedActor.setPhone(actorForm.getPhone());
 			this.validator.validate(actorForm, binding);
-			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()), "profile.userAccount.repeatPassword.mismatch");
+			Assert.isTrue(actorForm.getPassword().equals(actorForm.getConfirmPassword()),
+					"profile.userAccount.repeatPassword.mismatch");
 			logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getPassword(), null));
 
-			//Al registrarse, el usuario esta desactivado. El admin debe de activarlo.
+			// Al registrarse, el usuario esta desactivado. El admin debe de activarlo.
 			useraccount.setActive(false);
 			this.folderService.createSystemFolders(logedActor);
 
 		} else {
+			final String formPass = encoder.encodePassword(actorForm.getPassword(), null);
 			logedActor = this.findByPrincipal();
 			logedActor.setName(actorForm.getName());
 			logedActor.setSurname(actorForm.getSurname());
@@ -213,25 +214,76 @@ public class ActorService {
 			logedActor.setPhone(actorForm.getPhone());
 
 			// Si ha cambiado algún parámetro del Authority (Usuario, password)
-			if (this.checkChangeAuthority(actorForm, logedActor)) {
-				// Comprueba la contraseña y la cambia si todo ha ido bien
-				final String formPass = encoder.encodePassword(actorForm.getPassword(), null);
-				Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()), "profile.userAccount.repeatPassword.mismatch");
-				Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+			if (!actorForm.getUsername().equals(logedActor.getUserAccount().getUsername())) {
 
-				// Valida el formulario
-				this.validator.validate(actorForm, binding);
-
-				// Cambia el usuario y contraseña
+				if (!actorForm.getNewPassword().isEmpty()) {
+					// Valida el la cuenta de usuario
+					this.validator.validate(actorForm, binding);
+					Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()),
+							"profile.userAccount.repeatPassword.mismatch");
+					// Cambia la contraseña
+					// Comprueba la contraseña y la cambia si todo ha ido bien
+					Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+					Assert.isTrue(checkLength(actorForm.getNewPassword()), "profile.password.length");
+					logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getNewPassword(), null));
+				} else {
+					actorForm.setNewPassword("XXXXX");
+					actorForm.setConfirmPassword("XXXXX");
+					// Valida el la cuenta de usuario
+					this.validator.validate(actorForm, binding);
+					// Comprueba la contraseña 
+					Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+					
+				}
+				
+				// Cambia el nombre de usuario
 				logedActor.getUserAccount().setUsername(actorForm.getUsername());
-				logedActor.getUserAccount().setPassword(encoder.encodePassword(actorForm.getNewPassword(), null));
+
+			} else {
+				if (!actorForm.getPassword().isEmpty()) {
+					if (!actorForm.getNewPassword().isEmpty()) {
+						// Valida el la cuenta de usuario
+						this.validator.validate(actorForm, binding);
+						Assert.isTrue(actorForm.getNewPassword().equals(actorForm.getConfirmPassword()),
+								"profile.userAccount.repeatPassword.mismatch");
+						// Comprueba la contraseña
+						Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+						Assert.isTrue(checkLength(actorForm.getNewPassword()), "profile.password.length");
+						logedActor.getUserAccount()
+								.setPassword(encoder.encodePassword(actorForm.getNewPassword(), null));
+					} else {
+						actorForm.setNewPassword("XXXXX");
+						actorForm.setConfirmPassword("XXXXX");
+						// Valida el la cuenta de usuario
+						this.validator.validate(actorForm, binding);
+						// Comprueba la contraseña
+						Assert.isTrue(formPass.equals(logedActor.getUserAccount().getPassword()), "profile.wrong.password");
+
+					}
+					
+				} else {
+					// Como no ha cambiado ni usuario ni escrito contraseña seteamos temporalmente
+					// el username y passwords para pasar la validacion de userAccount
+					// Valida El formulario
+					actorForm.setPassword("XXXXX");
+					actorForm.setNewPassword("XXXXX");
+					actorForm.setConfirmPassword("XXXXX");
+					this.validator.validate(actorForm, binding);
+				}
+
 			}
 		}
 		return logedActor;
 	}
 
+	private boolean checkLength(String newPassword) {
+		// TODO Auto-generated method stub
+		return newPassword.length()>4 && newPassword.length()<33;
+	}
+
 	/**
-	 * Comprueba que el username no ha cambiado en el formulario y que la password no es vacía
+	 * Comprueba que el username no ha cambiado en el formulario y que la password
+	 * no es vacía
 	 *
 	 * @param actorForm:
 	 *            Formulario web

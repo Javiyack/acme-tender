@@ -144,23 +144,21 @@ function checkEdition() {
 
 	if (enabled == true) {
 		document.getElementById("save").className = "formButton toLeft";
-		document.getElementById("save").disabled = false;
 		
 	} else {
 		document.getElementById("save").className = "formButton toLeft disabled";
-		document.getElementById("save").disabled = true;
 		
 	}
 }
 
-function showPasswords(){
+function showUserAccount(){
 	
 	var changedPassword = document.getElementById("changePassword");
 	if(changedPassword.style.display == "block"){
-		changedPassword.style.display = "none"
+		changedPassword.style.display = "none";
+		document.getElementById("save").className = "formButton toLeft";
 	} else{
 		changedPassword.style.display = "block"
-		document.getElementById("save").className = "formButton toLeft disabled";
-		document.getElementById("save").disabled = true;
+		checkEdition();
 	}
 }
