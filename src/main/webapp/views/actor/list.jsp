@@ -41,13 +41,13 @@
 		<display:column title="${varState}">
 			<jstl:if test="${row.userAccount.active}">
 				<spring:message code="actor.is.active" />
-				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">
+				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}&pageSize=${pageSize}">
 					(<spring:message code="actor.deactivate" />)
 				</a>
 			</jstl:if>
 			<jstl:if test="${!row.userAccount.active}">
 				<spring:message code="actor.is.not.active" />
-				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}">			
+				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}&pageSize=${pageSize}">			
 					(<spring:message code="actor.activate" />)
 				</a>
 			</jstl:if>
