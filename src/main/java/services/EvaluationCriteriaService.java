@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.EvaluationCriteriaRepository;
+import domain.Actor;
+import domain.Administrative;
 import domain.EvaluationCriteria;
 import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
+import repositories.EvaluationCriteriaRepository;
 
 @Service
 @Transactional
@@ -19,15 +21,17 @@ public class EvaluationCriteriaService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private EvaluationCriteriaRepository	evaluationCriteriaRepository;
+	private EvaluationCriteriaRepository		evaluationCriteriaRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService					administrativeService;
+	private AdministrativeService				administrativeService;
 	@Autowired
-	TenderService							tenderService;
+	private ActorService						actorService;
 	@Autowired
-	SubSectionEvaluationCriteriaService		subSectionEvaluationCriteriaService;
+	private TenderService						tenderService;
+	@Autowired
+	private SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -37,6 +41,9 @@ public class EvaluationCriteriaService {
 
 	// Simple CRUD methods ----------------------------------------------------
 	public EvaluationCriteria create(final int tenderId) {
+		final Administrative administrative = this.administrativeService.findByPrincipal();
+		Assert.notNull(administrative);
+
 		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 
 		final EvaluationCriteria evaluationCriteria = new EvaluationCriteria();
@@ -86,9 +93,10 @@ public class EvaluationCriteriaService {
 	public EvaluationCriteria save(final EvaluationCriteria evaluationCriteria) {
 		Assert.notNull(evaluationCriteria);
 
-		EvaluationCriteria result;
+		if (evaluationCriteria.getId() != 0)
+			this.checkPrincipal(evaluationCriteria);
 
-		result = this.evaluationCriteriaRepository.save(evaluationCriteria);
+		final EvaluationCriteria result = this.evaluationCriteriaRepository.save(evaluationCriteria);
 
 		return result;
 	}
@@ -115,6 +123,20 @@ public class EvaluationCriteriaService {
 		}
 
 	}
+
+	public void flush() {
+		this.evaluationCriteriaRepository.flush();
+	}
+
 	// Other business methods -------------------------------------------------
+	public void checkPrincipal(final EvaluationCriteria evCriteria) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Administrative administrativePrincipal = null;
+		if (principal instanceof Administrative) {
+			administrativePrincipal = (Administrative) principal;
+			Assert.isTrue(evCriteria.getTender().getAdministrative().equals(administrativePrincipal));
+		} else
+			Assert.isTrue(Boolean.TRUE, "Usuario no válido.");
+	}
 
 }
