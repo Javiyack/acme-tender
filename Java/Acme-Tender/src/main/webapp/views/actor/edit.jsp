@@ -47,37 +47,33 @@
 						</jstl:forEach>
 					</select>
 					<br>
-					<acme:textbox code="actor.username" path="username" css="formInput"/>
+						<acme:textbox code="actor.username" path="username" css="formInput"/>
+						<acme:password code="profile.userAccount.password" path="password" css="formInput" id = "password" onkeyup="javascript: checkPassword();" />
+						<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkPassword();"/>		
 					<br>
 				</jstl:if>
 				<jstl:if test="${!creation}">
+					
+				<spring:message code="profile.userAccount" var="pass"/>
+				<input type="button" value="${pass}" onclick="javascript: showUserAccount();" class="formButton1"/>
+				<br>
+				<br>
+				
+					<div id="changePassword" style="display:none;">
 					<form:hidden path="authority"/>
 					<acme:label code="actor.authority" path="authority"
 						readonly="true" />
 					<acme:label code="actor.authority.${registerForm.authority}" path="authority"
 						css="formInput" readonly="true" />
 					<br>		
-					<acme:textbox code="actor.username" path="username" css="formInput" readonly="true"/>
-				</jstl:if>
-			</div>
-			<jstl:if test="${creation}">
-				<acme:password code="profile.userAccount.password" path="password" css="formInput" id = "password" onkeyup="javascript: checkPassword();" />
-				<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkPassword();"/>		
-			
-			</jstl:if>		
-			<jstl:if test="${!creation}">
-				
-				<spring:message code="profile.userAccount.changePassword" var="pass"/>
-				<input type="button" value="${pass}" onclick="javascript: showPasswords();" class="formButton1"/>
-				<br>
-				<div id="changePassword" style="display:none;">
+					<acme:textbox code="actor.username" path="username" css="formInput"/>
 					<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="javascript: checkEdition();" />
 					<acme:password code="profile.userAccount.newPassword" path="newPassword" css="formInput" id = "new_password" onkeyup="javascript: checkEdition();" />
 					<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkEdition();"/>
 				</div>		
 			</jstl:if>	
 		</div>
-	
+	</div>
 		<security:authorize access="isAnonymous()">
 			<p class="terminos">
 				<spring:message code="term.registration" />
@@ -90,6 +86,7 @@
 			value='<spring:message code="actor.cancel" />'
 			onclick="javascript: relativeRedir('/');" class="formButton toLeft"/>
 		<br />
+	
 	</jstl:if>
 	
 	</form:form>	
