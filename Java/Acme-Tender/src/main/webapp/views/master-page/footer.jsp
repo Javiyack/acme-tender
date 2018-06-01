@@ -22,12 +22,16 @@
 			<jstl:out value="${companyName}"/> Co., Inc.
 	</b> 
 	<a href="term/termsAndConditions.do">
-		<spring:message code="term.terms" />
+		<span class="texto-menu"><spring:message code="term.terms" /></span>
 	</a> 
 	<a href="term/cookies.do">
-		<spring:message code="term.cookie" />
+		<span class="texto-menu"><spring:message code="term.cookie" /></span>
 	</a>
+	<a href="#about">
+		<span class="texto-menu"><spring:message code="master.page.about" /></span>
+	</a>	
 </div>
+
 <div id="barraaceptacion">
 	<div class="inner">
 		<spring:message code="term.cookie.banner" />

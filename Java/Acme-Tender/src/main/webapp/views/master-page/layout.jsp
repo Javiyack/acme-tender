@@ -1,20 +1,10 @@
-<%--
- * layout.jsp
- *
- * Copyright (C) 2017 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
- --%>
 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -30,6 +20,12 @@
 <script type="text/javascript" src="scripts/acme.js"></script>
 <script type="text/javascript" src="scripts/cookiePopups.js"></script>  
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="styles/side-menu.css" type="text/css">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -55,27 +51,34 @@
 </head>
 
 <body>
-	<div class="header">
-		<tiles:insertAttribute name="header" />
+
+	<div class="top-menu">
+		<tiles:insertAttribute name="top-menu" />
+	</div>	
+
+	<div class="nav-side-menu">
+		<tiles:insertAttribute name="nav-side-menu" />
 	</div>
+
 	<div class="content">
-		<div class="cuerpo">
-			<img src="${banner}" alt="Acme-Tender Co., Inc." class="logo" />
-		</div>
 		<div class="panel cuerpo">
 			<jstl:if test="${message != null}">
 				<br />
 				<span class="message"><spring:message code="${message}" /></span>
 			</jstl:if>
-			<h1>
+			
+			<h2>
 				<tiles:insertAttribute name="title" />
-			</h1>
+			</h2>
+			<hr/>
 	
 			<tiles:insertAttribute name="body" />
 		</div>
 	</div>
+	
 	<div class="footer">
 		<tiles:insertAttribute name="footer" />
-	</div>
+	</div>	
+
 </body>
 </html>
