@@ -160,7 +160,8 @@ public class OfferService {
 		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
 
-		Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
+		if (offer.getPresentationDate() != null)
+			Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
 		
 		final Offer result = this.offerRepository.save(offer);
 

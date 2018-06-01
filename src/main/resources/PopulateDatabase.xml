@@ -293,7 +293,7 @@
 		</property>
 		<property name="maxPresentationDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/07/2018" />
+				<constructor-arg value="01/09/2018" />
 			</bean>
 		</property>
 		<property name="executionTime" value="90" />
@@ -325,7 +325,7 @@
 		</property>
 		<property name="maxPresentationDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/03/2018" />
+				<constructor-arg value="01/10/2018" />
 			</bean>
 		</property>
 		<property name="executionTime" value="76" />
@@ -977,12 +977,12 @@
 		<property name="subSectionDescription" value="Diagramas de proceso del sistema de información" />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2019" />
+				<constructor-arg value="01/07/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/06/2019" />
+				<constructor-arg value="01/08/2018" />
 			</bean>
 		</property>
 		<property name="commercial" ref="commercial2" />
@@ -999,12 +999,12 @@
 		<property name="subSectionDescription" value="El contenido de dicha parte de la web" />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="05/05/2019" />
+				<constructor-arg value="05/07/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="10/05/2019" />
+				<constructor-arg value="10/08/2018" />
 			</bean>
 		</property>
 		<property name="commercial" ref="commercial2" />
@@ -1018,7 +1018,7 @@
 		<property name="subSectionDescription" value="Certificado donde conste la antiguedad de la empresa." />
 		<property name="maxAcceptanceDate">
 			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/08/2018" />
+				<constructor-arg value="01/07/2018" />
 			</bean>
 		</property>
 		<property name="maxDeliveryDate">
@@ -1561,7 +1561,7 @@
 	<!-- CONFIGURATION -->
 	 <bean id="configuration" class="domain.Configuration">
 		<property name="companyName" value="Acme Tender" />
-		<property name="banner" value="http://www.xinguara.pa.gov.br/wp-content/uploads/2016/05/1-2-768x388.png" />
+		<property name="banner" value="images/logo.png" />
 		<property name="welcomeMessageEs" value="Tu sitio para ganar licitaciones" />
 		<property name="welcomeMessageEn" value="Your place to win tenders!"/>
 		<property name="benefitsPercentage" value="10.0"/>
