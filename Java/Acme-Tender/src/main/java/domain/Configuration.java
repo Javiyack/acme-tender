@@ -35,7 +35,6 @@ public class Configuration extends DomainEntity {
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@NotBlank
-	@URL
 	public String getBanner() {
 		return this.banner;
 	}
