@@ -132,7 +132,7 @@
 
 			<!-- Solicitudes de colaboración -->
 			<li data-toggle="collapse" data-target="#collaborationRequests" class="collapsed">
-				<a><i class="fa fa-dashboard fa-lg"></i><span class="texto-menu"><spring:message code="master.page.collaboration.requests" /></span><span class="arrow"></span></a>
+				<a><i class="fa fa-credit-card fa-lg"></i><span class="texto-menu"><spring:message code="master.page.collaboration.requests" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="collaborationRequests">				
 				<li><a href="collaborationRequest/commercial/listReceived.do">
@@ -146,7 +146,7 @@
 
 			<!-- Solicitudes administrativas -->
 			<li data-toggle="collapse" data-target="#administrativeRequests" class="collapsed">
-				<a><i class="fa fa-dashboard fa-lg"></i><span class="texto-menu"><spring:message code="master.page.administrative.requests" /></span><span class="arrow"></span></a>
+				<a><i class="fa fa-copy fa-lg"></i><span class="texto-menu"><spring:message code="master.page.administrative.requests" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="administrativeRequests">				
 				<li><a href="administrativeRequest/listSent.do">

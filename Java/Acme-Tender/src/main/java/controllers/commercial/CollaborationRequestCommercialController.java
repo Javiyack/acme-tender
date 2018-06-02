@@ -2,6 +2,7 @@
 package controllers.commercial;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -149,6 +150,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 		
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId());
+		Assert.isTrue(collaborationRequest.getMaxAcceptanceDate().after(new Date()));
 		
 		collaborationRequest.setAccepted(true);
 		CollaborationRequest savedCR = this.collaborationRequestService.save(collaborationRequest);
