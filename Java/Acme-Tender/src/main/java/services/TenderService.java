@@ -109,6 +109,17 @@ public class TenderService {
 
 		return result;
 	}
+	
+	public Collection<Tender> findAllOffertable() {
+
+		Collection<Tender> result;
+
+		result = this.tenderRepository.findAllOffertable();
+		Assert.notNull(result);
+
+		return result;
+	}	
+	
 
 	public Collection<Tender> findTenderByKeyWord(final String word) {
 		final Collection<Tender> tenders;

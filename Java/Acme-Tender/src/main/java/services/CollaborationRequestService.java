@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
-import domain.Constant;
 import domain.Offer;
 import repositories.CollaborationRequestRepository;
 
@@ -40,7 +39,7 @@ public class CollaborationRequestService {
 		offer = this.offerService.findOne(offerId);
 		//Reutilizo este método para comprobar que la oferta para la que se quiere crear una solicitud de colaboración pertenece al principal
 		Assert.isTrue(this.offerService.canEditOffer(offerId));
-		Assert.isTrue(offer.getState().equals(Constant.OFFER_CREATED) || offer.getState().equals(Constant.OFFER_IN_DEVELOPMENT));
+		Assert.isTrue(offer.isInDevelopment());
 		result.setOffer(offer);
 
 		return result;

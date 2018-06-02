@@ -35,8 +35,13 @@
 		<acme:button url="tender/administrative/edit.do?tenderId=${tender.id}" text="tender.edit" css="formButton toLeft"/>
 		<acme:button url="tender/administrative/list.do" text="tender.back" css="formButton toLeft"/>
 	</jstl:if>
-	<jstl:if test="${tender.administrative.id != actor.id}" > 
-		<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+	<jstl:if test="${tender.administrative.id != actor.id}" >
+		<jstl:if test="${tender.offertable}" > 
+			<acme:button url="tender/listOffertable.do" text="tender.back" css="formButton toLeft"/>
+		</jstl:if>
+		<jstl:if test="${!tender.offertable}" > 
+			<acme:button url="tender/list.do" text="tender.back" css="formButton toLeft"/>
+		</jstl:if>
 	</jstl:if>
 	
 </fieldset>
@@ -64,7 +69,7 @@
 	</jstl:if>
 
 	<jstl:if test="${tender.offer == null}" >
-		<jstl:if test="${tender.canCreateOffer}" >
+		<jstl:if test="${tender.offertable}" >
 			<security:authorize access="hasRole('COMMERCIAL')"> 
 				<acme:button url="offer/commercial/create.do?tenderId=${tender.id}" text="tender.create.offer" css="formButton toLeft"/>
 			</security:authorize>
@@ -72,7 +77,7 @@
 				<spring:message code="tender.with.no.offer" />
 			</security:authorize>			
 		</jstl:if>
-		<jstl:if test="${!tender.canCreateOffer}" >
+		<jstl:if test="${!tender.offertable}" >
 			<spring:message code="tender.with.no.offer" />
 		</jstl:if>		
 	</jstl:if>				

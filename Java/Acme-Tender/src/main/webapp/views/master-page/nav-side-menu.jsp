@@ -26,6 +26,9 @@
 				<li><a href="tender/list.do">
 					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
 				</a></li>
+				<li><a href="tender/listOffertable.do">
+					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
+				</a></li>
 				<li><a href="tender/search.do"> 
 					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
 				</a></li>
@@ -106,6 +109,9 @@
 				<li><a href="tender/list.do">
 					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
 				</a></li>
+				<li><a href="tender/listOffertable.do">
+					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
+				</a></li>				
 				<li><a href="tender/search.do"> 
 					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
 				</a></li>
@@ -192,6 +198,9 @@
 				<li><a href="tender/list.do">
 					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
 				</a></li>
+				<li><a href="tender/listOffertable.do">
+					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
+				</a></li>				
 				<li><a href="tender/search.do"> 
 					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
 				</a></li>
@@ -282,6 +291,9 @@
 				<li><a href="tender/list.do">
 					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
 				</a></li>
+				<li><a href="tender/listOffertable.do">
+					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
+				</a></li>				
 				<li><a href="tender/search.do"> 
 					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
 				</a></li>
