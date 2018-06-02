@@ -50,7 +50,7 @@ public class OfferCommercialController extends AbstractController {
 		final ModelAndView result = new ModelAndView("offer/commercial/create");
 		
 		Tender tender = this.tenderService.findOne(tenderId);
-		Assert.isTrue(tender.getCanCreateOffer());
+		Assert.isTrue(tender.isOffertable());
 
 		final Offer offer = this.offerService.create(tenderId);
 		result.addObject("offer", offer);

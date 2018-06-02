@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -25,7 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.hibernate.validator.constraints.URL;
-
+import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -243,7 +242,7 @@ public class Tender extends DomainEntity {
 	}
 
 	@Transient
-	public boolean getCanCreateOffer() {
+	public boolean isOffertable() {
 		
 		if (this.getMaxPresentationDate() == null)
 			return false;
@@ -252,7 +251,7 @@ public class Tender extends DomainEntity {
 		return this.getOffer() == null && this.getMaxPresentationDate().after(date);
 	}
 
-	public void setCanCreateOffer(final boolean canCreateOffer) {
+	public void setOffertable(final boolean offertable) {
 
 	}
 

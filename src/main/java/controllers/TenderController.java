@@ -115,6 +115,25 @@ public class TenderController extends AbstractController {
 		return result;
 	}
 
+	// List ------------------------------------------------------------------
+	@RequestMapping(value = "/listOffertable", method = RequestMethod.GET)
+	public ModelAndView listWithoutOffer(Integer pageSize) {
+		ModelAndView result;
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
+		
+		final Collection<Tender> tenders = this.tenderService.findAllOffertable();
+		Actor actor = this.actorService.findByPrincipal();
+
+		result = new ModelAndView("tender/listOffertable");
+		result.addObject("tenders", tenders);
+		result.addObject("actor", actor);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
+		result.addObject("requestUri", "tender/listOffertable.do");
+		result.addObject("pageSize", (pageSize!=null)?pageSize:5);
+
+		return result;
+	}
+
 	
 	@RequestMapping(value = "/search")
 	public ModelAndView create() {
