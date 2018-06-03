@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.TabooWordService;
-import services.TenderService;
 import controllers.AbstractController;
 import domain.TabooWord;
+import services.TabooWordService;
 
 @Controller
 @RequestMapping("/tabooWord/administrator")
@@ -24,7 +23,7 @@ public class TabooWordAdminController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
 	@Autowired
-	private TabooWordService	tabooWordService;
+	private TabooWordService tabooWordService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -69,7 +68,7 @@ public class TabooWordAdminController extends AbstractController {
 			}
 		return result;
 	}
-	
+
 	// Delete ---------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(final TabooWord tabooWord, final BindingResult binding) {
@@ -82,7 +81,7 @@ public class TabooWordAdminController extends AbstractController {
 			result = this.createEditModelAndView(tabooWord, "tabooWord.commit.error");
 		}
 		return result;
-	}	
+	}
 
 	// List TabooWords ---------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -106,9 +105,9 @@ public class TabooWordAdminController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final TabooWord tabooWord, final String message) {
-		
+
 		ModelAndView result = null;
-		if (tabooWord.getId()==0)
+		if (tabooWord.getId() == 0)
 			result = new ModelAndView("tabooWord/administrator/create");
 		else
 			result = new ModelAndView("tabooWord/administrator/edit");

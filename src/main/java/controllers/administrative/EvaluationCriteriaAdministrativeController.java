@@ -37,7 +37,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	@Autowired
 	private TenderService					tenderService;
 	@Autowired
-	private ActorService actorService;
+	private ActorService					actorService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -50,7 +50,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	public ModelAndView create(@RequestParam final int tenderId) {
 
 		final ModelAndView result = new ModelAndView("evaluationCriteria/administrative/create");
-		
+
 		Tender tender = this.tenderService.findOne(tenderId);
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
@@ -71,9 +71,9 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 	public ModelAndView edit(@RequestParam final int evaluationCriteriaId) {
 		ModelAndView result;
 		final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationCriteriaId);
-		
+
 		Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());		
+		Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());
 
 		result = this.createEditModelAndView(evaluationCriteria);
 		return result;
@@ -103,8 +103,8 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 
 		try {
 			Actor actor = this.actorService.findByPrincipal();
-			Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());	
-			
+			Assert.isTrue(evaluationCriteria.getTender().getAdministrative().getId() == actor.getId());
+
 			this.evaluationCriteriaService.delete(evaluationCriteria);
 			result = new ModelAndView("redirect:/tender/display.do?tenderId=" + evaluationCriteria.getTender().getId());
 
@@ -148,7 +148,7 @@ public class EvaluationCriteriaAdministrativeController extends AbstractControll
 			result = new ModelAndView("evaluationCriteria/administrative/edit");
 		else
 			result = new ModelAndView("evaluationCriteria/administrative/create");
-		
+
 		result.addObject("evaluationCriteria", evaluationCriteria);
 
 		Collection<EvaluationCriteriaType> evaluationCriteriaTypes = this.evaluationCriteriaTypeService.findAll();
