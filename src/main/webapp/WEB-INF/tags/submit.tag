@@ -26,8 +26,16 @@
 <%@ attribute name="code" required="true"%>
 <%@ attribute name="css" required="false"%>
 
+<jstl:if test="${css == null}">
+	<jstl:set var="cssVar" value="formButton toLeft" />
+</jstl:if>
+<jstl:if test="${css != null}">
+	<jstl:set var="cssVar" value="${css}" />
+</jstl:if>
+
+
 <%-- Definition --%>
 
-<button type="submit" name="${name}" class="btn btn-primary ${css}">
+<button type="submit" name="${name}" class="${cssVar}">
 	<spring:message code="${code}" />
 </button>

@@ -107,7 +107,6 @@
 	</display:table>
 	
 	<jstl:if test="${tender.administrative.id == actor.id}" >
-		<br /><br />
 		<acme:button text="tender.evaluationCriteria.create" url="evaluationCriteria/administrative/create.do?tenderId=${tender.id}" css="formButton toLeft" />
 	</jstl:if>
 </fieldset>
@@ -126,7 +125,7 @@
 			</a>
 		</display:column>
 	</display:table>
-	<br />
+
 	<jstl:if test="${tender.administrative.id == actor.id}" >
 		<acme:button text="file.create" url="/file/create.do?id=${tender.id}&type=tender" css="formButton toLeft" />
 	</jstl:if>
@@ -160,7 +159,6 @@
 	</display:table>
 	
 	<security:authorize access="hasRole('COMMERCIAL')">
-		<br />
 		<acme:button text="tender.comment.create" url="comment/commercial/create.do?tenderId=${tender.id}" css="formButton toLeft" />
 	</security:authorize>
 	

@@ -190,7 +190,7 @@ body {
 	background-color: #223850 !important;
 	border: none;
 	display: inline-block;
-	padding: 8px 16px;
+	padding: 6px 16px;
 	vertical-align: middle;
 	overflow: hidden;
 	text-decoration: none;
@@ -264,6 +264,7 @@ fieldset {
 legend {
 	font-weight: bold;
 	color: #133066;
+	margin-bottom: 5px !important;
 }
 
 h4 {
