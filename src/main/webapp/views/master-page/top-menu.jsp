@@ -8,7 +8,7 @@
 
 <div class="center">
 	<security:authorize access="isAnonymous()">
-		<div style="float: left; margin-left: 30px;">
+		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%">
 			<!-- Login y register -->
 			<a href="security/login.do" data-toggle="tooltip" title="Login" style="float: left; padding-right:10px;" >
 				<i class="fa fa-sign-in fa-2x"></i>
@@ -20,7 +20,7 @@
 	</security:authorize>
 	
 	<security:authorize access="isAuthenticated()">
-		<div style="float: left; margin-left: 30px;">
+		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%">
 
 			<a href="j_spring_security_logout" data-toggle="tooltip" title="Logout" style="float: left; padding-right:10px;"> 
 				<i class="fa fa-sign-out fa-2x"></i>
@@ -28,11 +28,15 @@
 		</div>
 	</security:authorize>	
 
-	<div style="float: right; margin-right: 50px;">
+	<div style="float: right; margin-right: 50px; vertical-align: middle; height: 100%">
 		<security:authorize access="isAuthenticated()">
-			<span class="nombre-usuario"><security:authentication property="principal.username" /></span>
+			<a href="actor/edit.do" data-toggle="tooltip" title="Profile">
+				<i class="fa fa-user fa-2x"></i></a>
+				<span class="nombre-usuario"><security:authentication property="principal.username" />
+			</span>
+			
 		</security:authorize>	
-		<a href="?language=es" ><img src="images/es.png" height="25px"/></a>
-		<a href="?language=en" ><img src="images/en.png" height="25px"/></a> 			
+		<a href="?language=es" ><img src="images/es.png" height="30px"/></a>
+		<a href="?language=en" ><img src="images/en.png" height="30px"/></a> 			
 	</div>
 </div>

@@ -25,9 +25,9 @@
 
 <display:table pagesize="5" class="displaytag" name="tabooWords" requestURI="tabooWord/administrator/list.do" id="row">
 
-	<acme:column property="text" title="tabooWord.text" />
+	<acme:column property="text" title="tabooWord.text" sortable="true"/>
 
-	<display:column>
+	<display:column >
 		<div>
 			<a href="tabooWord/administrator/edit.do?tabooWordId=${row.id}">
 				<spring:message code="tabooWord.edit" />

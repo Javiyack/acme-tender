@@ -19,8 +19,8 @@
 
 <display:table pagesize="5" class="displaytag" name="evaluationCriteriaTypes" requestURI="evaluationCriteriaType/administrative/list.do" id="row">
 
-	<acme:column property="name" title="evaluationCriteriaType.name" />
-	<acme:column property="description" title="evaluationCriteriaType.description" />
+	<acme:column property="name" title="evaluationCriteriaType.name" sortable="true"/>
+	<acme:column property="description" title="evaluationCriteriaType.description" sortable="true"/>
 
 	<display:column>
 		<div>

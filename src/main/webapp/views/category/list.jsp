@@ -43,8 +43,8 @@
 	</legend>
 	<display:table pagesize="5" class="displaytag" keepStatus="true" name="categories" requestURI="${requestUri}" id="row">
 
-		<acme:column property="name" title="category.name" />
-		<acme:column property="description" title="category.description" />
+		<acme:column property="name" title="category.name" sortable="true"/>
+		<acme:column property="description" title="category.description" sortable="true"/>
 
 		<display:column>
 			<a href="category/administrator/list.do?parentCategoryId=${row.id}"> <spring:message code="category.childCategories" />
