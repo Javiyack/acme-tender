@@ -29,16 +29,16 @@
 
 <display:table pagesize="${pageSize}" class="displaytag" name="actors" requestURI="${requestUri}" id="row">
 	
-	<acme:column property="name" title="actor.name" />
-	<acme:column property="surname" title="actor.surname" />
-	<acme:column property="address" title="actor.address" />
-	<acme:column property="email" title="actor.email" />
-	<acme:column property="phone" title="actor.phone" />
+	<acme:column property="name" title="actor.name" sortable="true"/>
+	<acme:column property="surname" title="actor.surname" sortable="true"/>
+	<acme:column property="address" title="actor.address" sortable="true"/>
+	<acme:column property="email" title="actor.email" sortable="true"/>
+	<acme:column property="phone" title="actor.phone" sortable="true"/>
 	<acme:column property="userAccount.authorities[0]" title="actor.authority" sortable="true"/>
 
 	<security:authorize access="hasRole('ADMIN')">
 		<spring:message code="actor.state" var="varState" />
-		<display:column title="${varState}">
+		<display:column title="${varState}" sortable="true">
 			<jstl:if test="${row.userAccount.active}">
 				<spring:message code="actor.is.active" />
 				<a href="actor/administrator/activeOrDeactivate.do?actorId=${row.id}&pageSize=${pageSize}">

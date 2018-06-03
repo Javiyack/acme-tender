@@ -43,9 +43,9 @@
 	</jstl:if>
 
 
-	<acme:column property="reference" title="tender.reference" style="background-color: ${rowCss}"  />
-	<acme:column property="title" title="tender.title" style="background-color: ${rowCss}" />
-	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" format="display.date.time.format" style="background-color: ${rowCss}" />
+	<acme:column property="reference" title="tender.reference" style="background-color: ${rowCss}" sortable="true" />
+	<acme:column property="title" title="tender.title" style="background-color: ${rowCss}" sortable="true"/>
+	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" format="display.date.time.format" style="background-color: ${rowCss}" sortable="true"/>
 	
 	<spring:message code="tender.comision" var="titleTenderComision"/>
 	<display:column title="${titleTenderComision}" style="background-color: ${rowCss}" >
@@ -56,7 +56,7 @@
 	</display:column>	
 	
 	<spring:message code="tender.administrative" var="tenderAdministrative" />
-	<display:column title="${tenderAdministrative}" style="background-color: ${rowCss}">
+	<display:column title="${tenderAdministrative}" style="background-color: ${rowCss}" sortable="true">
 		<div>
 			<jstl:if test="${row.administrative.id == actor.id}" >
 				<spring:message code="tender.mine" />

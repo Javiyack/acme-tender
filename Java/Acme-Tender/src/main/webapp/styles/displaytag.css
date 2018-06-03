@@ -8,56 +8,63 @@
  * 
  */
 table.displaytag {
-	border: 1px solid #666;
 	width: 100%;
-	margin: 20px 0 20px 0 !important;
+	margin: 10px 0 10px 0 !important;
+	border-bottom: 1px solid #223850;	
 }
 
 .displaytag th, .displaytag td {
 	padding: 2px 4px 2px 4px !important;
 	text-align: left;
 	vertical-align: top;
+
 }
 
-.displaytag thead tr {
-	background-color: #322f32;
+.displaytag thead tr th {
+	text-align: center !important;
+	vertical-align: middle;
+	border-bottom: 1px solid #223850;
+	text-align: center;
+	
+	background-color: #223850;
 	color: white;
 }
 
 .displaytag th.sorted {
-	background-color: orange;
+	text-decoration: underline;
 }
 
 .displaytag th a, .displaytag th a:visited {
-	color: white;
+
 }
 
 .displaytag th a:hover {
 	text-decoration: underline;
-	color: #a3c2c2;;
 }
 
 .displaytag th.sorted a, .displaytag th.sortable a {
 	background-position: right;
 	display: block;
 	width: 100%;
+	
+	color: white;	
 }
 
 .displaytag th.sortable a {
-	background-image: url(../images/arrow_off.png);
+	color: white;	
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-position: right;
 }
 
 .displaytag th.order1 a {
-	background-image: url(../images/arrow_down.png);
+	background-image: url(../images/arrow_up.png);
 	background-repeat: no-repeat;
 	background-position: right;
 }
 
 .displaytag th.order2 a {
-	background-image: url(../images/arrow_up.png);
+	background-image: url(../images/arrow_down.png);
 	background-repeat: no-repeat;
 	background-position: right;
 }
@@ -106,23 +113,18 @@ span.rtf {
 }
 
 span.pagebanner {
-	background-color: #eee;
-	border: 1px dotted #999;
 	padding: 2px 4px 2px 4px;
-	width: 100%;
-	margin-top: 10px;
-	display: block;
-	border-bottom: none;
+	display: block;	
+	float:left;
+	vertical-align: middle;
 }
 
 span.pagelinks {
-	background-color: #eee;
-	border: 1px dotted #999;
 	padding: 2px 4px 2px 4px;
-	width: 100%;
 	display: block;
-	border-top: none;
-	margin-bottom: -5px;
+	float: right;
+	text-align: right;
+	vertical-align: middle;
 }
 
 .group-1 {

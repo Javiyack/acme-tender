@@ -33,8 +33,8 @@
 
 <display:table pagesize="${pageSize}" class="displaytag" name="offers" requestURI="${requestUri}" id="row">
 
-	<acme:column property="tender.reference" title="offer.tender.reference" />
-	<acme:column property="tender.title" title="offer.tender.title" />
+	<acme:column property="tender.reference" title="offer.tender.reference" sortable="true"/>
+	<acme:column property="tender.title" title="offer.tender.title" sortable="true"/>
 	
 	<jstl:choose>
 		<jstl:when test="${row.state eq 'CREATED' }">
@@ -71,8 +71,7 @@
 		</jstl:when>
 	</jstl:choose>
 	<spring:message code="offer.state" var="codeStateVar"/>
-	<display:column value="${stateVar}" title="${codeStateVar}"
-		sortable="true" />
+	<display:column value="${stateVar}" title="${codeStateVar}" sortable="true" />
 		
 	<spring:message code="offer.amount" var="titleOfferAmount"/>
 	<display:column title="${titleOfferAmount}" >
@@ -83,7 +82,7 @@
 	</display:column>	
 
 	<spring:message code="offer.commercial" var="offerCommercial" />
-	<display:column title="${offerCommercial}">
+	<display:column title="${offerCommercial}" sortable="true">
 		<div>
 			<jstl:if test="${row.commercial.id == actorId}" >
 				<spring:message code="offer.mine" />
