@@ -115,6 +115,19 @@
 		</property>
 		<property name="active" value="true" />
 	</bean>
+	
+	<bean id="userAccountExecutive3" class="security.UserAccount">
+		<property name="username" value="executive3" />
+		<property name="password" value="85885aa2bac6fd2d05033e34854713c2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="EXECUTIVE" />
+				</bean>
+			</list>
+		</property>
+		<property name="active" value="false" />
+	</bean>
 
 	<!-- Administrator -->
 
@@ -266,6 +279,27 @@
 				<ref bean="notificationbox7" />
 				<ref bean="trashbox7" />
 				<ref bean="spambox7" />
+			</list>
+		</property>
+
+
+	</bean>
+	
+	<bean id="executive3" class="domain.Executive">
+		<property name="name" value="Amparo" />
+		<property name="surname" value="Ronda" />
+		<property name="address" value="Avda Castilla 38" />
+		<property name="phone" value="654456654" />
+		<property name="email" value="amparo@gmail.com" />
+		<property name="userAccount" ref="userAccountExecutive3" />
+
+		<property name="folders">
+			<list>
+				<ref bean="outbox8" />
+				<ref bean="inbox8" />
+				<ref bean="notificationbox8" />
+				<ref bean="trashbox8" />
+				<ref bean="spambox8" />
 			</list>
 		</property>
 
@@ -500,6 +534,11 @@
 		<property name="description" value="Venta de material o productos" />
 		<property name="fatherCategory" ref="category4" />		
 	</bean>	
+	
+	<bean id="category7" class="domain.Category">
+		<property name="name" value="Servicios de personal" />
+		<property name="description" value="Contratación de personal y empresas" />
+	</bean>
 		
 
 	<!-- Offers -->
@@ -1261,6 +1300,15 @@
 		</property>
 	</bean>
 	
+	<bean id="inbox8" class="domain.Folder">
+		<property name="name" value="inbox" />
+		<property name="systemFolder" value="true" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="outbox1" class="domain.Folder">
 		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
@@ -1320,6 +1368,15 @@
 	</bean>
 	
 	<bean id="outbox7" class="domain.Folder">
+		<property name="name" value="outbox" />
+		<property name="systemFolder" value="true" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="outbox8" class="domain.Folder">
 		<property name="name" value="outbox" />
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">
@@ -1391,6 +1448,15 @@
 		</property>
 	</bean>
 	
+	<bean id="notificationbox8" class="domain.Folder">
+		<property name="name" value="notificationbox" />
+		<property name="systemFolder" value="true" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="trashbox1" class="domain.Folder">
 		<property name="name" value="trashbox" />
 		<property name="systemFolder" value="true" />
@@ -1454,6 +1520,15 @@
 		</property>
 	</bean>
 	
+	<bean id="trashbox8" class="domain.Folder">
+		<property name="name" value="trashbox" />
+		<property name="systemFolder" value="true" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="spambox1" class="domain.Folder">
 		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
@@ -1509,6 +1584,15 @@
 	</bean>
 	
 	<bean id="spambox7" class="domain.Folder">
+		<property name="name" value="spambox" />
+		<property name="systemFolder" value="true" />
+		<property name="mymessages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="spambox8" class="domain.Folder">
 		<property name="name" value="spambox" />
 		<property name="systemFolder" value="true" />
 		<property name="mymessages">

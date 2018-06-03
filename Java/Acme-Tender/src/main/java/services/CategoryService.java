@@ -27,18 +27,18 @@ public class CategoryService {
 	//CRUDS
 
 	//Create
-	public Category create(Integer parentCategoryId) {
+	public Category create(final Integer parentCategoryId) {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 
 		Category result;
 		result = new Category();
-		
+
 		if (parentCategoryId == null)
 			result.setFatherCategory(null);
 		else
 			result.setFatherCategory(this.findOne(parentCategoryId));
-		
+
 		return result;
 	}
 	//Save
@@ -47,6 +47,8 @@ public class CategoryService {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 
+		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
+
 		Assert.notNull(category);
 		final Category saved = this.categoryRepository.save(category);
 		return saved;
@@ -54,11 +56,11 @@ public class CategoryService {
 	//Delete
 	public void delete(final Category category) {
 		Assert.notNull(category);
-		
+
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
-		
-		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size()==0, "category.cannot.delete.because.has.tender");
+
+		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
 		Assert.isTrue(this.getChildCategories(category.getId()).size() == 0, "category.cannot.delete.because.has.childs");
 
 		this.categoryRepository.delete(category);
@@ -91,6 +93,11 @@ public class CategoryService {
 	public Collection<Category> getFirstLevelCategories() {
 
 		return this.categoryRepository.getFirstLevelCategories();
+
+	}
+
+	public void flush() {
+		this.categoryRepository.flush();
 
 	}
 
