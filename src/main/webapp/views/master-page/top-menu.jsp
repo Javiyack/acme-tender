@@ -8,35 +8,34 @@
 
 <div class="center">
 	<security:authorize access="isAnonymous()">
-		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%">
+		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%; margin-top: 5px;">
 			<!-- Login y register -->
-			<a href="security/login.do" data-toggle="tooltip" title="Login" style="float: left; padding-right:10px;" >
+			<a href="security/login.do" data-toggle="tooltip" title="Login" style="float: left; margin-right: 10px;" >
 				<i class="fa fa-sign-in fa-2x"></i>
 			</a>
-			<a href="actor/create.do" data-toggle="tooltip" title="Register" style="float: left; padding-right:10px;" > 
+			<a href="actor/create.do" data-toggle="tooltip" title="Register" style="float: left;" > 
 				<i class="fa fa-user-plus fa-2x"></i>
 			</a> 
 		</div>
 	</security:authorize>
 	
 	<security:authorize access="isAuthenticated()">
-		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%">
+		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%; margin-top: 5px;">
 
-			<a href="j_spring_security_logout" data-toggle="tooltip" title="Logout" style="float: left; padding-right:10px;"> 
+			<a href="j_spring_security_logout" data-toggle="tooltip" title="Logout" style="float: left;"> 
 				<i class="fa fa-sign-out fa-2x"></i>
 			</a>
 		</div>
 	</security:authorize>	
 
-	<div style="float: right; margin-right: 50px; vertical-align: middle; height: 100%">
+	<div style="float: right; margin-right: 50px; vertical-align: middle; height: 100%; margin-top: 5px;">
 		<security:authorize access="isAuthenticated()">
 			<a href="actor/edit.do" data-toggle="tooltip" title="Profile">
 				<i class="fa fa-user fa-2x"></i></a>
 				<span class="nombre-usuario"><security:authentication property="principal.username" />
 			</span>
-			
 		</security:authorize>	
-		<a href="?language=es" ><img src="images/es.png" height="30px"/></a>
-		<a href="?language=en" ><img src="images/en.png" height="30px"/></a> 			
+		<a href="?language=es" ><img src="images/es.png" height="25px" style="margin-bottom: 5px;"/></a>
+		<a href="?language=en" ><img src="images/en.png" height="25px" style="margin-bottom: 5px;"/></a> 			
 	</div>
 </div>
