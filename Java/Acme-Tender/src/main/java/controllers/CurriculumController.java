@@ -36,7 +36,7 @@ public class CurriculumController extends AbstractController {
 	@Autowired
 	private ActorService		actorService;
 	@Autowired
-	private FileService fileService;
+	private FileService			fileService;
 
 
 	//Display
@@ -50,7 +50,7 @@ public class CurriculumController extends AbstractController {
 		Curriculum curriculum = curriculumService.findOne(curriculumId);
 		Assert.isTrue(this.subSectionService.canViewSubSection(curriculum.getSubSection().getId()));
 		curriculumService.checkListAndDisplay(curriculum.getSubSection().getId());
-		
+
 		Collection<File> files = this.fileService.findAllByCurriculum(curriculumId);
 
 		result = new ModelAndView("curriculum/display");
@@ -69,7 +69,7 @@ public class CurriculumController extends AbstractController {
 
 		Actor actor = actorService.findByPrincipal();
 
-		SubSection subSection  = subSectionService.findOne(subSectionId);
+		SubSection subSection = subSectionService.findOne(subSectionId);
 		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 		Assert.isTrue(!subSection.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION));
 

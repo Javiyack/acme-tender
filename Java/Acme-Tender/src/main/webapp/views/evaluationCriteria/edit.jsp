@@ -25,6 +25,7 @@
 	<jstl:if test="${evaluationCriteria.id != 0}">
 		<acme:submit name="delete" code="evaluationCriteria.delete" css="formButton toLeft" />&nbsp;
 	</jstl:if>	
-    <acme:cancel url="/tender/display.do?tenderId=${tenderId}" code="evaluationCriteria.cancel" css="formButton toLeft" />
+	
+ 	 <acme:cancel url="/tender/display.do?tenderId=${tenderId}" code="evaluationCriteria.cancel" css="formButton toLeft" /> 
 
 </form:form>

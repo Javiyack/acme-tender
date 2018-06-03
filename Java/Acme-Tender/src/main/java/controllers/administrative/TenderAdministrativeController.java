@@ -40,7 +40,7 @@ public class TenderAdministrativeController extends AbstractController {
 	@Autowired
 	CategoryService	categoryService;
 	@Autowired
-	ActorService actorService;
+	ActorService	actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -64,7 +64,7 @@ public class TenderAdministrativeController extends AbstractController {
 		ModelAndView result;
 		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 		Assert.notNull(tender);
-		
+
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
 
@@ -87,8 +87,8 @@ public class TenderAdministrativeController extends AbstractController {
 				result.addObject("requestUri", "tender/administrative/list.do");
 
 			} catch (final Throwable ooops) {
-				//				if (ooops.getMessage() == "Invalid bulletinDate")
-				//					result = this.createEditModelAndView(tender, "tender.commit.error.invalidBulletinDate");
+				//								if (ooops.getMessage() == "Invalid bulletinDate")
+				//									result = this.createEditModelAndView(tender, "tender.commit.error.invalidBulletinDate");
 				if (ooops.getMessage() == "Invalid openingDate")
 					result = this.createEditModelAndView(tender, "tender.commit.error.invalidOpeningDate");
 				else if (ooops.getMessage() == "Invalid maxPresentationDate")
