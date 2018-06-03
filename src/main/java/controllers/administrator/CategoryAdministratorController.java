@@ -21,22 +21,22 @@ import domain.Category;
 @RequestMapping("/category/administrator")
 public class CategoryAdministratorController extends AbstractController {
 
-	
 	//Services
 	@Autowired
 	private CategoryService	categoryService;
-	
+
+
 	public CategoryAdministratorController() {
 		super();
 	}
 
 	//Create
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam (required=false) Integer parentCategoryId) {
+	public ModelAndView create(@RequestParam(required = false) final Integer parentCategoryId) {
 
 		ModelAndView result;
 		Category category;
-		
+
 		category = this.categoryService.create(parentCategoryId);
 		result = this.createEditModelAndView(category);
 
@@ -71,9 +71,13 @@ public class CategoryAdministratorController extends AbstractController {
 					result = new ModelAndView("redirect:/category/administrator/list.do");
 				else
 					result = new ModelAndView("redirect:/category/administrator/list.do?parentCategoryId=" + category.getFatherCategory().getId());
-					
+
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(category, "category.commit.error");
+				if (oops.getMessage() == "category.cannot.edit.because.has.tender")
+					result = this.createEditModelAndView(category, "category.cannot.edit.because.has.tender");
+				else
+					result = this.createEditModelAndView(category, "category.commit.error");
+
 			}
 
 		return result;
@@ -88,7 +92,7 @@ public class CategoryAdministratorController extends AbstractController {
 			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/category/administrator/list.do");
 		} catch (final Throwable oops) {
-			
+
 			if (oops.getMessage() == "category.cannot.delete.because.has.childs")
 				result = this.createEditModelAndView(category, "category.cannot.delete.because.has.childs");
 			else if (oops.getMessage() == "category.cannot.delete.because.has.tender")
@@ -114,11 +118,11 @@ public class CategoryAdministratorController extends AbstractController {
 			parent = null;
 		} else {
 			categories = this.categoryService.getChildCategories(parentCategoryId);
-			parent= this.categoryService.findOne(parentCategoryId);
+			parent = this.categoryService.findOne(parentCategoryId);
 		}
 
 		result = new ModelAndView("category/administrator/list");
-		
+
 		result.addObject("requestUri", "category/administrator/list.do");
 		result.addObject("categories", categories);
 		result.addObject("parent", parent);
@@ -138,7 +142,7 @@ public class CategoryAdministratorController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Category category, final String message) {
 		ModelAndView result;
-		Collection<Category> categories;
+		final Collection<Category> categories;
 
 		if (category.getId() == 0)
 			result = new ModelAndView("category/administrator/create");
