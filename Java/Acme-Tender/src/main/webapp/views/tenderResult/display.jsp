@@ -61,7 +61,7 @@
 		
 
 	</display:table>
-	<br/>
+
 	<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
 		<acme:button text="tenderResult.companyResult.create" url="companyResult/administrative/create.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
 	</jstl:if>
@@ -84,7 +84,7 @@
 			</a>
 		</display:column>
 	</display:table>
-	<br />
+
 	<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
 		<acme:button text="file.create" url="/file/create.do?id=${tenderResult.id}&type=tenderResult" css="formButton toLeft" />
 	</jstl:if>

@@ -61,7 +61,7 @@
 			</display:column>
 				
 		</display:table>
-		<br />
+
 		<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId}" >
 			<acme:button text="curriculum.create" url="/curriculum/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 		</jstl:if>
@@ -82,7 +82,7 @@
 			</a>
 		</display:column>
 	</display:table>
-	<br />
+
 	<jstl:if test="${subSection.offer.inDevelopment && (subSection.commercial.id == actorId || subSection.administrative.id == actorId)}" >
 		<acme:button text="file.create" url="/file/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
 	</jstl:if>
@@ -108,7 +108,7 @@
 		</display:column>	
 		
 	</display:table>
-	<br />
+
 	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
 		<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
 	</jstl:if>
