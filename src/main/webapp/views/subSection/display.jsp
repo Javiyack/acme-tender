@@ -68,44 +68,16 @@
 	</fieldset>
 </jstl:if>
 
-<%@ include file="/views/file/list.jsp" %>  
-<fieldset>
-	<legend><spring:message code="subSection.data.files" /></legend>
-	
-	<display:table class="displaytag" name="files" id="row">
-		
-		<spring:message code="file.name" var="columTitle" />
-		<display:column title="${columTitle}">
-			<a href="file/download.do?fileId=${row.id}"> 
-				<jstl:out value="${row.name}"/>
-			</a>
-		</display:column>
-		<spring:message code="file.size" var="columTitle" />
-		<display:column title="${columTitle}">
-			<jstl:set var="sizeKB" value="${row.size / (1024)}"></jstl:set>
-			<fmt:formatNumber type = 'number' maxFractionDigits = '3' value = '${sizeKB}' />
-			KB
-		</display:column>
-		<acme:column property="uploadDate" title="file.uploadDate" format="display.date.time.format"/>
-		<acme:column property="mimeType" title="file.type"/>
-		<acme:column property="comment" title="subSection.comments" format="display.date.time.format"/>
-		<display:column >
-			<a href="file/delte.do?fileId=${row.id}"> 
-				<button><spring:message code="file.delete"/></button>
-			</a>
-		</display:column>
-		<display:column>
-			<a href="file/edit.do?fileId=${row.id}"> 
-				<button><spring:message code="file.edit"/></button>
-			</a>
-		</display:column>
-	</display:table>
+<!-- Archivos -->
 
-	<jstl:if test="${subSection.offer.inDevelopment && (subSection.commercial.id == actorId || subSection.administrative.id == actorId)}" >
-		<acme:button text="file.create" url="/file/create.do?id=${subSection.id}&type=subSection" css="formButton toLeft" />
-	</jstl:if>
+<jstl:if test="${subSection.offer.inDevelopment && (subSection.commercial.id == actorId || subSection.administrative.id == actorId)}">
+	<jstl:set var="allowed" value="true" />
+	<jstl:set var="url" value="/file/create.do?id=${subSection.id}&type=subSection"/>
+</jstl:if>
 
-</fieldset>
+<%@ include file="/views/file/list.jsp" %> 
+
+<!--  -->
 
 
 <fieldset>

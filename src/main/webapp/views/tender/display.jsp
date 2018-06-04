@@ -111,26 +111,16 @@
 	</jstl:if>
 </fieldset>
 
-<fieldset>
-	<legend><spring:message code="tender.data.files" /></legend>
-	
-	<display:table class="displaytag" name="files" id="row">
-		
-		<acme:column property="name" title="file.name" />
-		<acme:column property="uploadDate" title="file.uploadDate" format="display.date.time.format"/>
-		
-		<display:column>
-			<a href="file/display.do?fileId=${row.id}"> 
-				<spring:message code="master.page.display" />
-			</a>
-		</display:column>
-	</display:table>
+<!-- Archivos -->
 
-	<jstl:if test="${tender.administrative.id == actor.id}" >
-		<acme:button text="file.create" url="/file/create.do?id=${tender.id}&type=tender" css="formButton toLeft" />
-	</jstl:if>
+<jstl:if test="${tender.administrative.id == actor.id}" >
+	<jstl:set var="allowed" value="true" />
+	<jstl:set var="url" value="/file/create.do?id=${tender.id}&type=tender"/>
+</jstl:if>
 
-</fieldset>
+<%@ include file="/views/file/list.jsp" %> 
+
+<!--  -->
 
 <fieldset>
 	<legend><spring:message code="tender.comments" /></legend>
