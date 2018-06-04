@@ -270,7 +270,7 @@
 				<a><i class="fa fa-users fa-lg"></i><span class="texto-menu"><spring:message code="master.page.users" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="users">				
-				<li><a href="actor/list.do">
+				<li><a href="actor/administrator/list.do">
 					<span class="texto-submenu"><spring:message code="master.page.actor.list" /></span>
 				</a></li>
 				<li><a href="actor/edit.do">

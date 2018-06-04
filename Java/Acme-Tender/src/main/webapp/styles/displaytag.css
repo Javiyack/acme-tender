@@ -117,6 +117,7 @@ span.pagebanner {
 	display: block;	
 	float:left;
 	vertical-align: middle;
+	width: 50%;
 }
 
 span.pagelinks {
@@ -125,6 +126,7 @@ span.pagelinks {
 	float: right;
 	text-align: right;
 	vertical-align: middle;
+	width: 50%;	
 }
 
 .group-1 {
