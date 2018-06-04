@@ -604,3 +604,21 @@ to {
     font-size: .75em;
     text-decoration: none;
 }
+
+
+.iconoenlace {
+	width: 20px;
+}
+
+@media screen and (max-width: 1399px) {
+    .iconoenlace {
+        width: 20px;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .iconoenlace {
+        width: 30px;
+    }
+}
+
