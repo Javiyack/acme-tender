@@ -593,3 +593,14 @@ to {
 .red {
 	background-color: red !important;
 }
+.acordeon{
+	width: 100%;
+    color: #fff !important;
+	background-color: #223850 !important;
+	cursor: pointer;
+    border: none;
+	border-radius: 3px;
+	padding: .25em;	
+    font-size: .75em;
+    text-decoration: none;
+}
