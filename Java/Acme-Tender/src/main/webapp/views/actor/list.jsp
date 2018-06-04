@@ -31,7 +31,6 @@
 	
 	<acme:column property="name" title="actor.name" sortable="true"/>
 	<acme:column property="surname" title="actor.surname" sortable="true"/>
-	<acme:column property="address" title="actor.address" sortable="true"/>
 	<acme:column property="email" title="actor.email" sortable="true"/>
 	<acme:column property="phone" title="actor.phone" sortable="true"/>
 	<acme:column property="userAccount.authorities[0]" title="actor.authority" sortable="true"/>
