@@ -30,7 +30,7 @@
 	<display:column >
 		<div>
 			<a href="tabooWord/administrator/edit.do?tabooWordId=${row.id}">
-				<spring:message code="tabooWord.edit" />
+				<spring:message code="master.page.edit" />
 			</a>
 		</div>
 	</display:column>

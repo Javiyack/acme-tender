@@ -131,7 +131,7 @@
 		<display:column style="width:10%">
 			<div>
 				<a href="subSection/display.do?subSectionId=${row.id}"> 
-					<spring:message code="subSection.display" />
+					<spring:message code="master.page.display" />
 				</a>
 			</div>
 		</display:column>
@@ -174,7 +174,7 @@
 		<display:column style="width:10%">
 			<div>
 				<a href="subSection/display.do?subSectionId=${row.id}"> 
-					<spring:message code="subSection.display" />
+					<spring:message code="master.page.display" />
 				</a>
 			</div>
 		</display:column>
@@ -218,7 +218,7 @@
 		<display:column style="width:10%">
 			<div>
 				<a href="subSection/display.do?subSectionId=${row.id}"> 
-					<spring:message code="subSection.display" />
+					<spring:message code="master.page.display" />
 				</a>
 			</div>
 		</display:column>

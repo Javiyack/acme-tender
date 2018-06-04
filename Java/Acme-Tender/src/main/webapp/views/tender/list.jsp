@@ -72,7 +72,7 @@
 	<display:column style="background-color: ${rowCss}">
 		<div>
 			<a href="tender/display.do?tenderId=${row.id}">
-				<spring:message code="tender.display" />
+				<spring:message code="master.page.display" />
 			</a>
 		</div>
 	</display:column>
@@ -94,7 +94,7 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column style="background-color: ${rowCss}">
 			<a href="tender/administrator/delete.do?tenderId=${row.id}">
-				<spring:message code="tender.delete" />
+				<spring:message code="master.page.delete" />
 			</a>
 		</display:column>
 	</security:authorize>	

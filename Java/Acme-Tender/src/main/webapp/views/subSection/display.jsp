@@ -55,7 +55,7 @@
 			<display:column>
 				<div>
 					<a href="curriculum/display.do?curriculumId=${row.id}"> 
-						<spring:message code="curriculum.display" />
+						<spring:message code="master.page.display" />
 					</a>
 				</div>
 			</display:column>
@@ -78,7 +78,7 @@
 		
 		<display:column>
 			<a href="file/display.do?fileId=${row.id}"> 
-				<spring:message code="file.display" />
+				<spring:message code="master.page.display" />
 			</a>
 		</display:column>
 	</display:table>
@@ -102,7 +102,7 @@
 		<display:column>
 			<div>
 				<a href="subSectionEvaluationCriteria/display.do?subSectionEvaluationCriteriaId=${row.id}"> 
-					<spring:message code="subSectionEvaluationCriteria.display" />
+					<spring:message code="master.page.display" />
 				</a>
 			</div>
 		</display:column>	

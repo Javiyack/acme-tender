@@ -19,7 +19,7 @@
 	
 	<display:column>
 		<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>">
-			<spring:message code="folder.show" />
+			<spring:message code="master.page.display" />
 		</a>
 
 	</display:column>
