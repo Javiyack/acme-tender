@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -24,9 +23,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class File extends DomainEntity {
 
 	private String	name;
+	private String	comment;
 	private Date	uploadDate;
 	private String mimeType;
 	private byte[] data;
+	private Long size;//Relationships
+	private Curriculum curriculum;
+	private SubSection subSection;
+	private Tender tender;
+	private TenderResult tenderResult;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -58,6 +63,7 @@ public class File extends DomainEntity {
 		this.mimeType = mimeType;
 	}
 
+	@NotNull
 	@Column(length=10000000)
 	public byte[] getData() {
 		return data;
@@ -67,13 +73,7 @@ public class File extends DomainEntity {
 		this.data = data;
 	}
 
-	
-	//Relationships
-	private Curriculum curriculum;
-	private SubSection subSection;
-	private Tender tender;
-	private TenderResult tenderResult;
-
+		
 	@ManyToOne(optional = true)
 	public Curriculum getCurriculum() {
 		return curriculum;
@@ -109,6 +109,23 @@ public class File extends DomainEntity {
 	public void setTenderResult(TenderResult tenderResult) {
 		this.tenderResult = tenderResult;
 	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Long getSize() {
+		return size;
+	}
+
+	public void setSize(Long size) {
+		this.size = size;
+	}
+
 	
 	
 

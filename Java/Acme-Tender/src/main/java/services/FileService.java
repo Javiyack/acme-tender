@@ -6,18 +6,21 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetMethodFromPropertyName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Actor;
-import domain.Administrative;
-import domain.Commercial;
+import domain.Constant;
 import domain.Curriculum;
 import domain.File;
 import domain.SubSection;
 import domain.Tender;
 import domain.TenderResult;
+import forms.FileForm;
 import repositories.FileRepository;
 
 @Service
@@ -26,20 +29,22 @@ public class FileService {
 
 	// Managed repositories ------------------------------------------------
 	@Autowired
-	private FileRepository			fileRepository;
+	private FileRepository fileRepository;
 
-	//Services
+	// Services
 	@Autowired
-	private ActorService		actorService;
+	private ActorService actorService;
 	@Autowired
-	private TenderService			tenderService;
+	private TenderService tenderService;
 	@Autowired
-	private CurriculumService		curriculumService;
+	private CurriculumService curriculumService;
 	@Autowired
-	private TenderResultService		tenderResultService;
+	private TenderResultService tenderResultService;
 	@Autowired
-	private SubSectionService		subSectionService;
+	private SubSectionService subSectionService;
 
+	@Autowired
+	private Validator validator;
 
 	// Constructor ----------------------------------------------------------
 	public FileService() {
@@ -64,7 +69,7 @@ public class FileService {
 
 		final File file = new File();
 		file.setSubSection(subSection);
-		
+
 		return file;
 	}
 
@@ -86,7 +91,7 @@ public class FileService {
 
 	public File createForTender(final int tenderId) {
 		Actor actor = this.actorService.findByPrincipal();
-		
+
 		final Tender tender = this.tenderService.findOneToEdit(tenderId);
 		Assert.isTrue(tender.getAdministrative().getId() == actor.getId());
 
@@ -165,16 +170,15 @@ public class FileService {
 		}
 		if (file.getTenderResult() != null) {
 			return file.getTenderResult().getTender().getAdministrative().getId() == actor.getId();
-		}			
+		}
 		if (file.getSubSection() != null) {
 			return subSectionService.canEditSubSection(file.getSubSection().getId());
-		}		
+		}
 		if (file.getCurriculum() != null) {
 			return subSectionService.canEditSubSection(file.getCurriculum().getSubSection().getId());
-		}	
+		}
 		return false;
 	}
-	
 
 	public boolean canViewFile(final File file) {
 
@@ -185,15 +189,15 @@ public class FileService {
 		}
 		if (file.getTenderResult() != null) {
 			return true;
-		}			
+		}
 		if (file.getSubSection() != null) {
 			return subSectionService.canViewSubSection(file.getSubSection().getId());
-		}		
+		}
 		if (file.getCurriculum() != null) {
 			return subSectionService.canViewSubSection(file.getCurriculum().getSubSection().getId());
-		}	
+		}
 		return false;
-	}	
+	}
 
 	public File save(final File file) {
 
@@ -222,6 +226,97 @@ public class FileService {
 	public void flush() {
 		this.fileRepository.flush();
 
+	}
+
+	public File reconstruct(FileForm fileForm, BindingResult binding) {
+		File resultFile;
+		if (fileForm.getId() == 0) {
+			resultFile = new File();
+			switch (fileForm.getType()) {
+			case Constant.FILE_CURRICULUM:
+				resultFile = this.createForCurriculum(fileForm.getFk());
+				break;
+
+			case Constant.FILE_SUBSECTION:
+				resultFile = this.createForSubSection(fileForm.getFk());
+				break;
+
+			case Constant.FILE_TENDER:
+				resultFile = this.createForTender(fileForm.getFk());
+				break;
+
+			case Constant.FILE_TENDER_RESULT:
+				resultFile = this.createForTenderResult(fileForm.getFk());
+				break;
+			default:
+				break;
+			}
+			resultFile.setComment(fileForm.getComment());
+			try {
+				if (fileForm.getFile().isEmpty()) {
+					resultFile.setName(fileForm.getName());
+				} else {
+					resultFile.setData(fileForm.getFile().getBytes());
+					resultFile.setMimeType(fileForm.getFile().getContentType());
+					resultFile.setSize(fileForm.getFile().getSize());
+					if (fileForm.getName().isEmpty()) {
+						resultFile.setName(fileForm.getFile().getOriginalFilename());
+					} else {
+						String originalName = fileForm.getFile().getOriginalFilename();
+						String originalExtension = originalName.substring((originalName.lastIndexOf(".")==-1)?originalName.length():(originalName.lastIndexOf(".")));
+						String name = fileForm.getName();
+						String extension = name.substring((name.lastIndexOf(".")==-1)?name.length():(name.lastIndexOf(".")));
+						extension = (originalExtension.equals(extension)) ? "" : originalExtension;
+						resultFile.setName(name + extension);
+					}
+				}
+
+			} catch (Throwable e) {
+				this.validator.validate(resultFile, binding);
+				Assert.notNull(fileForm.getFile(), "file.data.load.fail");
+			}		
+
+		} else {
+			resultFile = this.findOne(fileForm.getId());
+			try {
+				resultFile.setComment(fileForm.getComment());
+				if (fileForm.getFile().isEmpty()) {
+					if (!fileForm.getName().isEmpty()) {
+						String originalName = resultFile.getName();
+						String originalExtension = originalName.substring((originalName.lastIndexOf(".")==-1)?originalName.length():(originalName.lastIndexOf(".")));
+						String name = fileForm.getName();
+						String extension = name.substring((name.lastIndexOf(".")==-1)?name.length():(name.lastIndexOf(".")));
+						extension = (originalExtension.equals(extension)) ? "" : originalExtension;
+						resultFile.setName(name + extension);
+					}else {
+						//resultFile.setName(fileForm.getName());
+					}
+				} else {
+					resultFile.setData(fileForm.getFile().getBytes());
+					resultFile.setMimeType(fileForm.getFile().getContentType());
+					resultFile.setSize(fileForm.getFile().getSize());
+					if (fileForm.getName().isEmpty()) {
+						resultFile.setName(fileForm.getFile().getOriginalFilename());
+					} else {
+						String originalName = fileForm.getFile().getOriginalFilename();
+						String originalExtension = originalName.substring(originalName.lastIndexOf("."));
+						String name = fileForm.getName();
+						String extension = name.substring(name.lastIndexOf("."));
+						extension = (originalExtension.equals(extension)) ? "" : originalExtension;
+						resultFile.setName(name + extension);
+					}
+				}
+
+			} catch (Throwable e) {
+				this.validator.validate(resultFile, binding);
+				Assert.notNull(fileForm, "file.not.found.fail");
+				Assert.notNull(fileForm.getFile(), "file.data.load.fail");
+				Assert.isTrue(false, "file.data.load.fail");
+
+			}			
+		}
+		this.validator.validate(resultFile, binding);
+		return resultFile;
 	}
 
 }

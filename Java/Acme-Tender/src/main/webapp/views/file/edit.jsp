@@ -8,41 +8,30 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="file/edit.do" modelAttribute="file">
+
+<form:form method="POST" action="file/edit.do" modelAttribute="fileForm" enctype="multipart/form-data">
 
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="uploadDate" />
-	<form:hidden path="mimeType" />
-
-	<form:hidden path="curriculum" />
-	<form:hidden path="tenderResult" />
-	<form:hidden path="subSection" />
-	<form:hidden path="tender" />
+	<form:hidden path="fk" />
+	<form:hidden path="type" />
 
 	<acme:textbox code="file.name" path="name" />
 	<br />
-	<input type="file" id="data" name="data" class="formInput"/>
-
-	<acme:submit name="save" code="file.save" css="formButton toLeft" />&nbsp;
+	<acme:textbox code="subSection.comments" path="comment" />
+	<br />
+	 
+    <form:input type="file" path="file" id="file" class="formInput"/>
+                                
+	<jstl:if test="${file == null}" >
+		<acme:submit name="save" code="file.save" css="formButton toLeft" />&nbsp;
+	</jstl:if>
 	
-	<jstl:if test="${file.id != 0}" >
+	<jstl:if test="${file != null}" >
 		<acme:submit name="delete" code="file.delete" css="formButton toLeft" />
 	</jstl:if>
 
-	<jstl:if test="${file.curriculum != null}" >
-		<acme:button url="curriculum/display.do?curriculumId=${file.curriculum.id}" text="file.back" css="formButton toLeft" />
-	</jstl:if>
-	<jstl:if test="${file.subSection != null}" >
-		<acme:button url="subSection/display.do?subSectionId=${file.subSection.id}" text="file.back" css="formButton toLeft" />
-	</jstl:if>
-	<jstl:if test="${file.tender != null}" >
-		<acme:button url="tender/display.do?tenderId=${file.tender.id}" text="file.back" css="formButton toLeft" />
-	</jstl:if>
-	<jstl:if test="${file.tenderResult != null}" >
-		<acme:button url="tenderResult/display.do?tenderResultId=${file.tenderResult.id}" text="file.back" css="formButton toLeft" />
-	</jstl:if>
-
+	<acme:button url="${fileForm.type}/display.do?${fileForm.type}Id=${fileForm.fk}" text="file.back" css="formButton toLeft" />
+	
 	<br />
 
 </form:form>

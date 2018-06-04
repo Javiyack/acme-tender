@@ -13,8 +13,12 @@
 
 	<form:form action="${requestUri}" modelAttribute="registerForm" >
 		<form:hidden path="id" />		
-		
+	<br>
+	
 		<div class="seccion">
+	<legend><spring:message code="actor.personal.data" /></legend>
+		
+		
 			<acme:textbox code="actor.name" path="name" css="formInput" readonly="${!edition}"/>
 			<br />
 			<acme:textbox code="actor.surname" path="surname" css="formInput" readonly="${!edition}" />
@@ -25,17 +29,19 @@
 			<br />
 			<acme:textbox code="actor.address" path="address" css="formInput" readonly="${!edition}" />
 			<br />
-		</div>
+		
 		
 	<jstl:if test="${!edition}">	
 		<acme:backButton text="actor.back" css="formButton toLeft"/>
 	</jstl:if>	
-		
+		</div>
 	<jstl:if test="${edition}">
 		<div class="seccion">
-			<div>
+				
+			
 				<jstl:if test="${creation}">
-					<form:label path="${path}">
+						<legend><spring:message code="profile.userAccount" /></legend>
+						<form:label path="${path}">
 						<spring:message code="actor.authority.selection" />
 					</form:label>
 					<select id="authority" name="authority" class="formInput">
@@ -48,31 +54,34 @@
 					</select>
 					<br>
 						<acme:textbox code="actor.username" path="username" css="formInput"/>
+						<br />
 						<acme:password code="profile.userAccount.password" path="password" css="formInput" id = "password" onkeyup="javascript: checkPassword();" />
+						<br />
 						<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkPassword();"/>		
-					<br>
+						<br>
 				</jstl:if>
 				<jstl:if test="${!creation}">
-					
+				<legend >
 				<spring:message code="profile.userAccount" var="pass"/>
-				<input type="button" value="${pass}" onclick="javascript: showUserAccount();" class="formButton1"/>
-				<br>
-				<br>
+				<input type="button" value="${pass}" onclick="javascript: showUserAccount();" class="acordeon">
+				</legend>	
 				
-					<div id="changePassword" style="display:none;">
+					<div id="changePassword" style="display:none;">					
+					<br>
 					<form:hidden path="authority"/>
-					<acme:label code="actor.authority" path="authority"
-						readonly="true" />
-					<acme:label code="actor.authority.${registerForm.authority}" path="authority"
-						css="formInput" readonly="true" />
-					<br>		
+					<acme:label code="actor.authority" path="authority" />
+					<acme:label code="actor.authority.${registerForm.authority}" path="authority" css="formInput" />
+					<br />
 					<acme:textbox code="actor.username" path="username" css="formInput"/>
+					<br />
 					<acme:password code="profile.userAccount.oldPassword" path="password" css="formInput" id = "password" onkeyup="javascript: checkEdition();" />
+					<br />
 					<acme:password code="profile.userAccount.newPassword" path="newPassword" css="formInput" id = "new_password" onkeyup="javascript: checkEdition();" />
+					<br />
 					<acme:password code="profile.userAccount.repeatPassword" path="confirmPassword"  id="confirm_password" css="formInput" onkeyup="javascript: checkEdition();"/>
-				</div>		
-			</jstl:if>	
-		</div>
+					<br />
+				</div>	
+			</jstl:if>
 	</div>
 		<security:authorize access="isAnonymous()">
 			<p class="terminos">
