@@ -39,8 +39,8 @@
 	<display:table class="displaytag" name="companyResults" id="row">
 
 		<acme:column property="name" title="companyResult.name" />
-		<acme:column property="position" title="companyResult.position" />
-		
+		<acme:column property="position" title="companyResult.position" sortable="false"/>
+				
 		<spring:message code="companyResult.economicalOffer" var="titleCompanyResultEconomicalOffer"/>
 		<display:column title="${titleCompanyResultEconomicalOffer}" >
 			<fmt:formatNumber value="${row.economicalOffer}" pattern="${formpriceformat}" var="varEconomicalOffer" />
@@ -68,26 +68,14 @@
 
 </fieldset>
 
-<fieldset>
-	<legend>
-		<spring:message code="tenderResult.data.files" />
-	</legend>
+<!-- Archivos -->
 
-	<display:table class="displaytag" name="files" id="row">
+<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
+	<jstl:set var="allowed" value="true" />
+	<jstl:set var="url" value="/file/create.do?id=${tenderResult.id}&type=tenderResult"/>
+</jstl:if>
 
-		<acme:column property="name" title="file.name" />
-		<acme:column property="uploadDate" title="file.uploadDate" format="display.date.time.format" />
+<%@ include file="/views/file/list.jsp" %> 
 
-		<display:column>
-			<a href="file/display.do?fileId=${row.id}"> 
-				<spring:message code="file.display" />
-			</a>
-		</display:column>
-	</display:table>
-
-	<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
-		<acme:button text="file.create" url="/file/create.do?id=${tenderResult.id}&type=tenderResult" css="formButton toLeft" />
-	</jstl:if>
-
-</fieldset>
+<!--  -->
 
