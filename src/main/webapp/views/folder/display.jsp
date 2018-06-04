@@ -22,7 +22,7 @@
 	
 		<display:column>
 			<a href="folder/display.do?folderId=<jstl:out value="${row.id}"/>">
-				<spring:message code="folder.show" />
+				<spring:message code="master.page.display" />
 			</a>
 		</display:column>
 	
@@ -38,14 +38,14 @@
 		
 		<display:column>
 			<a href="myMessage/display.do?messageId=${row2.id}">
-				<spring:message code="ms.show" />
+				<spring:message code="master.page.display" />
 			</a>
 		</display:column>
 	
 	
 		<display:column>
 			<a href="myMessage/delete.do?messageId=${row2.id}">
-				<spring:message code="ms.delete" />
+				<spring:message code="master.page.delete" />
 			</a>
 		</display:column>
 	
