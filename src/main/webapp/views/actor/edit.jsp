@@ -19,6 +19,7 @@
 	<legend><spring:message code="actor.personal.data" /></legend>
 		
 		
+			<br />
 			<acme:textbox code="actor.name" path="name" css="formInput" readonly="${!edition}"/>
 			<br />
 			<acme:textbox code="actor.surname" path="surname" css="formInput" readonly="${!edition}" />
