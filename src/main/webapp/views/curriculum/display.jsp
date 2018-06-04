@@ -29,24 +29,13 @@
 
 </fieldset>
 
-<fieldset>
-	<legend><spring:message code="curriculum.data.files" /></legend>
-	
-	<display:table class="displaytag" name="files" id="row">
-		
-		<acme:column property="name" title="file.name" />
-		<acme:column property="uploadDate" title="file.uploadDate" format="display.date.time.format"/>
-		
-		<display:column>
-			<a href="file/display.do?fileId=${row.id}"> 
-				<spring:message code="file.display" />
-			</a>
-		</display:column>
-	</display:table>
-	<br />
-	<jstl:if test="${curriculum.subSection.offer.inDevelopment && curriculum.subSection.commercial.id == actor.id}" >
-		<acme:button text="file.create" url="/file//create.do?id=${curriculum.id}&type=curriculum" css="formButton toLeft" />
-	</jstl:if>
+<!-- Archivos -->
 
-</fieldset>
+<jstl:if test="${curriculum.subSection.offer.inDevelopment && curriculum.subSection.commercial.id == actor.id}">
+	<jstl:set var="allowed" value="true" />
+	<jstl:set var="url" value="/file/create.do?id=${curriculum.id}&type=curriculum"/>
+</jstl:if>
 
+<%@ include file="/views/file/list.jsp" %> 
+
+<!--  -->
