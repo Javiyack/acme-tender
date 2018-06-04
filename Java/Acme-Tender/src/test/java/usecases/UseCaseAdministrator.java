@@ -463,11 +463,9 @@ public class UseCaseAdministrator extends AbstractTest {
 			{// Positive
 				"admin", "subject1", "body1", "HIGH", null
 			}, {// Negative: with executive like principal
-				"executive1", "subject1", "body1", "HIGH", ClassCastException.class
+				"executive1", "subject1", "body1", "HIGH", IllegalArgumentException.class
 			}, {// Negative: with anonymous user
 				"", "subject1", "body1", "HIGH", IllegalArgumentException.class
-			}, {// Negative: without subject
-				"admin", "", "body1", "HIGH", ConstraintViolationException.class
 			}, {// Negative: without body
 				"admin", "subject1", "", "HIGH", ConstraintViolationException.class
 			}, {// Negative: without priority
@@ -491,6 +489,9 @@ public class UseCaseAdministrator extends AbstractTest {
 			message.setBroadcast(true);
 			message.setPriority(priority);
 			message.setSubject(subject);
+			message.setRecipient(message.getSender());
+
+			Assert.notNull(message);
 
 			this.myMessageService.broadcastMessage(message);
 			this.myMessageService.flush();
