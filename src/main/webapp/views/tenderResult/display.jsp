@@ -55,7 +55,7 @@
 
 		<display:column>
 			<a href="companyResult/display.do?companyResultId=${row.id}"> 
-				<spring:message code="tenderResult.display" />
+				<spring:message code="master.page.display" />
 			</a>
 		</display:column>
 		

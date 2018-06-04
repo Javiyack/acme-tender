@@ -56,7 +56,7 @@
 
 	<display:column>
 		<a href="administrativeRequest/display.do?administrativeRequestId=<jstl:out value="${row.id}"/>">
-			<spring:message code="administrativeRequest.show" />
+			<spring:message code="master.page.display" />
 		</a>
 	</display:column>
 

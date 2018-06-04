@@ -99,7 +99,7 @@
 		<display:column>
 			<div>
 				<a href="evaluationCriteria/display.do?evaluationCriteriaId=${row.id}">
-					<spring:message code="evaluationCriteria.display" />
+					<spring:message code="master.page.display" />
 				</a>
 			</div>
 		</display:column>
@@ -121,7 +121,7 @@
 		
 		<display:column>
 			<a href="file/display.do?fileId=${row.id}"> 
-				<spring:message code="file.display" />
+				<spring:message code="master.page.display" />
 			</a>
 		</display:column>
 	</display:table>

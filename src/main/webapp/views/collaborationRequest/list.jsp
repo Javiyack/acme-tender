@@ -66,7 +66,7 @@
 
 	<display:column>
 		<a href="collaborationRequest/commercial/display.do?collaborationRequestId=<jstl:out value="${row.id}"/>">
-			<spring:message code="collaborationRequest.show" />
+			<spring:message code="master.page.display" />
 		</a>
 	</display:column>
 

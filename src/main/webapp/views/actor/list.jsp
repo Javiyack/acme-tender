@@ -55,7 +55,7 @@
 
 	<display:column>
 		<a href="actor/display.do?actorId=${row.id}"> 
-			<spring:message code="actor.showProfile" />
+			<spring:message code="master.page.display" />
 		</a>
 	</display:column>
 	

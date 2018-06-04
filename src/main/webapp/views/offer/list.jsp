@@ -106,7 +106,7 @@
 	<display:column>
 		<div>
 			<a href="offer/display.do?offerId=${row.id}">
-				<spring:message code="offer.display" />
+				<spring:message code="master.page.display" />
 			</a>
 		</div>
 	</display:column>
@@ -114,7 +114,7 @@
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
 			<a href="offer/administrator/delete.do?offerId=${row.id}">
-				<spring:message code="offer.delete" />
+				<spring:message code="master.page.delete" />
 			</a>
 		</display:column>
 	</security:authorize>	

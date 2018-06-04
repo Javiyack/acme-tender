@@ -51,9 +51,8 @@
 			</a>
 		</display:column>
 
-		<spring:message code="category.edit" var="columnHeader" />
-		<display:column title="${columnHeader}">
-			<a href="category/administrator/edit.do?categoryId=${row.id}"> <spring:message code="category.edit" />
+		<display:column>
+			<a href="category/administrator/edit.do?categoryId=${row.id}"> <spring:message code="master.page.edit" />
 			</a>
 		</display:column>
 

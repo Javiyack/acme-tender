@@ -25,7 +25,7 @@
 	<display:column>
 		<div>
 			<a href="evaluationCriteriaType/administrative/edit.do?evaluationCriteriaTypeId=${row.id}">
-				<spring:message code="evaluationCriteriaType.edit" />
+				<spring:message code="master.page.edit" />
 			</a>
 		</div>
 	</display:column>
