@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.SubSectionRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.AdministrativeRequest;
@@ -22,7 +23,6 @@ import domain.File;
 import domain.Offer;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
-import repositories.SubSectionRepository;
 
 @Service
 @Transactional
@@ -88,7 +88,7 @@ public class SubSectionService {
 		subSection.setSection(collaborationRequest.getSection());
 		subSection.setBody("Pending");
 		subSection.setShortDescription("Pending");
-		subSection.setSubsectionOrder(99);		
+		subSection.setSubsectionOrder(99);
 
 		return subSection;
 	}
@@ -168,7 +168,7 @@ public class SubSectionService {
 			subSection.getOffer().setState(Constant.OFFER_IN_DEVELOPMENT);
 			this.offerService.save(subSection.getOffer());
 		}
-		
+
 		this.subSectionRepository.flush();
 
 		return result;
@@ -283,6 +283,11 @@ public class SubSectionService {
 		this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
 
 		this.subSectionRepository.delete(subSection);
+	}
+
+	public void flush() {
+		this.subSectionRepository.flush();
+
 	}
 
 }
