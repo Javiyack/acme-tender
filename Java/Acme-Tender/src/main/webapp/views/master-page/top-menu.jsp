@@ -10,11 +10,11 @@
 	<security:authorize access="isAnonymous()">
 		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%; margin-top: 5px;">
 			<!-- Login y register -->
-			<a href="security/login.do" title="Login" style="float: left; margin-right: 10px;" >
-				<i class="fa fa-sign-in fa-2x"></i>
+			<a href="security/login.do" style="float: left; margin-right: 10px;" >
+				<img src="images/power.ico" title="Login" class="iconoenlace" />
 			</a>
-			<a href="actor/create.do" title="Register" style="float: left;" > 
-				<i class="fa fa-user-plus fa-2x"></i>
+			<a href="actor/create.do" style="float: left;" > 
+				<img src="images/key.ico" title="Register" class="iconoenlace" />
 			</a> 
 		</div>
 	</security:authorize>
@@ -22,8 +22,8 @@
 	<security:authorize access="isAuthenticated()">
 		<div style="float: left; margin-left: 30px; vertical-align: middle; height: 100%; margin-top: 5px;">
 
-			<a href="j_spring_security_logout" title="Logout" style="float: left;"> 
-				<i class="fa fa-sign-out fa-2x"></i>
+			<a href="j_spring_security_logout" style="float: left;"> 
+				<img src="images/power.ico" title="Logout" class="iconoenlace" />
 			</a>
 		</div>
 	</security:authorize>	
@@ -31,11 +31,11 @@
 	<div style="float: right; margin-right: 50px; vertical-align: middle; height: 100%; margin-top: 5px;">
 		<security:authorize access="isAuthenticated()">
 			<a href="actor/edit.do" title="Profile">
-				<i class="fa fa-user fa-2x"></i></a>
-				<span class="nombre-usuario"><security:authentication property="principal.username" />
-			</span>
+				<img src="images/profile.ico" title="Profile" class="iconoenlace" style="margin-bottom: 5px;" />
+				<span class="nombre-usuario"><security:authentication property="principal.username" /> </span>
+			</a>
 		</security:authorize>	
-		<a href="?language=es" ><img src="images/es.png" height="25px" style="margin-bottom: 5px;" title="Cambiar a español"/></a>
-		<a href="?language=en" ><img src="images/en.png" height="25px" style="margin-bottom: 5px;" title="Change to english"/></a> 			
+		<a href="?language=es" ><img src="images/spain.ico" class="iconoenlace" style="margin-bottom: 5px;" title="Cambiar a español"/></a>
+		<a href="?language=en" ><img src="images/uk.ico" class="iconoenlace" style="margin-bottom: 5px;" title="Change to english"/></a> 			
 	</div>
 </div>
