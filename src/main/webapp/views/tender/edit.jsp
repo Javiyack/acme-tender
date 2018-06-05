@@ -36,7 +36,7 @@
 	<br />	
 	<acme:textbox code="tender.expedient" path="expedient" css="formInput" />
 	<br />
-	<acme:input code="tender.estimatedAmount" path="estimatedAmount" type="number" step="0.1" css="formInput"/>
+	<acme:input code="tender.estimatedAmount" path="estimatedAmount" type="number" min="0.0" step="0.1" css="formInput"/>
 	<br />
 	<acme:textbox code="tender.organism" path="organism" css="formInput" />
 	<br />

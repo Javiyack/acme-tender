@@ -293,6 +293,7 @@ public class OfferService {
 
 	public void flush() {
 		this.offerRepository.flush();
+
 	}
 
 	// Other business methods -------------------------------------------------

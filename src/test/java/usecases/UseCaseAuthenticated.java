@@ -14,17 +14,17 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Actor;
-import domain.Folder;
-import domain.MyMessage;
-import domain.Offer;
-import domain.Tender;
 import services.ActorService;
 import services.FolderService;
 import services.MyMessageService;
 import services.OfferService;
 import services.TenderService;
 import utilities.AbstractTest;
+import domain.Actor;
+import domain.Folder;
+import domain.MyMessage;
+import domain.Offer;
+import domain.Tender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -50,7 +50,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Ver la información de contacto de cualquier otro usuario.(CU02)
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void contactInformationTest() {
 
 		final Object testingData[][] = {
@@ -172,7 +172,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Intercambiar mensajes con otros actores.(CU05)
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void sendMessageTest() {
 
 		final Object testingData[][] = {
@@ -227,7 +227,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Borrar mensaje.(CU06)
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void deleteMessageTest() {
 
 		final Object testingData[][] = {
@@ -270,7 +270,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Mover mensaje de carpeta.(CU07)
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void moveMessageTest() {
 
 		final Object testingData[][] = {
@@ -483,9 +483,9 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * y realizar búsquedas en dichas ofertas filtrando por palabra clave.
 	 */
 	/* Autenticado --> buscar oferta por palabra clave */
-	@Test()
+	@Test
 	public void searchOfferTest() {
-		Object testingData[][] = {
+		final Object testingData[][] = {
 			//Positivo
 			{
 				"commercial1", "sistema", null
@@ -501,22 +501,21 @@ public class UseCaseAuthenticated extends AbstractTest {
 			},
 
 		};
-		for (int i = 0; i < testingData.length; i++) {
-			templateSearchOffer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
-		}
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSearchOffer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
-	private void templateSearchOffer(String principal, String keyWord, Class<?> expected) {
+	private void templateSearchOffer(final String principal, final String keyWord, final Class<?> expected) {
 
 		Class<?> caught;
 
 		caught = null;
 		try {
-			authenticate(principal);
+			this.authenticate(principal);
 			this.offerService.findAllPublished();
-			Collection<Offer> offers = this.offerService.findOfferByKeyWord(keyWord);
+			final Collection<Offer> offers = this.offerService.findOfferByKeyWord(keyWord);
 			Assert.notNull(offers);
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
