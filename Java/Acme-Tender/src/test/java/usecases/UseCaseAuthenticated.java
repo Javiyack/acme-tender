@@ -14,15 +14,17 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import services.ActorService;
-import services.FolderService;
-import services.MyMessageService;
-import services.TenderService;
-import utilities.AbstractTest;
 import domain.Actor;
 import domain.Folder;
 import domain.MyMessage;
+import domain.Offer;
 import domain.Tender;
+import services.ActorService;
+import services.FolderService;
+import services.MyMessageService;
+import services.OfferService;
+import services.TenderService;
+import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -40,13 +42,15 @@ public class UseCaseAuthenticated extends AbstractTest {
 	private MyMessageService	myMessageService;
 	@Autowired
 	private FolderService		folderService;
+	@Autowired
+	private OfferService		offerService;
 
 
 	/*
 	 * Caso de uso:
 	 * Auth-> Ver la información de contacto de cualquier otro usuario.(CU02)
 	 */
-	@Test
+	@Test(expected = Exception.class)
 	public void contactInformationTest() {
 
 		final Object testingData[][] = {
@@ -168,7 +172,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Intercambiar mensajes con otros actores.(CU05)
 	 */
-	@Test
+	@Test(expected = Exception.class)
 	public void sendMessageTest() {
 
 		final Object testingData[][] = {
@@ -223,7 +227,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Borrar mensaje.(CU06)
 	 */
-	@Test
+	@Test(expected = Exception.class)
 	public void deleteMessageTest() {
 
 		final Object testingData[][] = {
@@ -266,7 +270,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	 * Caso de uso:
 	 * Auth-> Mover mensaje de carpeta.(CU07)
 	 */
-	@Test
+	@Test(expected = Exception.class)
 	public void moveMessageTest() {
 
 		final Object testingData[][] = {
@@ -467,6 +471,52 @@ public class UseCaseAuthenticated extends AbstractTest {
 			this.folderService.saveToMove(folder, targetFolder);
 			this.folderService.flush();
 
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 24. Un usuario autenticado podrá:
+	 * a. Listar las ofertas publicadas (en estados PRESENTADA, GANADA, PERDIDA e IMPUGNADA)
+	 * y realizar búsquedas en dichas ofertas filtrando por palabra clave.
+	 */
+	/* Autenticado --> buscar oferta por palabra clave */
+	@Test()
+	public void searchOfferTest() {
+		Object testingData[][] = {
+			//Positivo
+			{
+				"commercial1", "sistema", null
+			},
+
+			//Negativo(no autenticado)
+			{
+				"", "canguro", IllegalArgumentException.class
+			},
+			//Negativo(usuario que no existe)
+			{
+				"user25", "", IllegalArgumentException.class
+			},
+
+		};
+		for (int i = 0; i < testingData.length; i++) {
+			templateSearchOffer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
+	}
+
+	private void templateSearchOffer(String principal, String keyWord, Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+			authenticate(principal);
+			this.offerService.findAllPublished();
+			Collection<Offer> offers = this.offerService.findOfferByKeyWord(keyWord);
+			Assert.notNull(offers);
+			unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

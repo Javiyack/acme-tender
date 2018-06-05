@@ -56,7 +56,7 @@ public class UseCaseAdministrator extends AbstractTest {
 	 * Caso de uso:
 	 * Admin-> Aceptar o rechazar las solicitudes de registro.(CU12)
 	 */
-	@Test
+	@Test(expected = Exception.class)
 	public void activateAccountTest() {
 
 		final Object testingData[][] = {
