@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.OfferRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.AdministrativeRequest;
@@ -22,7 +23,6 @@ import domain.Offer;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
-import repositories.OfferRepository;
 
 @Service
 @Transactional
@@ -30,30 +30,29 @@ public class OfferService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private OfferRepository			offerRepository;
+	private OfferRepository				offerRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService			administrativeService;
+	AdministrativeService				administrativeService;
 	@Autowired
-	AdministrativeRequestService	administrativeRequestService;
+	AdministrativeRequestService		administrativeRequestService;
 	@Autowired
-	CollaborationRequestService		collaborationRequestService;
+	CollaborationRequestService			collaborationRequestService;
 	@Autowired
-	AdministratorService			administratorService;
+	AdministratorService				administratorService;
 	@Autowired
-	ActorService					actorService;
+	ActorService						actorService;
 	@Autowired
-	CommercialService				commercialService;
+	CommercialService					commercialService;
 	@Autowired
-	TenderService					tenderService;
+	TenderService						tenderService;
 	@Autowired
-	SubSectionService				subSectionService;
+	SubSectionService					subSectionService;
 	@Autowired
-	EvaluationCriteriaService evaluationCriteriaService;
+	EvaluationCriteriaService			evaluationCriteriaService;
 	@Autowired
-	SubSectionEvaluationCriteriaService subSectionEvaluationCriteriaService; 
-	
+	SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -169,18 +168,18 @@ public class OfferService {
 
 		if (offer.getPresentationDate() != null)
 			Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
-		
+
 		//Si presentamos la oferta, forzamos a que existe un SubSectionEvaluationCriteria en la oferta
 		//por cada EvaluationCriteria del concurso
-		Offer oldOffer = this.offerRepository.findOne(offer.getId());
-		if (!oldOffer.getState().equals(Constant.OFFER_PRESENTED) && offer.getState().equals(Constant.OFFER_PRESENTED)) {
-			Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(offer.getTender().getId());
-			for (EvaluationCriteria ec : evaluationCriterias) {
-				Collection<SubSectionEvaluationCriteria> ssec = this.subSectionEvaluationCriteriaService.findByOfferAndEvaluationCriteria(offer.getId(), ec.getId()); 
-				Assert.isTrue(ssec.size() > 0, "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria");
+		final Offer oldOffer = this.offerRepository.findOne(offer.getId());
+		if (oldOffer != null)
+			if (!oldOffer.getState().equals(Constant.OFFER_PRESENTED) && offer.getState().equals(Constant.OFFER_PRESENTED)) {
+				final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(offer.getTender().getId());
+				for (final EvaluationCriteria ec : evaluationCriterias) {
+					final Collection<SubSectionEvaluationCriteria> ssec = this.subSectionEvaluationCriteriaService.findByOfferAndEvaluationCriteria(offer.getId(), ec.getId());
+					Assert.isTrue(ssec.size() > 0, "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria");
+				}
 			}
-		}
-		
 		final Offer result = this.offerRepository.save(offer);
 
 		if (offer.getId() == 0) {
@@ -191,18 +190,18 @@ public class OfferService {
 		}
 		return result;
 	}
-	
+
 	public Offer saveToDeny(final Offer offer) {
 		Assert.notNull(offer);
-		Actor actor = this.actorService.findByPrincipal();
-		
+		final Actor actor = this.actorService.findByPrincipal();
+
 		Assert.isTrue(actor instanceof Executive);
-		
+
 		offer.setState(Constant.OFFER_DENIED);
 		final Offer result = this.offerRepository.save(offer);
 
 		return result;
-	}	
+	}
 
 	//Visibilidad de una oferta:
 	//Si esta presentada, es visible por todos los autenticados
@@ -226,9 +225,9 @@ public class OfferService {
 
 			if (actor instanceof Executive)
 				return true;
-			
+
 			if (actor instanceof Administrator)
-				return true;			
+				return true;
 
 			if (actor instanceof Administrative) {
 				final Administrative administrative = this.administrativeService.findByPrincipal();
@@ -245,10 +244,9 @@ public class OfferService {
 		final Actor actor = this.actorService.findByPrincipal();
 		final Offer offer = this.offerRepository.findOne(offerId);
 
-		if (actor instanceof Commercial) {
+		if (actor instanceof Commercial)
 			if (actor.getId() == offer.getCommercial().getId())
 				return true;
-		}
 
 		return false;
 	}
@@ -291,6 +289,10 @@ public class OfferService {
 		final Offer offer = this.offerRepository.findByTender(tenderId);
 
 		return offer;
+	}
+
+	public void flush() {
+		this.offerRepository.flush();
 	}
 
 	// Other business methods -------------------------------------------------
