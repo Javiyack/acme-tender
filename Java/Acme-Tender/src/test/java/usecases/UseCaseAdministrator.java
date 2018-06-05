@@ -14,6 +14,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Category;
+import domain.MyMessage;
+import domain.Offer;
+import domain.TabooWord;
+import domain.Tender;
 import security.UserAccountService;
 import services.ActorService;
 import services.CategoryService;
@@ -22,11 +27,6 @@ import services.OfferService;
 import services.TabooWordService;
 import services.TenderService;
 import utilities.AbstractTest;
-import domain.Category;
-import domain.MyMessage;
-import domain.Offer;
-import domain.TabooWord;
-import domain.Tender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {

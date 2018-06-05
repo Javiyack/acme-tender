@@ -109,7 +109,7 @@ public class TenderService {
 
 		return result;
 	}
-	
+
 	public Collection<Tender> findAllOffertable() {
 
 		Collection<Tender> result;
@@ -118,8 +118,7 @@ public class TenderService {
 		Assert.notNull(result);
 
 		return result;
-	}	
-	
+	}
 
 	public Collection<Tender> findTenderByKeyWord(final String word) {
 		final Collection<Tender> tenders;
@@ -229,5 +228,10 @@ public class TenderService {
 		}
 
 		return ret;
+	}
+
+	public void flush() {
+		this.tenderRepository.flush();
+
 	}
 }
