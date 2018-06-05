@@ -39,7 +39,7 @@
 
 <fieldset>
 	<legend>
-		<spring:message code="category.childCategories" />
+		<spring:message code="category.childCategories.text" />
 	</legend>
 	<display:table pagesize="5" class="displaytag" keepStatus="true" name="categories" requestURI="${requestUri}" id="row">
 

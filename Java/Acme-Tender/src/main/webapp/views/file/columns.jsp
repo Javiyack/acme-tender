@@ -41,18 +41,22 @@
 	format="display.date.time.format" />
 
 <display:column>
-	<a href="file/delte.do?fileId=${row.id}">
-		<button>
-			<spring:message code="file.delete" />
-		</button>
+	<a href="file/download.do?fileId=${row.id}">
+		<spring:message code="master.page.download" />
 	</a>
 </display:column>
 
 <display:column>
 	<a href="file/edit.do?fileId=${row.id}">
-		<button>
-			<spring:message code="file.edit" />
-		</button>
+		<spring:message code="master.page.edit" />
 	</a>
 </display:column>
+
+<display:column>
+	<a href="file/delte.do?fileId=${row.id}">
+		<spring:message code="master.page.delete" />
+	</a>
+</display:column>
+
+
 

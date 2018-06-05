@@ -607,18 +607,18 @@ to {
 
 
 .iconoenlace {
-	width: 20px;
+	width: 35px;
 }
 
 @media screen and (max-width: 1399px) {
     .iconoenlace {
-        width: 20px;
+        width: 35px;
     }
 }
 
 @media screen and (min-width: 1400px) {
     .iconoenlace {
-        width: 30px;
+        width: 40px;
     }
 }
 
