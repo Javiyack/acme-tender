@@ -607,18 +607,29 @@ to {
 
 
 .iconoenlace {
-	width: 35px;
+	width: 26px;
 }
 
 @media screen and (max-width: 1399px) {
     .iconoenlace {
-        width: 35px;
+        width: 26px;
     }
 }
 
 @media screen and (min-width: 1400px) {
     .iconoenlace {
-        width: 40px;
+        width: 32px;
     }
+}
+
+.menuButton{	
+	width: 90%;
+	margin: 0%;
+	padding:0px;
+	padding-left:20px;
+	background-color: inherit;
+	border: none;
+	text-align: left;
+	
 }
 

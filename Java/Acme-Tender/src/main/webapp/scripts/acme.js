@@ -149,3 +149,10 @@ function showUserAccount(){
 		checkEdition();
 	}
 }
+
+function showConfirmationAlert(element, msg, url){
+	var fullMsg = element + " " + msg;
+	if(confirm(fullMsg)){
+		relativeRedir(url);
+	}
+}
