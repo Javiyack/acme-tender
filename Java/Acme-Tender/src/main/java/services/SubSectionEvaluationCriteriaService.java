@@ -110,6 +110,10 @@ public class SubSectionEvaluationCriteriaService {
 		this.subSectionEvaluationCriteriaRepository.deleteInBatch(subSectionEvaluationCriteria);
 
 	}
+	
+	public Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(int offerId, int evaluationCriteriaId) {
+		return this.subSectionEvaluationCriteriaRepository.findByOfferAndEvaluationCriteria(offerId, evaluationCriteriaId);
+	}
 
 	// Other business methods -------------------------------------------------
 

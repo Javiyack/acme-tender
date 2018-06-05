@@ -948,7 +948,7 @@
 
 	<bean id="subsectionevaluationcriteria4" class="domain.SubSectionEvaluationCriteria">
 		<property name="comments" value="Los técnicos estan dispuestos a trabajar en turno de tarde-noche." />
-		<property name="subSection" ref="subsection4" />
+		<property name="subSection" ref="subsection11" />
 		<property name="evaluationCriteria" ref="evaluationcriteria4" />			
 	</bean>
 

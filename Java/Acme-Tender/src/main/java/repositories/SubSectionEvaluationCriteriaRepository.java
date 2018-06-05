@@ -18,4 +18,10 @@ public interface SubSectionEvaluationCriteriaRepository extends JpaRepository<Su
 	
 	@Query("select sec from SubSectionEvaluationCriteria sec where sec.subSection.id = ?1")
 	Collection<SubSectionEvaluationCriteria> findAllBySubSection(int subSectionId); 
+	
+	@Query("select sec from SubSectionEvaluationCriteria sec where sec.subSection.offer.id = ?1 and sec.evaluationCriteria.id = ?2")
+	Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(int offerId, int evaluationCriteriaId); 
+	
+	
+	
 }
