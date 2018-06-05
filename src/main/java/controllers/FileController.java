@@ -154,8 +154,10 @@ public class FileController extends AbstractController {
 			}
 		} catch (Throwable oops) {
 			// Fallo en la reconstruccion
-			result = this.createEditModelAndView(fileForm, oops.getLocalizedMessage());
-			result.addObject("message", "actor.reconstruct.error");
+			if(oops.getLocalizedMessage().contains("file."))
+				result = this.createEditModelAndView(fileForm, oops.getLocalizedMessage());
+			else
+				result = this.createEditModelAndView(fileForm, "file.reconstruct.fail");
 		}
 		return result;
 	}
