@@ -22,16 +22,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class File extends DomainEntity {
 
-	private String	name;
-	private String	comment;
-	private Date	uploadDate;
-	private String mimeType;
-	private byte[] data;
-	private Long size;//Relationships
-	private Curriculum curriculum;
-	private SubSection subSection;
-	private Tender tender;
-	private TenderResult tenderResult;
+	private String			name;
+	private String			comment;
+	private Date			uploadDate;
+	private String			mimeType;
+	private byte[]			data;
+	private Long			size;			//Relationships
+	private Curriculum		curriculum;
+	private SubSection		subSection;
+	private Tender			tender;
+	private TenderResult	tenderResult;
 
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -54,79 +54,76 @@ public class File extends DomainEntity {
 	public void setUploadDate(final Date uploadDate) {
 		this.uploadDate = uploadDate;
 	}
-	
+
 	public String getMimeType() {
-		return mimeType;
+		return this.mimeType;
 	}
 
-	public void setMimeType(String mimeType) {
+	public void setMimeType(final String mimeType) {
 		this.mimeType = mimeType;
 	}
 
+	
 	@NotNull
 	@Column(length=52428800)
 	public byte[] getData() {
-		return data;
+		return this.data;
 	}
 
-	public void setData(byte[] data) {
+	public void setData(final byte[] data) {
 		this.data = data;
 	}
 
-		
 	@ManyToOne(optional = true)
 	public Curriculum getCurriculum() {
-		return curriculum;
+		return this.curriculum;
 	}
 
-	public void setCurriculum(Curriculum curriculum) {
+	public void setCurriculum(final Curriculum curriculum) {
 		this.curriculum = curriculum;
 	}
 
-	@ManyToOne(optional = true)	
+	@ManyToOne(optional = true)
 	public SubSection getSubSection() {
-		return subSection;
+		return this.subSection;
 	}
 
-	public void setSubSection(SubSection subSection) {
+	public void setSubSection(final SubSection subSection) {
 		this.subSection = subSection;
 	}
 
-	@ManyToOne(optional = true)	
+	@ManyToOne(optional = true)
 	public Tender getTender() {
-		return tender;
+		return this.tender;
 	}
 
-	public void setTender(Tender tender) {
+	public void setTender(final Tender tender) {
 		this.tender = tender;
 	}
 
-	@ManyToOne(optional = true)	
+	@ManyToOne(optional = true)
 	public TenderResult getTenderResult() {
-		return tenderResult;
+		return this.tenderResult;
 	}
 
-	public void setTenderResult(TenderResult tenderResult) {
+	public void setTenderResult(final TenderResult tenderResult) {
 		this.tenderResult = tenderResult;
 	}
 
 	public String getComment() {
-		return comment;
+		return this.comment;
 	}
 
-	public void setComment(String comment) {
+	public void setComment(final String comment) {
 		this.comment = comment;
 	}
 
 	public Long getSize() {
-		return size;
+		return this.size;
 	}
 
-	public void setSize(Long size) {
+	public void setSize(final Long size) {
 		this.size = size;
 	}
-
-	
-	
 
 }

@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Actor;
-import domain.Administrative;
-import domain.AdministrativeRequest;
-import domain.Commercial;
-import domain.SubSection;
 import services.ActorService;
 import services.AdministrativeRequestService;
 import services.AdministrativeService;
 import services.MyMessageService;
 import services.SubSectionService;
+import domain.Actor;
+import domain.Administrative;
+import domain.AdministrativeRequest;
+import domain.Commercial;
+import domain.SubSection;
 
 @Controller
 @RequestMapping("/administrativeRequest")
@@ -45,7 +45,7 @@ public class AdministrativeRequestController extends AbstractController {
 
 	// Create ---------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam int offerId) {
+	public ModelAndView create(@RequestParam final int offerId) {
 		ModelAndView result;
 		AdministrativeRequest administrativeRequest;
 
@@ -59,12 +59,12 @@ public class AdministrativeRequestController extends AbstractController {
 
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam int administrativeRequestId) {
+	public ModelAndView display(@RequestParam final int administrativeRequestId) {
 
 		ModelAndView result;
 
-		AdministrativeRequest administrativeRequest = administrativeRequestService.findOne(administrativeRequestId);
-		Actor principal = this.actorService.findByPrincipal();
+		final AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOne(administrativeRequestId);
+		final Actor principal = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("administrativeRequest/display");
 		result.addObject("administrativeRequest", administrativeRequest);
@@ -75,53 +75,41 @@ public class AdministrativeRequestController extends AbstractController {
 
 	//Save
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final AdministrativeRequest administrativeRequest, final BindingResult binding, @ModelAttribute("reject") Boolean reject) {
+	public ModelAndView save(@Valid final AdministrativeRequest administrativeRequest, final BindingResult binding, @ModelAttribute("reject") final Boolean reject) {
 
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(administrativeRequest);
-		} else
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(administrativeRequest);
+		else
 
-		if (!administrativeRequest.getMaxDeliveryDate().after(administrativeRequest.getMaxAcceptanceDate())) {
-
+		if (!administrativeRequest.getMaxDeliveryDate().after(administrativeRequest.getMaxAcceptanceDate()))
 			result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.date.error");
-
-		} else {
-
-			if (administrativeRequest.getId() != 0 && administrativeRequest.getRejectedReason().isEmpty()) {
-
-				result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.rejection.error");
-
-			} else {
-
-				try {
-					boolean sendNotification = false;
-					if (reject == true) {
-						sendNotification = true;
-						administrativeRequest.setAccepted(false);
-					}
-					AdministrativeRequest saved = administrativeRequestService.save(administrativeRequest);
-					if (sendNotification == true) {
-						this.myMessageService.administrativeRequestNotification(saved, false);
-					}
-					if (administrativeRequest.getId() == 0) {
-						result = new ModelAndView("redirect:/offer/display.do?offerId=" + administrativeRequest.getOffer().getId());
-					} else {
-						result = new ModelAndView("redirect:display.do?administrativeRequestId=" + administrativeRequest.getId());
-					}
-				} catch (final Throwable oops) {
-					if (oops.getMessage() == "administrativeRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate")
-						result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
-					else if (oops.getMessage() == "administrativeRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate")
-						result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
-					else					
-						result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.commit.error");
-
+		else if (administrativeRequest.getId() != 0 && administrativeRequest.getRejectedReason().isEmpty())
+			result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.rejection.error");
+		else
+			try {
+				boolean sendNotification = false;
+				if (reject == true) {
+					sendNotification = true;
+					administrativeRequest.setAccepted(false);
 				}
+				final AdministrativeRequest saved = this.administrativeRequestService.save(administrativeRequest);
+				if (sendNotification == true)
+					this.myMessageService.administrativeRequestNotification(saved, false);
+				if (administrativeRequest.getId() == 0)
+					result = new ModelAndView("redirect:/offer/display.do?offerId=" + administrativeRequest.getOffer().getId());
+				else
+					result = new ModelAndView("redirect:display.do?administrativeRequestId=" + administrativeRequest.getId());
+			} catch (final Throwable oops) {
+				if (oops.getMessage() == "administrativeRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate")
+					result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
+				else if (oops.getMessage() == "administrativeRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate")
+					result = this.createEditModelAndView(administrativeRequest, oops.getMessage());
+				else
+					result = this.createEditModelAndView(administrativeRequest, "administrativeRequest.commit.error");
 
 			}
-		}
 		return result;
 	}
 
@@ -138,7 +126,7 @@ public class AdministrativeRequestController extends AbstractController {
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
 
-		administrativeRequests = administrativeRequestService.getSentAdministrativeRequestsFromCommercialId(principal.getId());
+		administrativeRequests = this.administrativeRequestService.getSentAdministrativeRequestsFromCommercialId(principal.getId());
 
 		result = new ModelAndView("administrativeRequest/listSent");
 		result.addObject("administrativeRequests", administrativeRequests);
@@ -161,7 +149,7 @@ public class AdministrativeRequestController extends AbstractController {
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Administrative);
 
-		administrativeRequests = administrativeRequestService.getReceivedAdministrativeRequestsFromAdministrativeId(principal.getId());
+		administrativeRequests = this.administrativeRequestService.getReceivedAdministrativeRequestsFromAdministrativeId(principal.getId());
 
 		result = new ModelAndView("administrativeRequest/listReceived");
 		result.addObject("administrativeRequests", administrativeRequests);
@@ -173,7 +161,7 @@ public class AdministrativeRequestController extends AbstractController {
 
 	//Reject
 	@RequestMapping(value = "/reject", method = RequestMethod.GET)
-	public ModelAndView reject(@RequestParam int requestId) {
+	public ModelAndView reject(@RequestParam final int requestId) {
 
 		ModelAndView result;
 
@@ -189,32 +177,32 @@ public class AdministrativeRequestController extends AbstractController {
 
 	//Accept
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
-	public ModelAndView accept(@RequestParam int requestId) {
+	public ModelAndView accept(@RequestParam final int requestId) {
 
-		AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(requestId);
+		final AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(requestId);
 		administrativeRequest.setAccepted(true);
-		AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
-		this.myMessageService.administrativeRequestNotification(savedAR , true);
-		
-		SubSection subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
-		SubSection savedSS = this.subSectionService.save(subSection);
+		final AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
+		this.myMessageService.administrativeRequestNotification(savedAR, true);
+
+		final SubSection subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
+		final SubSection savedSS = this.subSectionService.save(subSection);
 
 		return this.createMessageModelAndView("administrativeRequest.message.accepted", "offer/display.do?offerId=" + savedSS.getOffer().getId());
 
 	}
 
 	// Ancillary methods ----------------------------------------------------
-	protected ModelAndView createEditModelAndView(AdministrativeRequest administrativeRequest) {
+	protected ModelAndView createEditModelAndView(final AdministrativeRequest administrativeRequest) {
 		final ModelAndView result;
 		result = this.createEditModelAndView(administrativeRequest, null);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(AdministrativeRequest administrativeRequest, String messageCode) {
+	protected ModelAndView createEditModelAndView(final AdministrativeRequest administrativeRequest, final String messageCode) {
 
 		final ModelAndView result = new ModelAndView("administrativeRequest/edit");
 
-		Collection<Administrative> administratives = administrativeService.simpleFindAll();
+		final Collection<Administrative> administratives = this.administrativeService.simpleFindAll();
 
 		result.addObject("administrativeRequest", administrativeRequest);
 		result.addObject("message", messageCode);
