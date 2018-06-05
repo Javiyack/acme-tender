@@ -51,11 +51,10 @@
 		<spring:message code="master.page.edit" />
 	</a>
 </display:column>
-
-<display:column>
-	<a href="file/delte.do?fileId=${row.id}">
-		<spring:message code="master.page.delete" />
-	</a>
+<spring:message var = "deleteConfirmation" code="file.delete.confirmation" />
+<jstl:set var="deleteUrl" value="file/delte.do?fileId=${row.id}"/>
+<display:column>	
+		<Button  onclick="javascript: showConfirmationAlert('${deleteConfirmation}', '${row.name}', '${deleteUrl}');"><spring:message code="master.page.delete" /></Button>
 </display:column>
 
 
