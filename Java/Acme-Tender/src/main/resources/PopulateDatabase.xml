@@ -954,55 +954,6 @@
 
 	<!-- Files -->
 
-	<bean id="file1" class="domain.File">
-		<property name="name" value="Curriculum del técnico" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="01/05/2018" />
-			</bean>
-		</property>
-		<property name="curriculum" ref="curriculum1" />
-	</bean>
-
-	<bean id="file2" class="domain.File">
-		<property name="name" value="Sección en formato Word" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="03/05/2018" />
-			</bean>
-		</property>
-		<property name="subSection" ref="subsection3" />		
-	</bean>
-
-	<bean id="file3" class="domain.File">
-		<property name="name" value="Pliego de prescripciones técnicas" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="16/03/2018" />
-			</bean>
-		</property>
-		<property name="tender" ref="tender1" />		
-	</bean>
-	
-	<bean id="file4" class="domain.File">
-		<property name="name" value="Pliego de clausulas administrativas" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="16/03/2018" />
-			</bean>
-		</property>
-		<property name="tender" ref="tender1" />		
-	</bean>	
-	
-	<bean id="file5" class="domain.File">
-		<property name="name" value="Resultado del concurso" />
-		<property name="uploadDate">
-			<bean factory-bean="dateFormat" factory-method="parse">
-				<constructor-arg value="15/04/2018" />
-			</bean>
-		</property>
-		<property name="tenderResult" ref="tenderresult1" />		
-	</bean>	
 	
 	<!-- ColaborationRequests -->
 

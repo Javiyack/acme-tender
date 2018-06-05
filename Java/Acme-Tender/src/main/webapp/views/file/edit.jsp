@@ -14,8 +14,9 @@
 	<form:hidden path="id" />
 	<form:hidden path="fk" />
 	<form:hidden path="type" />
-
-	<acme:textbox code="file.name" path="name" />
+	
+	<spring:message code="file.name.placeholder" var="placeholder" />	
+	<acme:textbox code="file.name" path="name" placeholder="${placeholder }"/>
 	<br />
 	<acme:textbox code="subSection.comments" path="comment" />
 	<br />

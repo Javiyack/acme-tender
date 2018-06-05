@@ -64,7 +64,7 @@ public class File extends DomainEntity {
 	}
 
 	@NotNull
-	@Column(length=10000000)
+	@Column(length=52428800)
 	public byte[] getData() {
 		return data;
 	}

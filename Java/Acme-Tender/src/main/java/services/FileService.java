@@ -202,9 +202,7 @@ public class FileService {
 	public File save(final File file) {
 
 		if (this.canEditFile(file)) {
-			file.setUploadDate(new Date());
 			final File saved = this.fileRepository.save(file);
-
 			return saved;
 		}
 
@@ -258,7 +256,9 @@ public class FileService {
 				} else {
 					resultFile.setData(fileForm.getFile().getBytes());
 					resultFile.setMimeType(fileForm.getFile().getContentType());
+					Assert.isTrue(fileForm.getFile().getSize()<52428801, "file.data.size.exceeded.fail");
 					resultFile.setSize(fileForm.getFile().getSize());
+					resultFile.setUploadDate(new Date(new Date().getTime()-1001));
 					if (fileForm.getName().isEmpty()) {
 						resultFile.setName(fileForm.getFile().getOriginalFilename());
 					} else {
@@ -273,6 +273,7 @@ public class FileService {
 
 			} catch (Throwable e) {
 				this.validator.validate(resultFile, binding);
+				Assert.isTrue(fileForm.getFile().getSize()<52428801, "file.data.size.exceeded.fail");
 				Assert.notNull(fileForm.getFile(), "file.data.load.fail");
 			}		
 
@@ -294,7 +295,9 @@ public class FileService {
 				} else {
 					resultFile.setData(fileForm.getFile().getBytes());
 					resultFile.setMimeType(fileForm.getFile().getContentType());
+					Assert.isTrue(fileForm.getFile().getSize()<52428801, "file.data.size.exceeded.fail");
 					resultFile.setSize(fileForm.getFile().getSize());
+					resultFile.setUploadDate(new Date(new Date().getTime()-1001));
 					if (fileForm.getName().isEmpty()) {
 						resultFile.setName(fileForm.getFile().getOriginalFilename());
 					} else {
@@ -311,6 +314,7 @@ public class FileService {
 				this.validator.validate(resultFile, binding);
 				Assert.notNull(fileForm, "file.not.found.fail");
 				Assert.notNull(fileForm.getFile(), "file.data.load.fail");
+				Assert.isTrue(fileForm.getFile().getSize()<52428801, "file.data.size.exceeded.fail");
 				Assert.isTrue(false, "file.data.load.fail");
 
 			}			

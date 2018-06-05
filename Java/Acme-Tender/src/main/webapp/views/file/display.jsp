@@ -10,7 +10,7 @@
 
 
 	
-<acme:labelvalue code="file.name" value="${name}"/> 
+<acme:labelvalue code="file.name" value="${name}" /> 
 <acme:labelvalue code="subSection.comments" value="${fileForm.comment}"/> 
 <acme:labelvalue code="file.uploadDate" value="${uploadDate}" isDatetime="true"/> 
 
