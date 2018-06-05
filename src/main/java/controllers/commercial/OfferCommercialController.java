@@ -90,6 +90,10 @@ public class OfferCommercialController extends AbstractController {
 				
 				if (oops.getMessage() == "offer.error.presentationDate.not.before.tender.maxPresentationDate")
 					result = this.createEditModelAndView(offer, oops.getMessage());
+
+				else if (oops.getMessage() == "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria")
+					result = this.createEditModelAndView(offer, oops.getMessage());
+
 				else
 					result = this.createEditModelAndView(offer, "offer.commit.error");
 			}

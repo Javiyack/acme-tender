@@ -16,9 +16,11 @@ import domain.Administrator;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Constant;
+import domain.EvaluationCriteria;
 import domain.Executive;
 import domain.Offer;
 import domain.SubSection;
+import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
 import repositories.OfferRepository;
 
@@ -47,6 +49,11 @@ public class OfferService {
 	TenderService					tenderService;
 	@Autowired
 	SubSectionService				subSectionService;
+	@Autowired
+	EvaluationCriteriaService evaluationCriteriaService;
+	@Autowired
+	SubSectionEvaluationCriteriaService subSectionEvaluationCriteriaService; 
+	
 
 
 	// Constructors -----------------------------------------------------------
@@ -162,6 +169,17 @@ public class OfferService {
 
 		if (offer.getPresentationDate() != null)
 			Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
+		
+		//Si presentamos la oferta, forzamos a que existe un SubSectionEvaluationCriteria en la oferta
+		//por cada EvaluationCriteria del concurso
+		Offer oldOffer = this.offerRepository.findOne(offer.getId());
+		if (!oldOffer.getState().equals(Constant.OFFER_PRESENTED) && offer.getState().equals(Constant.OFFER_PRESENTED)) {
+			Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(offer.getTender().getId());
+			for (EvaluationCriteria ec : evaluationCriterias) {
+				Collection<SubSectionEvaluationCriteria> ssec = this.subSectionEvaluationCriteriaService.findByOfferAndEvaluationCriteria(offer.getId(), ec.getId()); 
+				Assert.isTrue(ssec.size() > 0, "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria");
+			}
+		}
 		
 		final Offer result = this.offerRepository.save(offer);
 
