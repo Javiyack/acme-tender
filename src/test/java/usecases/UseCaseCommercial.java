@@ -17,13 +17,23 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import services.CollaborationRequestService;
 import services.CurriculumService;
+import services.EvaluationCriteriaService;
 import services.OfferService;
+import services.SubSectionEvaluationCriteriaService;
 import services.SubSectionService;
+import services.TenderResultService;
+import services.TenderService;
 import utilities.AbstractTest;
+import domain.CollaborationRequest;
 import domain.Curriculum;
+import domain.EvaluationCriteria;
 import domain.Offer;
 import domain.SubSection;
+import domain.SubSectionEvaluationCriteria;
+import domain.Tender;
+import domain.TenderResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -34,11 +44,21 @@ import domain.SubSection;
 public class UseCaseCommercial extends AbstractTest {
 
 	@Autowired
-	private CurriculumService	curriculumService;
+	private CurriculumService					curriculumService;
 	@Autowired
-	private OfferService		offerService;
+	private OfferService						offerService;
 	@Autowired
-	private SubSectionService	subsectionService;
+	private SubSectionService					subsectionService;
+	@Autowired
+	private EvaluationCriteriaService			evaluationCriteriaService;
+	@Autowired
+	private SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
+	@Autowired
+	private TenderResultService					tenderResultService;
+	@Autowired
+	private TenderService						tenderService;
+	@Autowired
+	private CollaborationRequestService			collaborationRequestService;
 
 
 	/**
@@ -377,7 +397,7 @@ public class UseCaseCommercial extends AbstractTest {
 			curriculum.setSurname(surname);
 			curriculum.setSubSection(subsection);
 			curriculum.setPhone(phone);
-			curriculum.setName(surname);
+			curriculum.setName(name);
 			curriculum.setMinSalaryExpectation(minSalaryExpectation);
 			curriculum.setIdentificationNumber(identificationNumber);
 			curriculum.setEmail(email);
@@ -386,7 +406,7 @@ public class UseCaseCommercial extends AbstractTest {
 			curriculum.setDateOfBirth(d1);
 
 			final Curriculum curriculumSaved = this.curriculumService.save(curriculum);
-			this.subsectionService.flush();
+			this.curriculumService.flush();
 
 			Assert.isTrue(this.curriculumService.findAll().contains(curriculumSaved));
 			this.unauthenticate();
@@ -395,5 +415,346 @@ public class UseCaseCommercial extends AbstractTest {
 		}
 		super.checkExceptions(expected, caught);
 	}
+	/**
+	 * Rol: Commercial
+	 * 26.a.2. Editar los currículos asociados a los sub-apartados creados por él.(CU42)
+	 */
 
+	@Test
+	public void EditCurriculumTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "curriculum1", "Test edit", "Test Edit", "677564897", null
+			}, {// Negative: bad phone
+				"executive1", "curriculum1", "Test edit", "Test Edit", "677564XXX", IllegalArgumentException.class
+			}, {// Negative: not her curriculum
+				"commercial1", "curriculum4", "Test edit", "Test Edit", "677564897", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditCurriculum((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), // subsection
+				(String) testingData[i][2], // name
+				(String) testingData[i][3], // surname
+				(String) testingData[i][4], //phone
+				(Class<?>) testingData[i][5]);
+	}
+	protected void templateEditCurriculum(final String principal, final Integer curriculumId, final String name, final String surname, final String phone, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
+
+			curriculum.setSurname(surname);
+			curriculum.setPhone(phone);
+			curriculum.setName(name);
+
+			final Curriculum curriculumSaved = this.curriculumService.save(curriculum);
+			this.curriculumService.flush();
+
+			Assert.isTrue(this.curriculumService.findAll().contains(curriculumSaved));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+	/**
+	 * Rol: Commercial
+	 * 26.a.3. Eliminar los currículos asociados a los sub-apartados creados por él.(CU43)
+	 */
+
+	@Test
+	public void DeleteCurriculumTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "curriculum1", null
+			}, {// Negative: bad roll
+				"executive1", "curriculum1", IllegalArgumentException.class
+			}, {// Negative: not her curriculum
+				"commercial1", "curriculum4", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteCurriculum((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), // subsection
+				(Class<?>) testingData[i][2]);
+	}
+	protected void templateDeleteCurriculum(final String principal, final Integer curriculumId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final Curriculum curriculum = this.curriculumService.findOne(curriculumId);
+
+			this.curriculumService.delete(curriculum);
+			this.curriculumService.flush();
+
+			Assert.isTrue(!this.curriculumService.findAll().contains(curriculum));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 26.b.1. Crear asociaciones entre criterios de valoración y los sub-apartados de sus ofertas.(CU44)
+	 */
+
+	@Test
+	public void CreateAssociationEvaluationCriteriaAndSubsectionTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "subsection5", "evaluationcriteria1", "Un comentario", null
+			}, {// Negative: wrong roll
+				"executive1", "subsection5", "evaluationcriteria1", "Un comentario", IllegalArgumentException.class
+			}, {// Negative: not her subsection
+				"commercial1", "subsection7", "evaluationcriteria1", "Un comentario", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateAssociationEvaluationCriteriaAndSubsection((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), // subsection
+				(Integer) super.getEntityId((String) testingData[i][2]), // evaluationcriteria
+				(String) testingData[i][3], // comment
+				(Class<?>) testingData[i][4]);
+	}
+	protected void templateCreateAssociationEvaluationCriteriaAndSubsection(final String principal, final Integer subSectionId, final Integer evaluationcriteriaId, final String comments, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationcriteriaId);
+			final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.create(subSectionId);
+
+			subSectionEvaluationCriteria.setComments(comments);
+			subSectionEvaluationCriteria.setEvaluationCriteria(evaluationCriteria);
+
+			final SubSectionEvaluationCriteria subSectionEvaluationCriteriaSaved = this.subSectionEvaluationCriteriaService.save(subSectionEvaluationCriteria);
+			this.subSectionEvaluationCriteriaService.flush();
+			Assert.isTrue(this.subSectionEvaluationCriteriaService.findAll().contains(subSectionEvaluationCriteriaSaved));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 26.b.2. Editar las asociaciones entre criterios de valoración y los sub-apartados de sus ofertas.(CU45)
+	 */
+
+	@Test
+	public void EditAssociationEvaluationCriteriaAndSubsectionTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "subsectionevaluationcriteria1", "Un comentario", null
+			}, {// Negative: wrong roll
+				"executive1", "subsectionevaluationcriteria1", "Un comentario", IllegalArgumentException.class
+			}, {// Negative: comment null
+				"commercial1", "subsectionevaluationcriteria4", null, ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditAssociationEvaluationCriteriaAndSubsection((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), // subsectionevaluationcriteria
+				(String) testingData[i][2], // comment
+				(Class<?>) testingData[i][3]);
+	}
+	protected void templateEditAssociationEvaluationCriteriaAndSubsection(final String principal, final Integer subsectionevaluationcriteriaId, final String comments, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.findOne(subsectionevaluationcriteriaId);
+
+			subSectionEvaluationCriteria.setComments(comments);
+
+			final SubSectionEvaluationCriteria subSectionEvaluationCriteriaSaved = this.subSectionEvaluationCriteriaService.save(subSectionEvaluationCriteria);
+			this.subSectionEvaluationCriteriaService.flush();
+			Assert.isTrue(this.subSectionEvaluationCriteriaService.findAll().contains(subSectionEvaluationCriteriaSaved));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 26.b.3. Eliminar las asociaciones entre criterios de valoración y los sub-apartados de sus ofertas.(CU46)
+	 */
+
+	@Test
+	public void DeleteAssociationEvaluationCriteriaAndSubsectionTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "subsectionevaluationcriteria1", null
+			}, {// Negative: wrong roll 
+				"executive1", "subsectionevaluationcriteria1", IllegalArgumentException.class
+			}, {// Negative: wrong commercial
+				"commercial2", "subsectionevaluationcriteria4", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteAssociationEvaluationCriteriaAndSubsection((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), // subsectionevaluationcriteria
+				(Class<?>) testingData[i][2]);
+	}
+	protected void templateDeleteAssociationEvaluationCriteriaAndSubsection(final String principal, final Integer subsectionevaluationcriteriaId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final SubSectionEvaluationCriteria subSectionEvaluationCriteria = this.subSectionEvaluationCriteriaService.findOne(subsectionevaluationcriteriaId);
+
+			this.subSectionEvaluationCriteriaService.delete(subSectionEvaluationCriteria);
+			this.subSectionEvaluationCriteriaService.flush();
+			Assert.isTrue(!this.subSectionEvaluationCriteriaService.findAll().contains(subSectionEvaluationCriteria));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 26.c.1. Visualizar los Resultados de concurso (CU47)
+	 */
+
+	@Test
+	public void VisualizeResultsTendersTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateVisualizeResultsTenders((String) testingData[i][0], // Username login
+				(Class<?>) testingData[i][1]);
+	}
+	protected void templateVisualizeResultsTenders(final String principal, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final Collection<TenderResult> tenderResult = this.tenderResultService.findAll();
+			Assert.notNull(tenderResult);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 34.b. Realizar búsquedas de concursos (CU49)
+	 */
+
+	@Test
+	public void SearchTendersTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial1", "proyecto", "tender1", null
+			}, {// Negative bad keyword
+				"commercial1", "Trollano", "tender1", IllegalArgumentException.class
+			}, {// Negative bad tender
+				"commercial1", "proyecto", "tender3", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSearchTenders((String) testingData[i][0], // Username login
+				(String) testingData[i][1], (Integer) super.getEntityId((String) testingData[i][2]), (Class<?>) testingData[i][3]);
+	}
+	protected void templateSearchTenders(final String principal, final String keyWord, final Integer tenderId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final Collection<Tender> tenders = this.tenderService.findTenderByKeyWord(keyWord);
+			final Tender tender = this.tenderService.findOne(tenderId);
+			Assert.isTrue(tenders.contains(tender));
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * Rol: Commercial
+	 * 34.c. Aceptar o rechazar una solicitud de colaboración.
+	 * En caso de rechazarla deberá de indicar un motivo.(CU50)
+	 */
+
+	@Test
+	public void AcceptDenyTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"commercial2", "collaborationrequest2", false, null
+			}, {// Positive
+				"commercial2", "collaborationrequest1", true, null
+			}, {// Negative bad commercial
+				"commercial1", "collaborationrequest2", true, IllegalArgumentException.class
+			}, {// Negative bad commercial
+				"commercial1", "collaborationrequest1", false, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateAcceptDeny((String) testingData[i][0], // Username login
+				(Integer) super.getEntityId((String) testingData[i][1]), (Boolean) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+	protected void templateAcceptDeny(final String principal, final Integer collaborationRequestId, final Boolean response, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+
+		try {
+			super.authenticate(principal);
+			final CollaborationRequest collaborationRequest = this.collaborationRequestService.findOneToEdit(collaborationRequestId);
+			collaborationRequest.setAccepted(response);
+			this.collaborationRequestService.save(collaborationRequest);
+			this.collaborationRequestService.flush();
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
 }

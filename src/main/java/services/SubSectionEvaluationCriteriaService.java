@@ -2,16 +2,16 @@
 package services;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.SubSectionEvaluationCriteriaRepository;
 import domain.Commercial;
-import domain.File;
 import domain.SubSection;
 import domain.SubSectionEvaluationCriteria;
-import repositories.SubSectionEvaluationCriteriaRepository;
 
 @Service
 @Transactional
@@ -19,13 +19,14 @@ public class SubSectionEvaluationCriteriaService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private SubSectionEvaluationCriteriaRepository subSectionEvaluationCriteriaRepository;
+	private SubSectionEvaluationCriteriaRepository	subSectionEvaluationCriteriaRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	CommercialService commercialService;
+	CommercialService								commercialService;
 	@Autowired
-	SubSectionService subSectionService;
+	SubSectionService								subSectionService;
+
 
 	// Constructors -----------------------------------------------------------
 	public SubSectionEvaluationCriteriaService() {
@@ -46,7 +47,7 @@ public class SubSectionEvaluationCriteriaService {
 		subSectionEvaluationCriteria.setSubSection(subSection);
 
 		return subSectionEvaluationCriteria;
-	}	
+	}
 
 	public Collection<SubSectionEvaluationCriteria> findAll() {
 		Collection<SubSectionEvaluationCriteria> result;
@@ -56,9 +57,8 @@ public class SubSectionEvaluationCriteriaService {
 
 		return result;
 	}
-	
-	
-	public Collection<SubSectionEvaluationCriteria> findAllWithEvaluationCriteria(int evaluationCriteriaId) {
+
+	public Collection<SubSectionEvaluationCriteria> findAllWithEvaluationCriteria(final int evaluationCriteriaId) {
 		Collection<SubSectionEvaluationCriteria> result;
 
 		result = this.subSectionEvaluationCriteriaRepository.findAllWithEvaluationCriteria(evaluationCriteriaId);
@@ -66,15 +66,15 @@ public class SubSectionEvaluationCriteriaService {
 
 		return result;
 	}
-	
-	public Collection<SubSectionEvaluationCriteria> findAllBySubSection(int subSectionId) {
+
+	public Collection<SubSectionEvaluationCriteria> findAllBySubSection(final int subSectionId) {
 		Collection<SubSectionEvaluationCriteria> result;
 
 		result = this.subSectionEvaluationCriteriaRepository.findAllBySubSection(subSectionId);
 		Assert.notNull(result);
 
 		return result;
-	}	
+	}
 
 	public SubSectionEvaluationCriteria findOne(final int subSectionEvaluationCriteriaId) {
 		Assert.isTrue(subSectionEvaluationCriteriaId != 0);
@@ -89,30 +89,40 @@ public class SubSectionEvaluationCriteriaService {
 
 	public SubSectionEvaluationCriteria save(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
 		Assert.notNull(subSectionEvaluationCriteria);
-
+		final Commercial commercial = this.commercialService.findByPrincipal();
+		Assert.notNull(commercial);
+		Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
 		SubSectionEvaluationCriteria result;
-		
+
 		result = this.subSectionEvaluationCriteriaRepository.save(subSectionEvaluationCriteria);
-		
+
 		return result;
 	}
 
 	public void delete(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
+		final Commercial commercial = this.commercialService.findByPrincipal();
+		Assert.notNull(commercial);
+		Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
 		Assert.notNull(subSectionEvaluationCriteria);
 		Assert.isTrue(subSectionEvaluationCriteria.getId() != 0);
 		Assert.isTrue(this.subSectionEvaluationCriteriaRepository.exists(subSectionEvaluationCriteria.getId()));
 
 		this.subSectionEvaluationCriteriaRepository.delete(subSectionEvaluationCriteria);
 	}
-	
+
 	public void deleteInBatch(final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriteria) {
 		Assert.notNull(subSectionEvaluationCriteria);
 		this.subSectionEvaluationCriteriaRepository.deleteInBatch(subSectionEvaluationCriteria);
 
 	}
-	
-	public Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(int offerId, int evaluationCriteriaId) {
+
+	public Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(final int offerId, final int evaluationCriteriaId) {
 		return this.subSectionEvaluationCriteriaRepository.findByOfferAndEvaluationCriteria(offerId, evaluationCriteriaId);
+	}
+
+	public void flush() {
+		this.subSectionEvaluationCriteriaRepository.flush();
+
 	}
 
 	// Other business methods -------------------------------------------------
