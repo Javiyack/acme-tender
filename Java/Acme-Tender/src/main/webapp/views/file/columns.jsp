@@ -45,17 +45,19 @@
 		<spring:message code="master.page.download" />
 	</a>
 </display:column>
-
+<jstl:if test="${allowed}">
 <display:column>
 	<a href="file/edit.do?fileId=${row.id}">
 		<spring:message code="master.page.edit" />
 	</a>
 </display:column>
+</jstl:if>
+<jstl:if test="${allowed}">
 <spring:message var = "deleteConfirmation" code="file.delete.confirmation" />
 <jstl:set var="deleteUrl" value="file/delte.do?fileId=${row.id}"/>
 <display:column>	
 		<Button  onclick="javascript: showConfirmationAlert('${deleteConfirmation}', '${row.name}', '${deleteUrl}');"><spring:message code="master.page.delete" /></Button>
 </display:column>
-
+</jstl:if>
 
 
