@@ -26,6 +26,7 @@ import domain.Constant;
 import domain.Tender;
 import services.ActorService;
 import services.CategoryService;
+import services.ConfigurationService;
 import services.TenderService;
 
 @Controller
@@ -41,6 +42,8 @@ public class TenderAdministrativeController extends AbstractController {
 	CategoryService	categoryService;
 	@Autowired
 	ActorService	actorService;
+	@Autowired
+	private ConfigurationService		configurationService;	
 
 
 	// Constructors -----------------------------------------------------------
@@ -103,12 +106,14 @@ public class TenderAdministrativeController extends AbstractController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
+		final Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
 		Actor actor = this.actorService.findByPrincipal();
 
 		result = new ModelAndView("tender/administrative/list");
 		result.addObject("tenders", tenders);
 		result.addObject("actor", actor);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);		
 		result.addObject("myTender", true);
 		result.addObject("requestUri", "tender/administrative/list.do");
 
