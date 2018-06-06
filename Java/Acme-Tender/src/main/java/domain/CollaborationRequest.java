@@ -41,6 +41,7 @@ public class CollaborationRequest extends DomainEntity {
 
 	@Min(0)
 	@Max(100)
+	@NotNull
 	public Double getBenefitsPercentage() {
 		return this.benefitsPercentage;
 	}
