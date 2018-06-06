@@ -25,6 +25,7 @@ import services.ActorService;
 import services.CollaborationRequestService;
 import services.ComboService;
 import services.CommercialService;
+import services.ConfigurationService;
 import services.MyMessageService;
 import services.SubSectionService;
 
@@ -43,12 +44,16 @@ public class CollaborationRequestCommercialController extends AbstractController
 	private MyMessageService			myMessageService;
 	@Autowired
 	private SubSectionService			subSectionService;
+	@Autowired
+	private ConfigurationService configurationService;
 	
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam int collaborationRequestId) {
 
 		ModelAndView result;
+		
+		final Double benefitsPercentage = this.configurationService.findBenefitsPercentage();
 
 		CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
 		Actor actor = this.actorService.findByPrincipal();
@@ -57,6 +62,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId() || collaborationRequest.getOffer().getCommercial().getId() == actor.getId());
 
 		result = new ModelAndView("collaborationRequest/display");
+		result.addObject("benefitsPercentage", benefitsPercentage);
 		result.addObject("collaborationRequest", collaborationRequest);
 		result.addObject("principal", actor);
 		return result;
