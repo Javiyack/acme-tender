@@ -638,3 +638,15 @@ to {
 	margin: 5px;	
 }
 
+.hightInterestColor{
+	background-color: 	rgb(160,250,0,1);
+}
+.mediumInterestColor{
+	background-color: 	rgb(160,250,0,0.65);
+}
+.lowInterestColor{	
+	background-color: 	rgb(160,250,0,0.25);
+}
+.undefinedInterestColor{	
+	background-color: 	rgb(160,250,0,0);
+}

@@ -16,6 +16,7 @@ table.displaytag {
 .displaytag th, .displaytag td {
 	padding: 2px 4px 2px 4px !important;
 	text-align: left;
+	border-bottom: 1px solid #4a7aae;
 	vertical-align: top;
 
 }
@@ -74,7 +75,7 @@ table.displaytag {
 }
 
 .displaytag tr.tableRowEven, .displaytag tr.even {
-	background-color: #e6e6e6
+	background-color: #fefefe
 }
 
 div.exportlinks {
