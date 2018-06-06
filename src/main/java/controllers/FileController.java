@@ -39,22 +39,24 @@ public class FileController extends AbstractController {
 	private ActorService						actorService;
 	@Autowired
 	private SubSectionService					subSectionService;
+	
 	//List
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam int subSectionId, Integer pageSize) {
-			
-			ModelAndView result;
-			pageSize = pageSize!=null?pageSize:5;				
-			Assert.isTrue(this.subSectionService.canViewSubSection(subSectionId));			
-			Collection<File> files = this.fileService.findAllBySubSection(subSectionId);
-			result = new ModelAndView("file/list");
-			result.addObject("files", files);
-			result.addObject("pageSize", pageSize);
-			result.addObject("pageSize", pageSize);
-			result.addObject("requestUri", "file/list.do");
-			return result;
-		}
-		// Display
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam int subSectionId, Integer pageSize) {
+		
+		ModelAndView result;
+		pageSize = pageSize!=null?pageSize:5;				
+		Assert.isTrue(this.subSectionService.canViewSubSection(subSectionId));			
+		Collection<File> files = this.fileService.findAllBySubSection(subSectionId);
+		result = new ModelAndView("file/list");
+		result.addObject("files", files);
+		result.addObject("pageSize", pageSize);
+		result.addObject("pageSize", pageSize);
+		result.addObject("requestUri", "file/list.do");
+		return result;
+	}
+	
+	// Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int fileId) {
 		final ModelAndView result;
@@ -206,7 +208,7 @@ public class FileController extends AbstractController {
 	public ModelAndView downloadDocument(@RequestParam int fileId, HttpServletResponse response) throws IOException {
 		File file = this.fileService.findOne(fileId);
 		Assert.isTrue(file != null, "file.not.found.error");
-		Assert.isTrue(this.fileService.canEditFile(file));
+		Assert.isTrue(this.fileService.canViewFile(file));
 		response.setContentType(file.getMimeType());
 		response.setContentLength(file.getData().length);
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
