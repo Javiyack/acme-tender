@@ -14,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.TenderResultService;
+import services.TenderService;
 import controllers.AbstractController;
 import domain.Actor;
+import domain.Tender;
 import domain.TenderResult;
 
 @Controller
@@ -27,6 +29,8 @@ public class TenderResultAdministrativeController extends AbstractController {
 	private TenderResultService		tenderResultService;
 	@Autowired
 	private ActorService actorService;
+	@Autowired
+	private TenderService tenderService;
 
 
 	// Constructor -----------------------------------------------------------
@@ -41,6 +45,8 @@ public class TenderResultAdministrativeController extends AbstractController {
 		final TenderResult tenderResult;
 
 		tenderResult = this.tenderResultService.create(tenderId);
+		Tender tender = this.tenderService.findOne(tenderId);
+		Assert.isTrue(tender.getTenderResult() ==  null);
 		
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(tenderResult.getTender().getAdministrative().getId() == actor.getId());
