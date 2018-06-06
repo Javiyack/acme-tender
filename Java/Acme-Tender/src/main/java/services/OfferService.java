@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,10 +167,6 @@ public class OfferService {
 		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
 
-		if (offer.getPresentationDate() != null)
-			Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
-
-
 		//Si estamos presentando la oferta...
 		final Offer oldOffer = this.offerRepository.findOne(offer.getId());
 		if (oldOffer != null)
@@ -200,6 +197,12 @@ public class OfferService {
 				
 				Assert.isTrue(existsAdministrativeAcreditation && existsTechnicalOffer && existsEconomicalOffer, "offer.error.need.at.least.one.subSection.for.section");
 				
+				
+				//Si presentamos la oferta, debe de ser antes del maxPresentationDate del concurso
+				Assert.isTrue(offer.getTender().getMaxPresentationDate().after(new Date()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
+
+				//Establecemos fecha de presentacion
+				offer.setPresentationDate(new Date());
 			}
 		
 		
