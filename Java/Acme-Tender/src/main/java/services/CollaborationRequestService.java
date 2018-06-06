@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.CollaborationRequestRepository;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Offer;
-import repositories.CollaborationRequestRepository;
 
 @Service
 @Transactional
@@ -55,14 +55,11 @@ public class CollaborationRequestService {
 		Assert.notNull(principal);
 		Assert.isTrue(principal instanceof Commercial);
 
-		if (collaborationRequest.getId() == 0) {
+		if (collaborationRequest.getId() == 0)
 			Assert.isTrue(this.offerService.canEditOffer(collaborationRequest.getOffer().getId()));
-
-		} else {
+		else
 			Assert.isTrue(principal.equals(collaborationRequest.getCommercial()));
 
-		}
-		
 		Assert.isTrue(collaborationRequest.getMaxAcceptanceDate().before(collaborationRequest.getMaxDeliveryDate()), "collaborationRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate");
 		Assert.isTrue(collaborationRequest.getMaxDeliveryDate().before(collaborationRequest.getOffer().getTender().getMaxPresentationDate()), "collaborationRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate");
 
@@ -124,6 +121,11 @@ public class CollaborationRequestService {
 	public Collection<CollaborationRequest> findAllByOffer(final int offerId) {
 
 		return this.collaborationRequestRepository.findAllByOffer(offerId);
+	}
+
+	public void flush() {
+		this.collaborationRequestRepository.flush();
+
 	}
 
 }
