@@ -30,25 +30,26 @@
 <display:table pagesize="${pageSize}" class="displaytag" name="tenders" requestURI="${requestUri}" id="row">
 
 	<jstl:if test="${row.interest == 'UNDEFINED'}" >
-		<spring:message var="rowCss" text="white" />
+		<spring:message var="rowCss" text="undefinedInterestColor" />
 	</jstl:if>
 	<jstl:if test="${row.interest == 'LOW'}" >
-		<spring:message var="rowCss" text="orange" />
+		<spring:message var="rowCss" text="lowInterestColor" />
 	</jstl:if>
 	<jstl:if test="${row.interest == 'MEDIUM'}" >
-		<spring:message var="rowCss" text="lightgreen" />
+		<spring:message var="rowCss" text="mediumInterestColor" />
 	</jstl:if>
 	<jstl:if test="${row.interest == 'HIGH'}" >
-		<spring:message var="rowCss" text="green" />
+		<spring:message var="rowCss" text="hightInterestColor" />
 	</jstl:if>
 
 
-	<acme:column property="reference" title="tender.reference" style="background-color: ${rowCss}" sortable="true" />
-	<acme:column property="title" title="tender.title" style="background-color: ${rowCss}" sortable="true"/>
-	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" format="display.date.time.format" style="background-color: ${rowCss}" sortable="true"/>
+	<acme:column property="reference" title="tender.reference" css="${rowCss}" sortable="true" />
+	<acme:column property="title" title="tender.title" css="${rowCss}" sortable="true"/>
+	<acme:column property="interest" title="tender.interest" css="${rowCss}" sortable="true"/>
+	<acme:column property="maxPresentationDate" title="tender.maxPresentationDate" css="${rowCss}" format="display.date.time.format" sortable="true"/>
 	
 	<spring:message code="tender.comision" var="titleTenderComision"/>
-	<display:column title="${titleTenderComision}" style="background-color: ${rowCss}" >
+	<display:column title="${titleTenderComision}" class="${rowCss}" >
 		<fmt:formatNumber value="${row.estimatedAmount * (benefitsPercentaje/100)}" pattern="${formpriceformat}" var="varTenderComision" />
 		<div>
 			${varTenderComision} <spring:message code="currency.symbol" />
@@ -56,7 +57,7 @@
 	</display:column>	
 	
 	<spring:message code="tender.administrative" var="tenderAdministrative" />
-	<display:column title="${tenderAdministrative}" style="background-color: ${rowCss}" sortable="true">
+	<display:column title="${tenderAdministrative}" class="${rowCss}" sortable="true">
 		<div>
 			<jstl:if test="${row.administrative.id == actor.id}" >
 				<spring:message code="tender.mine" />
@@ -69,7 +70,7 @@
 		</div>
 	</display:column>
 	
-	<display:column style="background-color: ${rowCss}">
+	<display:column class="${rowCss}">
 		<div>
 			<a href="tender/display.do?tenderId=${row.id}">
 				<spring:message code="master.page.display" />
@@ -78,7 +79,7 @@
 	</display:column>
 	
 
-	<display:column style="background-color: ${rowCss}">
+	<display:column class="${rowCss}">
 		<jstl:if test="${row.tenderResult != null}"  >
 			<a href="tenderResult/display.do?tenderResultId=${row.tenderResult.id}">
 				<spring:message code="tender.tenderResult.display" />
@@ -92,7 +93,7 @@
 	</display:column>
 	
 	<security:authorize access="hasRole('ADMIN')">
-		<display:column style="background-color: ${rowCss}">
+		<display:column class="${rowCss}">
 			<a href="tender/administrator/delete.do?tenderId=${row.id}">
 				<spring:message code="master.page.delete" />
 			</a>
