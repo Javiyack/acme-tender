@@ -99,6 +99,7 @@ public class UseCaseExecutive extends AbstractTest {
 			super.authenticate(principal);
 
 			final Offer offer = this.offerService.findOne(super.getEntityId(offerId));
+			offer.setDenialReason("reason");
 
 			this.offerService.saveToDeny(offer);
 
