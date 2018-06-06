@@ -36,7 +36,7 @@
 
 <acme:column property="uploadDate" title="file.uploadDate"
 	format="display.date.time.format" />
-<acme:column property="mimeType" title="file.type" />
+
 <acme:column property="comment" title="subSection.comments"
 	format="display.date.time.format" />
 
@@ -56,7 +56,7 @@
 <spring:message var = "deleteConfirmation" code="file.delete.confirmation" />
 <jstl:set var="deleteUrl" value="file/delte.do?fileId=${row.id}"/>
 <display:column>	
-		<Button  onclick="javascript: showConfirmationAlert('${deleteConfirmation}', '${row.name}', '${deleteUrl}');"><spring:message code="master.page.delete" /></Button>
+		<button style="border: none; background-color: white;" onclick="javascript: showConfirmationAlert('${deleteConfirmation}', '${row.name}', '${deleteUrl}');"><spring:message code="master.page.delete" /></Button>
 </display:column>
 </jstl:if>
 
