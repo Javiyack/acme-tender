@@ -17,12 +17,14 @@ import org.springframework.util.Assert;
 import security.UserAccountService;
 import services.ActorService;
 import services.CategoryService;
+import services.ConfigurationService;
 import services.MyMessageService;
 import services.OfferService;
 import services.TabooWordService;
 import services.TenderService;
 import utilities.AbstractTest;
 import domain.Category;
+import domain.Configuration;
 import domain.MyMessage;
 import domain.Offer;
 import domain.TabooWord;
@@ -37,19 +39,21 @@ import domain.Tender;
 public class UseCaseAdministrator extends AbstractTest {
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 	@Autowired
-	private CategoryService		categoryService;
+	private CategoryService			categoryService;
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 	@Autowired
-	private TabooWordService	tabooWordService;
+	private TabooWordService		tabooWordService;
 	@Autowired
-	private TenderService		tenderService;
+	private TenderService			tenderService;
 	@Autowired
-	private OfferService		offerService;
+	private OfferService			offerService;
 	@Autowired
-	private MyMessageService	myMessageService;
+	private MyMessageService		myMessageService;
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	/*
@@ -501,4 +505,47 @@ public class UseCaseAdministrator extends AbstractTest {
 		}
 		super.checkExceptions(expected, caught);
 	}
+
+	/*
+	 * Caso de uso:
+	 * Auth Executive-> Administrar el porcentaje de comisión del sistema.(CU55)
+	 */
+	@Test
+	public void comissionPercentajeTest() {
+
+		final Object testingData[][] = {
+			{// Positive
+				"admin", "configuration", null
+			}, {//Negative
+				"administrative1", "configuration", ClassCastException.class
+			}, {//Negative
+				"executive1", "configuration", ClassCastException.class
+			}, {// Negative: without user
+				"", "configuration", IllegalArgumentException.class
+			}, {// Negative: with user not exist
+				"user55", "configuration", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateComissionPercentajeTest(i, (String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+	protected void templateComissionPercentajeTest(final Integer i, final String principal, final String config, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			final Configuration configuration = this.configurationService.findOne(super.getEntityId(config));
+
+			configuration.setBenefitsPercentage(8.50);
+
+			this.configurationService.save(configuration);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
 }
