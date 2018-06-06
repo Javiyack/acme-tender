@@ -21,6 +21,7 @@ import domain.Offer;
 import domain.Tender;
 import services.ActorService;
 import services.ComboService;
+import services.ConfigurationService;
 import services.OfferService;
 import services.TenderService;
 
@@ -37,6 +38,8 @@ public class OfferCommercialController extends AbstractController {
 	private ActorService			actorService;	
 	@Autowired
 	private TenderService tenderService;
+	@Autowired
+	private ConfigurationService	configurationService;	
 
 	// Constructor -----------------------------------------------------------
 	public OfferCommercialController() {
@@ -93,7 +96,10 @@ public class OfferCommercialController extends AbstractController {
 
 				else if (oops.getMessage() == "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria")
 					result = this.createEditModelAndView(offer, oops.getMessage());
-
+				
+				else if (oops.getMessage() == "offer.error.need.at.least.one.subSection.for.section")
+					result = this.createEditModelAndView(offer, oops.getMessage());
+				
 				else
 					result = this.createEditModelAndView(offer, "offer.commit.error");
 			}
@@ -105,11 +111,12 @@ public class OfferCommercialController extends AbstractController {
 	public ModelAndView listOffersByPropietary() {
 
 		ModelAndView result;
-
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		final Collection<Offer> offers = this.offerService.findAllByCommercialPropietary();
 
 		result = new ModelAndView("offer/commercial/listOffersByPropietary");
 		result.addObject("offers", offers);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("requestUri", "offer/commercial/listOffersByPropietary.do");
 		
 		Actor actor = this.actorService.findByPrincipal();
@@ -122,11 +129,12 @@ public class OfferCommercialController extends AbstractController {
 	public ModelAndView listOffersByCollaboration() {
 
 		ModelAndView result;
-
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		final Collection<Offer> offers = this.offerService.findAllByCommercialColaboration();
 
 		result = new ModelAndView("offer/commercial/listOffersByCollaboration");
 		result.addObject("offers", offers);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("requestUri", "offer/commercial/listOffersByCollaboration.do");
 		
 		Actor actor = this.actorService.findByPrincipal();

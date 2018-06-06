@@ -13,6 +13,7 @@ import controllers.AbstractController;
 import domain.Actor;
 import domain.Offer;
 import services.ActorService;
+import services.ConfigurationService;
 import services.OfferService;
 
 @Controller
@@ -23,7 +24,9 @@ public class OfferAdministrativeController extends AbstractController {
 	@Autowired
 	private OfferService offerService;
 	@Autowired
-	private ActorService			actorService;		
+	private ActorService			actorService;	
+	@Autowired
+	private ConfigurationService	configurationService;		
 
 
 	// Constructor -----------------------------------------------------------
@@ -35,11 +38,12 @@ public class OfferAdministrativeController extends AbstractController {
 	public ModelAndView listOffersByCollaboration() {
 
 		ModelAndView result;
-
+		Double benefitsPercentaje = this.configurationService.findBenefitsPercentage();
 		final Collection<Offer> offers = this.offerService.findAllByAdministrativeColaboration();
 
 		result = new ModelAndView("offer/administrative/listOffersByCollaboration");
 		result.addObject("offers", offers);
+		result.addObject("benefitsPercentaje", benefitsPercentaje);
 		result.addObject("requestUri", "offer/administrative/listOffersByCollaboration.do");
 		
 		Actor actor = this.actorService.findByPrincipal();

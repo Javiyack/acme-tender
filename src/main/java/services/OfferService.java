@@ -169,17 +169,41 @@ public class OfferService {
 		if (offer.getPresentationDate() != null)
 			Assert.isTrue(offer.getPresentationDate().before(offer.getTender().getMaxPresentationDate()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
 
-		//Si presentamos la oferta, forzamos a que existe un SubSectionEvaluationCriteria en la oferta
-		//por cada EvaluationCriteria del concurso
+
+		//Si estamos presentando la oferta...
 		final Offer oldOffer = this.offerRepository.findOne(offer.getId());
 		if (oldOffer != null)
 			if (!oldOffer.getState().equals(Constant.OFFER_PRESENTED) && offer.getState().equals(Constant.OFFER_PRESENTED)) {
+				
+				//Si presentamos la oferta, comprobamos que existe al menos un SubSectionEvaluationCriteria 
+				//en la oferta por cada EvaluationCriteria del concurso
 				final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllByTender(offer.getTender().getId());
 				for (final EvaluationCriteria ec : evaluationCriterias) {
 					final Collection<SubSectionEvaluationCriteria> ssec = this.subSectionEvaluationCriteriaService.findByOfferAndEvaluationCriteria(offer.getId(), ec.getId());
 					Assert.isTrue(ssec.size() > 0, "offer.error.need.subSectionEvaluationCriteria.for.every.evaluationCriteria");
 				}
+				
+				//Si presentamos la oferta, comprobamos que existe, al menos, un sub-apartado por apartado.
+				Collection<SubSection> subSections = this.subSectionService.findAllByOffer(offer.getId());
+				Boolean existsAdministrativeAcreditation = false;
+				Boolean existsTechnicalOffer = false;
+				Boolean existsEconomicalOffer = false;
+				
+				for (SubSection ss : subSections) {
+					if (ss.getSection().equals(Constant.SECTION_ADMINISTRATIVE_ACREDITATION))
+						existsAdministrativeAcreditation = true;
+					if (ss.getSection().equals(Constant.SECTION_TECHNICAL_OFFER))
+						existsTechnicalOffer = true;
+					if (ss.getSection().equals(Constant.SECTION_ECONOMICAL_OFFER))
+						existsEconomicalOffer = true;
+				}
+				
+				Assert.isTrue(existsAdministrativeAcreditation && existsTechnicalOffer && existsEconomicalOffer, "offer.error.need.at.least.one.subSection.for.section");
+				
 			}
+		
+		
+		
 		final Offer result = this.offerRepository.save(offer);
 
 		if (offer.getId() == 0) {
