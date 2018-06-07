@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -10,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.TenderResultRepository;
 import domain.Administrative;
 import domain.CompanyResult;
 import domain.File;
 import domain.Tender;
 import domain.TenderResult;
+import repositories.TenderResultRepository;
 
 @Service
 @Transactional
@@ -53,7 +52,6 @@ public class TenderResultService {
 		return tenderResult;
 	}
 
-
 	public TenderResult findOne(final int tenderResultId) {
 		TenderResult result;
 
@@ -80,9 +78,9 @@ public class TenderResultService {
 		Assert.isTrue(tenderResult.getTender().getAdministrative().equals(administrative));
 
 		Assert.isTrue(tenderResult.getTenderDate().after(tenderResult.getTender().getMaxPresentationDate()), "tenderResult.error.tenderDate.must.be.after.tender.maxPresentationDate");
-		
+
 		saved = this.tenderResultRepository.save(tenderResult);
-		
+
 		if (saved.getTender().getTenderResult() == null) {
 			Tender tender = this.tenderService.findOne(tenderResult.getTender().getId());
 			tender.setTenderResult(saved);
@@ -106,6 +104,10 @@ public class TenderResultService {
 
 		this.tenderResultRepository.delete(tenderResult);
 
+	}
+
+	public void flush() {
+		this.tenderResultRepository.flush();
 	}
 
 	public Boolean hasTenderResult(final Tender tender) {

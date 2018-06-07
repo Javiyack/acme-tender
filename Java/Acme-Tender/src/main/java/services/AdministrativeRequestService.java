@@ -57,10 +57,9 @@ public class AdministrativeRequestService {
 		Assert.notNull(administrativeRequest);
 
 		checkPrincipal(administrativeRequest);
-		
+
 		Assert.isTrue(administrativeRequest.getMaxAcceptanceDate().before(administrativeRequest.getMaxDeliveryDate()), "administrativeRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate");
 		Assert.isTrue(administrativeRequest.getMaxDeliveryDate().before(administrativeRequest.getOffer().getTender().getMaxPresentationDate()), "administrativeRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate");
-		
 
 		result = this.administrativeRequestRepository.save(administrativeRequest);
 
@@ -136,6 +135,11 @@ public class AdministrativeRequestService {
 
 	public Collection<AdministrativeRequest> getReceivedAdministrativeRequestsFromAdministrativeId(int administrativeId) {
 		return this.administrativeRequestRepository.getReceivedAdministrativeRequestsFromAdministrativeId(administrativeId);
+	}
+
+	public void flush() {
+		this.administrativeRequestRepository.flush();
+
 	}
 
 }
