@@ -201,6 +201,10 @@ public class OfferService {
 				//Si presentamos la oferta, debe de ser antes del maxPresentationDate del concurso
 				Assert.isTrue(offer.getTender().getMaxPresentationDate().after(new Date()), "offer.error.presentationDate.not.before.tender.maxPresentationDate");
 
+				//y despues del openingdate del concurso
+				Assert.isTrue(offer.getTender().getOpeningDate().before(new Date()), "offer.error.presentationDate.not.after.tender.openingDate");
+				
+				
 				//Establecemos fecha de presentacion
 				offer.setPresentationDate(new Date());
 			}
