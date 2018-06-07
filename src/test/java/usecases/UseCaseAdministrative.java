@@ -108,13 +108,13 @@ public class UseCaseAdministrative extends AbstractTest {
 			//Negativo(con fecha de apertura pasada)
 			{
 				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/06/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "",
-				IllegalArgumentException.class
+				ConstraintViolationException.class
 			},
 
 			//Negativo(con fecha máxima de presentación anterior a la fecha de apertura)
 			{
 				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "03/07/2018 12:00", "01/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "",
-				IllegalArgumentException.class
+				ConstraintViolationException.class
 			},
 
 			//Negativo(con cantidad estimada menor que 0)
@@ -168,7 +168,6 @@ public class UseCaseAdministrative extends AbstractTest {
 		caught = null;
 		try {
 			this.authenticate(principal);
-			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
 			final Tender tender = this.tenderService.create();
 			tender.setTitle(title);
 			Category c;
@@ -197,6 +196,7 @@ public class UseCaseAdministrative extends AbstractTest {
 
 			final Tender saved = this.tenderService.save(tender);
 			this.tenderService.flush();
+			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
 			Assert.isTrue(tenders.contains(saved));
 			this.unauthenticate();
 		} catch (final Throwable oops) {
@@ -225,7 +225,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			},
 			//Negativo(sin fecha de comienzo)
 			{
-				"administrative1", "tender1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "", "", ConstraintViolationException.class
+				"administrative1", "tender1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "", "", NullPointerException.class
 			},
 
 		};
@@ -293,7 +293,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			{	// Positivo
 				"administrative1", "tender1", "title", "description", 30, "evaluationcriteriatype1", null
 			}, {// Negativo(sin título)
-				"administrative1", "tender1", "title", "description", 30, "evaluationcriteriatype1", ConstraintViolationException.class
+				"administrative1", "tender1", "title", "", 30, "evaluationcriteriatype1", ConstraintViolationException.class
 			}, {// Negativo(con puntuación máxima negativa)
 				"administrative1", "tender1", "title", "description", -30, "evaluationcriteriatype1", ConstraintViolationException.class
 			}

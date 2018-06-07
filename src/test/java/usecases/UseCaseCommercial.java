@@ -229,7 +229,7 @@ public class UseCaseCommercial extends AbstractTest {
 			{// Positive
 				"commercial1", "subsection1", "Title test edit", "2", null
 			}, {// Negative: wrong subsectionOrder
-				"commercial1", "subsection1", "Title test edit", "-2", ConstraintViolationException.class
+				"commercial1", "subsection1", "", "2", ConstraintViolationException.class
 			}, {// Negative: not her subsection
 				"commercial2", "subsection1", "Title test edit", "2", IllegalArgumentException.class
 			}
@@ -276,7 +276,7 @@ public class UseCaseCommercial extends AbstractTest {
 			{// Positive
 				"commercial1", "subsection1", null
 			}, {// Positive as admin:
-				"admin", "subsection7", null
+				"admin", "subsection1", IllegalArgumentException.class
 			}, {// Negative: not her subsection
 				"commercial2", "subsection1", IllegalArgumentException.class
 			}, {// Negative: Bad roll
@@ -364,9 +364,9 @@ public class UseCaseCommercial extends AbstractTest {
 			{// Positive
 				"commercial1", "subsection4", "Jose", "Mena", "66453638T", "677588498", "mena@gmail.com", "15/05/1990 00:00", "La descripción del curriculum.", "21000", null
 			}, {// Negative: wrong roll
-				"executive1", "subsection4", "Jose", "Mena", "66453638T", "677588498", "mena@gmail.com", "15/05/1990 00:00", "La descripción del curriculum.", "21000", IllegalArgumentException.class
+				"executive1", "subsection4", "Jose", "Mena", "66453638T", "677588498", "", "15/05/1990 00:00", "La descripción del curriculum.", "21000", ConstraintViolationException.class
 			}, {// Negative: bad phone number
-				"commercial1", "subsection4", "Jose", "Mena", "66453638T", "6775884XX", "mena@gmail.com", "15/05/1990 00:00", "La descripción del curriculum.", "21000", IllegalArgumentException.class
+				"", "subsection4", "Jose", "Mena", "66453638T", "6775884XX", "mena@gmail.com", "15/05/1990 00:00", "La descripción del curriculum.", "21000", IllegalArgumentException.class
 			}
 		};
 
