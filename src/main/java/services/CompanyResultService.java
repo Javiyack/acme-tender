@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.CompanyResultRepository;
 import domain.Administrative;
 import domain.CompanyResult;
 import domain.Constant;
 import domain.TenderResult;
+import repositories.CompanyResultRepository;
 
 @Service
 @Transactional
@@ -90,7 +90,7 @@ public class CompanyResultService {
 
 		if (companyResult.getState().equals(Constant.COMPANY_RESULT_WINNER))
 			for (final CompanyResult c : companyResults)
-				if (c.getId() != companyResult.getId())				
+				if (c.getId() != companyResult.getId())
 					Assert.isTrue(!c.getState().equals(companyResult.getState()), "companyResult.only.winner");
 	}
 
@@ -141,5 +141,9 @@ public class CompanyResultService {
 		Assert.notNull(companyResults);
 		this.companyResultRepository.deleteInBatch(companyResults);
 
+	}
+
+	public void flush() {
+		this.companyResultRepository.flush();
 	}
 }

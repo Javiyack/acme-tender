@@ -13,19 +13,27 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.AdministrativeRequest;
 import domain.Category;
+import domain.CompanyResult;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
+import domain.SubSection;
 import domain.Tender;
+import domain.TenderResult;
 import security.UserAccountService;
 import services.ActorService;
+import services.AdministrativeRequestService;
 import services.CategoryService;
+import services.CompanyResultService;
 import services.EvaluationCriteriaService;
 import services.EvaluationCriteriaTypeService;
+import services.MyMessageService;
+import services.SubSectionService;
+import services.TenderResultService;
 import services.TenderService;
 import utilities.AbstractTest;
 
@@ -34,7 +42,7 @@ import utilities.AbstractTest;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-@TransactionConfiguration(defaultRollback = true)
+//@TransactionConfiguration(defaultRollback = true)
 public class UseCaseAdministrative extends AbstractTest {
 
 	@Autowired
@@ -49,6 +57,16 @@ public class UseCaseAdministrative extends AbstractTest {
 	private UserAccountService				userAccountService;
 	@Autowired
 	private CategoryService					categoryService;
+	@Autowired
+	private TenderResultService				tenderResultService;
+	@Autowired
+	private CompanyResultService			companyResultService;
+	@Autowired
+	private AdministrativeRequestService	administrativeRequestService;
+	@Autowired
+	private SubSectionService				subSectionService;
+	@Autowired
+	private MyMessageService				myMessageService;
 
 
 	/* SUIT DE TESTS FUNCIONALES: CREAR CONCURSO */
@@ -88,12 +106,14 @@ public class UseCaseAdministrative extends AbstractTest {
 			},
 			//Negativo(con fecha de apertura pasada)
 			{
-				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/06/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "", AssertionError.class
+				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/06/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "",
+				IllegalArgumentException.class
 			},
 
 			//Negativo(con fecha máxima de presentación anterior a la fecha de apertura)
 			{
-				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "03/07/2018 12:00", "01/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "", AssertionError.class
+				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "03/07/2018 12:00", "01/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "",
+				IllegalArgumentException.class
 			},
 
 			//Negativo(con cantidad estimada menor que 0)
@@ -369,7 +389,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	 */
 	/* Autenticado como administrativo --> eliminar un criterio de valoración */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void deleteTenderCriteriaTest() {
 
 		final Object testingData[][] = {
@@ -396,6 +416,425 @@ public class UseCaseAdministrative extends AbstractTest {
 			Assert.isTrue(evaluationCriterias.contains(evaluationCriteria));
 			this.evaluationCriteriaService.delete(evaluationCriteria);
 			Assert.isTrue(!evaluationCriterias.contains(evaluationCriteria));
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * b. Administrar los “tipos de criterios de valoración” existentes en el sistema.
+	 */
+	/* Autenticado como administrativo --> crear un tipo de criterio de valoración */
+
+	@Test
+	public void createTenderCriteriaTypeTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "name", "description", null
+			}, {// Negativo(sin nombre)
+				"administrative1", "", "description", ConstraintViolationException.class
+			}, {// Negativo(sin descripción)
+				"administrative1", "name", "", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateTenderCriteriaType((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+	protected void templateCreateTenderCriteriaType(final String principal, final String name, final String description, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.create();
+			evCriteriaType.setName(name);
+			evCriteriaType.setDescription(description);
+			this.evaluationCriteriaTypeService.save(evCriteriaType);
+			this.evaluationCriteriaTypeService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * b. Administrar los “tipos de criterios de valoración” existentes en el sistema.
+	 */
+	/* Autenticado como administrativo --> editar un tipo de criterio de valoración */
+
+	@Test
+	public void editTenderCriteriaTypeTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "evaluationcriteriatype1", "name", "description", null
+			}, {// Negativo(autenticado como directivo)
+				"executive1", "evaluationcriteriatype1", "name", "description", IllegalArgumentException.class
+			}, {// Negativo(sin descripción)
+				"administrative1", "evaluationcriteriatype1", "name", "", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditTenderCriteriaType((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+	}
+	protected void templateEditTenderCriteriaType(final String principal, Integer evCriteriaTypeId, final String name, final String description, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
+			evCriteriaType.setName(name);
+			evCriteriaType.setDescription(description);
+			this.evaluationCriteriaTypeService.save(evCriteriaType);
+			this.evaluationCriteriaTypeService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * b. Administrar los “tipos de criterios de valoración” existentes en el sistema.
+	 * Solo se podrá eliminar un “tipo de criterio de valoración” si no existe ningún “criterio de valoración” asociado.
+	 */
+	/* Autenticado como administrativo --> eliminar un tipo de criterio de valoración */
+
+	@Test
+	public void deleteTenderCriteriaTypeTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "evaluationcriteriatype3", null
+			}, {// Negativo(autenticado como administrador)
+				"admin", "evaluationcriteriatype1", IllegalArgumentException.class
+			}, {// Negativo(con criterio de valoración asociado )
+				"administrative1", "evaluationcriteriatype1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteTenderCriteriaType((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+	}
+	protected void templateDeleteTenderCriteriaType(final String principal, Integer evCriteriaTypeId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
+			this.evaluationCriteriaTypeService.delete(evCriteriaType);
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * c. Administrar los “resultados de concurso” y los “resultados de las empresas” asociados a los concursos creados por él.
+	 */
+	/* Autenticado como administrativo --> crear un resultado de concurso */
+
+	@Test
+	public void createTenderResultTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "tender7", "01/05/2018 12:00", "description", null
+			}, {// Negativo(con fecha futura)
+				"administrative1", "tender7", "04/07/2018 12:00", "description", ConstraintViolationException.class
+			}, {// Negativo(sin descripción)
+				"administrative1", "tender7", "01/05/2018 12:00", "", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateTenderResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+	}
+	protected void templateCreateTenderResult(final String principal, final Integer tenderId, final String date, String description, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			TenderResult tenderResult = this.tenderResultService.create(tenderId);
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date tenderDate = format.parse(date);
+			tenderResult.setTenderDate(tenderDate);
+			tenderResult.setDescription(description);
+			this.tenderResultService.save(tenderResult);
+			this.tenderResultService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * c. Administrar los “resultados de concurso” y los “resultados de las empresas” asociados a los concursos creados por él.
+	 */
+	/* Autenticado como administrativo --> editar un resultado de concurso */
+
+	@Test
+	public void editTenderResultTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "tenderresult1", "01/05/2018 12:00", "description", null
+			}, {// Negativo(autenticado como comercial)
+				"commercial1", "tenderresult1", "01/05/2018 12:00", "description", IllegalArgumentException.class
+			}, {// Negativo(sin descripción)
+				"administrative1", "tenderresult1", "01/05/2018 12:00", "", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditTenderResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+	}
+	protected void templateEditTenderResult(final String principal, final Integer tenderResultId, final String date, String description, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date tenderDate = format.parse(date);
+			tenderResult.setTenderDate(tenderDate);
+			tenderResult.setDescription(description);
+			this.tenderResultService.save(tenderResult);
+			this.tenderResultService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * c. Administrar los “resultados de concurso” y los “resultados de las empresas” asociados a los concursos creados por él.
+	 */
+	/* Autenticado como administrativo --> crear un resultado de empresa */
+
+	@Test
+	public void createCompanyResultTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "tenderresult1", "name", 20000., 25., 4, "comments", "LOSER", null
+			}, {// Negativo(con puntuación negativa)
+				"administrative1", "tenderresult1", "name", 20000., 25., -4, "comments", "LOSER", ConstraintViolationException.class
+			}, {// Negativo(con oferta económica negativa)
+				"administrative1", "tenderresult1", "name", -20000., 25., 4, "comments", "LOSER", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateCompanyResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Double) testingData[i][3], (Double) testingData[i][4], (Integer) testingData[i][5],
+				(String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+	protected void templateCreateCompanyResult(final String principal, final Integer tenderResultId, String name, final Double economicalOffer, Double score, Integer position, String comments, String state, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			CompanyResult companyResult = this.companyResultService.create(tenderResultId);
+			companyResult.setName(name);
+			companyResult.setEconomicalOffer(economicalOffer);
+			companyResult.setScore(score);
+			companyResult.setPosition(position);
+			companyResult.setComments(comments);
+			companyResult.setState(state);
+			this.companyResultService.save(companyResult);
+			this.companyResultService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * c. Administrar los “resultados de concurso” y los “resultados de las empresas” asociados a los concursos creados por él.
+	 */
+	/* Autenticado como administrativo --> editar un resultado de empresa */
+
+	@Test
+	public void editCompanyResultTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "companyresult1", "name", 20000., 25., 4, "comments", "LOSER", null
+			}, {// Negativo(sin nombre)
+				"administrative1", "companyresult1", "", 20000., 25., 4, "comments", "LOSER", ConstraintViolationException.class
+			}, {// Negativo(con el patrón del estado erróneo)
+				"administrative1", "companyresult1", "name", 20000., 25., 4, "comments", "LOOSSERRR", ConstraintViolationException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditCompanyResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Double) testingData[i][3], (Double) testingData[i][4], (Integer) testingData[i][5],
+				(String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+	protected void templateEditCompanyResult(final String principal, final Integer companyResultId, String name, final Double economicalOffer, Double score, Integer position, String comments, String state, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
+			companyResult.setName(name);
+			companyResult.setEconomicalOffer(economicalOffer);
+			companyResult.setScore(score);
+			companyResult.setPosition(position);
+			companyResult.setComments(comments);
+			companyResult.setState(state);
+			this.companyResultService.save(companyResult);
+			this.companyResultService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 25. Un usuario autenticado como administrativo podrá:
+	 * c. Administrar los “resultados de concurso” y los “resultados de las empresas” asociados a los concursos creados por él.
+	 */
+	/* Autenticado como administrativo --> eliminar un resultado de empresa */
+
+	@Test
+	public void deleteCompanyResultTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "companyresult1", null
+			}, {// Negativo(autenticado como comercial)
+				"commercial1", "companyresult1", IllegalArgumentException.class
+			}, {// Negativo(resultado de empresa con resultado de concurso de otro administrativo)
+				"administrative2", "companyresult1", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteCompanyResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+	}
+	protected void templateDeleteCompanyResult(final String principal, final Integer companyResultId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
+			this.companyResultService.delete(companyResult);
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 33. Un usuario autenticado como administrativo podrá:
+	 * a. Aceptar o rechazar una “solicitud administrativa”. Solo podrá aceptar o
+	 * rechazar una “solicitud administrativa” si no ha pasado la fecha máxima
+	 * de contestación de dicha solicitud. En caso de rechazarla deberá de
+	 * indicar el motivo.
+	 */
+	/* Autenticado como administrativo --> aceptar una solicitud administrativa */
+
+	@Test
+	public void acceptAdministrativeRequestTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "administrativerequest1", null
+			}, {// Negativo(autenticado como administrador)
+				"admin", "administrativerequest1", IllegalArgumentException.class
+			}, {// Negativo(con solicitud ya aceptada)
+				"administrative1", "administrativerequest3", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateAcceptAdministrativeRequest((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+	}
+	protected void templateAcceptAdministrativeRequest(final String principal, final Integer administrativeRequestId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
+			administrativeRequest.setAccepted(true);
+			final AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
+			this.administrativeRequestService.flush();
+			this.myMessageService.administrativeRequestNotification(savedAR, true);
+			this.myMessageService.flush();
+			final SubSection subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
+			this.subSectionService.save(subSection);
+			this.subSectionService.flush();
+			unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+	}
+
+	/*
+	 * 33. Un usuario autenticado como administrativo podrá:
+	 * a. Aceptar o rechazar una “solicitud administrativa”. Solo podrá aceptar o
+	 * rechazar una “solicitud administrativa” si no ha pasado la fecha máxima
+	 * de contestación de dicha solicitud.
+	 */
+	/* Autenticado como administrativo --> aceptar una solicitud administrativa */
+
+	@Test
+	public void rejectAdministrativeRequestTest() {
+
+		final Object testingData[][] = {
+			{	// Positivo
+				"administrative1", "administrativerequest1", null
+			}, {// Negativo(autenticado como otro administrativo)
+				"administrative2", "administrativerequest1", IllegalArgumentException.class
+			}, {// Negativo(con solicitud aceptada)
+				"administrative1", "administrativerequest3", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateRejectAdministrativeRequest((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+	}
+	protected void templateRejectAdministrativeRequest(final String principal, final Integer administrativeRequestId, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(principal);
+			AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
+			administrativeRequest.setAccepted(false);
+			final AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
+			this.administrativeRequestService.flush();
+			this.myMessageService.administrativeRequestNotification(savedAR, false);
+			this.myMessageService.flush();
 			unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

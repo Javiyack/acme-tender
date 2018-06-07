@@ -14,17 +14,17 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Actor;
+import domain.Folder;
+import domain.MyMessage;
+import domain.Offer;
+import domain.Tender;
 import services.ActorService;
 import services.FolderService;
 import services.MyMessageService;
 import services.OfferService;
 import services.TenderService;
 import utilities.AbstractTest;
-import domain.Actor;
-import domain.Folder;
-import domain.MyMessage;
-import domain.Offer;
-import domain.Tender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -485,7 +485,7 @@ public class UseCaseAuthenticated extends AbstractTest {
 	/* Autenticado --> buscar oferta por palabra clave */
 	@Test
 	public void searchOfferTest() {
-		final Object testingData[][] = {
+		Object testingData[][] = {
 			//Positivo
 			{
 				"commercial1", "sistema", null
@@ -501,21 +501,22 @@ public class UseCaseAuthenticated extends AbstractTest {
 			},
 
 		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateSearchOffer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		for (int i = 0; i < testingData.length; i++) {
+			templateSearchOffer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+		}
 	}
 
-	private void templateSearchOffer(final String principal, final String keyWord, final Class<?> expected) {
+	private void templateSearchOffer(String principal, String keyWord, Class<?> expected) {
 
 		Class<?> caught;
 
 		caught = null;
 		try {
-			this.authenticate(principal);
+			authenticate(principal);
 			this.offerService.findAllPublished();
-			final Collection<Offer> offers = this.offerService.findOfferByKeyWord(keyWord);
+			Collection<Offer> offers = this.offerService.findOfferByKeyWord(keyWord);
 			Assert.notNull(offers);
-			this.unauthenticate();
+			unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

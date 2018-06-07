@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,6 @@ import org.springframework.util.Assert;
 import domain.Administrative;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
-import domain.Tender;
 import repositories.EvaluationCriteriaTypeRepository;
 
 @Service
@@ -19,13 +19,14 @@ public class EvaluationCriteriaTypeService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private EvaluationCriteriaTypeRepository evaluationCriteriaTypeRepository;
+	private EvaluationCriteriaTypeRepository	evaluationCriteriaTypeRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	AdministrativeService administrativeService;
+	AdministrativeService						administrativeService;
 	@Autowired
-	EvaluationCriteriaService evaluationCriteriaService;
+	EvaluationCriteriaService					evaluationCriteriaService;
+
 
 	// Constructors -----------------------------------------------------------
 	public EvaluationCriteriaTypeService() {
@@ -42,7 +43,7 @@ public class EvaluationCriteriaTypeService {
 
 		return evaluationCriteriaType;
 	}
-	
+
 	public Collection<EvaluationCriteriaType> findAll() {
 		Collection<EvaluationCriteriaType> result;
 
@@ -67,9 +68,9 @@ public class EvaluationCriteriaTypeService {
 		Assert.notNull(evaluationCriteriaType);
 
 		EvaluationCriteriaType result;
-		
+
 		result = this.evaluationCriteriaTypeRepository.save(evaluationCriteriaType);
-		
+
 		return result;
 	}
 
@@ -77,12 +78,16 @@ public class EvaluationCriteriaTypeService {
 		Assert.notNull(evaluationCriteriaType);
 		Assert.isTrue(evaluationCriteriaType.getId() != 0);
 		Assert.isTrue(this.evaluationCriteriaTypeRepository.exists(evaluationCriteriaType.getId()));
-		
+
 		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllWithType(evaluationCriteriaType.getId());
-		
+
 		Assert.isTrue(evaluationCriterias.size() == 0, "evaluationCriteriaType.cannot.delete.in.use");
 
 		this.evaluationCriteriaTypeRepository.delete(evaluationCriteriaType);
+	}
+
+	public void flush() {
+		this.evaluationCriteriaTypeRepository.flush();
 	}
 
 	// Other business methods -------------------------------------------------

@@ -497,7 +497,38 @@
 		<property name="interestComment" value="Hemos presentado ofertas anteriores similares a esta." />
 		<property name="administrative" ref="administrative2" />
 		<property name="category" ref="category6" />
-	</bean>		
+	</bean>	
+	
+	<bean id="tender7" class="domain.Tender">
+		<property name="reference" value="01022018-NW" />
+		<property name="title" value="Instalación de redes" />
+		<property name="expedient" value="501/77272" />
+		<property name="estimatedAmount" value="30000" />
+		<property name="organism" value="Universidad de Valladolid" />
+		<property name="bulletin" value="BOUS 423/66557" />
+		<property name="bulletinDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/02/2018" />
+			</bean>
+		</property>
+		<property name="openingDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/03/2018" />
+			</bean>
+		</property>
+		<property name="maxPresentationDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/04/2018" />
+			</bean>
+		</property>
+		<property name="executionTime" value="120" />
+		<property name="observations" value="Me gusta bastante" />
+		<property name="informationPage" value="http://www.juntadeandalucia.es/index.html" />
+		<property name="interest" value="MEDIUM" />
+		<property name="interestComment" value="Hemos presentado ofertas anteriores similares a esta." />
+		<property name="administrative" ref="administrative1" />
+		<property name="category" ref="category6" />
+	</bean>			
 
 	<!-- Categories -->
 
@@ -1037,6 +1068,25 @@
 		<property name="administrative" ref="administrative2" />
 		<property name="offer" ref="offer2" />		
 	</bean>
+	
+	<bean id="administrativerequest3" class="domain.AdministrativeRequest">
+		<property name="subSectionTitle" value="Documento de requisitos" />
+		<property name="subSectionDescription" value="Especificación de requisitos del sistema" />
+		<property name="maxAcceptanceDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="01/09/2018" />
+			</bean>
+		</property>
+		<property name="maxDeliveryDate">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="15/09/2018" />
+			</bean>
+		</property>
+		<property name="accepted" value="true" />
+		<property name="administrative" ref="administrative1" />
+		<property name="offer" ref="offer1" />		
+	</bean>
+	
 
 
 	<!-- TenderResults -->
