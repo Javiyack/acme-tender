@@ -18,10 +18,18 @@ public interface TenderRepository extends JpaRepository<Tender, Integer> {
 	@Query("select t from Tender t where t.offertable = true")
 	Collection<Tender> findAllOffertable();
  
-	@Query("select t from Tender t " + " where (t.title like %?1% or t.expedient like %?1% or t.organism like %?1% or t.bulletin like %?1% or t.observations like %?1% or t.informationPage like %?1% or t.interestComment like %?1%) ")
+	@Query("select t from Tender t " 
+			+ "where (t.title like %?1% "
+			+ "or t.expedient like %?1% "
+			+ "or t.reference like %?1% "
+			+ "or t.organism like %?1% "
+			+ "or t.bulletin like %?1% "
+			+ "or t.observations like %?1% "
+			+ "or t.informationPage like %?1% "
+			+ "or t.interestComment like %?1%) ")
 	public Collection<Tender> findTenderByKeyword(String word);
 
-	@Query(value = "" + " select * " + " from Tender t" + " where " + "      t.title regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 "
+	@Query(value = "select * " + " from Tender t" + " where " + "      t.title regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 "
 		+ "   OR t.expedient regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 " + "   OR t.organism regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 "
 		+ "   OR t.bulletin regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 " + "   OR t.observations regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 "
 		+ "   OR t.informationPage regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 " + "   OR t.interestComment regexp (select group_concat(t.`text` SEPARATOR '|') from TabooWord t) = 1 ", nativeQuery = true)
