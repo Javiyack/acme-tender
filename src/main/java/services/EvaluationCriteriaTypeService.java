@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.EvaluationCriteriaTypeRepository;
+import domain.Actor;
 import domain.Administrative;
 import domain.EvaluationCriteria;
 import domain.EvaluationCriteriaType;
-import repositories.EvaluationCriteriaTypeRepository;
 
 @Service
 @Transactional
@@ -26,6 +27,8 @@ public class EvaluationCriteriaTypeService {
 	AdministrativeService						administrativeService;
 	@Autowired
 	EvaluationCriteriaService					evaluationCriteriaService;
+	@Autowired
+	ActorService								actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -66,12 +69,9 @@ public class EvaluationCriteriaTypeService {
 
 	public EvaluationCriteriaType save(final EvaluationCriteriaType evaluationCriteriaType) {
 		Assert.notNull(evaluationCriteriaType);
+		this.checkRole(evaluationCriteriaType);
 
-		EvaluationCriteriaType result;
-
-		result = this.evaluationCriteriaTypeRepository.save(evaluationCriteriaType);
-
-		return result;
+		return this.evaluationCriteriaTypeRepository.save(evaluationCriteriaType);
 	}
 
 	public void delete(final EvaluationCriteriaType evaluationCriteriaType) {
@@ -79,7 +79,7 @@ public class EvaluationCriteriaTypeService {
 		Assert.isTrue(evaluationCriteriaType.getId() != 0);
 		Assert.isTrue(this.evaluationCriteriaTypeRepository.exists(evaluationCriteriaType.getId()));
 
-		Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllWithType(evaluationCriteriaType.getId());
+		final Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAllWithType(evaluationCriteriaType.getId());
 
 		Assert.isTrue(evaluationCriterias.size() == 0, "evaluationCriteriaType.cannot.delete.in.use");
 
@@ -91,5 +91,8 @@ public class EvaluationCriteriaTypeService {
 	}
 
 	// Other business methods -------------------------------------------------
-
+	public void checkRole(final EvaluationCriteriaType ect) {
+		final Actor principal = this.actorService.findByPrincipal();
+		Assert.isTrue(principal instanceof Administrative);
+	}
 }
