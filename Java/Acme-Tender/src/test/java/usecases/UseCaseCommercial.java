@@ -227,7 +227,7 @@ public class UseCaseCommercial extends AbstractTest {
 
 		final Object testingData[][] = {
 			{// Positive
-				"commercial1", "subsection1", null
+				"commercial1", "subsection1", "Title test edit", "2", null
 			}, {// Negative: wrong subsectionOrder
 				"commercial1", "subsection1", "Title test edit", "-2", ConstraintViolationException.class
 			}, {// Negative: not her subsection
