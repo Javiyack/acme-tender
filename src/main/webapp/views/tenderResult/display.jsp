@@ -27,7 +27,14 @@
 	<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
 		<acme:button text="tenderResult.edit" url="tenderResult/administrative/edit.do?tenderResultId=${tenderResult.id}" css="formButton toLeft" />
 	</jstl:if>	
-	<acme:cancel url="tender/list.do" code="tenderResult.back" css="formButton toLeft" />
+	
+	<jstl:if test="${tenderResult.tender.administrative.id == actor.id}">
+		<acme:cancel url="tender/administrative/list.do" code="tenderResult.back" css="formButton toLeft" />
+	</jstl:if>
+	<jstl:if test="${tenderResult.tender.administrative.id != actor.id}">
+		<acme:cancel url="tender/list.do" code="tenderResult.back" css="formButton toLeft" />
+	</jstl:if>
+	
 
 </fieldset>
 
