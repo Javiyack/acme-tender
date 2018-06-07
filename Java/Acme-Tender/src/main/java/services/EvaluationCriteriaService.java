@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.EvaluationCriteriaRepository;
 import domain.Actor;
 import domain.Administrative;
 import domain.EvaluationCriteria;
 import domain.SubSectionEvaluationCriteria;
 import domain.Tender;
-import repositories.EvaluationCriteriaRepository;
 
 @Service
 @Transactional
@@ -104,7 +104,7 @@ public class EvaluationCriteriaService {
 	public void delete(final EvaluationCriteria evaluationCriteria) {
 		Assert.notNull(evaluationCriteria);
 		Assert.isTrue(evaluationCriteria.getId() != 0);
-		Assert.isTrue(this.evaluationCriteriaRepository.exists(evaluationCriteria.getId()));
+//						Assert.isTrue(this.evaluationCriteriaRepository.exists(evaluationCriteria.getId()));
 
 		final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllWithEvaluationCriteria(evaluationCriteria.getId());
 

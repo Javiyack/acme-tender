@@ -16,14 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.AdministrativeRequest;
-import domain.Category;
-import domain.CompanyResult;
-import domain.EvaluationCriteria;
-import domain.EvaluationCriteriaType;
-import domain.SubSection;
-import domain.Tender;
-import domain.TenderResult;
 import security.UserAccountService;
 import services.ActorService;
 import services.AdministrativeRequestService;
@@ -36,6 +28,14 @@ import services.SubSectionService;
 import services.TenderResultService;
 import services.TenderService;
 import utilities.AbstractTest;
+import domain.AdministrativeRequest;
+import domain.Category;
+import domain.CompanyResult;
+import domain.EvaluationCriteria;
+import domain.EvaluationCriteriaType;
+import domain.SubSection;
+import domain.Tender;
+import domain.TenderResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -77,7 +77,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	/* Autenticado como administrativo --> crear un concurso */
 	@Test(expected = Exception.class)
 	public void createTenderTest() {
-		Object testingData[][] = {
+		final Object testingData[][] = {
 			//Positivo(sin observaciones ni comentario de interés)
 			{
 				"administrative1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/07/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "", null
@@ -97,7 +97,8 @@ public class UseCaseAdministrative extends AbstractTest {
 			},
 			//Negativo(sin título)
 			{
-				"administrative1", "", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/07/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "", ConstraintViolationException.class
+				"administrative1", "", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/07/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "",
+				ConstraintViolationException.class
 			},
 			//Negativo(con fecha del boletín futura)
 			{
@@ -153,41 +154,40 @@ public class UseCaseAdministrative extends AbstractTest {
 			},
 
 		};
-		for (int i = 0; i < testingData.length; i++) {
-			templateCreateTender((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (double) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
-				(String) testingData[i][8], (String) testingData[i][9], (Integer) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14], (Class<?>) testingData[i][15]);
-		}
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateTender((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (double) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], (String) testingData[i][8], (String) testingData[i][9], (Integer) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14],
+				(Class<?>) testingData[i][15]);
 	}
 
-	private void templateCreateTender(String principal, String title, String category, String expedient, Double estimatedAmount, String organism, String bulletin, String bulletinDate, String openingDate, String maxPresentationDate, Integer executionTime,
-		String observations, String informationPage, String interest, String interestComment, Class<?> expected) {
+	private void templateCreateTender(final String principal, final String title, final String category, final String expedient, final Double estimatedAmount, final String organism, final String bulletin, final String bulletinDate,
+		final String openingDate, final String maxPresentationDate, final Integer executionTime, final String observations, final String informationPage, final String interest, final String interestComment, final Class<?> expected) {
 
 		Class<?> caught;
 
 		caught = null;
 		try {
-			authenticate(principal);
-			Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
-			Tender tender = this.tenderService.create();
+			this.authenticate(principal);
+			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
+			final Tender tender = this.tenderService.create();
 			tender.setTitle(title);
 			Category c;
 			if (!category.isEmpty()) {
-				Integer categoryId = super.getEntityId(category);
+				final Integer categoryId = super.getEntityId(category);
 				c = this.categoryService.findOne(categoryId);
-			} else {
+			} else
 				c = null;
-			}
 			tender.setCategory(c);
 			tender.setExpedient(expedient);
 			tender.setEstimatedAmount(estimatedAmount);
 			tender.setOrganism(organism);
 			tender.setBulletin(bulletin);
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			Date d1 = format.parse(bulletinDate);
+			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			final Date d1 = format.parse(bulletinDate);
 			tender.setBulletinDate(d1);
-			Date d2 = format.parse(openingDate);
+			final Date d2 = format.parse(openingDate);
 			tender.setOpeningDate(d2);
-			Date d3 = format.parse(maxPresentationDate);
+			final Date d3 = format.parse(maxPresentationDate);
 			tender.setMaxPresentationDate(d3);
 			tender.setExecutionTime(executionTime);
 			tender.setObservations(observations);
@@ -195,10 +195,10 @@ public class UseCaseAdministrative extends AbstractTest {
 			tender.setInterest(interest);
 			tender.setInterestComment(interestComment);
 
-			Tender saved = this.tenderService.save(tender);
+			final Tender saved = this.tenderService.save(tender);
 			this.tenderService.flush();
 			Assert.isTrue(tenders.contains(saved));
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -212,7 +212,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	/* Autenticado como administrativo --> editar un concurso */
 	@Test(expected = Exception.class)
 	public void editTenderTest() {
-		Object testingData[][] = {
+		final Object testingData[][] = {
 			//Positivo(sin observaciones ni comentario de interés)
 			{
 				"administrative1", "tender1", "title", "category1", "expedient", 50000., "organism", "bulletin", "03/06/2018 12:00", "01/07/2018 12:00", "03/07/2018 12:00", 90, "", "http://www.juntadeandalucia.es/index.html", "HIGH", "", null
@@ -229,41 +229,40 @@ public class UseCaseAdministrative extends AbstractTest {
 			},
 
 		};
-		for (int i = 0; i < testingData.length; i++) {
-			templateCreateTender((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Integer) super.getEntityId((String) testingData[i][3]), (String) testingData[i][4],
+		for (int i = 0; i < testingData.length; i++)
+			this.templateCreateTender((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Integer) super.getEntityId((String) testingData[i][3]), (String) testingData[i][4],
 				(double) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7], (String) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (Integer) testingData[i][11], (String) testingData[i][12],
 				(String) testingData[i][13], (String) testingData[i][14], (String) testingData[i][15], (Class<?>) testingData[i][16]);
-		}
 	}
 
-	private void templateCreateTender(String principal, Integer tenderId, String title, Integer categoryId, String expedient, Double estimatedAmount, String organism, String bulletin, String bulletinDate, String openingDate, String maxPresentationDate,
-		Integer executionTime, String observations, String informationPage, String interest, String interestComment, Class<?> expected) {
+	private void templateCreateTender(final String principal, final Integer tenderId, final String title, final Integer categoryId, final String expedient, final Double estimatedAmount, final String organism, final String bulletin,
+		final String bulletinDate, final String openingDate, final String maxPresentationDate, final Integer executionTime, final String observations, final String informationPage, final String interest, final String interestComment,
+		final Class<?> expected) {
 
 		Class<?> caught;
 
 		caught = null;
 		try {
-			authenticate(principal);
-			Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
-			Tender tender = this.tenderService.findOneToEdit(tenderId);
+			this.authenticate(principal);
+			final Collection<Tender> tenders = this.tenderService.findAllByAdministrative();
+			final Tender tender = this.tenderService.findOneToEdit(tenderId);
 			tender.setTitle(title);
-			Category category = this.categoryService.findOne(categoryId);
+			final Category category = this.categoryService.findOne(categoryId);
 			tender.setCategory(category);
 			tender.setExpedient(expedient);
 			tender.setEstimatedAmount(estimatedAmount);
 			tender.setOrganism(organism);
 			tender.setBulletin(bulletin);
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			Date d1 = format.parse(bulletinDate);
+			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			final Date d1 = format.parse(bulletinDate);
 			tender.setBulletinDate(d1);
 			Date d2;
-			if (!openingDate.isEmpty()) {
+			if (!openingDate.isEmpty())
 				d2 = format.parse(openingDate);
-			} else {
+			else
 				d2 = null;
-			}
 			tender.setOpeningDate(d2);
-			Date d3 = format.parse(maxPresentationDate);
+			final Date d3 = format.parse(maxPresentationDate);
 			tender.setMaxPresentationDate(d3);
 			tender.setExecutionTime(executionTime);
 			tender.setObservations(observations);
@@ -271,10 +270,10 @@ public class UseCaseAdministrative extends AbstractTest {
 			tender.setInterest(interest);
 			tender.setInterestComment(interestComment);
 
-			Tender saved = this.tenderService.save(tender);
+			final Tender saved = this.tenderService.save(tender);
 			this.tenderService.flush();
 			Assert.isTrue(tenders.contains(saved));
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -304,7 +303,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			this.templateCreateTenderCriteria((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4],
 				(Integer) super.getEntityId((String) testingData[i][5]), (Class<?>) testingData[i][6]);
 	}
-	protected void templateCreateTenderCriteria(final String principal, final Integer tenderId, final String title, final String description, final Integer maxScore, Integer typeCriteriaId, final Class<?> expected) {
+	protected void templateCreateTenderCriteria(final String principal, final Integer tenderId, final String title, final String description, final Integer maxScore, final Integer typeCriteriaId, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -322,7 +321,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			this.evaluationCriteriaService.flush();
 
 			Assert.isTrue(this.evaluationCriteriaService.findAllByTender(tenderId).contains(evCriteriaSaved));
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -375,7 +374,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			this.evaluationCriteriaService.flush();
 
 			Assert.isTrue(this.evaluationCriteriaService.findAllByTender(tenderId).contains(evCriteriaSaved));
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -396,7 +395,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			{	// Positivo
 				"administrative2", "evaluationcriteria5", null
 			}, {// Negativo(criterio de evaluación con subsección de una oferta asociada a él)
-				"administrative1", "evaluationcriteria1", AssertionError.class
+				"administrative1", "evaluationcriteria1", IllegalArgumentException.class
 			}, {// Negativo(autenticado como comercial)
 				"commercial1", "evaluationcriteria5", IllegalArgumentException.class
 			}
@@ -405,18 +404,19 @@ public class UseCaseAdministrative extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateDeleteTenderCriteria((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
 	}
-	protected void templateDeleteTenderCriteria(final String principal, Integer evaluationCriteriaId, final Class<?> expected) {
+	protected void templateDeleteTenderCriteria(final String principal, final Integer evaluationCriteriaId, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationCriteriaId);
-			Collection<EvaluationCriteria> evaluationCriterias = this.evaluationCriteriaService.findAll();
-			Assert.isTrue(evaluationCriterias.contains(evaluationCriteria));
+			final EvaluationCriteria evaluationCriteria = this.evaluationCriteriaService.findOne(evaluationCriteriaId);
+			// Se busca en la bd el evaluationCriteria
+			Assert.isTrue(this.evaluationCriteriaService.findAll().contains(evaluationCriteria));
 			this.evaluationCriteriaService.delete(evaluationCriteria);
-			Assert.isTrue(!evaluationCriterias.contains(evaluationCriteria));
-			unauthenticate();
+			// Se busca en la bd de nuevo
+			Assert.isTrue(!this.evaluationCriteriaService.findAll().contains(evaluationCriteria), "El elemento se encuentra en la bd");
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -451,12 +451,12 @@ public class UseCaseAdministrative extends AbstractTest {
 		caught = null;
 		try {
 			super.authenticate(principal);
-			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.create();
+			final EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.create();
 			evCriteriaType.setName(name);
 			evCriteriaType.setDescription(description);
 			this.evaluationCriteriaTypeService.save(evCriteriaType);
 			this.evaluationCriteriaTypeService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -485,18 +485,18 @@ public class UseCaseAdministrative extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateEditTenderCriteriaType((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 	}
-	protected void templateEditTenderCriteriaType(final String principal, Integer evCriteriaTypeId, final String name, final String description, final Class<?> expected) {
+	protected void templateEditTenderCriteriaType(final String principal, final Integer evCriteriaTypeId, final String name, final String description, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
+			final EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
 			evCriteriaType.setName(name);
 			evCriteriaType.setDescription(description);
 			this.evaluationCriteriaTypeService.save(evCriteriaType);
 			this.evaluationCriteriaTypeService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -526,15 +526,15 @@ public class UseCaseAdministrative extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateDeleteTenderCriteriaType((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
 	}
-	protected void templateDeleteTenderCriteriaType(final String principal, Integer evCriteriaTypeId, final Class<?> expected) {
+	protected void templateDeleteTenderCriteriaType(final String principal, final Integer evCriteriaTypeId, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
+			final EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
 			this.evaluationCriteriaTypeService.delete(evCriteriaType);
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -563,20 +563,20 @@ public class UseCaseAdministrative extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateCreateTenderResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 	}
-	protected void templateCreateTenderResult(final String principal, final Integer tenderId, final String date, String description, final Class<?> expected) {
+	protected void templateCreateTenderResult(final String principal, final Integer tenderId, final String date, final String description, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			TenderResult tenderResult = this.tenderResultService.create(tenderId);
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			Date tenderDate = format.parse(date);
+			final TenderResult tenderResult = this.tenderResultService.create(tenderId);
+			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			final Date tenderDate = format.parse(date);
 			tenderResult.setTenderDate(tenderDate);
 			tenderResult.setDescription(description);
 			this.tenderResultService.save(tenderResult);
 			this.tenderResultService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -605,20 +605,20 @@ public class UseCaseAdministrative extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateEditTenderResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 	}
-	protected void templateEditTenderResult(final String principal, final Integer tenderResultId, final String date, String description, final Class<?> expected) {
+	protected void templateEditTenderResult(final String principal, final Integer tenderResultId, final String date, final String description, final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			Date tenderDate = format.parse(date);
+			final TenderResult tenderResult = this.tenderResultService.findOne(tenderResultId);
+			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			final Date tenderDate = format.parse(date);
 			tenderResult.setTenderDate(tenderDate);
 			tenderResult.setDescription(description);
 			this.tenderResultService.save(tenderResult);
 			this.tenderResultService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -648,13 +648,14 @@ public class UseCaseAdministrative extends AbstractTest {
 			this.templateCreateCompanyResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Double) testingData[i][3], (Double) testingData[i][4], (Integer) testingData[i][5],
 				(String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
-	protected void templateCreateCompanyResult(final String principal, final Integer tenderResultId, String name, final Double economicalOffer, Double score, Integer position, String comments, String state, final Class<?> expected) {
+	protected void templateCreateCompanyResult(final String principal, final Integer tenderResultId, final String name, final Double economicalOffer, final Double score, final Integer position, final String comments, final String state,
+		final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			CompanyResult companyResult = this.companyResultService.create(tenderResultId);
+			final CompanyResult companyResult = this.companyResultService.create(tenderResultId);
 			companyResult.setName(name);
 			companyResult.setEconomicalOffer(economicalOffer);
 			companyResult.setScore(score);
@@ -663,7 +664,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			companyResult.setState(state);
 			this.companyResultService.save(companyResult);
 			this.companyResultService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -693,13 +694,14 @@ public class UseCaseAdministrative extends AbstractTest {
 			this.templateEditCompanyResult((String) testingData[i][0], (Integer) super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Double) testingData[i][3], (Double) testingData[i][4], (Integer) testingData[i][5],
 				(String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
-	protected void templateEditCompanyResult(final String principal, final Integer companyResultId, String name, final Double economicalOffer, Double score, Integer position, String comments, String state, final Class<?> expected) {
+	protected void templateEditCompanyResult(final String principal, final Integer companyResultId, final String name, final Double economicalOffer, final Double score, final Integer position, final String comments, final String state,
+		final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
 		try {
 			super.authenticate(principal);
-			CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
+			final CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
 			companyResult.setName(name);
 			companyResult.setEconomicalOffer(economicalOffer);
 			companyResult.setScore(score);
@@ -708,7 +710,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			companyResult.setState(state);
 			this.companyResultService.save(companyResult);
 			this.companyResultService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -743,9 +745,9 @@ public class UseCaseAdministrative extends AbstractTest {
 		caught = null;
 		try {
 			super.authenticate(principal);
-			CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
+			final CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
 			this.companyResultService.delete(companyResult);
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -783,7 +785,7 @@ public class UseCaseAdministrative extends AbstractTest {
 		caught = null;
 		try {
 			super.authenticate(principal);
-			AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
+			final AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
 			administrativeRequest.setAccepted(true);
 			final AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
 			this.administrativeRequestService.flush();
@@ -792,7 +794,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			final SubSection subSection = this.subSectionService.createByAdministrativeCollaborationAcceptation(administrativeRequest);
 			this.subSectionService.save(subSection);
 			this.subSectionService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -829,13 +831,13 @@ public class UseCaseAdministrative extends AbstractTest {
 		caught = null;
 		try {
 			super.authenticate(principal);
-			AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
+			final AdministrativeRequest administrativeRequest = this.administrativeRequestService.findOneToEdit(administrativeRequestId);
 			administrativeRequest.setAccepted(false);
 			final AdministrativeRequest savedAR = this.administrativeRequestService.save(administrativeRequest);
 			this.administrativeRequestService.flush();
 			this.myMessageService.administrativeRequestNotification(savedAR, false);
 			this.myMessageService.flush();
-			unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
