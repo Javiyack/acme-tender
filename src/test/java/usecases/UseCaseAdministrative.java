@@ -75,7 +75,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	 * a. Administrar sus concursos, lo que incluye crearlos, editarlos o eliminarlos.
 	 */
 	/* Autenticado como administrativo --> crear un concurso */
-	@Test(expected = Exception.class)
+	@Test
 	public void createTenderTest() {
 		final Object testingData[][] = {
 			//Positivo(sin observaciones ni comentario de interés)
@@ -210,7 +210,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	 * a. Administrar sus concursos, lo que incluye crearlos, editarlos o eliminarlos.
 	 */
 	/* Autenticado como administrativo --> editar un concurso */
-	@Test(expected = Exception.class)
+	@Test
 	public void editTenderTest() {
 		final Object testingData[][] = {
 			//Positivo(sin observaciones ni comentario de interés)
@@ -286,7 +286,7 @@ public class UseCaseAdministrative extends AbstractTest {
 	 */
 	/* Autenticado como administrativo --> crear un criterio de valoración */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void createTenderCriteriaTest() {
 
 		final Object testingData[][] = {

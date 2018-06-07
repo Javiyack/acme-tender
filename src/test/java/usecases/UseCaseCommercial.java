@@ -222,7 +222,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.2. Editar sub-apartados de sus ofertas.(CU38)
 	 */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void EditSubSectionTest() {
 
 		final Object testingData[][] = {
@@ -269,7 +269,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.3. Eliminar sub-apartados de sus ofertas.(CU39)
 	 */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void DeleteSubSectionTest() {
 
 		final Object testingData[][] = {
@@ -357,7 +357,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 26.a.1. Crear currículos asociados a los sub-apartados creados por él.(CU41)
 	 */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void CreateCurriculumTest() {
 
 		final Object testingData[][] = {
