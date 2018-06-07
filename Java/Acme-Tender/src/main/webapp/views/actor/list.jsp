@@ -29,6 +29,7 @@
 
 <display:table pagesize="${pageSize}" class="displaytag" name="actors" requestURI="${requestUri}" id="row">
 	
+	<acme:column property="userAccount.username" title="actor.username" sortable="true"/>
 	<acme:column property="name" title="actor.name" sortable="true"/>
 	<acme:column property="surname" title="actor.surname" sortable="true"/>
 	<acme:column property="email" title="actor.email" sortable="true"/>
