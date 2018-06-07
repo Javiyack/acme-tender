@@ -16,9 +16,7 @@
 	<acme:linkColumn linkUrl="tender/display.do?tenderId=${row.offer.tender.id}" 
 						linkName="${row.offer.tender.reference}" 
 						title="collaborationRequest.tender.reference" sortable="true" />
-	<spring:message code="offer.display" var="name" />
-	<acme:linkColumn linkUrl="offer/display.do?offerId=${row.offer.id}" linkName="${name}"  title="offer.offer" sortable="true" />
-
+	
 	<jstl:choose>
 		<jstl:when test="${row.section eq 'TECHNICAL_OFFER' }">
 			<spring:message code="collaborationRequest.section.technicaloffer" var="sectionVar" />
