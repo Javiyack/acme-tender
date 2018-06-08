@@ -108,7 +108,7 @@ public class ActorService {
 		Assert.notNull(admin);
 		Assert.notNull(res);
 		res.getUserAccount().setActive(!res.getUserAccount().getActive());
-		
+		this.actorRepository.save(res);
 	}
 
 	public UserAccount findUserAccount(final Actor actor) {
