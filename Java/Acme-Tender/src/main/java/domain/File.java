@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -27,7 +28,7 @@ public class File extends DomainEntity {
 	private Date			uploadDate;
 	private String			mimeType;
 	private byte[]			data;
-	private Long			size;			//Relationships
+	private Long			size;						//Relationships
 	private Curriculum		curriculum;
 	private SubSection		subSection;
 	private Tender			tender;
@@ -63,9 +64,8 @@ public class File extends DomainEntity {
 		this.mimeType = mimeType;
 	}
 
-	
 	@NotNull
-	@Column(length=52428800)
+	@Column(length = 52428800)
 	public byte[] getData() {
 		return this.data;
 	}
@@ -73,7 +73,7 @@ public class File extends DomainEntity {
 	public void setData(final byte[] data) {
 		this.data = data;
 	}
-
+	@Valid
 	@ManyToOne(optional = true)
 	public Curriculum getCurriculum() {
 		return this.curriculum;
@@ -82,7 +82,7 @@ public class File extends DomainEntity {
 	public void setCurriculum(final Curriculum curriculum) {
 		this.curriculum = curriculum;
 	}
-
+	@Valid
 	@ManyToOne(optional = true)
 	public SubSection getSubSection() {
 		return this.subSection;
@@ -91,7 +91,7 @@ public class File extends DomainEntity {
 	public void setSubSection(final SubSection subSection) {
 		this.subSection = subSection;
 	}
-
+	@Valid
 	@ManyToOne(optional = true)
 	public Tender getTender() {
 		return this.tender;
@@ -100,7 +100,7 @@ public class File extends DomainEntity {
 	public void setTender(final Tender tender) {
 		this.tender = tender;
 	}
-
+	@Valid
 	@ManyToOne(optional = true)
 	public TenderResult getTenderResult() {
 		return this.tenderResult;

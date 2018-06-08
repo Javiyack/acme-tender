@@ -26,8 +26,8 @@ public abstract class Actor extends DomainEntity {
 	//Attributes
 	private String				name;
 	private String				surname;
-	private String				address;		// Optional
-	private String				phone;			// Optional
+	private String				address;			// Optional
+	private String				phone;					// Optional
 	private String				email;
 	//Relationships
 	private UserAccount			userAccount;
@@ -89,6 +89,7 @@ public abstract class Actor extends DomainEntity {
 
 	@OneToMany
 	@NotEmpty
+	@Valid
 	public Collection<Folder> getFolders() {
 		return this.folders;
 	}
