@@ -79,32 +79,32 @@
 
 <!--  -->
 
-
-<fieldset>
-	<legend><spring:message code="subSection.data.evaluationCriterias" /></legend>
+<jstl:if test="${subSection.section != 'ADMINISTRATIVE_ACREDITATION'}" >
+	<fieldset>
+		<legend><spring:message code="subSection.data.evaluationCriterias" /></legend>
+		
+		<display:table class="displaytag" name="subSectionEvaluationCriterias" id="row">
+			
+			<acme:column property="evaluationCriteria.title" title="evaluationCriteria.title" />
+			<acme:column property="evaluationCriteria.maxScore" title="evaluationCriteria.maxScore" />
+			<acme:column property="comments" title="subSectionEvaluationCriteria.comments" />
+			
+			<display:column>
+				<div>
+					<a href="subSectionEvaluationCriteria/display.do?subSectionEvaluationCriteriaId=${row.id}"> 
+						<spring:message code="master.page.display" />
+					</a>
+				</div>
+			</display:column>	
+			
+		</display:table>
 	
-	<display:table class="displaytag" name="subSectionEvaluationCriterias" id="row">
+		<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
+			<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
+		</jstl:if>
+		<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && !tenderHasEvaluationCriterias}" >
+			<spring:message code="subSection.cannot.add.subSectionEvaluationCriterias" />
+		</jstl:if>
 		
-		<acme:column property="evaluationCriteria.title" title="evaluationCriteria.title" />
-		<acme:column property="evaluationCriteria.maxScore" title="evaluationCriteria.maxScore" />
-		<acme:column property="comments" title="subSectionEvaluationCriteria.comments" />
-		
-		<display:column>
-			<div>
-				<a href="subSectionEvaluationCriteria/display.do?subSectionEvaluationCriteriaId=${row.id}"> 
-					<spring:message code="master.page.display" />
-				</a>
-			</div>
-		</display:column>	
-		
-	</display:table>
-
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && tenderHasEvaluationCriterias}" >
-		<acme:button text="subSectionEvaluationCriteria.create" url="/subSectionEvaluationCriteria/commercial/create.do?subSectionId=${subSection.id}" css="formButton toLeft" />
-	</jstl:if>
-	<jstl:if test="${subSection.offer.inDevelopment && subSection.commercial.id == actorId && !tenderHasEvaluationCriterias}" >
-		<spring:message code="subSection.cannot.add.subSectionEvaluationCriterias" />
-	</jstl:if>
-	
-</fieldset>
-
+	</fieldset>
+</jstl:if>
