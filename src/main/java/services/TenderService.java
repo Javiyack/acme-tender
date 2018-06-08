@@ -68,14 +68,19 @@ public class TenderService {
 		Tender savedTender;
 
 		// Restrictions dates
-		//Solo al crearlo le pedimos que la fecha de apertura sea futura.
-		if (tender.getId() == 0)
-			Assert.isTrue(tender.getOpeningDate().after(new Date(System.currentTimeMillis() - 1)), "Invalid openingDate");
-		else
-			// Comprobamos que el propietario sea el creador del concurso
-			this.checkPrincipal(tender);
-
 		Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
+
+		// Comprobamos que el propietario sea el creador del concurso
+		this.checkPrincipal(tender);
+		
+		//Solo en la creación del concurso pueden editar las fechas
+		//De otra manera, aseguramos que no las han cambiado por hack
+		if (tender.getId() != 0) {
+			Tender oldTender = this.tenderRepository.findOne(tender.getId());
+			tender.setBulletinDate(oldTender.getBulletinDate());
+			tender.setOpeningDate(oldTender.getOpeningDate());
+			tender.setMaxPresentationDate(oldTender.getMaxPresentationDate());
+		}
 
 		savedTender = this.tenderRepository.save(tender);
 

@@ -16,6 +16,8 @@
 	<form:hidden path="offer" />
 	<form:hidden path="tenderResult" />
 		
+	<spring:message code="tender.notice.change.dates"	/>
+		
 	<h5>
 		<acme:textbox code="tender.reference" path="reference" css="formInput" readonly="true" />
 		<br />
@@ -42,12 +44,25 @@
 	<br />
 	<acme:textbox code="tender.bulletin" path="bulletin" css="formInput" />
 	<br />
-	<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
-	<br />
-	<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
-	<br />
-	<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" />
-	<br />
+	
+	<jstl:if test="${tender.id == 0}" >
+		<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
+		<br />
+		<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" placeholder="dd/MM/yyyy HH:mm"/>
+		<br />
+		<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" />
+		<br />
+	</jstl:if>
+	
+	<jstl:if test="${tender.id != 0}" >
+		<acme:textbox code="tender.bulletinDate" path="bulletinDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" readonly="true"/>
+		<br />
+		<acme:textbox code="tender.openingDate" path="openingDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" readonly="true"/>
+		<br />
+		<acme:textbox code="tender.maxPresentationDate" path="maxPresentationDate" css="formInput" placeholder="dd/MM/yyyy HH:mm" readonly="true"/>
+		<br />
+	</jstl:if>
+	
 	<acme:input type="number" code="tender.executionTime" path="executionTime" css="formInput"/>
 	<br />
 	<acme:textarea code="tender.observations" path="observations" css="formTextArea" />

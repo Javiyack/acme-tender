@@ -54,6 +54,8 @@ public class OfferService {
 	EvaluationCriteriaService			evaluationCriteriaService;
 	@Autowired
 	SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
+	@Autowired
+	ComboService comboService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -167,9 +169,20 @@ public class OfferService {
 		final Commercial commercial = this.commercialService.findByPrincipal();
 		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
 
-		//Si estamos presentando la oferta...
+
 		final Offer oldOffer = this.offerRepository.findOne(offer.getId());
-		if (oldOffer != null)
+		if (oldOffer != null) {
+			//Si hemos cambiado el estado de la oferta, comprobamos que puede realizar dicho cambio.
+			Collection<String> possibleOfferStates = this.comboService.offerStates(oldOffer.getId());
+			Boolean stateFinded = false;
+			for (String possibleOfferState : possibleOfferStates)
+				if (possibleOfferState.equals(offer.getState()))
+					stateFinded = true;
+			
+			Assert.isTrue(stateFinded);
+			
+			
+			//Si estamos presentando la oferta...			
 			if (!oldOffer.getState().equals(Constant.OFFER_PRESENTED) && offer.getState().equals(Constant.OFFER_PRESENTED)) {
 				
 				//Si presentamos la oferta, comprobamos que existe al menos un SubSectionEvaluationCriteria 
@@ -208,7 +221,7 @@ public class OfferService {
 				//Establecemos fecha de presentacion
 				offer.setPresentationDate(new Date());
 			}
-		
+		}
 		
 		
 		final Offer result = this.offerRepository.save(offer);
