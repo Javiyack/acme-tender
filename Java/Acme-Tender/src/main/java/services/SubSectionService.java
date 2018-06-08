@@ -164,11 +164,6 @@ public class SubSectionService {
 		subSection.setLastReviewDate(new Date(System.currentTimeMillis() - 1));
 		result = this.subSectionRepository.save(subSection);
 
-		if (subSection.getOffer().getState().equals(Constant.OFFER_CREATED)) {
-			subSection.getOffer().setState(Constant.OFFER_IN_DEVELOPMENT);
-			this.offerService.save(subSection.getOffer());
-		}
-
 		this.subSectionRepository.flush();
 
 		return result;
