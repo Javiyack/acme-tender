@@ -14,29 +14,9 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="Accepted" />
 	<form:hidden path="offer" />
-
-	<jstl:choose>
-		<jstl:when test="${collaborationRequest.id == 0 }">
-			<form:hidden path="rejectedReason" />
-		</jstl:when>
-		<jstl:otherwise>
-			<form:hidden path="section" />
-			<form:hidden path="subSectionTitle" />
-			<form:hidden path="subSectionDescription" />
-			<form:hidden path="benefitsPercentage" />
-			<form:hidden path="requirements" />
-			<form:hidden path="numberOfPages" />
-			<form:hidden path="maxAcceptanceDate" />
-			<form:hidden path="maxDeliveryDate" />
-			<form:hidden path="commercial" />
-		</jstl:otherwise>
-	</jstl:choose>
-
+	
 	<input type="hidden" name="reject" value="${reject }" />
-
-
 
 	<jstl:if test="${collaborationRequest.id == 0 }">
 		<form:label path="section">
