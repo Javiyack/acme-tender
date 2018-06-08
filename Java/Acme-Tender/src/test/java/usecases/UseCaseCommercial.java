@@ -161,7 +161,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.1. Crear sub-apartados de sus ofertas.(CU37)
 	 */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void CreateSubSectionTest() {
 
 		final Object testingData[][] = {
@@ -200,9 +200,6 @@ public class UseCaseCommercial extends AbstractTest {
 			subsection.setShortDescription(shortDescription);
 			subsection.setSection(section);
 			subsection.setBody(body);
-			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			final Date d1 = format.parse(lastReviewDate);
-			subsection.setLastReviewDate(d1);
 
 			final SubSection subsectionSaved = this.subsectionService.save(subsection);
 			this.subsectionService.flush();
@@ -220,7 +217,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.2. Editar sub-apartados de sus ofertas.(CU38)
 	 */
 
-	@Test(expected = Exception.class)
+	@Test
 	public void EditSubSectionTest() {
 
 		final Object testingData[][] = {
