@@ -9,17 +9,18 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<spring:message code="evaluationCriteria.title" />: <jstl:out value="${evaluationCriteria.title}"/>  <br/>
-<spring:message code="evaluationCriteria.description" />: <jstl:out value="${evaluationCriteria.description}"/>  <br/>
-<spring:message code="evaluationCriteria.maxScore" />: <jstl:out value="${evaluationCriteria.maxScore}" /> <br/>
-<spring:message code="evaluationCriteria.evaluationCriteriaType.name" />: <jstl:out value="${evaluationCriteria.evaluationCriteriaType.name} "/> <br/>
-<spring:message code="evaluationCriteria.evaluationCriteriaType.description" />: <jstl:out value="${evaluationCriteria.evaluationCriteriaType.description} "/> <br/>
+<acme:labelvalue code="evaluationCriteria.title"  value="${evaluationCriteria.title}"/>  <br/>
+<acme:labelvalue code="evaluationCriteria.description"  value="${evaluationCriteria.description}"/>  <br/>
+<acme:labelvalue code="evaluationCriteria.maxScore"  value="${evaluationCriteria.maxScore}" /> <br/>
+<acme:labelvalue code="evaluationCriteria.evaluationCriteriaType.name"  value="${evaluationCriteria.evaluationCriteriaType.name} "/> <br/>
+<acme:labelvalue code="evaluationCriteria.evaluationCriteriaType.description"  value="${evaluationCriteria.evaluationCriteriaType.description} "/> <br/>
 
 <br />
 
 <jstl:if test="${evaluationCriteria.tender.administrative.id == actor.id}" >
 	<acme:button url="evaluationCriteria/administrative/edit.do?evaluationCriteriaId=${evaluationCriteria.id}" text="evaluationCriteria.edit" css="formButton toLeft" />
 </jstl:if>
+
 <acme:button url="tender/display.do?tenderId=${evaluationCriteria.tender.id}" text="evaluationCriteria.back" css="formButton toLeft" />
 
 
