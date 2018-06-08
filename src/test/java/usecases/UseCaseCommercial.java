@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -40,7 +39,6 @@ import domain.TenderResult;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-@TransactionConfiguration(defaultRollback = true)
 public class UseCaseCommercial extends AbstractTest {
 
 	@Autowired
@@ -163,14 +161,14 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.1. Crear sub-apartados de sus ofertas.(CU37)
 	 */
 
-	@Test
+	@Test(expected = Exception.class)
 	public void CreateSubSectionTest() {
 
 		final Object testingData[][] = {
 			{// Positive
 				"commercial1", "offer1", "Title test", "ADMINISTRATIVE_ACREDITATION", "3", "Short Description", "Body test", "15/05/2018 00:00", null
 			}, {// Negative: wrong roll
-				"executer1", "offer1", "Title test", "ADMINISTRATIVE_ACREDITATION", "3", "Short Description", "Body test", "15/05/2018 00:00", IllegalArgumentException.class
+				"", "offer1", "Title test", "ADMINISTRATIVE_ACREDITATION", "3", "Short Description", "Body test", "15/05/2018 00:00", IllegalArgumentException.class
 			}, {// Negative: not her offer
 				"commercial2", "offer1", "Title test", "ADMINISTRATIVE_ACREDITATION", "3", "Short Description", "Body test", "15/05/2018 00:00", IllegalArgumentException.class
 			}
@@ -222,7 +220,7 @@ public class UseCaseCommercial extends AbstractTest {
 	 * 11.c.2. Editar sub-apartados de sus ofertas.(CU38)
 	 */
 
-	@Test
+	@Test(expected = Exception.class)
 	public void EditSubSectionTest() {
 
 		final Object testingData[][] = {

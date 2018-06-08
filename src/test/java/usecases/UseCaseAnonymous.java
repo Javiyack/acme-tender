@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import security.UserAccount;
@@ -26,7 +25,6 @@ import domain.Executive;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-@TransactionConfiguration(defaultRollback = true)
 public class UseCaseAnonymous extends AbstractTest {
 
 	@Autowired
