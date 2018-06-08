@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
-import repositories.CollaborationRequestRepository;
 import domain.Actor;
 import domain.CollaborationRequest;
 import domain.Commercial;
 import domain.Offer;
+import repositories.CollaborationRequestRepository;
 
 @Service
 @Transactional
@@ -27,6 +29,9 @@ public class CollaborationRequestService {
 	private OfferService					offerService;
 	@Autowired
 	private ActorService					actorService;
+	//Validator
+	@Autowired
+	private Validator						validator;
 
 
 	//CRUD methods
@@ -125,6 +130,22 @@ public class CollaborationRequestService {
 
 	public void flush() {
 		this.collaborationRequestRepository.flush();
+
+	}
+
+	public CollaborationRequest reconstruct(CollaborationRequest collaborationRequest, BindingResult binding) {
+		CollaborationRequest result;
+
+		if (collaborationRequest.getId() == 0) {
+			result = collaborationRequest;
+		} else {
+			result = this.collaborationRequestRepository.findOne(collaborationRequest.getId());
+			result.setRejectedReason(collaborationRequest.getRejectedReason());
+		}
+
+		validator.validate(result, binding);
+
+		return result;
 
 	}
 

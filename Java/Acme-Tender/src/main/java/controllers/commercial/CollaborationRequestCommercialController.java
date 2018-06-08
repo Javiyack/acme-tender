@@ -4,8 +4,6 @@ package controllers.commercial;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -23,7 +21,6 @@ import domain.Commercial;
 import domain.SubSection;
 import services.ActorService;
 import services.CollaborationRequestService;
-import services.ComboService;
 import services.CommercialService;
 import services.ConfigurationService;
 import services.MyMessageService;
@@ -45,19 +42,20 @@ public class CollaborationRequestCommercialController extends AbstractController
 	@Autowired
 	private SubSectionService			subSectionService;
 	@Autowired
-	private ConfigurationService configurationService;
-	
+	private ConfigurationService		configurationService;
+
+
 	//Display
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam int collaborationRequestId) {
 
 		ModelAndView result;
-		
+
 		final Double benefitsPercentage = this.configurationService.findBenefitsPercentage();
 
 		CollaborationRequest collaborationRequest = collaborationRequestService.findOne(collaborationRequestId);
 		Actor actor = this.actorService.findByPrincipal();
-		
+
 		//Puede verla si es el remitente o el destinatario
 		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId() || collaborationRequest.getOffer().getCommercial().getId() == actor.getId());
 
@@ -140,7 +138,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId());
-		
+
 		result = this.createEditModelAndView(collaborationRequest);
 		result.addObject("reject", true);
 
@@ -153,18 +151,18 @@ public class CollaborationRequestCommercialController extends AbstractController
 	public ModelAndView accept(@RequestParam int requestId) {
 
 		CollaborationRequest collaborationRequest = this.collaborationRequestService.findOneToEdit(requestId);
-		
+
 		Actor actor = this.actorService.findByPrincipal();
 		Assert.isTrue(collaborationRequest.getCommercial().getId() == actor.getId());
 		Assert.isTrue(collaborationRequest.getMaxAcceptanceDate().after(new Date()));
-		
+
 		collaborationRequest.setAccepted(true);
 		CollaborationRequest savedCR = this.collaborationRequestService.save(collaborationRequest);
 		this.myMessageService.collaborationRequestNotification(savedCR, true);
 
 		SubSection subSection = this.subSectionService.createByCommercialCollaborationAcceptation(collaborationRequest);
 		SubSection savedSS = this.subSectionService.save(subSection);
-		
+
 		return this.createMessageModelAndView("collaborationRequest.message.accepted", "offer/display.do?offerId=" + savedSS.getOffer().getId());
 
 	}
@@ -172,14 +170,16 @@ public class CollaborationRequestCommercialController extends AbstractController
 	//Save
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final CollaborationRequest collaborationRequest, final BindingResult binding, @ModelAttribute("reject") Boolean reject) {
+	public ModelAndView save(CollaborationRequest collaborationRequest, final BindingResult binding, @ModelAttribute("reject") Boolean reject) {
 
 		ModelAndView result;
 
+		collaborationRequest = collaborationRequestService.reconstruct(collaborationRequest, binding);
+
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(collaborationRequest);
-		
-		} else	if (!collaborationRequest.getMaxDeliveryDate().after(collaborationRequest.getMaxAcceptanceDate())) {
+
+		} else if (!collaborationRequest.getMaxDeliveryDate().after(collaborationRequest.getMaxAcceptanceDate())) {
 			result = this.createEditModelAndView(collaborationRequest, "collaborationRequest.date.error");
 
 		} else {
@@ -205,7 +205,7 @@ public class CollaborationRequestCommercialController extends AbstractController
 						result = new ModelAndView("redirect:display.do?collaborationRequestId=" + collaborationRequest.getId());
 					}
 				} catch (final Throwable oops) {
-					
+
 					if (oops.getMessage() == "collaborationRequest.error.maxAcceptanceDate.not.before.maxDeliveryDate")
 						result = this.createEditModelAndView(collaborationRequest, oops.getMessage());
 					else if (oops.getMessage() == "collaborationRequest.error.maxDeliveryDate.not.before.tender.maxPresentationDate")
