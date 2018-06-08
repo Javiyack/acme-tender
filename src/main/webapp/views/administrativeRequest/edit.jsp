@@ -14,26 +14,11 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="Accepted" />
+
 	<form:hidden path="offer" />
 
-	<jstl:choose>
-		<jstl:when test="${administrativeRequest.id == 0 }">
-			<form:hidden path="rejectedReason" />
-		</jstl:when>
-		<jstl:otherwise>
-			<form:hidden path="subSectionTitle" />
-			<form:hidden path="subSectionDescription" />
-			<form:hidden path="maxAcceptanceDate" />
-			<form:hidden path="maxDeliveryDate" />
-			<form:hidden path="administrative" />
-		</jstl:otherwise>
-	</jstl:choose>
-	
 	<input type="hidden" name="reject" value="${reject }" />
 	
-
-
 	<jstl:if test="${administrativeRequest.id == 0 }">
 	<acme:textbox code="administrativeRequest.subSectionTitle" path="subSectionTitle" />
 	<br />

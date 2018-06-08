@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import domain.Actor;
 import domain.Administrative;
@@ -26,6 +28,9 @@ public class AdministrativeRequestService {
 	private OfferService					offerService;
 	@Autowired
 	private ActorService					actorService;
+	//Validator
+	@Autowired
+	private Validator						validator;
 
 	// Supporting services ----------------------------------------------------
 
@@ -139,6 +144,22 @@ public class AdministrativeRequestService {
 
 	public void flush() {
 		this.administrativeRequestRepository.flush();
+
+	}
+
+	public AdministrativeRequest reconstruct(AdministrativeRequest administrativeRequest, BindingResult binding) {
+		AdministrativeRequest result;
+
+		if (administrativeRequest.getId() == 0) {
+			result = administrativeRequest;
+		} else {
+			result = this.administrativeRequestRepository.findOne(administrativeRequest.getId());
+			result.setRejectedReason(administrativeRequest.getRejectedReason());
+		}
+
+		validator.validate(result, binding);
+
+		return result;
 
 	}
 

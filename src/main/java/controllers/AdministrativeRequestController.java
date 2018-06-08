@@ -3,8 +3,6 @@ package controllers;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -15,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.AdministrativeRequestService;
-import services.AdministrativeService;
-import services.MyMessageService;
-import services.SubSectionService;
 import domain.Actor;
 import domain.Administrative;
 import domain.AdministrativeRequest;
 import domain.Commercial;
 import domain.SubSection;
+import services.ActorService;
+import services.AdministrativeRequestService;
+import services.AdministrativeService;
+import services.MyMessageService;
+import services.SubSectionService;
 
 @Controller
 @RequestMapping("/administrativeRequest")
@@ -75,9 +73,11 @@ public class AdministrativeRequestController extends AbstractController {
 
 	//Save
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final AdministrativeRequest administrativeRequest, final BindingResult binding, @ModelAttribute("reject") final Boolean reject) {
+	public ModelAndView save(AdministrativeRequest administrativeRequest, final BindingResult binding, @ModelAttribute("reject") final Boolean reject) {
 
 		ModelAndView result;
+
+		administrativeRequest = this.administrativeRequestService.reconstruct(administrativeRequest, binding);
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(administrativeRequest);
