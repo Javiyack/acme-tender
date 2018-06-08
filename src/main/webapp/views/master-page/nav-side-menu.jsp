@@ -23,24 +23,19 @@
 				<a><i class="fa fa-balance-scale fa-lg"></i><span class="texto-menu"><spring:message code="master.page.tenders" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="tenders">
-				<li>
-				<button onclick="javascript: relativeRedir('tender/list.do');" class="texto-submenu menuButton">
+				<li><button onclick="javascript: relativeRedir('tender/list.do');" class="texto-submenu menuButton">
 					<spring:message code="master.page.tenders.list" />
 				</button></li>
-				<li>
-				<button onclick="javascript: relativeRedir('tender/listOffertable.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('tender/listOffertable.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.tenders.list.offertable" />
 				</button></li>
-				<li>
-				<button onclick="javascript: relativeRedir('tender/search.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('tender/search.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.tenders.search" />
 				</button></li>
-				<li>
-				<button onclick="javascript: relativeRedir('tender/administrative/list.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('tender/administrative/list.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.my.tenders" />
 				</button>
-				<li>
-				<button onclick="javascript: relativeRedir('tender/administrative/create.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('tender/administrative/create.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.tenders.create" />
 				</button></li>	
 				
@@ -51,16 +46,13 @@
 				<a><i class="fa fa-money fa-lg"></i><span class="texto-menu"><spring:message code="master.page.offers" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="offers">
-				<li>
-				<button onclick="javascript: relativeRedir('offer/list.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('offer/list.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.offers.list" />
 				</button></li>
-				<li>
-				<button onclick="javascript: relativeRedir('offer/search.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('offer/search.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.offers.search" />
 				</button></li>
-				<li>
-				<button onclick="javascript: relativeRedir('offer/administrative/listOffersByCollaboration.do');" class="menuButton texto-submenu">
+				<li><button onclick="javascript: relativeRedir('offer/administrative/listOffersByCollaboration.do');" class="menuButton texto-submenu">
 					<spring:message code="master.page.my.offers.collaboration" />
 				</button></li>		
 			</ul>
@@ -70,9 +62,9 @@
 				<a><i class="fa fa-copy fa-lg"></i><span class="texto-menu"><spring:message code="master.page.administrative.requests" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="administrativeRequests">				
-				<li><a href="administrativeRequest/listReceived.do">
-					<span class="texto-submenu"><spring:message code="master.page.administrative.requests.received" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('administrativeRequest/listReceived.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.administrative.requests.received" />
+				</button></li>	
 			</ul>				
 			
 			<!-- Tipos de criterios de valoración -->
@@ -85,12 +77,12 @@
 				<a><i class="fa fa-envelope fa-lg"></i><span class="texto-menu"><spring:message code="master.page.messages" /></span><span class="arrow"></span></a>
 				</li>
 			<ul class="sub-menu collapse" id="messages">								 
-				<li><a href="myMessage/create.do">
-					<span class="texto-submenu"><spring:message code="master.page.newmessage" /></span>
-				</a></li>
-				<li><a href="folder/list.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.myfolders" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('myMessage/create.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.newmessage" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('folder/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.myfolders" />
+				</button></li>	
 			</ul>
 			
 			<!-- Users y profile -->
@@ -98,12 +90,12 @@
 				<a><i class="fa fa-users fa-lg"></i><span class="texto-menu"><spring:message code="master.page.users" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="users">				
-				<li><a href="actor/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.actor.list" /></span>
-				</a></li>
-				<li><a href="actor/edit.do">
-					<span class="texto-submenu"><spring:message code="master.page.profile" /></span>
-				</a></li>					
+				<li><button onclick="javascript: relativeRedir('actor/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.actor.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('actor/edit.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.profile" />
+				</button></li>	
 			</ul>
 		</security:authorize>            
 		
@@ -115,15 +107,15 @@
 				<a><i class="fa fa-balance-scale fa-lg"></i><span class="texto-menu"><spring:message code="master.page.tenders" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="tenders">
-				<li><a href="tender/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
-				</a></li>
-				<li><a href="tender/listOffertable.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
-				</a></li>				
-				<li><a href="tender/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('tender/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/listOffertable.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list.offertable" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.tenders.search" />
+				</button></li>	
 			</ul>
 							
 			<!-- Ofertas -->
@@ -131,18 +123,18 @@
 				<a><i class="fa fa-money fa-lg"></i><span class="texto-menu"><spring:message code="master.page.offers" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="offers">
-				<li><a href="offer/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.offers.list" /></span>
-				</a></li>
-				<li><a href="offer/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.offers.search" /></span>
-				</a></li>
-				<li><a href="offer/commercial/listOffersByPropietary.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.my.offers" /></span>
-				</a></li>
-				<li><a href="offer/commercial/listOffersByCollaboration.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.my.offers.collaboration" /></span>
-				</a></li>				
+				<li><button onclick="javascript: relativeRedir('offer/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.offers.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.offers.search" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/commercial/listOffersByPropietary.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.my.offers" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/commercial/listOffersByCollaboration.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.my.offers.collaboration" />
+				</button></li>	
 			</ul>
 
 			<!-- Solicitudes de colaboración -->
@@ -150,12 +142,12 @@
 				<a><i class="fa fa-credit-card fa-lg"></i><span class="texto-menu"><spring:message code="master.page.collaboration.requests" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="collaborationRequests">				
-				<li><a href="collaborationRequest/commercial/listReceived.do">
-					<span class="texto-submenu"><spring:message code="master.page.collaboration.requests.received" /></span>
-				</a></li>
-				<li><a href="collaborationRequest/commercial/listSent.do">
-					<span class="texto-submenu"><spring:message code="master.page.collaboration.requests.sended" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('collaborationRequest/commercial/listReceived.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.collaboration.requests.received" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('collaborationRequest/commercial/listSent.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.collaboration.requests.sended" />
+				</button></li>	
 				
 			</ul>				
 
@@ -164,9 +156,9 @@
 				<a><i class="fa fa-copy fa-lg"></i><span class="texto-menu"><spring:message code="master.page.administrative.requests" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="administrativeRequests">				
-				<li><a href="administrativeRequest/listSent.do">
-					<span class="texto-submenu"><spring:message code="master.page.administrative.requests.sended" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('administrativeRequest/listSent.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.administrative.requests.sended" />
+				</button></li>	
 			</ul>				
 			
 			<!-- Mensajeria -->
@@ -174,12 +166,12 @@
 				<a><i class="fa fa-envelope fa-lg"></i><span class="texto-menu"><spring:message code="master.page.messages" /></span><span class="arrow"></span></a>
 				</li>
 			<ul class="sub-menu collapse" id="messages">								 
-				<li><a href="myMessage/create.do">
-					<span class="texto-submenu"><spring:message code="master.page.newmessage" /></span>
-				</a></li>
-				<li><a href="folder/list.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.myfolders" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('myMessage/create.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.newmessage" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('folder/list.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.myfolders" />
+				</button></li>	
 			</ul>
 			
 			<!-- Users y profile -->
@@ -187,12 +179,12 @@
 				<a><i class="fa fa-users fa-lg"></i><span class="texto-menu"><spring:message code="master.page.users" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="users">				
-				<li><a href="actor/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.actor.list" /></span>
-				</a></li>
-				<li><a href="actor/edit.do">
-					<span class="texto-submenu"><spring:message code="master.page.profile" /></span>
-				</a></li>					
+				<li><button onclick="javascript: relativeRedir('actor/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.actor.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('actor/edit.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.profile" />
+				</button></li>	
 			</ul>
 		</security:authorize>    
 		
@@ -204,15 +196,15 @@
 				<a><i class="fa fa-balance-scale fa-lg"></i><span class="texto-menu"><spring:message code="master.page.tenders" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="tenders">
-				<li><a href="tender/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
-				</a></li>
-				<li><a href="tender/listOffertable.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
-				</a></li>				
-				<li><a href="tender/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('tender/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/listOffertable.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list.offertable" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.tenders.search" />
+				</button></li>	
 			</ul>
 							
 			<!-- Ofertas -->
@@ -220,15 +212,15 @@
 				<a><i class="fa fa-money fa-lg"></i><span class="texto-menu"><spring:message code="master.page.offers" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="offers">
-				<li><a href="offer/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.offers.list" /></span>
-				</a></li>
-				<li><a href="offer/administrator/listNotPublished.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.offers.list.notpublished" /></span>
-				</a></li>								
-				<li><a href="offer/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.offers.search" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('offer/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.offers.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/administrator/listNotPublished.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.offers.list.notpublished" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.offers.search" />
+				</button></li>	
 			</ul>
 			
 			<!-- Categorias de concurso -->
@@ -242,15 +234,15 @@
 				<a><i class="fa fa-ban fa-lg"></i><span class="texto-menu"><spring:message code="master.page.tabooWords" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="taboo">
-				<li><a href="tabooWord/administrator/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.tabooWords.list" /></span>
-				</a></li>
-				<li><a href="tender/administrator/listWithTabooWord.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.tabooWords.tenders" /></span>
-				</a></li>								
-				<li><a href="offer/administrator/listWithTabooWord.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.tabooWords.offers" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('tabooWord/administrator/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tabooWords.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/administrator/listWithTabooWord.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tabooWords.tenders" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/administrator/listWithTabooWord.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.tabooWords.offers" />
+				</button></li>	
 			</ul>	
 			
 			<!-- Config -->
@@ -263,15 +255,15 @@
 				<a><i class="fa fa-envelope fa-lg"></i><span class="texto-menu"><spring:message code="master.page.messages" /></span><span class="arrow"></span></a>
 				</li>
 			<ul class="sub-menu collapse" id="messages">								 
-				<li><a href="myMessage/create.do">
-					<span class="texto-submenu"><spring:message code="master.page.newmessage" /></span>
-				</a></li>
-				<li><a href="myMessage/administrator/create.do">
-					<span class="texto-submenu"><spring:message code="master.page.broadcast" /></span>
-				</a></li>
-				<li><a href="folder/list.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.myfolders" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('myMessage/create.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.newmessage" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('myMessage/administrator/create.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.broadcast" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('folder/list.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.myfolders" />
+				</button></li>	
 			</ul>
 			
 			<!-- Users y profile -->
@@ -279,12 +271,12 @@
 				<a><i class="fa fa-users fa-lg"></i><span class="texto-menu"><spring:message code="master.page.users" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="users">				
-				<li><a href="actor/administrator/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.actor.list" /></span>
-				</a></li>
-				<li><a href="actor/edit.do">
-					<span class="texto-submenu"><spring:message code="master.page.profile" /></span>
-				</a></li>					
+				<li><button onclick="javascript: relativeRedir('actor/administrator/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.actor.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('actor/edit.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.profile" />
+				</button></li>	
 			</ul>
 		</security:authorize>    
 		
@@ -297,15 +289,15 @@
 				<a><i class="fa fa-balance-scale fa-lg"></i><span class="texto-menu"><spring:message code="master.page.tenders" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="tenders">
-				<li><a href="tender/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list" /></span>
-				</a></li>
-				<li><a href="tender/listOffertable.do">
-					<span class="texto-submenu"><spring:message code="master.page.tenders.list.offertable" /></span>
-				</a></li>				
-				<li><a href="tender/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.tenders.search" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('tender/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/listOffertable.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.tenders.list.offertable" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('tender/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.tenders.search" />
+				</button></li>	
 			</ul>
 							
 			<!-- Ofertas -->
@@ -313,15 +305,15 @@
 				<a><i class="fa fa-money fa-lg"></i><span class="texto-menu"><spring:message code="master.page.offers" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="offers">
-				<li><a href="offer/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.offers.list" /></span>
-				</a></li>
-				<li><a href="offer/executive/listNotPublished.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.offers.list.notpublished" /></span>
-				</a></li>								
-				<li><a href="offer/search.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.offers.search" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('offer/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.offers.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/executive/listNotPublished.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.offers.list.notpublished" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('offer/search.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.offers.search" />
+				</button></li>	
 			</ul>
 			
 			<!-- Mensajeria -->
@@ -329,12 +321,12 @@
 				<a><i class="fa fa-envelope fa-lg"></i><span class="texto-menu"><spring:message code="master.page.messages" /></span><span class="arrow"></span></a>
 				</li>
 			<ul class="sub-menu collapse" id="messages">								 
-				<li><a href="myMessage/create.do">
-					<span class="texto-submenu"><spring:message code="master.page.newmessage" /></span>
-				</a></li>
-				<li><a href="folder/list.do"> 
-					<span class="texto-submenu"><spring:message code="master.page.myfolders" /></span>
-				</a></li>
+				<li><button onclick="javascript: relativeRedir('myMessage/create.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.newmessage" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('folder/list.do');" class="texto-submenu menuButton"> 
+					<spring:message code="master.page.myfolders" />
+				</button></li>	
 			</ul>
 			
 			<!-- Users y profile -->
@@ -342,12 +334,12 @@
 				<a><i class="fa fa-users fa-lg"></i><span class="texto-menu"><spring:message code="master.page.users" /></span><span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="users">				
-				<li><a href="actor/list.do">
-					<span class="texto-submenu"><spring:message code="master.page.actor.list" /></span>
-				</a></li>
-				<li><a href="actor/edit.do">
-					<span class="texto-submenu"><spring:message code="master.page.profile" /></span>
-				</a></li>					
+				<li><button onclick="javascript: relativeRedir('actor/list.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.actor.list" />
+				</button></li>	
+				<li><button onclick="javascript: relativeRedir('actor/edit.do');" class="texto-submenu menuButton">
+					<spring:message code="master.page.profile" />
+				</button></li>	
 			</ul>
 			
 			<!-- Dashboard -->
