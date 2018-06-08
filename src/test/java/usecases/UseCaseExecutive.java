@@ -100,6 +100,7 @@ public class UseCaseExecutive extends AbstractTest {
 			offer.setDenialReason("reason");
 
 			this.offerService.saveToDeny(offer);
+			this.offerService.flush();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

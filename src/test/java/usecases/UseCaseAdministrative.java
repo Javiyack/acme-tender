@@ -413,6 +413,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			// Se busca en la bd el evaluationCriteria
 			Assert.isTrue(this.evaluationCriteriaService.findAll().contains(evaluationCriteria));
 			this.evaluationCriteriaService.delete(evaluationCriteria);
+			this.evaluationCriteriaService.flush();
 			// Se busca en la bd de nuevo
 			Assert.isTrue(!this.evaluationCriteriaService.findAll().contains(evaluationCriteria), "El elemento se encuentra en la bd");
 			this.unauthenticate();
@@ -533,6 +534,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			super.authenticate(principal);
 			final EvaluationCriteriaType evCriteriaType = this.evaluationCriteriaTypeService.findOne(evCriteriaTypeId);
 			this.evaluationCriteriaTypeService.delete(evCriteriaType);
+			this.evaluationCriteriaTypeService.flush();
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -746,6 +748,7 @@ public class UseCaseAdministrative extends AbstractTest {
 			super.authenticate(principal);
 			final CompanyResult companyResult = this.companyResultService.findOne(companyResultId);
 			this.companyResultService.delete(companyResult);
+			this.companyResultService.flush();
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

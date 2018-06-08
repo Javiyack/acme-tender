@@ -539,6 +539,7 @@ public class UseCaseAdministrator extends AbstractTest {
 			configuration.setBenefitsPercentage(8.50);
 
 			this.configurationService.save(configuration);
+			this.configurationService.flush();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
