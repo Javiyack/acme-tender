@@ -16,7 +16,7 @@
 	<form:hidden path="offer" />
 	<form:hidden path="tenderResult" />
 		
-	<spring:message code="tender.notice.change.dates"	/>
+	<span class="toRight"><spring:message code="tender.notice.change.dates"	/></span>
 		
 	<h5>
 		<acme:textbox code="tender.reference" path="reference" css="formInput" readonly="true" />
