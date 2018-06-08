@@ -42,7 +42,6 @@ import domain.TenderResult;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-//@TransactionConfiguration(defaultRollback = true)
 public class UseCaseAdministrative extends AbstractTest {
 
 	@Autowired
