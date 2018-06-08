@@ -77,7 +77,7 @@ public class MyMessageController extends AbstractController {
 			try {
 
 				myMessageService.save(m);
-				result = new ModelAndView("redirect:/");
+				result = new ModelAndView("redirect:/folder/list.do");
 
 			} catch (Throwable oops) {
 
