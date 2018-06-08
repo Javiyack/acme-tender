@@ -607,19 +607,7 @@ to {
 
 
 .iconoenlace {
-	width: 26px;
-}
-
-@media screen and (max-width: 1399px) {
-    .iconoenlace {
-        width: 26px;
-    }
-}
-
-@media screen and (min-width: 1400px) {
-    .iconoenlace {
-        width: 32px;
-    }
+	width: 32px;
 }
 
 .menuButton{	
