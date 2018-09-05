@@ -60,7 +60,7 @@ public class ConfigurationAdminController extends AbstractController {
 			result.addObject("configuration", configuration);
 		} else
 			try {
-				newConfiguration = this.configurationService.save(configuration);
+				this.configurationService.save(configuration);
 				result = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(configuration, "configuration.commit.ko");
@@ -69,9 +69,7 @@ public class ConfigurationAdminController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final Configuration c) {
-		final ModelAndView result = this.createEditModelAndView(c, null);
-
-		return result;
+		return  this.createEditModelAndView(c, null);
 	}
 
 	protected ModelAndView createEditModelAndView(final Configuration c, final String messageCode) {
