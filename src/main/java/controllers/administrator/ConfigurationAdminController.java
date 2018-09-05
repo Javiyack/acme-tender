@@ -42,7 +42,6 @@ public class ConfigurationAdminController extends AbstractController {
 		ModelAndView result;
 
 		final Collection<Configuration> configurations = this.configurationService.findAll();
-
 		result = new ModelAndView("configuration/edit");
 		result.addObject("configuration", configurations.toArray()[0]);
 
