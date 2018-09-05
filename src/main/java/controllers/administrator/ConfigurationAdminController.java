@@ -42,6 +42,7 @@ public class ConfigurationAdminController extends AbstractController {
 		ModelAndView result;
 
 		final Collection<Configuration> configurations = this.configurationService.findAll();
+		// comment
 		result = new ModelAndView("configuration/edit");
 		result.addObject("configuration", configurations.toArray()[0]);
 
@@ -51,7 +52,7 @@ public class ConfigurationAdminController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Configuration configuration, final BindingResult binding) {
 
-		ModelAndView result = null;
+		ModelAndView result;
 		Configuration newConfiguration;
 
 		if (binding.hasErrors()) {
