@@ -1,117 +1,114 @@
-
 package services;
-
-import java.util.Collection;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import domain.Actor;
 import domain.Administrator;
 import domain.Commercial;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import repositories.CommercialRepository;
 import security.LoginService;
 import security.UserAccount;
+
+import javax.transaction.Transactional;
+import java.util.Collection;
 
 @Service
 @Transactional
 public class CommercialService {
 
-	// Managed repositories ------------------------------------------------
-	@Autowired
-	private CommercialRepository	commercialRepository;
+    // Managed repositories ------------------------------------------------
+    @Autowired
+    private CommercialRepository commercialRepository;
 
-	//Services
-	@Autowired
-	private AdministratorService	administratorService;
-	@Autowired
-	private ActorService			actorService;
+    //Services
+    @Autowired
+    private AdministratorService administratorService;
+    @Autowired
+    private ActorService actorService;
 
 
-	// Constructor ----------------------------------------------------------
-	public CommercialService() {
-		super();
-	}
+    // Constructor ----------------------------------------------------------
+    public CommercialService() {
+        super();
+    }
 
-	// Methods CRUD ---------------------------------------------------------
+    // Methods CRUD ---------------------------------------------------------
 
-	public Commercial create() {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public Commercial create() {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Commercial commercial = new Commercial();
+        final Commercial commercial = new Commercial();
 
-		return commercial;
-	}
+        return commercial;
+    }
 
-	public Commercial findOne(final int commercialId) {
-		Commercial result;
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public Commercial findOne(final int commercialId) {
+        Commercial result;
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		result = this.commercialRepository.findOne(commercialId);
-		Assert.notNull(result);
+        result = this.commercialRepository.findOne(commercialId);
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Collection<Commercial> findAll() {
+    public Collection<Commercial> findAll() {
 
-		Collection<Commercial> result;
+        Collection<Commercial> result;
 
-		final Actor principal = this.actorService.findByPrincipal();
-		Assert.notNull(principal);
+        final Actor principal = this.actorService.findByPrincipal();
+        Assert.notNull(principal);
 
-		result = this.commercialRepository.findAll();
-		Assert.notNull(result);
+        result = this.commercialRepository.findAll();
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Commercial save(final Commercial commercial) {
+    public Commercial save(final Commercial commercial) {
 
-		Assert.notNull(commercial);
+        Assert.notNull(commercial);
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Commercial saved = this.commercialRepository.save(commercial);
+        final Commercial saved = this.commercialRepository.save(commercial);
 
-		return saved;
-	}
+        return saved;
+    }
 
-	public void delete(final Commercial commercial) {
-		Assert.notNull(commercial);
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
-		this.commercialRepository.delete(commercial);
-	}
+    public void delete(final Commercial commercial) {
+        Assert.notNull(commercial);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
+        this.commercialRepository.delete(commercial);
+    }
 
-	public void flush() {
-		this.commercialRepository.flush();
+    public void flush() {
+        this.commercialRepository.flush();
 
-	}
+    }
 
-	public Collection<Commercial> getSubSectionCommercialsFromOfferId(final int offerId) {
+    public Collection<Commercial> getSubSectionCommercialsFromOfferId(final int offerId) {
 
-		return this.commercialRepository.getSubSectionCommercialsFromOfferId(offerId);
+        return this.commercialRepository.getSubSectionCommercialsFromOfferId(offerId);
 
-	}
+    }
 
-	public Commercial findByPrincipal() {
-		Commercial result;
-		UserAccount userAccount;
+    public Commercial findByPrincipal() {
+        Commercial result;
+        UserAccount userAccount;
 
-		userAccount = LoginService.getPrincipal();
-		Assert.notNull(userAccount);
-		final Actor actor = this.actorService.findByUserAccount(userAccount);
-		Assert.isTrue(actor instanceof Commercial);
-		result = (Commercial) actor;
-		Assert.notNull(result);
+        userAccount = LoginService.getPrincipal();
+        Assert.notNull(userAccount);
+        final Actor actor = this.actorService.findByUserAccount(userAccount);
+        Assert.isTrue(actor instanceof Commercial);
+        result = (Commercial) actor;
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 }

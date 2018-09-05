@@ -1,242 +1,233 @@
-
 package services;
 
+import domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import repositories.TenderRepository;
+
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
-import domain.Actor;
-import domain.Administrative;
-import domain.Administrator;
-import domain.File;
-import domain.Offer;
-import domain.Tender;
-import domain.TenderResult;
-import repositories.TenderRepository;
-
 @Service
 @Transactional
 public class TenderService {
 
-	// Managed repositories ------------------------------------------------
-	@Autowired
-	private TenderRepository		tenderRepository;
+    // Managed repositories ------------------------------------------------
+    @Autowired
+    private TenderRepository tenderRepository;
 
-	// Managed services ------------------------------------------------
-	@Autowired
-	private ActorService			actorService;
-	@Autowired
-	private AdministrativeService	administrativeService;
-	@Autowired
-	private AdministratorService	administratorService;
-	@Autowired
-	private TenderResultService		tenderResultService;
-	@Autowired
-	private FileService				fileService;
-	@Autowired
-	private OfferService			offerService;
+    // Managed services ------------------------------------------------
+    @Autowired
+    private ActorService actorService;
+    @Autowired
+    private AdministrativeService administrativeService;
+    @Autowired
+    private AdministratorService administratorService;
+    @Autowired
+    private TenderResultService tenderResultService;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private OfferService offerService;
 
 
-	// Constructor ----------------------------------------------------------
-	public TenderService() {
-		super();
-	}
+    // Constructor ----------------------------------------------------------
+    public TenderService() {
+        super();
+    }
 
-	// Methods CRUD ---------------------------------------------------------
+    // Methods CRUD ---------------------------------------------------------
 
-	public Tender create() {
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
+    public Tender create() {
+        final Administrative administrative = this.administrativeService.findByPrincipal();
+        Assert.notNull(administrative);
 
-		final Tender tender = new Tender();
+        final Tender tender = new Tender();
 
-		tender.setReference(this.generateReference());
-		tender.setAdministrative(administrative);
+        tender.setReference(this.generateReference());
+        tender.setAdministrative(administrative);
 
-		return tender;
-	}
+        return tender;
+    }
 
-	public Tender save(final Tender tender) {
-		Tender savedTender;
+    public Tender save(final Tender tender) {
+        Tender savedTender;
 
-		// Restrictions dates
-		Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
+        // Restrictions dates
+        Assert.isTrue(tender.getMaxPresentationDate().after(tender.getOpeningDate()), "Invalid maxPresentationDate");
 
-		// Comprobamos que el propietario sea el creador del concurso
-		this.checkPrincipal(tender);
-		
-		//Solo en la creación del concurso pueden editar las fechas
-		//De otra manera, aseguramos que no las han cambiado por hack
-		if (tender.getId() != 0) {
-			Tender oldTender = this.tenderRepository.findOne(tender.getId());
-			tender.setBulletinDate(oldTender.getBulletinDate());
-			tender.setOpeningDate(oldTender.getOpeningDate());
-			tender.setMaxPresentationDate(oldTender.getMaxPresentationDate());
-		}
+        // Comprobamos que el propietario sea el creador del concurso
+        this.checkPrincipal(tender);
 
-		savedTender = this.tenderRepository.save(tender);
+        //Solo en la creación del concurso pueden editar las fechas
+        //De otra manera, aseguramos que no las han cambiado por hack
+        if (tender.getId() != 0) {
+            Tender oldTender = this.tenderRepository.findOne(tender.getId());
+            tender.setBulletinDate(oldTender.getBulletinDate());
+            tender.setOpeningDate(oldTender.getOpeningDate());
+            tender.setMaxPresentationDate(oldTender.getMaxPresentationDate());
+        }
 
-		return savedTender;
-	}
+        savedTender = this.tenderRepository.save(tender);
 
-	public Tender findOneToEdit(final int tenderId) {
-		final Tender result = this.tenderRepository.findOne(tenderId);
+        return savedTender;
+    }
 
-		Assert.notNull(result);
-		this.checkPrincipal(result);
+    public Tender findOneToEdit(final int tenderId) {
+        final Tender result = this.tenderRepository.findOne(tenderId);
 
-		return result;
-	}
+        Assert.notNull(result);
+        this.checkPrincipal(result);
 
-	public Tender findOne(final int tenderId) {
-		Tender result;
+        return result;
+    }
 
-		result = this.tenderRepository.findOne(tenderId);
-		Assert.notNull(result);
+    public Tender findOne(final int tenderId) {
+        Tender result;
 
-		return result;
-	}
+        result = this.tenderRepository.findOne(tenderId);
+        Assert.notNull(result);
 
-	public Collection<Tender> findAll() {
+        return result;
+    }
 
-		Collection<Tender> result;
+    public Collection<Tender> findAll() {
 
-		result = this.tenderRepository.findAll();
-		Assert.notNull(result);
+        Collection<Tender> result;
 
-		return result;
-	}
+        result = this.tenderRepository.findAll();
+        Assert.notNull(result);
 
-	public Collection<Tender> findAllOffertable() {
+        return result;
+    }
 
-		Collection<Tender> result;
+    public Collection<Tender> findAllOffertable() {
 
-		result = this.tenderRepository.findAllOffertable();
-		Assert.notNull(result);
+        Collection<Tender> result;
 
-		return result;
-	}
+        result = this.tenderRepository.findAllOffertable();
+        Assert.notNull(result);
 
-	public Collection<Tender> findTenderByKeyWord(final String word) {
-		final Collection<Tender> tenders;
-		if (word.isEmpty())
-			tenders = this.findAll();
-		else
-			tenders = this.tenderRepository.findTenderByKeyword(word);
+        return result;
+    }
 
-		return tenders;
-	}
+    public Collection<Tender> findTenderByKeyWord(final String word) {
+        final Collection<Tender> tenders;
+        if (word.isEmpty())
+            tenders = this.findAll();
+        else
+            tenders = this.tenderRepository.findTenderByKeyword(word);
 
-	public void deleteByAdmin(final Tender tender) {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        return tenders;
+    }
 
-		final TenderResult tenderResult = this.tenderResultService.findOneByTenderAnonymous(tender.getId());
-		if (tenderResult != null)
-			this.tenderResultService.deleteByAdmin(tenderResult);
+    public void deleteByAdmin(final Tender tender) {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Collection<File> files = this.fileService.findAllByTender(tender.getId());
-		this.fileService.deleteInBatch(files);
+        final TenderResult tenderResult = this.tenderResultService.findOneByTenderAnonymous(tender.getId());
+        if (tenderResult != null)
+            this.tenderResultService.deleteByAdmin(tenderResult);
 
-		final Offer offer = this.offerService.findByTender(tender.getId());
-		if (offer != null)
-			this.offerService.deleteByAdmin(offer);
+        final Collection<File> files = this.fileService.findAllByTender(tender.getId());
+        this.fileService.deleteInBatch(files);
 
-		this.tenderRepository.delete(tender);
+        final Offer offer = this.offerService.findByTender(tender.getId());
+        if (offer != null)
+            this.offerService.deleteByAdmin(offer);
 
-	}
+        this.tenderRepository.delete(tender);
 
-	//Other methods ---------------------------------------------------------------
+    }
 
-	public void checkPrincipal(final Tender tender) {
-		final Actor principal = this.actorService.findByPrincipal();
-		Administrative administrativePrincipal = null;
-		if (principal instanceof Administrative) {
-			administrativePrincipal = (Administrative) principal;
-			Assert.isTrue(tender.getAdministrative().equals(administrativePrincipal));
-		} else
-			Assert.isTrue(Boolean.TRUE, "Usuario no válido.");
-	}
+    //Other methods ---------------------------------------------------------------
 
-	/**
-	 * Generate an unique reference
-	 *
-	 * @return the reference
-	 */
-	private String generateReference() {
-		final SimpleDateFormat dt = new SimpleDateFormat("ddMMyyyy");
-		final Random r = new Random();
-		String randomLetter = "";
-		String reference = "";
+    public void checkPrincipal(final Tender tender) {
+        final Actor principal = this.actorService.findByPrincipal();
+        Administrative administrativePrincipal = null;
+        if (principal instanceof Administrative) {
+            administrativePrincipal = (Administrative) principal;
+            Assert.isTrue(tender.getAdministrative().equals(administrativePrincipal));
+        } else
+            Assert.isTrue(Boolean.TRUE, "Usuario no válido.");
+    }
 
-		while (this.checkReference(reference) || reference == "") {
-			for (int i = 0; i < 2; i++)
-				randomLetter += String.valueOf((char) (r.nextInt(26) + 'A'));
+    /**
+     * Generate an unique reference
+     *
+     * @return the reference
+     */
+    private String generateReference() {
+        final SimpleDateFormat dt = new SimpleDateFormat("ddMMyyyy");
+        final Random r = new Random();
+        String randomLetter = "";
+        String reference = "";
 
-			reference = dt.format(new Date()).toString() + "-" + randomLetter;
-		}
-		return reference;
-	}
+        while (this.checkReference(reference) || reference == "") {
+            for (int i = 0; i < 2; i++)
+                randomLetter += String.valueOf((char) (r.nextInt(26) + 'A'));
 
-	/**
-	 * Check if exist a coincidence
-	 *
-	 * @param reference
-	 * @return
-	 */
-	private boolean checkReference(final String reference) {
-		Boolean result = false;
+            reference = dt.format(new Date()).toString() + "-" + randomLetter;
+        }
+        return reference;
+    }
 
-		if (this.tenderRepository.checkReference(reference) != 0)
-			result = true;
+    /**
+     * Check if exist a coincidence
+     *
+     * @param reference
+     * @return
+     */
+    private boolean checkReference(final String reference) {
+        Boolean result = false;
 
-		return result;
-	}
+        if (this.tenderRepository.checkReference(reference) != 0)
+            result = true;
 
-	public Tender findOneToComment(final Integer tenderId) {
+        return result;
+    }
 
-		Tender result;
-		result = this.tenderRepository.findOne(tenderId);
-		Assert.notNull(result);
+    public Tender findOneToComment(final Integer tenderId) {
 
-		return result;
-	}
+        Tender result;
+        result = this.tenderRepository.findOne(tenderId);
+        Assert.notNull(result);
 
-	public Collection<Tender> findAllByAdministrative() {
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
-		final Collection<Tender> tenders = this.tenderRepository.findAllByAdministrative(administrative.getId());
-		Assert.notNull(tenders);
-		return tenders;
-	}
+        return result;
+    }
 
-	public Collection<Tender> findAllTenderWithTabooWords() {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public Collection<Tender> findAllByAdministrative() {
+        final Administrative administrative = this.administrativeService.findByPrincipal();
+        Assert.notNull(administrative);
+        final Collection<Tender> tenders = this.tenderRepository.findAllByAdministrative(administrative.getId());
+        Assert.notNull(tenders);
+        return tenders;
+    }
 
-		final Collection<Tender> ret = new LinkedList<Tender>();
+    public Collection<Tender> findAllTenderWithTabooWords() {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Collection<Object[]> source = this.tenderRepository.findAllTenderWithTabooWord();
+        final Collection<Tender> ret = new LinkedList<Tender>();
 
-		for (final Object obj[] : source) {
-			final Tender t = this.tenderRepository.findOne((Integer) obj[0]);
+        final Collection<Object[]> source = this.tenderRepository.findAllTenderWithTabooWord();
 
-			ret.add(t);
-		}
+        for (final Object obj[] : source) {
+            final Tender t = this.tenderRepository.findOne((Integer) obj[0]);
 
-		return ret;
-	}
+            ret.add(t);
+        }
 
-	public void flush() {
-		this.tenderRepository.flush();
+        return ret;
+    }
 
-	}
+    public void flush() {
+        this.tenderRepository.flush();
+
+    }
 }

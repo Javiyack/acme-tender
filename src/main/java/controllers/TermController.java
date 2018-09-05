@@ -18,19 +18,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/term")
 public class TermController extends AbstractController {
 
-	@RequestMapping(value = "/cookies")
-	public ModelAndView cookies() {
-		ModelAndView result;
+    @RequestMapping(value = "/cookies")
+    public ModelAndView cookies() {
+        ModelAndView result;
 
-		result = new ModelAndView("term/cookies");
-		return result;
-	}
+        result = new ModelAndView("term/cookies");
+        return result;
+    }
 
-	@RequestMapping(value = "/termsAndConditions")
-	public ModelAndView termsAndConditions() {
-		ModelAndView result;
+    @RequestMapping(value = "/termsAndConditions")
+    public ModelAndView termsAndConditions() {
+        ModelAndView result;
 
-		result = new ModelAndView("term/termsAndConditions");
-		return result;
-	}
+        result = new ModelAndView("term/termsAndConditions");
+        return result;
+    }
 }

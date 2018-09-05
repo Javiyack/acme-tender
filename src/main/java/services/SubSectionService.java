@@ -1,288 +1,274 @@
-
 package services;
+
+import domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import repositories.SubSectionRepository;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-
-import repositories.SubSectionRepository;
-import domain.Actor;
-import domain.Administrative;
-import domain.AdministrativeRequest;
-import domain.Administrator;
-import domain.CollaborationRequest;
-import domain.Commercial;
-import domain.Constant;
-import domain.Curriculum;
-import domain.File;
-import domain.Offer;
-import domain.SubSection;
-import domain.SubSectionEvaluationCriteria;
-
 @Service
 @Transactional
 public class SubSectionService {
 
-	// Managed repository -----------------------------------------------------
-	@Autowired
-	private SubSectionRepository		subSectionRepository;
-
-	// Supporting services ----------------------------------------------------
-	@Autowired
-	AdministrativeService				administrativeService;
-	@Autowired
-	CommercialService					commercialService;
-	@Autowired
-	ActorService						actorService;
-	@Autowired
-	OfferService						offerService;
-	@Autowired
-	CurriculumService					curriculumService;
-	@Autowired
-	SubSectionEvaluationCriteriaService	subSectionEvaluationCriteriaService;
-	@Autowired
-	FileService							fileService;
-	@Autowired
-	AdministratorService				administratorService;
+    // Supporting services ----------------------------------------------------
+    @Autowired
+    AdministrativeService administrativeService;
+    @Autowired
+    CommercialService commercialService;
+    @Autowired
+    ActorService actorService;
+    @Autowired
+    OfferService offerService;
+    @Autowired
+    CurriculumService curriculumService;
+    @Autowired
+    SubSectionEvaluationCriteriaService subSectionEvaluationCriteriaService;
+    @Autowired
+    FileService fileService;
+    @Autowired
+    AdministratorService administratorService;
+    // Managed repository -----------------------------------------------------
+    @Autowired
+    private SubSectionRepository subSectionRepository;
 
+
+    // Constructors -----------------------------------------------------------
+    public SubSectionService() {
+        super();
+    }
 
-	// Constructors -----------------------------------------------------------
-	public SubSectionService() {
-		super();
-	}
+    // Simple CRUD methods ----------------------------------------------------
+    public SubSection createByCommercialPropietary(final int offerId) {
+
+        final Commercial commercial = this.commercialService.findByPrincipal();
+        Assert.notNull(commercial);
 
-	// Simple CRUD methods ----------------------------------------------------
-	public SubSection createByCommercialPropietary(final int offerId) {
+        final Offer offer = this.offerService.findOne(offerId);
+        Assert.notNull(offer);
+        Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
 
-		final Commercial commercial = this.commercialService.findByPrincipal();
-		Assert.notNull(commercial);
+        final SubSection subSection = new SubSection();
+        subSection.setCommercial(commercial);
+        subSection.setOffer(offer);
 
-		final Offer offer = this.offerService.findOne(offerId);
-		Assert.notNull(offer);
-		Assert.isTrue(offer.getCommercial().getId() == commercial.getId());
+        return subSection;
+    }
 
-		final SubSection subSection = new SubSection();
-		subSection.setCommercial(commercial);
-		subSection.setOffer(offer);
+    public SubSection createByCommercialCollaborationAcceptation(final CollaborationRequest collaborationRequest) {
 
-		return subSection;
-	}
+        final Commercial commercial = this.commercialService.findByPrincipal();
+        Assert.notNull(commercial);
+        Assert.isTrue(collaborationRequest.getCommercial() == commercial);
 
-	public SubSection createByCommercialCollaborationAcceptation(final CollaborationRequest collaborationRequest) {
+        final Offer offer = this.offerService.findOne(collaborationRequest.getOffer().getId());
 
-		final Commercial commercial = this.commercialService.findByPrincipal();
-		Assert.notNull(commercial);
-		Assert.isTrue(collaborationRequest.getCommercial() == commercial);
+        final SubSection subSection = new SubSection();
+        subSection.setCommercial(commercial);
+        subSection.setOffer(offer);
+        subSection.setTitle(collaborationRequest.getSubSectionTitle());
+        subSection.setSection(collaborationRequest.getSection());
+        subSection.setBody("Pending");
+        subSection.setShortDescription("Pending");
+        subSection.setSubsectionOrder(99);
 
-		final Offer offer = this.offerService.findOne(collaborationRequest.getOffer().getId());
+        return subSection;
+    }
 
-		final SubSection subSection = new SubSection();
-		subSection.setCommercial(commercial);
-		subSection.setOffer(offer);
-		subSection.setTitle(collaborationRequest.getSubSectionTitle());
-		subSection.setSection(collaborationRequest.getSection());
-		subSection.setBody("Pending");
-		subSection.setShortDescription("Pending");
-		subSection.setSubsectionOrder(99);
+    public SubSection createByAdministrativeCollaborationAcceptation(final AdministrativeRequest administrativeRequest) {
 
-		return subSection;
-	}
+        final Administrative administrative = this.administrativeService.findByPrincipal();
+        Assert.notNull(administrative);
+        Assert.isTrue(administrativeRequest.getAdministrative() == administrative);
 
-	public SubSection createByAdministrativeCollaborationAcceptation(final AdministrativeRequest administrativeRequest) {
+        final Offer offer = this.offerService.findOne(administrativeRequest.getOffer().getId());
 
-		final Administrative administrative = this.administrativeService.findByPrincipal();
-		Assert.notNull(administrative);
-		Assert.isTrue(administrativeRequest.getAdministrative() == administrative);
+        final SubSection subSection = new SubSection();
+        subSection.setAdministrative(administrative);
+        subSection.setSection(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
+        subSection.setOffer(offer);
+        subSection.setTitle(administrativeRequest.getSubSectionTitle());
+        subSection.setBody("Pending");
+        subSection.setShortDescription("Pending");
+        subSection.setSubsectionOrder(99);
 
-		final Offer offer = this.offerService.findOne(administrativeRequest.getOffer().getId());
+        return subSection;
+    }
 
-		final SubSection subSection = new SubSection();
-		subSection.setAdministrative(administrative);
-		subSection.setSection(Constant.SECTION_ADMINISTRATIVE_ACREDITATION);
-		subSection.setOffer(offer);
-		subSection.setTitle(administrativeRequest.getSubSectionTitle());
-		subSection.setBody("Pending");
-		subSection.setShortDescription("Pending");
-		subSection.setSubsectionOrder(99);
+    public Collection<SubSection> findAll() {
+        Collection<SubSection> result;
 
-		return subSection;
-	}
+        result = this.subSectionRepository.findAll();
+        Assert.notNull(result);
 
-	public Collection<SubSection> findAll() {
-		Collection<SubSection> result;
+        return result;
+    }
 
-		result = this.subSectionRepository.findAll();
-		Assert.notNull(result);
+    public Collection<SubSection> findAllByOffer(final int offerId) {
+        Collection<SubSection> result;
 
-		return result;
-	}
+        result = this.subSectionRepository.findAllByOffer(offerId);
+        Assert.notNull(result);
 
-	public Collection<SubSection> findAllByOffer(final int offerId) {
-		Collection<SubSection> result;
+        return result;
+    }
 
-		result = this.subSectionRepository.findAllByOffer(offerId);
-		Assert.notNull(result);
+    public SubSection findOne(final int subSectionId) {
+        Assert.isTrue(subSectionId != 0);
 
-		return result;
-	}
+        SubSection result;
 
-	public SubSection findOne(final int subSectionId) {
-		Assert.isTrue(subSectionId != 0);
+        result = this.subSectionRepository.findOne(subSectionId);
+        Assert.notNull(result);
 
-		SubSection result;
+        return result;
+    }
 
-		result = this.subSectionRepository.findOne(subSectionId);
-		Assert.notNull(result);
+    public SubSection save(final SubSection subSection) {
+        Assert.notNull(subSection);
 
-		return result;
-	}
+        if (subSection.getId() != 0)
+            Assert.isTrue(this.canEditSubSection(subSection.getId()));
 
-	public SubSection save(final SubSection subSection) {
-		Assert.notNull(subSection);
+        if (subSection.getAdministrative() != null) {
+            final Administrative administrative = this.administrativeService.findByPrincipal();
 
-		if (subSection.getId() != 0)
-			Assert.isTrue(this.canEditSubSection(subSection.getId()));
+            Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
+        }
 
-		if (subSection.getAdministrative() != null) {
-			final Administrative administrative = this.administrativeService.findByPrincipal();
+        if (subSection.getCommercial() != null) {
+            final Commercial commercial = this.commercialService.findByPrincipal();
+            Assert.isTrue(subSection.getCommercial().getId() == commercial.getId());
+        }
 
-			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
-		}
+        SubSection result;
 
-		if (subSection.getCommercial() != null) {
-			final Commercial commercial = this.commercialService.findByPrincipal();
-			Assert.isTrue(subSection.getCommercial().getId() == commercial.getId());
-		}
+        subSection.setLastReviewDate(new Date(System.currentTimeMillis() - 1));
+        result = this.subSectionRepository.save(subSection);
 
-		SubSection result;
+        this.subSectionRepository.flush();
 
-		subSection.setLastReviewDate(new Date(System.currentTimeMillis() - 1));
-		result = this.subSectionRepository.save(subSection);
+        return result;
+    }
 
-		this.subSectionRepository.flush();
+    public void delete(final SubSection subSection) {
+        Assert.notNull(subSection);
+        Assert.isTrue(subSection.getId() != 0);
+        Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
+        Assert.isTrue(this.canEditSubSection(subSection.getId()));
 
-		return result;
-	}
+        if (subSection.getAdministrative() != null) {
+            final Administrative administrative = this.administrativeService.findByPrincipal();
+            Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
+        }
 
-	public void delete(final SubSection subSection) {
-		Assert.notNull(subSection);
-		Assert.isTrue(subSection.getId() != 0);
-		Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
-		Assert.isTrue(this.canEditSubSection(subSection.getId()));
+        if (subSection.getCommercial() != null) {
+            final Commercial commercial = this.commercialService.findByPrincipal();
+            Assert.isTrue(subSection.getCommercial().getId() == commercial.getId());
+        }
 
-		if (subSection.getAdministrative() != null) {
-			final Administrative administrative = this.administrativeService.findByPrincipal();
-			Assert.isTrue(subSection.getAdministrative().getId() == administrative.getId());
-		}
+        //Eliminar curriculums, files y SubSectionEvaluationCriteria asociadas.
+        final Collection<Curriculum> curriculums = this.curriculumService.getCurriculumsFromSubSectionId(subSection.getId());
+        this.curriculumService.deleteInBatch(curriculums);
 
-		if (subSection.getCommercial() != null) {
-			final Commercial commercial = this.commercialService.findByPrincipal();
-			Assert.isTrue(subSection.getCommercial().getId() == commercial.getId());
-		}
+        final Collection<File> files = this.fileService.findAllBySubSection(subSection.getId());
+        this.fileService.deleteInBatch(files);
 
-		//Eliminar curriculums, files y SubSectionEvaluationCriteria asociadas.
-		final Collection<Curriculum> curriculums = this.curriculumService.getCurriculumsFromSubSectionId(subSection.getId());
-		this.curriculumService.deleteInBatch(curriculums);
+        final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSection.getId());
+        this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
 
-		final Collection<File> files = this.fileService.findAllBySubSection(subSection.getId());
-		this.fileService.deleteInBatch(files);
+        this.subSectionRepository.delete(subSection);
+    }
 
-		final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSection.getId());
-		this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
+    // Other business methods -------------------------------------------------
 
-		this.subSectionRepository.delete(subSection);
-	}
+    //Visibilidad de una subseccion = Visibilidad de la oferta asociada
+    public boolean canViewSubSection(final int subSectionId) {
 
-	// Other business methods -------------------------------------------------
+        final SubSection subSection = this.subSectionRepository.findOne(subSectionId);
+        return this.offerService.canViewOffer(subSection.getOffer().getId());
 
-	//Visibilidad de una subseccion = Visibilidad de la oferta asociada
-	public boolean canViewSubSection(final int subSectionId) {
+    }
 
-		final SubSection subSection = this.subSectionRepository.findOne(subSectionId);
-		return this.offerService.canViewOffer(subSection.getOffer().getId());
+    //Una subseccion solo puede ser editada por el administrativo o comercial que tiene asignado.
+    public boolean canEditSubSection(final int subSectionId) {
 
-	}
+        final Actor principal = this.actorService.findByPrincipal();
+        final SubSection subSection = this.subSectionRepository.findOne(subSectionId);
 
-	//Una subseccion solo puede ser editada por el administrativo o comercial que tiene asignado.
-	public boolean canEditSubSection(final int subSectionId) {
+        //Si la oferta está presentada, no puede editar la subseccion.
+        if (!subSection.getOffer().isInDevelopment())
+            return false;
 
-		final Actor principal = this.actorService.findByPrincipal();
-		final SubSection subSection = this.subSectionRepository.findOne(subSectionId);
+        if (principal instanceof Commercial) {
+            final Commercial commercial = this.commercialService.findByPrincipal();
 
-		//Si la oferta está presentada, no puede editar la subseccion.
-		if (!subSection.getOffer().isInDevelopment())
-			return false;
+            if (commercial.getId() == subSection.getCommercial().getId())
+                return true;
+        }
 
-		if (principal instanceof Commercial) {
-			final Commercial commercial = this.commercialService.findByPrincipal();
+        if (principal instanceof Administrative) {
+            final Administrative administrative = this.administrativeService.findByPrincipal();
 
-			if (commercial.getId() == subSection.getCommercial().getId())
-				return true;
-		}
+            if (administrative.getId() == subSection.getAdministrative().getId())
+                return true;
+        }
 
-		if (principal instanceof Administrative) {
-			final Administrative administrative = this.administrativeService.findByPrincipal();
+        return false;
+    }
 
-			if (administrative.getId() == subSection.getAdministrative().getId())
-				return true;
-		}
+    public Collection<SubSection> findAllSubSectionsWithTabooWord() {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		return false;
-	}
+        final Collection<SubSection> ret = new LinkedList<SubSection>();
 
-	public Collection<SubSection> findAllSubSectionsWithTabooWord() {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Collection<Object[]> source = this.subSectionRepository.findAllSubSectionsWithTabooWord();
 
-		final Collection<SubSection> ret = new LinkedList<SubSection>();
+        for (final Object obj[] : source) {
+            final SubSection ss = this.subSectionRepository.findOne((Integer) obj[0]);
 
-		final Collection<Object[]> source = this.subSectionRepository.findAllSubSectionsWithTabooWord();
+            ret.add(ss);
+        }
 
-		for (final Object obj[] : source) {
-			final SubSection ss = this.subSectionRepository.findOne((Integer) obj[0]);
+        return ret;
+    }
 
-			ret.add(ss);
-		}
+    public void deleteInBatchByAdmin(final Collection<SubSection> subSections) {
 
-		return ret;
-	}
+        for (final SubSection ss : subSections)
+            this.deleteByAdmin(ss);
 
-	public void deleteInBatchByAdmin(final Collection<SubSection> subSections) {
+    }
 
-		for (final SubSection ss : subSections)
-			this.deleteByAdmin(ss);
+    public void deleteByAdmin(final SubSection subSection) {
+        Assert.notNull(subSection);
+        Assert.isTrue(subSection.getId() != 0);
+        Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
 
-	}
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-	public void deleteByAdmin(final SubSection subSection) {
-		Assert.notNull(subSection);
-		Assert.isTrue(subSection.getId() != 0);
-		Assert.isTrue(this.subSectionRepository.exists(subSection.getId()));
+        //Eliminar curriculums, files y SubSectionEvaluationCriteria asociadas.
+        final Collection<Curriculum> curriculums = this.curriculumService.findAllBySubsection(subSection.getId());
+        this.curriculumService.deleteInBatch(curriculums);
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Collection<File> files = this.fileService.findAllBySubSection(subSection.getId());
+        this.fileService.deleteInBatch(files);
 
-		//Eliminar curriculums, files y SubSectionEvaluationCriteria asociadas.
-		final Collection<Curriculum> curriculums = this.curriculumService.findAllBySubsection(subSection.getId());
-		this.curriculumService.deleteInBatch(curriculums);
+        final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSection.getId());
+        this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
 
-		final Collection<File> files = this.fileService.findAllBySubSection(subSection.getId());
-		this.fileService.deleteInBatch(files);
+        this.subSectionRepository.delete(subSection);
+    }
 
-		final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriterias = this.subSectionEvaluationCriteriaService.findAllBySubSection(subSection.getId());
-		this.subSectionEvaluationCriteriaService.deleteInBatch(subSectionEvaluationCriterias);
+    public void flush() {
+        this.subSectionRepository.flush();
 
-		this.subSectionRepository.delete(subSection);
-	}
-
-	public void flush() {
-		this.subSectionRepository.flush();
-
-	}
+    }
 
 }

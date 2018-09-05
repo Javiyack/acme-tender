@@ -10,131 +10,129 @@
  * http://www.tdg-seville.info/License.html
  -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-	    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
-	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
-	">
 
-	<!-- Context -->
 
-	<import resource="config/packages.xml" />
+	    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<context:annotation-config />
+    <!-- Context -->
 
-	<mvc:annotation-driven validator="validator"
-		conversion-service="conversionService" />
+    <import resource="config/packages.xml"/>
 
-	<!-- Converters -->
+    <context:annotation-config/>
 
-	<import resource="config/converters.xml" />
+    <mvc:annotation-driven validator="validator"
+                           conversion-service="conversionService"/>
 
-	<bean id="conversionService"
-		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<property name="converters" ref="converters" />
-	</bean>
+    <!-- Converters -->
 
-	<!-- Data -->
+    <import resource="config/converters.xml"/>
 
-	<import resource="datasource.xml" />
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters" ref="converters"/>
+    </bean>
 
-	<bean id="openEntityManagerInViewInterceptor"
-		class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" />
+    <!-- Data -->
 
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**/*.do" />
-			<ref bean="openEntityManagerInViewInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
+    <import resource="datasource.xml"/>
 
-	<!-- I18n and L10n -->
+    <bean id="openEntityManagerInViewInterceptor"
+          class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor"/>
 
-	<import resource="config/i18n-l10n.xml" />
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <ref bean="openEntityManagerInViewInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames" ref="messages" />
-		<property name="defaultEncoding" value="ISO-8859-1" />
-		<property name="fallbackToSystemLocale" value="false" />
-	</bean>
+    <!-- I18n and L10n -->
 
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="defaultLocale" value="en" />
-		<property name="cookieName" value="language" />
-		<property name="cookieMaxAge" value="100000" />
-	</bean>
+    <import resource="config/i18n-l10n.xml"/>
 
-	<bean id="localeChangeInterceptor"
-		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-		<property name="paramName" value="language" />
-	</bean>
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames" ref="messages"/>
+        <property name="defaultEncoding" value="ISO-8859-1"/>
+        <property name="fallbackToSystemLocale" value="false"/>
+    </bean>
 
-	<bean id="handlerMapping"
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<property name="interceptors">
-			<ref bean="localeChangeInterceptor" />
-		</property>
-	</bean>
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+        <property name="cookieName" value="language"/>
+        <property name="cookieMaxAge" value="100000"/>
+    </bean>
 
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**/*.do" />
-			<ref bean="localeChangeInterceptor" />
-		</mvc:interceptor>
-		
-	</mvc:interceptors>
+    <bean id="localeChangeInterceptor"
+          class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="language"/>
+    </bean>
 
-	<!-- Validator -->
+    <bean id="handlerMapping"
+          class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <ref bean="localeChangeInterceptor"/>
+        </property>
+    </bean>
 
-	<bean name="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="validationMessageSource" ref="messageSource" />
-	</bean>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <ref bean="localeChangeInterceptor"/>
+        </mvc:interceptor>
 
-	<!-- Security -->
+    </mvc:interceptors>
 
-	<import resource="config/security.xml" />
+    <!-- Validator -->
 
-	<security:authentication-manager>
-		<security:authentication-provider
-			user-service-ref="loginService">
-			<security:password-encoder ref="passwordEncoder" />
-		</security:authentication-provider>
-	</security:authentication-manager>
+    <bean name="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 
-	<!-- Tiles -->
+    <!-- Security -->
 
-	<import resource="config/tiles.xml" />
+    <import resource="config/security.xml"/>
 
-	<bean id="tilesConfigurer"
-		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
-		<property name="definitions" ref="tiles" />
-	</bean>
+    <security:authentication-manager>
+        <security:authentication-provider
+                user-service-ref="loginService">
+            <security:password-encoder ref="passwordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.tiles2.TilesView" />
-	</bean>
-	
-	
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- Tiles -->
 
-		 <!-- setting maximum upload size -->
-		<property name="maxUploadSize" value="57671680" />
+    <import resource="config/tiles.xml"/>
 
-	</bean>
-	
-	
-	
+    <bean id="tilesConfigurer"
+          class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions" ref="tiles"/>
+    </bean>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+    </bean>
+
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!-- setting maximum upload size -->
+        <property name="maxUploadSize" value="57671680"/>
+
+    </bean>
+
+
 </beans>

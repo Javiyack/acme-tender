@@ -6,29 +6,29 @@
 	download from * http://www.tdg-seville.info/License.html -->
 
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
 
-	<definition name="evaluationCriteria/administrative/list" extends="master.page">
-		<put-attribute name="title" value="Evaluation criteria list" />
-		<put-attribute name="body" value="/views/evaluationCriteria/list.jsp" />
-	</definition>
-	
-	<definition name="evaluationCriteria/display" extends="master.page">
-		<put-attribute name="title" value="Display evaluation criteria" />
-		<put-attribute name="body" value="/views/evaluationCriteria/display.jsp" />
-	</definition>	
+    <definition name="evaluationCriteria/administrative/list" extends="master.page">
+        <put-attribute name="title" value="Evaluation criteria list"/>
+        <put-attribute name="body" value="/views/evaluationCriteria/list.jsp"/>
+    </definition>
 
-	<definition name="evaluationCriteria/administrative/create" extends="master.page">
-		<put-attribute name="title" value="Create evaluation criteria" />
-		<put-attribute name="body" value="/views/evaluationCriteria/edit.jsp" />
-	</definition>
-	
-	<definition name="evaluationCriteria/administrative/edit" extends="master.page">
-		<put-attribute name="title" value="Edit evaluation criteria" />
-		<put-attribute name="body" value="/views/evaluationCriteria/edit.jsp" />
-	</definition>	
+    <definition name="evaluationCriteria/display" extends="master.page">
+        <put-attribute name="title" value="Display evaluation criteria"/>
+        <put-attribute name="body" value="/views/evaluationCriteria/display.jsp"/>
+    </definition>
+
+    <definition name="evaluationCriteria/administrative/create" extends="master.page">
+        <put-attribute name="title" value="Create evaluation criteria"/>
+        <put-attribute name="body" value="/views/evaluationCriteria/edit.jsp"/>
+    </definition>
+
+    <definition name="evaluationCriteria/administrative/edit" extends="master.page">
+        <put-attribute name="title" value="Edit evaluation criteria"/>
+        <put-attribute name="body" value="/views/evaluationCriteria/edit.jsp"/>
+    </definition>
 
 </tiles-definitions>

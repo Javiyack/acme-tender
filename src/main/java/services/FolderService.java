@@ -1,237 +1,236 @@
-
 package services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
+import domain.Actor;
+import domain.Folder;
+import domain.MyMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.FolderRepository;
-import domain.Actor;
-import domain.Folder;
-import domain.MyMessage;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Service
 @Transactional
 public class FolderService {
 
-	// Managed repository -----------------------------------------------------
-	@Autowired
-	private FolderRepository	folderRepository;
+    // Managed repository -----------------------------------------------------
+    @Autowired
+    private FolderRepository folderRepository;
 
-	// Supporting services
-	@Autowired
-	private ActorService		actorService;
+    // Supporting services
+    @Autowired
+    private ActorService actorService;
 
-	@Autowired
-	private MyMessageService	myMessageService;
+    @Autowired
+    private MyMessageService myMessageService;
 
 
-	// CRUD Methods
+    // CRUD Methods
 
-	// Create
-	public Folder create() {
+    // Create
+    public Folder create() {
 
-		final Folder folder = new Folder();
-		folder.setSystemFolder(false);
-		folder.setMymessages(new ArrayList<MyMessage>());
-		return folder;
-	}
+        final Folder folder = new Folder();
+        folder.setSystemFolder(false);
+        folder.setMymessages(new ArrayList<MyMessage>());
+        return folder;
+    }
 
-	// Save
-	public Folder save(final Folder folder) {
-		Assert.notNull(folder);
-		if (folder.getId() != 0)
-			this.checkPrincipal(folder);
-		Actor actor;
-		actor = this.actorService.findByPrincipal();
-		final Folder folderSaved = this.folderRepository.save(folder);
-		this.flush();
+    // Save
+    public Folder save(final Folder folder) {
+        Assert.notNull(folder);
+        if (folder.getId() != 0)
+            this.checkPrincipal(folder);
+        Actor actor;
+        actor = this.actorService.findByPrincipal();
+        final Folder folderSaved = this.folderRepository.save(folder);
+        this.flush();
 
-		if (folder.getId() == 0) {
-			final Collection<Folder> actorFolders = actor.getFolders();
-			actorFolders.add(folderSaved);
-			actor.setFolders(actorFolders);
-			this.actorService.save(actor);
-		}
+        if (folder.getId() == 0) {
+            final Collection<Folder> actorFolders = actor.getFolders();
+            actorFolders.add(folderSaved);
+            actor.setFolders(actorFolders);
+            this.actorService.save(actor);
+        }
 
-		return folderSaved;
-		// actorService.save(actor);
+        return folderSaved;
+        // actorService.save(actor);
 
-	}
+    }
 
-	//Simple Save
-	public Folder simpleSave(final Folder f) {
-		Assert.notNull(f);
+    //Simple Save
+    public Folder simpleSave(final Folder f) {
+        Assert.notNull(f);
 
-		final Folder folderSaved = this.folderRepository.save(f);
+        final Folder folderSaved = this.folderRepository.save(f);
 
-		return folderSaved;
+        return folderSaved;
 
-	}
-	//Save to move
-	public void saveToMove(final Folder folder, final Folder targetFolder) {
+    }
 
-		Assert.notNull(targetFolder);
-		Assert.notNull(folder);
-		folder.setParentFolder(targetFolder);
-		//this.folderRepository.save(folder);
+    //Save to move
+    public void saveToMove(final Folder folder, final Folder targetFolder) {
 
-	}
+        Assert.notNull(targetFolder);
+        Assert.notNull(folder);
+        folder.setParentFolder(targetFolder);
+        //this.folderRepository.save(folder);
 
-	//FindOne
-	public Folder findOne(final int folderId) {
-		Assert.isTrue(folderId != 0);
-		Folder folder;
-		folder = this.folderRepository.findOne(folderId);
-		Assert.notNull(folder);
-		this.checkPrincipal(folder);
-		return folder;
-	}
+    }
 
-	//FindOne to edit
-	public Folder findOneToEdit(final int folderId) {
-		Assert.isTrue(folderId != 0);
-		Folder folder;
-		folder = this.folderRepository.findOne(folderId);
-		Assert.notNull(folder);
-		Assert.isTrue(!folder.getSystemFolder());
-		this.checkPrincipal(folder);
-		return folder;
-	}
+    //FindOne
+    public Folder findOne(final int folderId) {
+        Assert.isTrue(folderId != 0);
+        Folder folder;
+        folder = this.folderRepository.findOne(folderId);
+        Assert.notNull(folder);
+        this.checkPrincipal(folder);
+        return folder;
+    }
 
-	//Delete
-	public void delete(final Folder folder) {
-		Assert.notNull(folder);
-		Assert.isTrue(!folder.getSystemFolder());
-		this.checkPrincipal(folder);
-		final Collection<MyMessage> messages = folder.getMymessages();
-		final Actor a = this.actorService.findByPrincipal();
-		a.getFolders().remove(folder);
-		this.actorService.save(a);
+    //FindOne to edit
+    public Folder findOneToEdit(final int folderId) {
+        Assert.isTrue(folderId != 0);
+        Folder folder;
+        folder = this.folderRepository.findOne(folderId);
+        Assert.notNull(folder);
+        Assert.isTrue(!folder.getSystemFolder());
+        this.checkPrincipal(folder);
+        return folder;
+    }
 
-		final Collection<Folder> childFolders = this.folderRepository.getChildFolders(folder.getId());
+    //Delete
+    public void delete(final Folder folder) {
+        Assert.notNull(folder);
+        Assert.isTrue(!folder.getSystemFolder());
+        this.checkPrincipal(folder);
+        final Collection<MyMessage> messages = folder.getMymessages();
+        final Actor a = this.actorService.findByPrincipal();
+        a.getFolders().remove(folder);
+        this.actorService.save(a);
 
-		if (childFolders.size() > 0)
-			for (final Folder child : childFolders)
-				this.delete(child);
+        final Collection<Folder> childFolders = this.folderRepository.getChildFolders(folder.getId());
 
-		this.folderRepository.delete(folder);
-		this.myMessageService.delete(messages);
+        if (childFolders.size() > 0)
+            for (final Folder child : childFolders)
+                this.delete(child);
 
-	}
+        this.folderRepository.delete(folder);
+        this.myMessageService.delete(messages);
 
-	// Other methods
-	public Folder getOutBoxFolderFromActorId(final int id) {
-		return this.folderRepository.getOutBoxFolderFromActorId(id);
-	}
+    }
 
-	public Folder getInBoxFolderFromActorId(final int id) {
-		return this.folderRepository.getInBoxFolderFromActorId(id);
-	}
+    // Other methods
+    public Folder getOutBoxFolderFromActorId(final int id) {
+        return this.folderRepository.getOutBoxFolderFromActorId(id);
+    }
 
-	public Folder getSpamBoxFolderFromActorId(final int id) {
-		return this.folderRepository.getSpamBoxFolderFromActorId(id);
-	}
+    public Folder getInBoxFolderFromActorId(final int id) {
+        return this.folderRepository.getInBoxFolderFromActorId(id);
+    }
 
-	public Folder getTrashBoxFolderFromActorId(final int id) {
-		return this.folderRepository.getTrashBoxFolderFromActorId(id);
-	}
+    public Folder getSpamBoxFolderFromActorId(final int id) {
+        return this.folderRepository.getSpamBoxFolderFromActorId(id);
+    }
 
-	public Folder getNotificationBoxFolderFromActorId(final int id) {
-		return this.folderRepository.getNotificationBoxFolderFromActorId(id);
-	}
+    public Folder getTrashBoxFolderFromActorId(final int id) {
+        return this.folderRepository.getTrashBoxFolderFromActorId(id);
+    }
 
-	public Collection<Folder> getFirstLevelFoldersFromActorId(final int actorId) {
-		return this.folderRepository.getFirstLevelFoldersFromActorId(actorId);
-	}
+    public Folder getNotificationBoxFolderFromActorId(final int id) {
+        return this.folderRepository.getNotificationBoxFolderFromActorId(id);
+    }
 
-	public Folder getFolderFromMyMessageId(final int mymessageId) {
-		return this.folderRepository.getFolderFromMyMessageId(mymessageId);
-	}
+    public Collection<Folder> getFirstLevelFoldersFromActorId(final int actorId) {
+        return this.folderRepository.getFirstLevelFoldersFromActorId(actorId);
+    }
 
-	public Collection<Folder> getChildFolders(final int folderId) {
-		return this.folderRepository.getChildFolders(folderId);
-	}
+    public Folder getFolderFromMyMessageId(final int mymessageId) {
+        return this.folderRepository.getFolderFromMyMessageId(mymessageId);
+    }
 
-	public void checkPrincipal(final Folder folder) {
-		Actor actor;
-		actor = this.actorService.findByPrincipal();
-		Assert.isTrue(actor.getFolders().contains(folder));
-	}
+    public Collection<Folder> getChildFolders(final int folderId) {
+        return this.folderRepository.getChildFolders(folderId);
+    }
 
-	public void createSystemFolders(final Actor actor) {
+    public void checkPrincipal(final Folder folder) {
+        Actor actor;
+        actor = this.actorService.findByPrincipal();
+        Assert.isTrue(actor.getFolders().contains(folder));
+    }
 
-		Folder inbox;
-		Folder outbox;
-		Folder trashbox;
-		Folder notificationbox;
-		Folder spambox;
-		final Collection<Folder> folders = new ArrayList<Folder>();
+    public void createSystemFolders(final Actor actor) {
 
-		inbox = new Folder();
-		inbox.setSystemFolder(true);
-		inbox.setName("inbox");
-		inbox.setMymessages(new ArrayList<MyMessage>());
-		// folders.add(inbox);
-		// folderRepository.save(inbox);
+        Folder inbox;
+        Folder outbox;
+        Folder trashbox;
+        Folder notificationbox;
+        Folder spambox;
+        final Collection<Folder> folders = new ArrayList<Folder>();
 
-		outbox = new Folder();
-		outbox.setSystemFolder(true);
-		outbox.setName("outbox");
-		outbox.setMymessages(new ArrayList<MyMessage>());
-		// folders.add(outbox);
-		// folderRepository.save(outbox);
+        inbox = new Folder();
+        inbox.setSystemFolder(true);
+        inbox.setName("inbox");
+        inbox.setMymessages(new ArrayList<MyMessage>());
+        // folders.add(inbox);
+        // folderRepository.save(inbox);
 
-		trashbox = new Folder();
-		trashbox.setSystemFolder(true);
-		trashbox.setName("trashbox");
-		trashbox.setMymessages(new ArrayList<MyMessage>());
-		// folders.add(trashbox);
-		// folderRepository.save(trashbox);
+        outbox = new Folder();
+        outbox.setSystemFolder(true);
+        outbox.setName("outbox");
+        outbox.setMymessages(new ArrayList<MyMessage>());
+        // folders.add(outbox);
+        // folderRepository.save(outbox);
 
-		notificationbox = new Folder();
-		notificationbox.setSystemFolder(true);
-		notificationbox.setName("notificationbox");
-		notificationbox.setMymessages(new ArrayList<MyMessage>());
-		// folders.add(notificationbox);
-		// folderRepository.save(notificationbox);
+        trashbox = new Folder();
+        trashbox.setSystemFolder(true);
+        trashbox.setName("trashbox");
+        trashbox.setMymessages(new ArrayList<MyMessage>());
+        // folders.add(trashbox);
+        // folderRepository.save(trashbox);
 
-		spambox = new Folder();
-		spambox.setSystemFolder(true);
-		spambox.setName("spambox");
-		spambox.setMymessages(new ArrayList<MyMessage>());
-		// folders.add(spambox);
-		// folderRepository.save(spambox);
+        notificationbox = new Folder();
+        notificationbox.setSystemFolder(true);
+        notificationbox.setName("notificationbox");
+        notificationbox.setMymessages(new ArrayList<MyMessage>());
+        // folders.add(notificationbox);
+        // folderRepository.save(notificationbox);
 
-		// folderRepository.save(folders);
-		final Folder savedinbox = this.folderRepository.save(inbox);
-		final Folder savedoutbox = this.folderRepository.save(outbox);
-		final Folder savedtrashbox = this.folderRepository.save(trashbox);
-		final Folder savednotificationbox = this.folderRepository.save(notificationbox);
-		final Folder savedspambox = this.folderRepository.save(spambox);
+        spambox = new Folder();
+        spambox.setSystemFolder(true);
+        spambox.setName("spambox");
+        spambox.setMymessages(new ArrayList<MyMessage>());
+        // folders.add(spambox);
+        // folderRepository.save(spambox);
 
-		folders.add(savedinbox);
-		folders.add(savedoutbox);
-		folders.add(savedtrashbox);
-		folders.add(savednotificationbox);
-		folders.add(savedspambox);
+        // folderRepository.save(folders);
+        final Folder savedinbox = this.folderRepository.save(inbox);
+        final Folder savedoutbox = this.folderRepository.save(outbox);
+        final Folder savedtrashbox = this.folderRepository.save(trashbox);
+        final Folder savednotificationbox = this.folderRepository.save(notificationbox);
+        final Folder savedspambox = this.folderRepository.save(spambox);
 
-		actor.setFolders(folders);
+        folders.add(savedinbox);
+        folders.add(savedoutbox);
+        folders.add(savedtrashbox);
+        folders.add(savednotificationbox);
+        folders.add(savedspambox);
 
-		// folderRepository.save(folders);
+        actor.setFolders(folders);
 
-		// TODO probar si es necesario hacer esto:
-		// managerService.save((Manager)actor);
+        // folderRepository.save(folders);
 
-	}
+        // TODO probar si es necesario hacer esto:
+        // managerService.save((Manager)actor);
 
-	public void flush() {
-		this.folderRepository.flush();
+    }
 
-	}
+    public void flush() {
+        this.folderRepository.flush();
+
+    }
 
 }

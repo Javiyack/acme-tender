@@ -1,127 +1,124 @@
-
 package services;
-
-import java.util.Collection;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import domain.Actor;
 import domain.Administrative;
 import domain.Administrator;
 import domain.Commercial;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import repositories.AdministrativeRepository;
 import security.LoginService;
 import security.UserAccount;
+
+import javax.transaction.Transactional;
+import java.util.Collection;
 
 @Service
 @Transactional
 public class AdministrativeService {
 
-	// Managed repositories ------------------------------------------------
-	@Autowired
-	private AdministrativeRepository	administrativeRepository;
+    // Managed repositories ------------------------------------------------
+    @Autowired
+    private AdministrativeRepository administrativeRepository;
 
-	//Services
-	@Autowired
-	private AdministratorService		administratorService;
-	@Autowired
-	private ActorService				actorService;
+    //Services
+    @Autowired
+    private AdministratorService administratorService;
+    @Autowired
+    private ActorService actorService;
 
 
-	// Constructor ----------------------------------------------------------
-	public AdministrativeService() {
-		super();
-	}
+    // Constructor ----------------------------------------------------------
+    public AdministrativeService() {
+        super();
+    }
 
-	// Methods CRUD ---------------------------------------------------------
+    // Methods CRUD ---------------------------------------------------------
 
-	public Administrative create() {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public Administrative create() {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Administrative administrative = new Administrative();
+        final Administrative administrative = new Administrative();
 
-		return administrative;
-	}
+        return administrative;
+    }
 
-	public Administrative findOne(final int administrativeId) {
-		Administrative result;
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public Administrative findOne(final int administrativeId) {
+        Administrative result;
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		result = this.administrativeRepository.findOne(administrativeId);
-		Assert.notNull(result);
+        result = this.administrativeRepository.findOne(administrativeId);
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Collection<Administrative> findAll() {
+    public Collection<Administrative> findAll() {
 
-		Collection<Administrative> result;
+        Collection<Administrative> result;
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		result = this.administrativeRepository.findAll();
-		Assert.notNull(result);
+        result = this.administrativeRepository.findAll();
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Collection<Administrative> simpleFindAll() {
+    public Collection<Administrative> simpleFindAll() {
 
-		Collection<Administrative> result;
+        Collection<Administrative> result;
 
-		result = this.administrativeRepository.findAll();
+        result = this.administrativeRepository.findAll();
 
-		return result;
+        return result;
 
-	}
+    }
 
-	public Administrative save(final Administrative administrative) {
+    public Administrative save(final Administrative administrative) {
 
-		Assert.notNull(administrative);
+        Assert.notNull(administrative);
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final Administrative saved = this.administrativeRepository.save(administrative);
+        final Administrative saved = this.administrativeRepository.save(administrative);
 
-		return saved;
-	}
+        return saved;
+    }
 
-	public void delete(final Administrative administrative) {
-		Assert.notNull(administrative);
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
-		this.administrativeRepository.delete(administrative);
-	}
+    public void delete(final Administrative administrative) {
+        Assert.notNull(administrative);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
+        this.administrativeRepository.delete(administrative);
+    }
 
-	public void flush() {
-		this.administrativeRepository.flush();
+    public void flush() {
+        this.administrativeRepository.flush();
 
-	}
+    }
 
-	public Administrative findByPrincipal() {
-		Administrative result;
-		UserAccount userAccount;
+    public Administrative findByPrincipal() {
+        Administrative result;
+        UserAccount userAccount;
 
-		userAccount = LoginService.getPrincipal();
-		Assert.notNull(userAccount);
-		final Actor actor = this.actorService.findByUserAccount(userAccount);
-		Assert.isTrue(actor instanceof Administrative);
-		result = (Administrative) actor;
-		Assert.notNull(result);
+        userAccount = LoginService.getPrincipal();
+        Assert.notNull(userAccount);
+        final Actor actor = this.actorService.findByUserAccount(userAccount);
+        Assert.isTrue(actor instanceof Administrative);
+        result = (Administrative) actor;
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Collection<Commercial> getSubSectionAdministrativesFromOfferId(int offerId) {
-		return this.administrativeRepository.getSubSectionAdministrativesFromOfferId(offerId);
-	}
+    public Collection<Commercial> getSubSectionAdministrativesFromOfferId(int offerId) {
+        return this.administrativeRepository.getSubSectionAdministrativesFromOfferId(offerId);
+    }
 
 }

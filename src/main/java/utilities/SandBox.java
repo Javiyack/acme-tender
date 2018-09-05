@@ -15,17 +15,17 @@ import java.util.Date;
 
 public class SandBox {
 
-	public static void main(final String[] args) {
-		Date now = new Date();
-		Calendar calendar = Calendar.getInstance();
-		System.out.println("--" + calendar.getTime() + "--");
-		calendar.setTime(now); // Configuramos la fecha actual
-		calendar.add(Calendar.MONTH, -5); // numero de días a añadir, o restar en caso de días<0
-		Date from = calendar.getTime();
-		calendar.add(Calendar.MONTH, 5); // numero de días a añadir, o restar en caso de días<0
-		Date to = calendar.getTime();
-		System.out.println(now);
-		System.out.println(from);
-		System.out.println(to);
-	}
+    public static void main(final String[] args) {
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        System.out.println("--" + calendar.getTime() + "--");
+        calendar.setTime(now); // Configuramos la fecha actual
+        calendar.add(Calendar.MONTH, -5); // numero de días a añadir, o restar en caso de días<0
+        Date from = calendar.getTime();
+        calendar.add(Calendar.MONTH, 5); // numero de días a añadir, o restar en caso de días<0
+        Date to = calendar.getTime();
+        System.out.println(now);
+        System.out.println(from);
+        System.out.println(to);
+    }
 }

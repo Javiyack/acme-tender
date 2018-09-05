@@ -1,8 +1,8 @@
 /*
  * LoginService.java
- * 
+ *
  * Copyright (C) 2017 Universidad de Sevilla
- * 
+ *
  * The use of this project is hereby constrained to the conditions of the
  * TDG Licence, a copy of which you may download from
  * http://www.tdg-seville.info/License.html
@@ -25,53 +25,53 @@ import org.springframework.util.Assert;
 @Transactional
 public class LoginService implements UserDetailsService {
 
-	// Managed repository -----------------------------------------------------
+    // Managed repository -----------------------------------------------------
 
-	@Autowired
-	UserAccountRepository	userRepository;
+    @Autowired
+    UserAccountRepository userRepository;
 
 
-	// Business methods -------------------------------------------------------
+    // Business methods -------------------------------------------------------
 
-	@Override
-	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-		Assert.notNull(username);
+    public static UserAccount getPrincipal() {
+        UserAccount result;
+        SecurityContext context;
+        Authentication authentication;
+        Object principal;
 
-		UserDetails result;
+        // If the asserts in this method fail, then you're
+        // likely to have your Tomcat's working directory
+        // corrupt. Please, clear your browser's cache, stop
+        // Tomcat, update your Maven's project configuration,
+        // clean your project, clean Tomcat's working directory,
+        // republish your project, and start it over.
 
-		result = this.userRepository.findByUsername(username);
-		Assert.notNull(result);
-		// WARNING: The following sentences prevent lazy initialisation problems!
-		Assert.notNull(result.getAuthorities());
-		result.getAuthorities().size();
+        context = SecurityContextHolder.getContext();
+        Assert.notNull(context);
+        authentication = context.getAuthentication();
+        Assert.notNull(authentication);
+        principal = authentication.getPrincipal();
+        Assert.isTrue(principal instanceof UserAccount);
+        result = (UserAccount) principal;
+        Assert.notNull(result);
+        Assert.isTrue(result.getId() != 0, "user.not.logged");
 
-		return result;
-	}
+        return result;
+    }
 
-	public static UserAccount getPrincipal() {
-		UserAccount result;
-		SecurityContext context;
-		Authentication authentication;
-		Object principal;
+    @Override
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        Assert.notNull(username);
 
-		// If the asserts in this method fail, then you're
-		// likely to have your Tomcat's working directory
-		// corrupt. Please, clear your browser's cache, stop
-		// Tomcat, update your Maven's project configuration,
-		// clean your project, clean Tomcat's working directory,
-		// republish your project, and start it over.
+        UserDetails result;
 
-		context = SecurityContextHolder.getContext();
-		Assert.notNull(context);
-		authentication = context.getAuthentication();
-		Assert.notNull(authentication);
-		principal = authentication.getPrincipal();
-		Assert.isTrue(principal instanceof UserAccount);
-		result = (UserAccount) principal;
-		Assert.notNull(result);
-		Assert.isTrue(result.getId() != 0, "user.not.logged");
+        result = this.userRepository.findByUsername(username);
+        Assert.notNull(result);
+        // WARNING: The following sentences prevent lazy initialisation problems!
+        Assert.notNull(result.getAuthorities());
+        result.getAuthorities().size();
 
-		return result;
-	}
+        return result;
+    }
 
 }

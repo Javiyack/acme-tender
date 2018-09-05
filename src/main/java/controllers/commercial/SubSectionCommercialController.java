@@ -1,10 +1,9 @@
-
 package controllers.commercial;
 
-import java.util.Collection;
-
-import javax.validation.Valid;
-
+import controllers.AbstractController;
+import domain.Actor;
+import domain.Offer;
+import domain.SubSection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -14,129 +13,127 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import controllers.AbstractController;
-import domain.Actor;
-import domain.Offer;
-import domain.SubSection;
 import services.ActorService;
 import services.ComboService;
 import services.OfferService;
 import services.SubSectionService;
 
+import javax.validation.Valid;
+import java.util.Collection;
+
 @Controller
 @RequestMapping("/subSection/commercial")
 public class SubSectionCommercialController extends AbstractController {
 
-	// Services ---------------------------------------------------------------
-	@Autowired
-	private SubSectionService			subSectionService;
-	@Autowired
-	private ComboService				comboService;
-	@Autowired
-	private ActorService actorService;
-	@Autowired
-	private OfferService  offerService;
-	
-	// Constructor -----------------------------------------------------------
-	public SubSectionCommercialController() {
-		super();
-	}
+    // Services ---------------------------------------------------------------
+    @Autowired
+    private SubSectionService subSectionService;
+    @Autowired
+    private ComboService comboService;
+    @Autowired
+    private ActorService actorService;
+    @Autowired
+    private OfferService offerService;
 
-	// Create ---------------------------------------------------------------
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int offerId) {
+    // Constructor -----------------------------------------------------------
+    public SubSectionCommercialController() {
+        super();
+    }
 
-		final ModelAndView result = new ModelAndView("subSection/commercial/create");
-		
-		Actor actor = this.actorService.findByPrincipal();
-		Offer offer = this.offerService.findOne(offerId);
-		Assert.isTrue(offer.getCommercial().getId() == actor.getId());
+    // Create ---------------------------------------------------------------
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public ModelAndView create(@RequestParam final int offerId) {
 
-		final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
-		result.addObject("subSection", subSection);
-		result.addObject("requestURI", "subSection/commercial/edit.do");
+        final ModelAndView result = new ModelAndView("subSection/commercial/create");
 
-		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
-		result.addObject("request", false);
-		result.addObject("requestId", 0);
+        Actor actor = this.actorService.findByPrincipal();
+        Offer offer = this.offerService.findOne(offerId);
+        Assert.isTrue(offer.getCommercial().getId() == actor.getId());
 
-		return result;
-	}
+        final SubSection subSection = this.subSectionService.createByCommercialPropietary(offerId);
+        result.addObject("subSection", subSection);
+        result.addObject("requestURI", "subSection/commercial/edit.do");
 
-	// Edit ---------------------------------------------------------------
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int subSectionId) {
-		ModelAndView result;
-		SubSection subSection = this.subSectionService.findOne(subSectionId);
+        Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+        result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
+        result.addObject("request", false);
+        result.addObject("requestId", 0);
 
-		Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
+        return result;
+    }
 
-		result = this.createEditModelAndView(subSection);
+    // Edit ---------------------------------------------------------------
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam final int subSectionId) {
+        ModelAndView result;
+        SubSection subSection = this.subSectionService.findOne(subSectionId);
 
-		return result;
-	}
+        Actor actor = this.actorService.findByPrincipal();
+        Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
-		ModelAndView result;
+        result = this.createEditModelAndView(subSection);
 
-		if (binding.hasErrors()) {
-			result = this.createEditModelAndView(subSection);
+        return result;
+    }
 
-		} else {
-			try {
-				this.subSectionService.save(subSection);
-				result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
+    @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+    public ModelAndView save(@ModelAttribute("subSection") @Valid final SubSection subSection, final BindingResult binding) {
+        ModelAndView result;
 
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(subSection, "subSection.commit.error");
-			}
+        if (binding.hasErrors()) {
+            result = this.createEditModelAndView(subSection);
 
-		}
-		return result;
-	}
+        } else {
+            try {
+                this.subSectionService.save(subSection);
+                result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
-		ModelAndView result;
+            } catch (final Throwable oops) {
+                result = this.createEditModelAndView(subSection, "subSection.commit.error");
+            }
 
-		Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
+        }
+        return result;
+    }
 
-		try {
-			this.subSectionService.delete(subSection);
-			result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
+    @RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+    public ModelAndView delete(final SubSection subSection, final BindingResult binding) {
+        ModelAndView result;
 
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(subSection, "subSection.commit.error");
-		}
-		return result;
-	}
+        Actor actor = this.actorService.findByPrincipal();
+        Assert.isTrue(subSection.getCommercial().getId() == actor.getId());
 
-	// Auxiliary methods ----------------------------------------------------
-	protected ModelAndView createEditModelAndView(final SubSection subSection) {
-		final ModelAndView result;
-		result = this.createEditModelAndView(subSection, null);
-		return result;
-	}
+        try {
+            this.subSectionService.delete(subSection);
+            result = new ModelAndView("redirect:/offer/display.do?offerId=" + subSection.getOffer().getId());
 
-	protected ModelAndView createEditModelAndView(final SubSection subSection, final String message) {
+        } catch (final Throwable oops) {
+            result = this.createEditModelAndView(subSection, "subSection.commit.error");
+        }
+        return result;
+    }
 
-		ModelAndView result = null;
-		if (subSection.getId() == 0)
-			result = new ModelAndView("subSection/commercial/create");
-		else
-			result = new ModelAndView("subSection/commercial/edit");
+    // Auxiliary methods ----------------------------------------------------
+    protected ModelAndView createEditModelAndView(final SubSection subSection) {
+        final ModelAndView result;
+        result = this.createEditModelAndView(subSection, null);
+        return result;
+    }
 
-		result.addObject("subSection", subSection);
-		result.addObject("requestURI", "subSection/commercial/edit.do");
-		result.addObject("message", message);
-		Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
-		result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
-		return result;
-	}
+    protected ModelAndView createEditModelAndView(final SubSection subSection, final String message) {
+
+        ModelAndView result = null;
+        if (subSection.getId() == 0)
+            result = new ModelAndView("subSection/commercial/create");
+        else
+            result = new ModelAndView("subSection/commercial/edit");
+
+        result.addObject("subSection", subSection);
+        result.addObject("requestURI", "subSection/commercial/edit.do");
+        result.addObject("message", message);
+        Collection<String> subSectionSectionsCombo = this.comboService.subSectionSections();
+        result.addObject("subSectionSectionsCombo", subSectionSectionsCombo);
+        return result;
+    }
 
 }

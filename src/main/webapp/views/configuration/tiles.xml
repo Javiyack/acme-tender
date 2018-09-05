@@ -6,14 +6,14 @@
 	download from * http://www.tdg-seville.info/License.html -->
 
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
 
-	<definition name="configuration/edit" extends="master.page">
-		<put-attribute name="title" value="Configuration" />
-		<put-attribute name="body" value="/views/configuration/edit.jsp" />
-	</definition>
+    <definition name="configuration/edit" extends="master.page">
+        <put-attribute name="title" value="Configuration"/>
+        <put-attribute name="body" value="/views/configuration/edit.jsp"/>
+    </definition>
 
 </tiles-definitions>

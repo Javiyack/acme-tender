@@ -1,130 +1,127 @@
-
 package services;
 
-import java.util.Collection;
-
+import domain.Commercial;
+import domain.SubSection;
+import domain.SubSectionEvaluationCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.SubSectionEvaluationCriteriaRepository;
-import domain.Commercial;
-import domain.SubSection;
-import domain.SubSectionEvaluationCriteria;
+
+import java.util.Collection;
 
 @Service
 @Transactional
 public class SubSectionEvaluationCriteriaService {
 
-	// Managed repository -----------------------------------------------------
-	@Autowired
-	private SubSectionEvaluationCriteriaRepository	subSectionEvaluationCriteriaRepository;
+    // Supporting services ----------------------------------------------------
+    @Autowired
+    CommercialService commercialService;
+    @Autowired
+    SubSectionService subSectionService;
+    // Managed repository -----------------------------------------------------
+    @Autowired
+    private SubSectionEvaluationCriteriaRepository subSectionEvaluationCriteriaRepository;
 
-	// Supporting services ----------------------------------------------------
-	@Autowired
-	CommercialService								commercialService;
-	@Autowired
-	SubSectionService								subSectionService;
 
+    // Constructors -----------------------------------------------------------
+    public SubSectionEvaluationCriteriaService() {
+        super();
+    }
 
-	// Constructors -----------------------------------------------------------
-	public SubSectionEvaluationCriteriaService() {
-		super();
-	}
+    // Simple CRUD methods ----------------------------------------------------
+    public SubSectionEvaluationCriteria create(final int subSectionId) {
 
-	// Simple CRUD methods ----------------------------------------------------
-	public SubSectionEvaluationCriteria create(final int subSectionId) {
+        final Commercial commercial = this.commercialService.findByPrincipal();
+        Assert.notNull(commercial);
 
-		final Commercial commercial = this.commercialService.findByPrincipal();
-		Assert.notNull(commercial);
+        final SubSection subSection = this.subSectionService.findOne(subSectionId);
+        Assert.notNull(subSection);
+        Assert.isTrue(subSection.getCommercial().equals(commercial));
 
-		final SubSection subSection = this.subSectionService.findOne(subSectionId);
-		Assert.notNull(subSection);
-		Assert.isTrue(subSection.getCommercial().equals(commercial));
+        final SubSectionEvaluationCriteria subSectionEvaluationCriteria = new SubSectionEvaluationCriteria();
+        subSectionEvaluationCriteria.setSubSection(subSection);
 
-		final SubSectionEvaluationCriteria subSectionEvaluationCriteria = new SubSectionEvaluationCriteria();
-		subSectionEvaluationCriteria.setSubSection(subSection);
+        return subSectionEvaluationCriteria;
+    }
 
-		return subSectionEvaluationCriteria;
-	}
+    public Collection<SubSectionEvaluationCriteria> findAll() {
+        Collection<SubSectionEvaluationCriteria> result;
 
-	public Collection<SubSectionEvaluationCriteria> findAll() {
-		Collection<SubSectionEvaluationCriteria> result;
+        result = this.subSectionEvaluationCriteriaRepository.findAll();
+        Assert.notNull(result);
 
-		result = this.subSectionEvaluationCriteriaRepository.findAll();
-		Assert.notNull(result);
+        return result;
+    }
 
-		return result;
-	}
+    public Collection<SubSectionEvaluationCriteria> findAllWithEvaluationCriteria(final int evaluationCriteriaId) {
+        Collection<SubSectionEvaluationCriteria> result;
 
-	public Collection<SubSectionEvaluationCriteria> findAllWithEvaluationCriteria(final int evaluationCriteriaId) {
-		Collection<SubSectionEvaluationCriteria> result;
+        result = this.subSectionEvaluationCriteriaRepository.findAllWithEvaluationCriteria(evaluationCriteriaId);
+        Assert.notNull(result);
 
-		result = this.subSectionEvaluationCriteriaRepository.findAllWithEvaluationCriteria(evaluationCriteriaId);
-		Assert.notNull(result);
+        return result;
+    }
 
-		return result;
-	}
+    public Collection<SubSectionEvaluationCriteria> findAllBySubSection(final int subSectionId) {
+        Collection<SubSectionEvaluationCriteria> result;
 
-	public Collection<SubSectionEvaluationCriteria> findAllBySubSection(final int subSectionId) {
-		Collection<SubSectionEvaluationCriteria> result;
+        result = this.subSectionEvaluationCriteriaRepository.findAllBySubSection(subSectionId);
+        Assert.notNull(result);
 
-		result = this.subSectionEvaluationCriteriaRepository.findAllBySubSection(subSectionId);
-		Assert.notNull(result);
+        return result;
+    }
 
-		return result;
-	}
+    public SubSectionEvaluationCriteria findOne(final int subSectionEvaluationCriteriaId) {
+        Assert.isTrue(subSectionEvaluationCriteriaId != 0);
 
-	public SubSectionEvaluationCriteria findOne(final int subSectionEvaluationCriteriaId) {
-		Assert.isTrue(subSectionEvaluationCriteriaId != 0);
+        SubSectionEvaluationCriteria result;
 
-		SubSectionEvaluationCriteria result;
+        result = this.subSectionEvaluationCriteriaRepository.findOne(subSectionEvaluationCriteriaId);
+        Assert.notNull(result);
 
-		result = this.subSectionEvaluationCriteriaRepository.findOne(subSectionEvaluationCriteriaId);
-		Assert.notNull(result);
+        return result;
+    }
 
-		return result;
-	}
+    public SubSectionEvaluationCriteria save(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
+        Assert.notNull(subSectionEvaluationCriteria);
+        final Commercial commercial = this.commercialService.findByPrincipal();
+        Assert.notNull(commercial);
+        Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
+        SubSectionEvaluationCriteria result;
 
-	public SubSectionEvaluationCriteria save(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
-		Assert.notNull(subSectionEvaluationCriteria);
-		final Commercial commercial = this.commercialService.findByPrincipal();
-		Assert.notNull(commercial);
-		Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
-		SubSectionEvaluationCriteria result;
+        result = this.subSectionEvaluationCriteriaRepository.save(subSectionEvaluationCriteria);
 
-		result = this.subSectionEvaluationCriteriaRepository.save(subSectionEvaluationCriteria);
+        return result;
+    }
 
-		return result;
-	}
+    public void delete(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
+        final Commercial commercial = this.commercialService.findByPrincipal();
+        Assert.notNull(commercial);
+        Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
+        Assert.notNull(subSectionEvaluationCriteria);
+        Assert.isTrue(subSectionEvaluationCriteria.getId() != 0);
+        Assert.isTrue(this.subSectionEvaluationCriteriaRepository.exists(subSectionEvaluationCriteria.getId()));
 
-	public void delete(final SubSectionEvaluationCriteria subSectionEvaluationCriteria) {
-		final Commercial commercial = this.commercialService.findByPrincipal();
-		Assert.notNull(commercial);
-		Assert.isTrue(subSectionEvaluationCriteria.getSubSection().getCommercial().equals(commercial));
-		Assert.notNull(subSectionEvaluationCriteria);
-		Assert.isTrue(subSectionEvaluationCriteria.getId() != 0);
-		Assert.isTrue(this.subSectionEvaluationCriteriaRepository.exists(subSectionEvaluationCriteria.getId()));
+        this.subSectionEvaluationCriteriaRepository.delete(subSectionEvaluationCriteria);
+    }
 
-		this.subSectionEvaluationCriteriaRepository.delete(subSectionEvaluationCriteria);
-	}
+    public void deleteInBatch(final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriteria) {
+        Assert.notNull(subSectionEvaluationCriteria);
+        this.subSectionEvaluationCriteriaRepository.deleteInBatch(subSectionEvaluationCriteria);
 
-	public void deleteInBatch(final Collection<SubSectionEvaluationCriteria> subSectionEvaluationCriteria) {
-		Assert.notNull(subSectionEvaluationCriteria);
-		this.subSectionEvaluationCriteriaRepository.deleteInBatch(subSectionEvaluationCriteria);
+    }
 
-	}
+    public Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(final int offerId, final int evaluationCriteriaId) {
+        return this.subSectionEvaluationCriteriaRepository.findByOfferAndEvaluationCriteria(offerId, evaluationCriteriaId);
+    }
 
-	public Collection<SubSectionEvaluationCriteria> findByOfferAndEvaluationCriteria(final int offerId, final int evaluationCriteriaId) {
-		return this.subSectionEvaluationCriteriaRepository.findByOfferAndEvaluationCriteria(offerId, evaluationCriteriaId);
-	}
+    public void flush() {
+        this.subSectionEvaluationCriteriaRepository.flush();
 
-	public void flush() {
-		this.subSectionEvaluationCriteriaRepository.flush();
+    }
 
-	}
-
-	// Other business methods -------------------------------------------------
+    // Other business methods -------------------------------------------------
 
 }

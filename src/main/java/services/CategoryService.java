@@ -1,104 +1,104 @@
-
 package services;
 
-import java.util.Collection;
-
+import domain.Administrator;
+import domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.CategoryRepository;
-import domain.Administrator;
-import domain.Category;
+
+import java.util.Collection;
 
 @Service
 @Transactional
 public class CategoryService {
 
-	//Repository
-	@Autowired
-	private CategoryRepository		categoryRepository;
+    //Repository
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-	@Autowired
-	private AdministratorService	administratorService;
+    @Autowired
+    private AdministratorService administratorService;
 
 
-	//CRUDS
+    //CRUDS
 
-	//Create
-	public Category create(final Integer parentCategoryId) {
-		final Administrator administrator = this.administratorService.findByPrincipal();
-		Assert.notNull(administrator);
+    //Create
+    public Category create(final Integer parentCategoryId) {
+        final Administrator administrator = this.administratorService.findByPrincipal();
+        Assert.notNull(administrator);
 
-		Category result;
-		result = new Category();
+        Category result;
+        result = new Category();
 
-		if (parentCategoryId == null)
-			result.setFatherCategory(null);
-		else
-			result.setFatherCategory(this.findOne(parentCategoryId));
+        if (parentCategoryId == null)
+            result.setFatherCategory(null);
+        else
+            result.setFatherCategory(this.findOne(parentCategoryId));
 
-		return result;
-	}
-	//Save
+        return result;
+    }
+    //Save
 
-	public Category save(final Category category) {
-		final Administrator administrator = this.administratorService.findByPrincipal();
-		Assert.notNull(administrator);
+    public Category save(final Category category) {
+        final Administrator administrator = this.administratorService.findByPrincipal();
+        Assert.notNull(administrator);
 
-		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
+        Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
 
-		Assert.notNull(category);
-		final Category saved = this.categoryRepository.save(category);
-		return saved;
-	}
-	//Delete
-	public void delete(final Category category) {
-		Assert.notNull(category);
+        Assert.notNull(category);
+        final Category saved = this.categoryRepository.save(category);
+        return saved;
+    }
 
-		final Administrator administrator = this.administratorService.findByPrincipal();
-		Assert.notNull(administrator);
+    //Delete
+    public void delete(final Category category) {
+        Assert.notNull(category);
 
-		Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
-		Assert.isTrue(this.getChildCategories(category.getId()).size() == 0, "category.cannot.delete.because.has.childs");
+        final Administrator administrator = this.administratorService.findByPrincipal();
+        Assert.notNull(administrator);
 
-		this.categoryRepository.delete(category);
-	}
-	//findOne
-	public Category findOne(final int categoryId) {
-		Category result;
-		result = this.categoryRepository.findOne(categoryId);
-		Assert.notNull(result);
-		return result;
-	}
+        Assert.isTrue(this.categoryRepository.findAllTendersByCategory(category.getId()).size() == 0, "category.cannot.delete.because.has.tender");
+        Assert.isTrue(this.getChildCategories(category.getId()).size() == 0, "category.cannot.delete.because.has.childs");
 
-	//findAll
-	public Collection<Category> findAll() {
+        this.categoryRepository.delete(category);
+    }
 
-		Collection<Category> result;
+    //findOne
+    public Category findOne(final int categoryId) {
+        Category result;
+        result = this.categoryRepository.findOne(categoryId);
+        Assert.notNull(result);
+        return result;
+    }
 
-		result = this.categoryRepository.findAll();
-		Assert.notNull(result);
+    //findAll
+    public Collection<Category> findAll() {
 
-		return result;
-	}
+        Collection<Category> result;
 
-	//Other
-	public Collection<Category> getChildCategories(final int parentCategoryId) {
+        result = this.categoryRepository.findAll();
+        Assert.notNull(result);
 
-		return this.categoryRepository.getChildCategories(parentCategoryId);
-	}
+        return result;
+    }
 
-	public Collection<Category> getFirstLevelCategories() {
+    //Other
+    public Collection<Category> getChildCategories(final int parentCategoryId) {
 
-		return this.categoryRepository.getFirstLevelCategories();
+        return this.categoryRepository.getChildCategories(parentCategoryId);
+    }
 
-	}
+    public Collection<Category> getFirstLevelCategories() {
 
-	public void flush() {
-		this.categoryRepository.flush();
+        return this.categoryRepository.getFirstLevelCategories();
 
-	}
+    }
+
+    public void flush() {
+        this.categoryRepository.flush();
+
+    }
 
 }

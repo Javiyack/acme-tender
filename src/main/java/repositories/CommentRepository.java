@@ -1,18 +1,16 @@
-
 package repositories;
 
-import java.util.Collection;
-
+import domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Comment;
+import java.util.Collection;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-	@Query("select c from Comment c where c.tender.id = ?1")
-	Collection<Comment> findAllByTenderId(Integer tenderId);
+    @Query("select c from Comment c where c.tender.id = ?1")
+    Collection<Comment> findAllByTenderId(Integer tenderId);
 
 }

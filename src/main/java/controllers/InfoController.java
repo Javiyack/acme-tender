@@ -1,4 +1,3 @@
-
 package controllers;
 
 import org.springframework.stereotype.Controller;
@@ -10,22 +9,22 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/info")
 public class InfoController extends AbstractController {
 
-	// Services ---------------------------------------------------------------
+    // Services ---------------------------------------------------------------
 
 
-	// Constructor -----------------------------------------------------------
-	public InfoController() {
-		super();
-	}
+    // Constructor -----------------------------------------------------------
+    public InfoController() {
+        super();
+    }
 
-	//Display
-	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
-	public ModelAndView display() {
+    //Display
+    @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+    public ModelAndView display() {
 
-		ModelAndView result = new ModelAndView("info/accessDenied");
-		return result;
+        ModelAndView result = new ModelAndView("info/accessDenied");
+        return result;
 
-	}
+    }
 
 
 }

@@ -1,101 +1,98 @@
-
 package services;
 
-import java.util.Collection;
-
-import javax.transaction.Transactional;
-
+import domain.Administrator;
+import domain.TabooWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import repositories.TabooWordRepository;
-import domain.Administrator;
-import domain.TabooWord;
+
+import javax.transaction.Transactional;
+import java.util.Collection;
 
 @Service
 @Transactional
 public class TabooWordService {
 
-	// Managed repositories ------------------------------------------------
-	@Autowired
-	private TabooWordRepository		tabooWordRepository;
+    // Managed repositories ------------------------------------------------
+    @Autowired
+    private TabooWordRepository tabooWordRepository;
 
-	//Services
-	@Autowired
-	private AdministratorService	administratorService;
+    //Services
+    @Autowired
+    private AdministratorService administratorService;
 
 
-	// Constructor ----------------------------------------------------------
-	public TabooWordService() {
-		super();
-	}
+    // Constructor ----------------------------------------------------------
+    public TabooWordService() {
+        super();
+    }
 
-	// Methods CRUD ---------------------------------------------------------
+    // Methods CRUD ---------------------------------------------------------
 
-	public TabooWord create() {
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public TabooWord create() {
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final TabooWord tabooWord = new TabooWord();
+        final TabooWord tabooWord = new TabooWord();
 
-		return tabooWord;
-	}
+        return tabooWord;
+    }
 
-	public TabooWord findOne(final int tabooWordId) {
-		TabooWord result;
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+    public TabooWord findOne(final int tabooWordId) {
+        TabooWord result;
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		result = this.tabooWordRepository.findOne(tabooWordId);
-		Assert.notNull(result);
+        result = this.tabooWordRepository.findOne(tabooWordId);
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public Collection<TabooWord> findAll() {
+    public Collection<TabooWord> findAll() {
 
-		Collection<TabooWord> result;
+        Collection<TabooWord> result;
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		result = this.tabooWordRepository.findAll();
-		Assert.notNull(result);
+        result = this.tabooWordRepository.findAll();
+        Assert.notNull(result);
 
-		return result;
-	}
+        return result;
+    }
 
-	public TabooWord save(final TabooWord tabooWord) {
+    public TabooWord save(final TabooWord tabooWord) {
 
-		Assert.notNull(tabooWord);
+        Assert.notNull(tabooWord);
 
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
 
-		final TabooWord saved = this.tabooWordRepository.save(tabooWord);
+        final TabooWord saved = this.tabooWordRepository.save(tabooWord);
 
-		return saved;
-	}
+        return saved;
+    }
 
-	public void delete(final TabooWord tabooWord) {
-		Assert.notNull(tabooWord);
-		final Administrator admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
-		this.tabooWordRepository.delete(tabooWord);
-	}
+    public void delete(final TabooWord tabooWord) {
+        Assert.notNull(tabooWord);
+        final Administrator admin = this.administratorService.findByPrincipal();
+        Assert.notNull(admin);
+        this.tabooWordRepository.delete(tabooWord);
+    }
 
-	public void flush() {
-		this.tabooWordRepository.flush();
+    public void flush() {
+        this.tabooWordRepository.flush();
 
-	}
-	
-	public Collection<TabooWord> getTabooWordFromMyMessageSubjectAndBody(final String subject, final String body) {
+    }
 
-		Assert.notNull(subject);
-		Assert.notNull(body);
+    public Collection<TabooWord> getTabooWordFromMyMessageSubjectAndBody(final String subject, final String body) {
 
-		return this.tabooWordRepository.getTabooWordFromMyMessageSubjectAndBody(subject, body);
+        Assert.notNull(subject);
+        Assert.notNull(body);
 
-	}
+        return this.tabooWordRepository.getTabooWordFromMyMessageSubjectAndBody(subject, body);
+
+    }
 }
